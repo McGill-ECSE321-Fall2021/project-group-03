@@ -13,6 +13,7 @@ public class LibraryManagementApplication {
 		SpringApplication.run(LibraryManagementApplication.class, args);
 	}
 
+	// greeting
 	@RequestMapping("/")
 	public String greeting(){
 		return "Hello world!";
