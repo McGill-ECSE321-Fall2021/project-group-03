@@ -5,8 +5,11 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 import java.sql.Date;
 
+
 // line 65 "model.ump"
 // line 156 "model.ump"
+
+
 public class Book extends Title
 {
 

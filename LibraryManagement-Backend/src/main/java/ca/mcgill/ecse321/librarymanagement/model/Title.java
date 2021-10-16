@@ -5,6 +5,8 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 import java.sql.Date;
 
+import javax.persistence.Id;
+
 // line 57 "model.ump"
 // line 151 "model.ump"
 public abstract class Title
@@ -83,6 +85,7 @@ public abstract class Title
     return name;
   }
 
+  @Id
   public String getTitleID()
   {
     return titleID;
