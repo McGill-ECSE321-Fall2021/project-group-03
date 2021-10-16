@@ -26,6 +26,8 @@ public abstract class Title
   // CONSTRUCTOR
   //------------------------
 
+  protected Title() {}
+  
   public Title(Date aReleaseDate, String aImage, String aName, String aTitleID)
   {
     releaseDate = aReleaseDate;

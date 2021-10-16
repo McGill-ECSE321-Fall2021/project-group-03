@@ -5,11 +5,14 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 import java.sql.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 
 // line 65 "model.ump"
 // line 156 "model.ump"
 
-
+@Entity
 public class Book extends Title
 {
 
@@ -18,6 +21,10 @@ public class Book extends Title
   //------------------------
 
   //Book Attributes
+
+  @Id
+  private String aTitleId;
+  
   private String author;
   private Date publicationDate;
   private String synopsis;
@@ -26,10 +33,11 @@ public class Book extends Title
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
+  
   public Book(Date aReleaseDate, String aImage, String aName, String aTitleID, String aAuthor, String aSynopsis, String aGenre)
   {
     super(aReleaseDate, aImage, aName, aTitleID);
+    this.aTitleId = aTitleID;
     author = aAuthor;
     synopsis = aSynopsis;
     genre = aGenre;
