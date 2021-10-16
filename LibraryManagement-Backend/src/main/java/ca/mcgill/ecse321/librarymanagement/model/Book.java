@@ -24,11 +24,10 @@ public class Book extends Title
   // CONSTRUCTOR
   //------------------------
 
-  public Book(Date aReleaseDate, String aImage, String aName, String aTitleID, String aAuthor, Date aPublicationDate, String aSynopsis, String aGenre)
+  public Book(Date aReleaseDate, String aImage, String aName, String aTitleID, String aAuthor, String aSynopsis, String aGenre)
   {
     super(aReleaseDate, aImage, aName, aTitleID);
     author = aAuthor;
-    publicationDate = aPublicationDate;
     synopsis = aSynopsis;
     genre = aGenre;
   }
