@@ -84,24 +84,20 @@ public class TestLibraryManagementPersistence {
 		String author = "author";
 		String synopsis = "synopsis";
 		String genre = "genre";
-	
 		
 		//Create Book object with parameters. ^^
 		Book book = new Book(date, image, bookName, author, synopsis, genre);
-		
-		int bookId = book.getTitleId();
 				
 		//Save the book to the DB.
-		bookRepository.save(book);
-		
+		Book savedBook = bookRepository.save(book);
+		int savedBookId = savedBook.getTitleId();
+	
 		//Get rid of the book.
 		book = null;
 		
 		//Use the CRUD method to query the book from the DB. 
-		book = bookRepository.findBookByTitleId(bookId);
-		
-		System.out.println(book);
-				
+		book = bookRepository.findBookByTitleId(savedBookId);
+						
 		//Check that the object was properly queried from DB.
 		assertNotNull(book);
 		
@@ -112,7 +108,7 @@ public class TestLibraryManagementPersistence {
 		assertEquals(author, book.getAuthor());
 		assertEquals(synopsis, book.getSynopsis());
 		assertEquals(genre, book.getGenre());
-		
+
 	}
 	
 	
