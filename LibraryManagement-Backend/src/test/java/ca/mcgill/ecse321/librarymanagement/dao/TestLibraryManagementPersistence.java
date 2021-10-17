@@ -199,7 +199,7 @@ public class TestLibraryManagementPersistence {
 		album = musicAlbumRepository.findMusicAlbumByTitleId(albumId);
 						
 		//Check that the object was properly queried from DB.
-		assertNotNull(albumId);
+		assertNotNull(album);
 		
 		//Test that all the data was properly saved.
 		assertEquals(date, album.getReleaseDate());
