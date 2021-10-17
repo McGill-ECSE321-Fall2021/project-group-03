@@ -200,43 +200,54 @@ public class TestLibraryManagementPersistence {
 	
 	@Test
 	public void testPersistAndLoadRoom() {
-//		
-//		RoomSchedule roomSchedule = new RoomSchedule();
-//		LibrarySchedule librarySchedule = new LibrarySchedule();
-//		Library library = new Library(librarySchedule);
-//		Room room = new Room(roomSchedule, library);
-//		
-//		LibrarySchedule savedLibrarySchedule = libraryScheduleRepository.save(librarySchedule);
-//		Library savedLibrary = libraryRepository.save(library);
-//		RoomSchedule savedRoomSchedule = roomScheduleRepository.save(roomSchedule);
-//		Room savedRoom = roomRepository.save(room);
-//
-//		int savedLibraryScheduleId = savedLibrarySchedule.getScheduleId();
-//		int savedLibraryId = savedLibrary.getLibraryId();
-//		int savedRoomScheduleId = savedRoomSchedule.getScheduleId();
-//		int savedRoomId = savedRoom.getRoomId();
-//		
-//		librarySchedule = null;
-//		library = null;
-//		roomSchedule = null;
-//		room = null;
-//		
-//		librarySchedule = libraryScheduleRepository.findLibraryScheduleByScheduleId(savedLibraryScheduleId);
-//		library = libraryRepository.findLibraryByLibraryId(savedLibraryId);
-//		roomSchedule = roomScheduleRepository.findRoomScheduleByScheduleId(savedRoomScheduleId);
-//		room = roomRepository.findRoomByRoomId(savedRoomId);
-//		
-//		assertNotNull(librarySchedule);
-//		assertNotNull(library);
-//		assertNotNull(roomSchedule);
-//		assertNotNull(room);
-//		assertEquals(roomSchedule, room.getRoomSchedule());
-//		assertEquals(library, room.getLibrary());	
-//		
+		
+		LibrarySchedule librarySchedule = new LibrarySchedule();
+		Library library = new Library(librarySchedule);
+		RoomSchedule roomSchedule = new RoomSchedule();
+		Room room = new Room(roomSchedule, library);
+		
+		LibrarySchedule savedLibrarySchedule = libraryScheduleRepository.save(librarySchedule);
+		Library savedLibrary = libraryRepository.save(library);
+		RoomSchedule savedRoomSchedule = roomScheduleRepository.save(roomSchedule);
+		Room savedRoom = roomRepository.save(room);
+
+		int savedLibraryScheduleId = savedLibrarySchedule.getScheduleId();
+		int savedLibraryId = savedLibrary.getLibraryId();
+		int savedRoomScheduleId = savedRoomSchedule.getScheduleId();
+		int savedRoomId = savedRoom.getRoomId();
+		
+		librarySchedule = null;
+		library = null;
+		roomSchedule = null;
+		room = null;
+		
+		librarySchedule = libraryScheduleRepository.findLibraryScheduleByScheduleId(savedLibraryScheduleId);
+		library = libraryRepository.findLibraryByLibraryId(savedLibraryId);
+		roomSchedule = roomScheduleRepository.findRoomScheduleByScheduleId(savedRoomScheduleId);
+		room = roomRepository.findRoomByRoomId(savedRoomId);
+		
+		assertNotNull(librarySchedule);
+		assertNotNull(library);
+		assertNotNull(roomSchedule);
+		assertNotNull(room);
+		
+		assertEquals(roomSchedule.getScheduleId(), room.getRoomSchedule().getScheduleId());
+		assertEquals(library.getLibraryId(), room.getLibrary().getLibraryId());			
 	}
 	
 	@Test
 	public void testPersistAndLoadRoomSchedule() {
+		
+		RoomSchedule roomSchedule = new RoomSchedule();
+		RoomSchedule savedRoomSchedule = roomScheduleRepository.save(roomSchedule);
+		int savedRoomScheduleId = savedRoomSchedule.getScheduleId();
+		
+		roomSchedule = null;
+		
+		roomSchedule = roomScheduleRepository.findRoomScheduleByScheduleId(savedRoomScheduleId);
+		
+		assertNotNull(roomSchedule);
+		assertEquals(savedRoomScheduleId, roomSchedule.getScheduleId());
 		
 	}
 	
