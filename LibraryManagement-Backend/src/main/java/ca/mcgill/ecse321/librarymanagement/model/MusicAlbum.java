@@ -8,6 +8,7 @@ import java.sql.Date;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 
@@ -23,7 +24,7 @@ public class MusicAlbum extends Title
   //MusicAlbum Attributes
   private String artist;
   @OneToOne(targetEntity = MusicAlbum.class)
-  private List<String> trackList;
+  private String trackList;
   private int duration;
   private String genre;
 
@@ -37,7 +38,6 @@ public class MusicAlbum extends Title
   {
     super(aReleaseDate, aImage, aName);
     artist = aArtist;
-    trackList = new ArrayList<String>();
     duration = aDuration;
     genre = aGenre;
   }
@@ -52,20 +52,6 @@ public class MusicAlbum extends Title
     artist = aArtist;
     wasSet = true;
     return wasSet;
-  }
-  /* Code from template attribute_SetMany */
-  public boolean addTrackList(String aTrackList)
-  {
-    boolean wasAdded = false;
-    wasAdded = trackList.add(aTrackList);
-    return wasAdded;
-  }
-
-  public boolean removeTrackList(String aTrackList)
-  {
-    boolean wasRemoved = false;
-    wasRemoved = trackList.remove(aTrackList);
-    return wasRemoved;
   }
 
   public boolean setDuration(int aDuration)
@@ -88,29 +74,15 @@ public class MusicAlbum extends Title
   {
     return artist;
   }
-  /* Code from template attribute_GetMany */
-  public String getTrackList(int index)
+  
+  public String getTrackList()
   {
-    String aTrackList = trackList.get(index);
-    return aTrackList;
-  }
-
-  public String[] getTrackList()
-  {
-    String[] newTrackList = trackList.toArray(new String[trackList.size()]);
-    return newTrackList;
-  }
-
-  public int numberOfTrackList()
-  {
-    int number = trackList.size();
-    return number;
+    return this.trackList;
   }
 
   public boolean hasTrackList()
   {
-    boolean has = trackList.size() > 0;
-    return has;
+    return trackList.length() > 0;
   }
 
   public int indexOfTrackList(String aTrackList)
