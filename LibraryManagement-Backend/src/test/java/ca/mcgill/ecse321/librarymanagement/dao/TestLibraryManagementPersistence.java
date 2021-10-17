@@ -201,9 +201,32 @@ public class TestLibraryManagementPersistence {
 		
 	}
 	
+	
 	@Test
 	public void testPersistAndLoadHeadLibrarian() {
 		
+		LibrarySchedule libSchedule = new LibrarySchedule();
+		StaffSchedule staffSchedule = new StaffSchedule();
+		
+		String aUsername = "aUsername";
+		String aPassword  = "aPassword";
+		String aEmailaddress = "aEmailaddress";
+		String aFullName  = "aFullName";
+		String aResAddress = "aResAddress";
+		boolean aIsResident  = true;
+		Library aLibrary = new Library(libSchedule);
+		StaffSchedule aStaffSchedule = staffSchedule;
+		
+		HeadLibrarian headLibrarian = new HeadLibrarian(aUsername,aPassword, aEmailaddress, aFullName, aResAddress,aIsResident,aLibrary, aStaffSchedule );
+		
+		HeadLibrarian savedHeadLibrarian = headLibrarianRepository.save(headLibrarian);
+		int savedHeadLibrarianId = savedHeadLibrarian.getUserId();
+		
+		//headLibrarian = null;
+		
+		headLibrarian = headLibrarianRepository.findHeadLibrarianByUserId(savedHeadLibrarianId);
+		
+		assertNotNull(headLibrarian);
 	}
 	
 	/*
