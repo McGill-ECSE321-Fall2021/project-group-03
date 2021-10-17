@@ -15,9 +15,7 @@ import java.sql.Date;
 
 // line 18 "model.ump"
 // line 116 "model.ump"
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "Schedule_Type")
+
 public class Schedule
 {
 

@@ -10,8 +10,7 @@ import javax.persistence.Entity;
 
 // line 21 "model.ump"
 // line 121 "model.ump"
-@Entity
-@DiscriminatorValue("StaffSchedule")
+
 public class StaffSchedule extends Schedule
 {
 
