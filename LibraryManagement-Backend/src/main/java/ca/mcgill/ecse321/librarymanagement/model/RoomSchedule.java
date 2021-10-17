@@ -5,8 +5,11 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 import java.util.*;
 
-// line 22 "model.ump"
-// line 118 "model.ump"
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("RoomSchedule")
 public class RoomSchedule extends Schedule
 {
 

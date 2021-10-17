@@ -5,8 +5,15 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 import java.sql.Date;
 
-// line 65 "model.ump"
-// line 155 "model.ump"
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
+
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "Title_Type")
 public abstract class Title
 {
 

@@ -5,8 +5,11 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 import java.util.*;
 
-// line 31 "model.ump"
-// line 128 "model.ump"
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("LibrarySchedule")
 public class LibrarySchedule extends Schedule
 {
 
