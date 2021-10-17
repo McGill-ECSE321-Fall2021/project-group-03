@@ -73,6 +73,12 @@ public class TestLibraryManagementPersistence {
 		bookRepository.deleteAll();
 	}
 	
+	/*
+	 * 
+	 * sam
+	 * 
+	 * 
+	 * */
 	
 	@Test
 	public void testPersistAndLoadBook() {
@@ -109,6 +115,98 @@ public class TestLibraryManagementPersistence {
 		assertEquals(synopsis, book.getSynopsis());
 		assertEquals(genre, book.getGenre());
 
+	}
+	
+	@Test
+	public void testPersistAndLoadNewspaper() {
+		
+	}
+	
+	@Test
+	public void testPersistAndLoadMusicAlbum() {
+		
+	}
+	
+	@Test
+	public void testPersistAndLoadMovie() {
+		
+	}
+	
+	
+	/*
+	 * 
+	 * adam
+	 * 
+	 * 
+	 * */
+	
+	@Test
+	public void testPersistAndLoadUser() {
+		
+	}
+	
+	@Test
+	public void testPersistAndLoadLibrarian() {
+		
+	}
+	
+
+	
+	/*
+	 * 
+	 * liam
+	 * 
+	 * 
+	 * */
+	
+	
+	@Test
+	public void testPersistAndLoadStaffSchedule() {
+		
+	}
+	
+	@Test
+	public void testPersistAndLoadHeadLibrarian() {
+		
+	}
+	
+	/*
+	 * 
+	 * tara
+	 * 
+	 * 
+	 * */
+	
+	@Test
+	public void testPersistAndLoadRoom() {
+		
+	}
+	
+	@Test
+	public void testPersistAndLoadRoomSchedule() {
+		
+	}
+	
+	/*
+	 * 
+	 * avi
+	 * 
+	 * 
+	 * */
+	
+	@Test
+	public void testPersistAndLoadLibrary() {
+		
+	}
+	
+	@Test
+	public void testPersistAndLoadLibrarySchedule() {
+		
+	}
+	
+	@Test
+	public void testPersistAndLoadTimeSlot() {
+		
 	}
 	
 	
