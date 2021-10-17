@@ -4,8 +4,11 @@
 
 package ca.mcgill.ecse321.librarymanagement.model;
 
+import javax.persistence.Entity;
+
 // line 44 "model.ump"
 // line 141 "model.ump"
+
 public class HeadLibrarian extends Librarian
 {
 

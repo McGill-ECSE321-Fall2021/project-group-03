@@ -23,8 +23,7 @@ public class Book extends Title
   //Book Attributes
 
   @Id
-  private String aTitleId;
-  
+  private String titleID;
   private String author;
   private Date publicationDate;
   private String synopsis;
@@ -34,13 +33,15 @@ public class Book extends Title
   // CONSTRUCTOR
   //------------------------
   
+  protected Book() {}
+  
   public Book(Date aReleaseDate, String aImage, String aName, String aTitleID, String aAuthor, String aSynopsis, String aGenre)
   {
     super(aReleaseDate, aImage, aName, aTitleID);
-    this.aTitleId = aTitleID;
     author = aAuthor;
     synopsis = aSynopsis;
     genre = aGenre;
+    this.titleID = aTitleID;
   }
 
   //------------------------
@@ -77,6 +78,11 @@ public class Book extends Title
     genre = aGenre;
     wasSet = true;
     return wasSet;
+  }
+  
+  @Override
+  public String getTitleID() {
+	  return titleID;
   }
 
   public String getAuthor()

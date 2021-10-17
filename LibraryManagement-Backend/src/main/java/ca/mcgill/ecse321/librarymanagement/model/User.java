@@ -3,8 +3,15 @@
 
 package ca.mcgill.ecse321.librarymanagement.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 // line 29 "model.ump"
 // line 131 "model.ump"
+
+@Entity
 public class User
 {
 
@@ -18,6 +25,8 @@ public class User
   private String emailaddress;
   private String fullName;
   private String resAddress;
+  
+  @Id
   private int userId;
 
   //User Associations
@@ -26,6 +35,7 @@ public class User
   //------------------------
   // CONSTRUCTOR
   //------------------------
+
 
   public User(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, int aUserId, Library aLibrary)
   {

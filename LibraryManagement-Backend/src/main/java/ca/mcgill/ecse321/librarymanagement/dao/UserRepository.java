@@ -4,10 +4,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import ca.mcgill.ecse321.librarymanagement.model.Book;
+import ca.mcgill.ecse321.librarymanagement.model.User;
 
 
-public interface BookRepository extends CrudRepository<Book, String>{
+public interface UserRepository extends CrudRepository<User, Integer>{
 	
-	Book findBookByTitleID(String titleID);
+	User findUserByUserId(Integer id);
 
 }
