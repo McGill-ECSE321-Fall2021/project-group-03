@@ -19,10 +19,19 @@ import ca.mcgill.ecse321.librarymanagement.LibraryManagementApplication;
 import ca.mcgill.ecse321.librarymanagement.model.Book;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.LibrarySchedule;
+import ca.mcgill.ecse321.librarymanagement.model.Room;
+import ca.mcgill.ecse321.librarymanagement.model.RoomSchedule;
 import ca.mcgill.ecse321.librarymanagement.model.Schedule;
 import ca.mcgill.ecse321.librarymanagement.model.StaffSchedule;
 import ca.mcgill.ecse321.librarymanagement.model.TimeSlot;
 import ca.mcgill.ecse321.librarymanagement.model.User;
+import ca.mcgill.ecse321.librarymanagement.model.Librarian;
+import ca.mcgill.ecse321.librarymanagement.model.HeadLibrarian;
+import ca.mcgill.ecse321.librarymanagement.model.MusicAlbum;
+import ca.mcgill.ecse321.librarymanagement.model.Movie;
+import ca.mcgill.ecse321.librarymanagement.model.Newspaper;
+import ca.mcgill.ecse321.librarymanagement.model.StaffSchedule;
+import ca.mcgill.ecse321.librarymanagement.model.Title;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -72,6 +81,18 @@ public class TestLibraryManagementPersistence {
 	@AfterEach
 	public void clearDatabase() {
 		bookRepository.deleteAll();
+		headLibrarianRepository.deleteAll();
+		librarianRepository.deleteAll();
+		libraryRepository.deleteAll();
+		libraryScheduleRepository.deleteAll();
+		movieRepository.deleteAll();
+		musicAlbumRepository.deleteAll();
+		newspaperRepository.deleteAll();
+		roomRepository.deleteAll();
+		roomScheduleRepository.deleteAll();
+		staffScheduleRepository.deleteAll();
+		timeSlotRepository.deleteAll();
+		userRepository.deleteAll();
 	}
 	
 	/*
@@ -194,6 +215,14 @@ public class TestLibraryManagementPersistence {
 	
 	@Test
 	public void testPersistAndLoadRoom() {
+		
+		RoomSchedule roomSchedule = new RoomSchedule();
+		LibrarySchedule librarySchedule = new LibrarySchedule();
+		Library library = new Library(librarySchedule);
+		
+		Room room = new Room(roomSchedule, library);
+		
+		
 		
 	}
 	
