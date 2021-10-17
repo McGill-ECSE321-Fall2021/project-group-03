@@ -24,6 +24,13 @@ import ca.mcgill.ecse321.librarymanagement.model.RoomSchedule;
 import ca.mcgill.ecse321.librarymanagement.model.Schedule;
 import ca.mcgill.ecse321.librarymanagement.model.TimeSlot;
 import ca.mcgill.ecse321.librarymanagement.model.User;
+import ca.mcgill.ecse321.librarymanagement.model.Librarian;
+import ca.mcgill.ecse321.librarymanagement.model.HeadLibrarian;
+import ca.mcgill.ecse321.librarymanagement.model.MusicAlbum;
+import ca.mcgill.ecse321.librarymanagement.model.Movie;
+import ca.mcgill.ecse321.librarymanagement.model.Newspaper;
+import ca.mcgill.ecse321.librarymanagement.model.StaffSchedule;
+import ca.mcgill.ecse321.librarymanagement.model.Title;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
