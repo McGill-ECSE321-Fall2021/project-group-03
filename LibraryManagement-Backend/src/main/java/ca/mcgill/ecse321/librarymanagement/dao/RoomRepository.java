@@ -6,6 +6,6 @@ import ca.mcgill.ecse321.librarymanagement.model.Room;
 
 public interface RoomRepository extends CrudRepository<Room, Integer>{
 	
-	Room findBookByRoomId(int roomId);
+	Room findRoomByRoomId(int roomId);
 
 }

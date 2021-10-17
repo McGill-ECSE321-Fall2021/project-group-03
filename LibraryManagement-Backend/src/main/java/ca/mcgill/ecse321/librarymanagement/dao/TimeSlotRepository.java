@@ -9,6 +9,6 @@ import ca.mcgill.ecse321.librarymanagement.model.TimeSlot;
 
 public interface TimeSlotRepository extends CrudRepository<TimeSlot, Integer>{
 	
-	TimeSlot findtimeSlotByTimeSlotId(int timeSlotId);
+	TimeSlot findTimeSlotByTimeSlotId(int timeSlotId);
 
 }
