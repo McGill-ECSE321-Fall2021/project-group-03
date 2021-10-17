@@ -3,6 +3,8 @@
 package ca.mcgill.ecse321.librarymanagement.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -18,8 +20,10 @@ public class Room
   // MEMBER VARIABLES
   //------------------------
 
-  @Id
+  
   //Room Attributes
+  @Id
+  @GeneratedValue(strategy=GenerationType.AUTO)
   private int roomId;
 
   //Room Associations
@@ -36,9 +40,8 @@ public class Room
   
   protected Room() {}
 
-  public Room(int aRoomId, RoomSchedule aRoomSchedule, Library aLibrary)
+  public Room(RoomSchedule aRoomSchedule, Library aLibrary)
   {
-    roomId = aRoomId;
     boolean didAddRoomSchedule = setRoomSchedule(aRoomSchedule);
     if (!didAddRoomSchedule)
     {

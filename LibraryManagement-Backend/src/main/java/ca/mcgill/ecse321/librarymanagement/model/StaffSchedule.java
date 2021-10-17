@@ -26,11 +26,10 @@ public class StaffSchedule extends Schedule
   // CONSTRUCTOR
   //------------------------
   
-  protected StaffSchedule() {}
+//  protected StaffSchedule() {}
 
-  public StaffSchedule(int aScheduleId)
+  public StaffSchedule()
   {
-    super(aScheduleId);
     librarians = new ArrayList<Librarian>();
   }
 
@@ -73,9 +72,9 @@ public class StaffSchedule extends Schedule
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Librarian addLibrarian(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, boolean aIsResident, int aUserId, Library aLibrary)
+  public Librarian addLibrarian(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, boolean aIsResident, Library aLibrary)
   {
-    return new Librarian(aUsername, aPassword, aEmailaddress, aFullName, aResAddress, aIsResident, aUserId, aLibrary, this);
+    return new Librarian(aUsername, aPassword, aEmailaddress, aFullName, aResAddress, aIsResident, aLibrary, this);
   }
 
   public boolean addLibrarian(Librarian aLibrarian)

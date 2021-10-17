@@ -19,18 +19,17 @@ public class RoomSchedule extends Schedule
   //------------------------
 
   //RoomSchedule Associations
-	@OneToMany(targetEntity = Room.class, mappedBy = "roomSchedule")
+  @OneToMany(targetEntity = Room.class, mappedBy = "roomSchedule")
   private List<Room> rooms;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
   
-  protected RoomSchedule() {}
+  //protected RoomSchedule() {}
 
-  public RoomSchedule(int aScheduleId)
+  public RoomSchedule()
   {
-    super(aScheduleId);
     rooms = new ArrayList<Room>();
   }
 
@@ -75,7 +74,7 @@ public class RoomSchedule extends Schedule
   /* Code from template association_AddManyToOne */
   public Room addRoom(int aRoomId, Library aLibrary)
   {
-    return new Room(aRoomId, this, aLibrary);
+    return new Room(this, aLibrary);
   }
 
   public boolean addRoom(Room aRoom)

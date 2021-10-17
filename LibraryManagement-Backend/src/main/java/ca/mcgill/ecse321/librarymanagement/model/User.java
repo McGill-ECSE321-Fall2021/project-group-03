@@ -4,15 +4,19 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 // line 35 "model.ump"
 // line 133 "model.ump"
 
 @Entity
+@Table(name="pseudoUser")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "User_Type")
 public class User
@@ -31,6 +35,7 @@ public class User
   private boolean isResident;
   
   @Id
+  @GeneratedValue(strategy=GenerationType.AUTO)
   private int userId;
 
   //User Associations
@@ -43,7 +48,7 @@ public class User
   
   protected User() {}
 
-  public User(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, boolean aIsResident, int aUserId, Library aLibrary)
+  public User(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, boolean aIsResident, Library aLibrary)
   {
     username = aUsername;
     password = aPassword;
@@ -51,7 +56,6 @@ public class User
     fullName = aFullName;
     resAddress = aResAddress;
     isResident = aIsResident;
-    userId = aUserId;
     boolean didAddLibrary = setLibrary(aLibrary);
     if (!didAddLibrary)
     {

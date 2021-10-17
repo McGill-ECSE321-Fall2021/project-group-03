@@ -7,6 +7,8 @@ import java.util.*;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -27,6 +29,7 @@ public abstract class Schedule
 
   //Schedule Attributes
   @Id
+  @GeneratedValue(strategy=GenerationType.AUTO)
   private int scheduleId;
 
   //Schedule Associations
@@ -37,11 +40,10 @@ public abstract class Schedule
   // CONSTRUCTOR
   //------------------------
   
-  protected Schedule() {}
+//  protected Schedule() {}
 
-  public Schedule(int aScheduleId)
+  public Schedule()
   {
-    scheduleId = aScheduleId;
     
     timeSlots = new ArrayList<TimeSlot>();
   }

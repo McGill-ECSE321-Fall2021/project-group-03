@@ -19,7 +19,7 @@ public class Librarian extends User
   //------------------------
 
   //Librarian Associations
-	  @ManyToOne(targetEntity = StaffSchedule.class)
+  @ManyToOne(targetEntity = StaffSchedule.class)
   private StaffSchedule staffSchedule;
 
   //------------------------
@@ -28,9 +28,9 @@ public class Librarian extends User
   
   protected Librarian() {}
 
-  public Librarian(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, boolean aIsResident, int aUserId, Library aLibrary, StaffSchedule aStaffSchedule)
+  public Librarian(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, boolean aIsResident, Library aLibrary, StaffSchedule aStaffSchedule)
   {
-    super(aUsername, aPassword, aEmailaddress, aFullName, aResAddress, aIsResident, aUserId, aLibrary);
+    super(aUsername, aPassword, aEmailaddress, aFullName, aResAddress, aIsResident, aLibrary);
     boolean didAddStaffSchedule = setStaffSchedule(aStaffSchedule);
     if (!didAddStaffSchedule)
     {

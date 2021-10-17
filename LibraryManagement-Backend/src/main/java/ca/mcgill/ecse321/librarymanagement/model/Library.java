@@ -6,6 +6,8 @@ package ca.mcgill.ecse321.librarymanagement.model;
 import java.util.*;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -23,8 +25,9 @@ public class Library
   // MEMBER VARIABLES
   //------------------------
 
+	//Library Attributes
   @Id
-  //Library Attributes
+  @GeneratedValue(strategy=GenerationType.AUTO)
   private int libraryId;
 
   //Library Associations
@@ -46,9 +49,8 @@ public class Library
   
   protected Library() {}
 
-  public Library(int aLibraryId, LibrarySchedule aLibrarySchedule)
+  public Library(LibrarySchedule aLibrarySchedule)
   {
-    libraryId = aLibraryId;
     rooms = new ArrayList<Room>();
     titles = new ArrayList<Title>();
     if (!setLibrarySchedule(aLibrarySchedule))
@@ -199,7 +201,7 @@ public class Library
     }
     else
     {
-      return new Room(aRoomId, aRoomSchedule, this);
+      return new Room(aRoomSchedule, this);
     }
   }
 
@@ -326,7 +328,7 @@ public class Library
   /* Code from template association_AddManyToOne */
   public User addUser(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, boolean aIsResident, int aUserId)
   {
-    return new User(aUsername, aPassword, aEmailaddress, aFullName, aResAddress, aIsResident, aUserId, this);
+    return new User(aUsername, aPassword, aEmailaddress, aFullName, aResAddress, aIsResident, this);
   }
 
   public boolean addUser(User aUser)

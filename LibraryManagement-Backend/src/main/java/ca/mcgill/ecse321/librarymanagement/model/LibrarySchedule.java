@@ -21,11 +21,10 @@ public class LibrarySchedule extends Schedule
   // CONSTRUCTOR
   //------------------------
 	
-  protected LibrarySchedule() {}
+//  protected LibrarySchedule() {}
 
-  public LibrarySchedule(int aScheduleId)
+  public LibrarySchedule()
   {
-    super(aScheduleId);
   }
 
   //------------------------
