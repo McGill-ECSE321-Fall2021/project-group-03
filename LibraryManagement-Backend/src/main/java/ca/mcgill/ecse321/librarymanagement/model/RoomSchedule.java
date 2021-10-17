@@ -23,6 +23,8 @@ public class RoomSchedule extends Schedule
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  
+  protected RoomSchedule() {}
 
   public RoomSchedule(int aScheduleId)
   {

@@ -36,6 +36,8 @@ public class TimeSlot
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  
+  protected TimeSlot() {}
 
   public TimeSlot(Time aStartTime, Time aEndTime, int aDayOfWeek, Date aDate, int aTimeSlotId, Schedule aSchedule)
   {

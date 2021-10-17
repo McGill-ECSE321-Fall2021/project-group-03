@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import ca.mcgill.ecse321.librarymanagement.model.Book;
 
 
-public interface BookRepository extends CrudRepository<Book, String>{
+public interface BookRepository extends CrudRepository<Book, Integer>{
 	
-	Book findBookByTitleID(String titleID);
+	Book findBookByTitleId(int titleId);
 
 }

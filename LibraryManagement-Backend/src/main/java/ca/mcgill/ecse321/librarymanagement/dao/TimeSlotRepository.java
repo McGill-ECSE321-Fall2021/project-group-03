@@ -7,8 +7,8 @@ import ca.mcgill.ecse321.librarymanagement.model.Book;
 import ca.mcgill.ecse321.librarymanagement.model.TimeSlot;
 
 
-public interface TimeSlotRepository extends CrudRepository<Book, String>{
+public interface TimeSlotRepository extends CrudRepository<TimeSlot, Integer>{
 	
-	TimeSlot findBookByTimeSlot(String titleID);
+	TimeSlot findtimeSlotByTimeSlotId(int timeSlotId);
 
 }

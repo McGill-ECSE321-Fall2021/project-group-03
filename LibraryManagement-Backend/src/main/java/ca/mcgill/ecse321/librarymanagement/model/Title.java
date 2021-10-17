@@ -7,6 +7,9 @@ import java.sql.Date;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
@@ -25,18 +28,22 @@ public abstract class Title
   private Date releaseDate;
   private String image;
   private String name;
+  
+  @Id
+  @GeneratedValue(strategy=GenerationType.AUTO)
   private int titleId;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  
+  protected Title() {}
 
-  public Title(Date aReleaseDate, String aImage, String aName, int aTitleId)
+  public Title(Date aReleaseDate, String aImage, String aName)
   {
     releaseDate = aReleaseDate;
     image = aImage;
     name = aName;
-    titleId = aTitleId;
   }
 
   //------------------------

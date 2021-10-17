@@ -27,6 +27,8 @@ public class Room
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  
+  protected Room() {}
 
   public Room(int aRoomId, RoomSchedule aRoomSchedule, Library aLibrary)
   {

@@ -38,6 +38,8 @@ public class User
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  
+  protected User() {}
 
   public User(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, boolean aIsResident, int aUserId, Library aLibrary)
   {

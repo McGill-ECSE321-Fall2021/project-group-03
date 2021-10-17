@@ -5,8 +5,12 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 import java.sql.Date;
 
-// line 81 "model.ump"
-// line 165 "model.ump"
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+
+@Entity
+@DiscriminatorValue("Movie")
 public class Movie extends Title
 {
 
@@ -23,10 +27,12 @@ public class Movie extends Title
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  
+  protected Movie() {}
 
-  public Movie(Date aReleaseDate, String aImage, String aName, int aTitleId, String aDirector, String aGenre, String aSynopsis, int aDuration)
+  public Movie(Date aReleaseDate, String aImage, String aName, String aDirector, String aGenre, String aSynopsis, int aDuration)
   {
-    super(aReleaseDate, aImage, aName, aTitleId);
+    super(aReleaseDate, aImage, aName);
     director = aDirector;
     genre = aGenre;
     synopsis = aSynopsis;

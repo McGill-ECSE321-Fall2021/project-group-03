@@ -6,8 +6,12 @@ package ca.mcgill.ecse321.librarymanagement.model;
 import java.util.*;
 import java.sql.Date;
 
-// line 89 "model.ump"
-// line 170 "model.ump"
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+
+@Entity
+@DiscriminatorValue("MusicAlbum")
 public class MusicAlbum extends Title
 {
 
@@ -24,10 +28,12 @@ public class MusicAlbum extends Title
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  
+  protected MusicAlbum() {}
 
-  public MusicAlbum(Date aReleaseDate, String aImage, String aName, int aTitleId, String aArtist, int aDuration, String aGenre)
+  public MusicAlbum(Date aReleaseDate, String aImage, String aName, String aArtist, int aDuration, String aGenre)
   {
-    super(aReleaseDate, aImage, aName, aTitleId);
+    super(aReleaseDate, aImage, aName);
     artist = aArtist;
     trackList = new ArrayList<String>();
     duration = aDuration;

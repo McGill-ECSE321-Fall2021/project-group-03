@@ -34,6 +34,8 @@ public abstract class Schedule
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  
+  protected Schedule() {}
 
   public Schedule(int aScheduleId)
   {

@@ -20,6 +20,8 @@ public class LibrarySchedule extends Schedule
   //------------------------
   // CONSTRUCTOR
   //------------------------
+	
+  protected LibrarySchedule() {}
 
   public LibrarySchedule(int aScheduleId)
   {

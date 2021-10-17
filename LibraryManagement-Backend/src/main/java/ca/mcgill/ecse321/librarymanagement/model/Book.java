@@ -5,11 +5,15 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 import java.sql.Date;
 
-// line 74 "model.ump"
-// line 160 "model.ump"
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+
+@Entity
+@DiscriminatorValue("Book")
 public class Book extends Title
 {
-
+ 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
@@ -23,9 +27,11 @@ public class Book extends Title
   // CONSTRUCTOR
   //------------------------
 
-  public Book(Date aReleaseDate, String aImage, String aName, int aTitleId, String aAuthor, String aSynopsis, String aGenre)
+  protected Book() {}
+  
+  public Book(Date aReleaseDate, String aImage, String aName, String aAuthor, String aSynopsis, String aGenre)
   {
-    super(aReleaseDate, aImage, aName, aTitleId);
+    super(aReleaseDate, aImage, aName);
     author = aAuthor;
     synopsis = aSynopsis;
     genre = aGenre;

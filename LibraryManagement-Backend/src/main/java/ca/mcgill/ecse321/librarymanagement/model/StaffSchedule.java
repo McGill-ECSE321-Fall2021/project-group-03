@@ -5,8 +5,11 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 import java.util.*;
 
-// line 27 "model.ump"
-// line 123 "model.ump"
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("StaffSchedule")
 public class StaffSchedule extends Schedule
 {
 
@@ -20,6 +23,8 @@ public class StaffSchedule extends Schedule
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  
+  protected StaffSchedule() {}
 
   public StaffSchedule(int aScheduleId)
   {

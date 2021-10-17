@@ -5,8 +5,12 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 import java.sql.Date;
 
-// line 97 "model.ump"
-// line 175 "model.ump"
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+
+@Entity
+@DiscriminatorValue("Newspaper")
 public class Newspaper extends Title
 {
 
@@ -20,10 +24,12 @@ public class Newspaper extends Title
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  
+  protected Newspaper() {}
 
-  public Newspaper(Date aReleaseDate, String aImage, String aName, int aTitleId, String aHeadline)
+  public Newspaper(Date aReleaseDate, String aImage, String aName, String aHeadline)
   {
-    super(aReleaseDate, aImage, aName, aTitleId);
+    super(aReleaseDate, aImage, aName);
     headline = aHeadline;
   }
 

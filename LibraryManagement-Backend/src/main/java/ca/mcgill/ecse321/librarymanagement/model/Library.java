@@ -34,6 +34,8 @@ public class Library
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  
+  protected Library() {}
 
   public Library(int aLibraryId, LibrarySchedule aLibrarySchedule)
   {
