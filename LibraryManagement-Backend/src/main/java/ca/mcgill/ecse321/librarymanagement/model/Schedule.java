@@ -4,11 +4,20 @@
 package ca.mcgill.ecse321.librarymanagement.model;
 
 import java.util.*;
+
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
 import java.sql.Time;
 import java.sql.Date;
 
 // line 18 "model.ump"
 // line 116 "model.ump"
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "Schedule_Type")
 public class Schedule
 {
 
