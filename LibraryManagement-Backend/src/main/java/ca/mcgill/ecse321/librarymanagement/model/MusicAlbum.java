@@ -8,6 +8,7 @@ import java.sql.Date;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 
 @Entity
@@ -21,6 +22,7 @@ public class MusicAlbum extends Title
 
   //MusicAlbum Attributes
   private String artist;
+  @OneToOne(targetEntity = MusicAlbum.class)
   private List<String> trackList;
   private int duration;
   private String genre;

@@ -7,6 +7,7 @@ import java.util.*;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 @Entity
 @DiscriminatorValue("StaffSchedule")
@@ -18,6 +19,7 @@ public class StaffSchedule extends Schedule
   //------------------------
 
   //StaffSchedule Associations
+	@OneToMany(targetEntity = Librarian.class, mappedBy = "staffSchedule")
   private List<Librarian> librarians;
 
   //------------------------

@@ -4,6 +4,8 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 // line 11 "model.ump"
 // line 113 "model.ump"
@@ -21,7 +23,11 @@ public class Room
   private int roomId;
 
   //Room Associations
+  @ManyToOne(targetEntity = RoomSchedule.class)
+
   private RoomSchedule roomSchedule;
+  
+  @ManyToOne(targetEntity = Library.class)
   private Library library;
 
   //------------------------

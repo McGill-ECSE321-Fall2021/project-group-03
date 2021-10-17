@@ -7,6 +7,7 @@ import java.sql.Time;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import java.sql.Date;
 
@@ -31,6 +32,7 @@ public class TimeSlot
   private int timeSlotId;
 
   //TimeSlot Associations
+  @ManyToOne(targetEntity = Schedule.class)
   private Schedule schedule;
 
   //------------------------

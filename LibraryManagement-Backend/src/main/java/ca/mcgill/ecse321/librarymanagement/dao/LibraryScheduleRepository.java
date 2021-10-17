@@ -9,6 +9,6 @@ import ca.mcgill.ecse321.librarymanagement.model.LibrarySchedule;
 
 public interface LibraryScheduleRepository extends CrudRepository<LibrarySchedule, Integer>{
 	
-	LibrarySchedule findLibraryScheduleByLibraryScheduleId(int libraryScheduleId);
+	LibrarySchedule findLibraryScheduleByScheduleId(int libraryScheduleId);
 
 }

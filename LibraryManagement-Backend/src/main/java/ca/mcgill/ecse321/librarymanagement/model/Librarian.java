@@ -4,6 +4,7 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 // line 45 "model.ump"
 // line 138 "model.ump"
@@ -18,6 +19,7 @@ public class Librarian extends User
   //------------------------
 
   //Librarian Associations
+	  @ManyToOne(targetEntity = StaffSchedule.class)
   private StaffSchedule staffSchedule;
 
   //------------------------

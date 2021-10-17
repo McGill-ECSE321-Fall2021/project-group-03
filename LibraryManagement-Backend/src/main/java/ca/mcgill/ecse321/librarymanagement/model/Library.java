@@ -7,6 +7,8 @@ import java.util.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import java.sql.Date;
 
@@ -26,9 +28,16 @@ public class Library
   private int libraryId;
 
   //Library Associations
+  @OneToMany(targetEntity = Room.class, mappedBy = "library")
   private List<Room> rooms;
+  
+  @OneToMany(targetEntity = Title.class)
   private List<Title> titles;
+  
+  @OneToOne(targetEntity = LibrarySchedule.class)
   private LibrarySchedule librarySchedule;
+  
+  @OneToMany(targetEntity = User.class, mappedBy = "library")
   private List<User> users;
 
   //------------------------

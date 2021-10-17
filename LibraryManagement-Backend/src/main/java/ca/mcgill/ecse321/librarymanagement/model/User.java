@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 
 // line 35 "model.ump"
 // line 133 "model.ump"
@@ -33,6 +34,7 @@ public class User
   private int userId;
 
   //User Associations
+  @ManyToOne(targetEntity = Library.class)
   private Library library;
 
   //------------------------

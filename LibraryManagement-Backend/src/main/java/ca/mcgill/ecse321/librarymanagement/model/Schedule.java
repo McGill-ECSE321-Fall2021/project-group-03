@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 
 import java.sql.Time;
 import java.sql.Date;
@@ -29,6 +30,7 @@ public abstract class Schedule
   private int scheduleId;
 
   //Schedule Associations
+  @OneToMany(targetEntity = TimeSlot.class, mappedBy = "schedule")
   private List<TimeSlot> timeSlots;
 
   //------------------------
@@ -40,6 +42,7 @@ public abstract class Schedule
   public Schedule(int aScheduleId)
   {
     scheduleId = aScheduleId;
+    
     timeSlots = new ArrayList<TimeSlot>();
   }
 
