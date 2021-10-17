@@ -4,10 +4,16 @@
 package ca.mcgill.ecse321.librarymanagement.model;
 
 import java.util.*;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 import java.sql.Date;
 
 // line 2 "model.ump"
 // line 105 "model.ump"
+
+@Entity
 public class Library
 {
 
@@ -15,6 +21,7 @@ public class Library
   // MEMBER VARIABLES
   //------------------------
 
+  @Id
   //Library Attributes
   private int libraryId;
 

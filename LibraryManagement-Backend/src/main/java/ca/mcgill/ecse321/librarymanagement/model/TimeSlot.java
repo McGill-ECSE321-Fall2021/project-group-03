@@ -4,10 +4,16 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 
 import java.sql.Time;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 import java.sql.Date;
 
 // line 55 "model.ump"
 // line 149 "model.ump"
+
+@Entity
 public class TimeSlot
 {
 
@@ -20,6 +26,8 @@ public class TimeSlot
   private Time endTime;
   private int dayOfWeek;
   private Date date;
+  
+  @Id
   private int timeSlotId;
 
   //TimeSlot Associations

@@ -2,10 +2,13 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 package ca.mcgill.ecse321.librarymanagement.model;
 
-
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 // line 35 "model.ump"
 // line 133 "model.ump"
+
+@Entity
 public class User
 {
 
@@ -20,6 +23,8 @@ public class User
   private String fullName;
   private String resAddress;
   private boolean isResident;
+  
+  @Id
   private int userId;
 
   //User Associations
