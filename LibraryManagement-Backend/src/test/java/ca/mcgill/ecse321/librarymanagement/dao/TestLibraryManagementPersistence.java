@@ -20,6 +20,7 @@ import ca.mcgill.ecse321.librarymanagement.model.Book;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.LibrarySchedule;
 import ca.mcgill.ecse321.librarymanagement.model.Schedule;
+import ca.mcgill.ecse321.librarymanagement.model.StaffSchedule;
 import ca.mcgill.ecse321.librarymanagement.model.TimeSlot;
 import ca.mcgill.ecse321.librarymanagement.model.User;
 
@@ -162,6 +163,20 @@ public class TestLibraryManagementPersistence {
 	
 	@Test
 	public void testPersistAndLoadStaffSchedule() {
+		
+		StaffSchedule staffSchedule = new StaffSchedule();
+		
+		StaffSchedule savedStaffSchedule = staffScheduleRepository.save(staffSchedule);
+		int savedStaffScheduleId = savedStaffSchedule.getScheduleId();
+		
+		
+		staffSchedule = null;
+		
+ 
+		staffSchedule = staffScheduleRepository.findStaffScheduleByScheduleId(savedStaffScheduleId);
+	
+		assertNotNull(staffSchedule);
+		
 		
 	}
 	
