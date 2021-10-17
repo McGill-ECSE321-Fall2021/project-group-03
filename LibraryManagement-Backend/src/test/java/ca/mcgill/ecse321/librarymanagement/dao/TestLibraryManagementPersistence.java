@@ -79,19 +79,19 @@ public class TestLibraryManagementPersistence {
 	@BeforeEach
 	@AfterEach
 	public void clearDatabase() {
+		timeSlotRepository.deleteAll();
 		bookRepository.deleteAll();
-		headLibrarianRepository.deleteAll();
-		librarianRepository.deleteAll();
-		libraryRepository.deleteAll();
-		libraryScheduleRepository.deleteAll();
 		movieRepository.deleteAll();
 		musicAlbumRepository.deleteAll();
 		newspaperRepository.deleteAll();
 		roomRepository.deleteAll();
+		headLibrarianRepository.deleteAll();
+		librarianRepository.deleteAll();
+		userRepository.deleteAll();
+		libraryRepository.deleteAll();
 		roomScheduleRepository.deleteAll();
 		staffScheduleRepository.deleteAll();
-		timeSlotRepository.deleteAll();
-		userRepository.deleteAll();
+		libraryScheduleRepository.deleteAll();
 	}
 	
 	/*
@@ -104,7 +104,7 @@ public class TestLibraryManagementPersistence {
 	@Test
 	public void testPersistAndLoadBook() {
 		
-		//Create all constructor fields
+//		//Create all constructor fields
 		Date date = new Date(2001, 5, 1);	//Lees birthday in case you wanna get him a gift. 
 		String image = "imageLink";
 		String bookName = "bookName";
@@ -200,15 +200,39 @@ public class TestLibraryManagementPersistence {
 	
 	@Test
 	public void testPersistAndLoadRoom() {
-		
-		RoomSchedule roomSchedule = new RoomSchedule();
-		LibrarySchedule librarySchedule = new LibrarySchedule();
-		Library library = new Library(librarySchedule);
-		
-		Room room = new Room(roomSchedule, library);
-		
-		
-		
+//		
+//		RoomSchedule roomSchedule = new RoomSchedule();
+//		LibrarySchedule librarySchedule = new LibrarySchedule();
+//		Library library = new Library(librarySchedule);
+//		Room room = new Room(roomSchedule, library);
+//		
+//		LibrarySchedule savedLibrarySchedule = libraryScheduleRepository.save(librarySchedule);
+//		Library savedLibrary = libraryRepository.save(library);
+//		RoomSchedule savedRoomSchedule = roomScheduleRepository.save(roomSchedule);
+//		Room savedRoom = roomRepository.save(room);
+//
+//		int savedLibraryScheduleId = savedLibrarySchedule.getScheduleId();
+//		int savedLibraryId = savedLibrary.getLibraryId();
+//		int savedRoomScheduleId = savedRoomSchedule.getScheduleId();
+//		int savedRoomId = savedRoom.getRoomId();
+//		
+//		librarySchedule = null;
+//		library = null;
+//		roomSchedule = null;
+//		room = null;
+//		
+//		librarySchedule = libraryScheduleRepository.findLibraryScheduleByScheduleId(savedLibraryScheduleId);
+//		library = libraryRepository.findLibraryByLibraryId(savedLibraryId);
+//		roomSchedule = roomScheduleRepository.findRoomScheduleByScheduleId(savedRoomScheduleId);
+//		room = roomRepository.findRoomByRoomId(savedRoomId);
+//		
+//		assertNotNull(librarySchedule);
+//		assertNotNull(library);
+//		assertNotNull(roomSchedule);
+//		assertNotNull(room);
+//		assertEquals(roomSchedule, room.getRoomSchedule());
+//		assertEquals(library, room.getLibrary());	
+//		
 	}
 	
 	@Test
