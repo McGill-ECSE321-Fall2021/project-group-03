@@ -19,6 +19,7 @@ import ca.mcgill.ecse321.librarymanagement.LibraryManagementApplication;
 import ca.mcgill.ecse321.librarymanagement.model.Book;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.LibrarySchedule;
+import ca.mcgill.ecse321.librarymanagement.model.Newspaper;
 import ca.mcgill.ecse321.librarymanagement.model.Schedule;
 import ca.mcgill.ecse321.librarymanagement.model.TimeSlot;
 import ca.mcgill.ecse321.librarymanagement.model.User;
@@ -84,7 +85,7 @@ public class TestLibraryManagementPersistence {
 	public void testPersistAndLoadBook() {
 		
 		//Create all constructor fields
-		Date date = new Date(2001, 5, 1);	//Lees birthday in case you wanna get him a gift. 
+		Date date = new Date(2001, 5, 1);
 		String image = "imageLink";
 		String bookName = "bookName";
 		String author = "author";
@@ -96,13 +97,13 @@ public class TestLibraryManagementPersistence {
 				
 		//Save the book to the DB.
 		Book savedBook = bookRepository.save(book);
-		int savedBookId = savedBook.getTitleId();
+		int bookId = savedBook.getTitleId();
 	
 		//Get rid of the book.
 		book = null;
 		
 		//Use the CRUD method to query the book from the DB. 
-		book = bookRepository.findBookByTitleId(savedBookId);
+		book = bookRepository.findBookByTitleId(bookId);
 						
 		//Check that the object was properly queried from DB.
 		assertNotNull(book);
@@ -119,6 +120,34 @@ public class TestLibraryManagementPersistence {
 	
 	@Test
 	public void testPersistAndLoadNewspaper() {
+		
+				//Create all constructor fields
+				Date date = new Date(2001, 5, 1);
+				String image = "imageLink";
+				String newspaperName = "newspaperName";
+				String headline = "headline";
+				
+				//Create newspaper object with parameters. ^^
+				Newspaper newspaper = new Newspaper(date, image, newspaperName, headline);
+						
+				//Save the newspaper to the DB.
+				Newspaper savedNewspaper = newspaperRepository.save(newspaper);
+				int newspaperId = savedNewspaper.getTitleId();
+			
+				//Get rid of the book.
+				newspaper = null;
+				
+				//Use the CRUD method to query the book from the DB. 
+				newspaper = newspaperRepository.findNewspaperByTitleId(newspaperId);
+								
+				//Check that the object was properly queried from DB.
+				assertNotNull(newspaper);
+				
+				//Test that all the data was properly saved.
+				assertEquals(date, newspaper.getReleaseDate());
+				assertEquals(image, newspaper.getImage());
+				assertEquals(newspaperName, newspaper.getName());
+				assertEquals(headline, newspaper.getHeadline());
 		
 	}
 	
