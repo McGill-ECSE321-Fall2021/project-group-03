@@ -1,13 +1,13 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
-
 package ca.mcgill.ecse321.librarymanagement.model;
+
 
 import java.sql.Time;
 import java.sql.Date;
 
-// line 48 "model.ump"
-// line 146 "model.ump"
+// line 55 "model.ump"
+// line 149 "model.ump"
 public class TimeSlot
 {
 
@@ -20,6 +20,7 @@ public class TimeSlot
   private Time endTime;
   private int dayOfWeek;
   private Date date;
+  private int timeSlotId;
 
   //TimeSlot Associations
   private Schedule schedule;
@@ -28,12 +29,13 @@ public class TimeSlot
   // CONSTRUCTOR
   //------------------------
 
-  public TimeSlot(Time aStartTime, Time aEndTime, int aDayOfWeek, Date aDate, Schedule aSchedule)
+  public TimeSlot(Time aStartTime, Time aEndTime, int aDayOfWeek, Date aDate, int aTimeSlotId, Schedule aSchedule)
   {
     startTime = aStartTime;
     endTime = aEndTime;
     dayOfWeek = aDayOfWeek;
     date = aDate;
+    timeSlotId = aTimeSlotId;
     boolean didAddSchedule = setSchedule(aSchedule);
     if (!didAddSchedule)
     {
@@ -77,6 +79,14 @@ public class TimeSlot
     return wasSet;
   }
 
+  public boolean setTimeSlotId(int aTimeSlotId)
+  {
+    boolean wasSet = false;
+    timeSlotId = aTimeSlotId;
+    wasSet = true;
+    return wasSet;
+  }
+
   public Time getStartTime()
   {
     return startTime;
@@ -95,6 +105,11 @@ public class TimeSlot
   public Date getDate()
   {
     return date;
+  }
+
+  public int getTimeSlotId()
+  {
+    return timeSlotId;
   }
   /* Code from template association_GetOne */
   public Schedule getSchedule()
@@ -135,7 +150,8 @@ public class TimeSlot
   public String toString()
   {
     return super.toString() + "["+
-            "dayOfWeek" + ":" + getDayOfWeek()+ "]" + System.getProperties().getProperty("line.separator") +
+            "dayOfWeek" + ":" + getDayOfWeek()+ "," +
+            "timeSlotId" + ":" + getTimeSlotId()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "endTime" + "=" + (getEndTime() != null ? !getEndTime().equals(this)  ? getEndTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +

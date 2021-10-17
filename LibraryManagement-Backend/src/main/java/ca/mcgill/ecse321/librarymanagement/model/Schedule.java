@@ -1,48 +1,53 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
-
 package ca.mcgill.ecse321.librarymanagement.model;
 
+
 import java.util.*;
-
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-
 import java.sql.Time;
 import java.sql.Date;
 
-// line 18 "model.ump"
-// line 116 "model.ump"
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "Schedule_Type")
-public class Schedule
+// line 16 "model.ump"
+// line 180 "model.ump"
+public abstract class Schedule
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
+  //Schedule Attributes
+  private int scheduleId;
+
   //Schedule Associations
   private List<TimeSlot> timeSlots;
-  
-  @Id
-  private String scheduleID;
+
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Schedule()
+  public Schedule(int aScheduleId)
   {
+    scheduleId = aScheduleId;
     timeSlots = new ArrayList<TimeSlot>();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setScheduleId(int aScheduleId)
+  {
+    boolean wasSet = false;
+    scheduleId = aScheduleId;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public int getScheduleId()
+  {
+    return scheduleId;
+  }
   /* Code from template association_GetMany */
   public TimeSlot getTimeSlot(int index)
   {
@@ -79,9 +84,9 @@ public class Schedule
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public TimeSlot addTimeSlot(Time aStartTime, Time aEndTime, int aDayOfWeek, Date aDate)
+  public TimeSlot addTimeSlot(Time aStartTime, Time aEndTime, int aDayOfWeek, Date aDate, int aTimeSlotId)
   {
-    return new TimeSlot(aStartTime, aEndTime, aDayOfWeek, aDate, this);
+    return new TimeSlot(aStartTime, aEndTime, aDayOfWeek, aDate, aTimeSlotId, this);
   }
 
   public boolean addTimeSlot(TimeSlot aTimeSlot)
@@ -154,19 +159,11 @@ public class Schedule
       aTimeSlot.delete();
     }
   }
-  
-  @Id
-  public String getScheduleID()
-  {
-    return scheduleID;
-  }
-  
-  public boolean setScheduleID(String aScheduleID)
-  {
-    boolean wasSet = false;
-    scheduleID = aScheduleID;
-    wasSet = true;
-    return wasSet;
-  }
 
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "scheduleId" + ":" + getScheduleId()+ "]";
+  }
 }

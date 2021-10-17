@@ -6,8 +6,8 @@ package ca.mcgill.ecse321.librarymanagement.model;
 import java.util.*;
 import java.sql.Date;
 
-// line 81 "model.ump"
-// line 166 "model.ump"
+// line 89 "model.ump"
+// line 170 "model.ump"
 public class MusicAlbum extends Title
 {
 
@@ -25,9 +25,9 @@ public class MusicAlbum extends Title
   // CONSTRUCTOR
   //------------------------
 
-  public MusicAlbum(Date aReleaseDate, String aImage, String aName, String aTitleID, String aArtist, int aDuration, String aGenre)
+  public MusicAlbum(Date aReleaseDate, String aImage, String aName, int aTitleId, String aArtist, int aDuration, String aGenre)
   {
-    super(aReleaseDate, aImage, aName, aTitleID);
+    super(aReleaseDate, aImage, aName, aTitleId);
     artist = aArtist;
     trackList = new ArrayList<String>();
     duration = aDuration;

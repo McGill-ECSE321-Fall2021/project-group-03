@@ -6,17 +6,17 @@ package ca.mcgill.ecse321.librarymanagement.model;
 import java.util.*;
 import java.sql.Date;
 
-/**
- * @@@skipcompile - issue relating to more than one 1..* creating problem constructor
- */
 // line 2 "model.ump"
-// line 101 "model.ump"
+// line 105 "model.ump"
 public class Library
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
+
+  //Library Attributes
+  private int libraryId;
 
   //Library Associations
   private List<Room> rooms;
@@ -28,8 +28,9 @@ public class Library
   // CONSTRUCTOR
   //------------------------
 
-  public Library(LibrarySchedule aLibrarySchedule)
+  public Library(int aLibraryId, LibrarySchedule aLibrarySchedule)
   {
+    libraryId = aLibraryId;
     rooms = new ArrayList<Room>();
     titles = new ArrayList<Title>();
     if (!setLibrarySchedule(aLibrarySchedule))
@@ -42,6 +43,19 @@ public class Library
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setLibraryId(int aLibraryId)
+  {
+    boolean wasSet = false;
+    libraryId = aLibraryId;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public int getLibraryId()
+  {
+    return libraryId;
+  }
   /* Code from template association_GetMany */
   public Room getRoom(int index)
   {
@@ -292,9 +306,9 @@ public class Library
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public User addUser(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, int aUserId)
+  public User addUser(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, boolean aIsResident, int aUserId)
   {
-    return new User(aUsername, aPassword, aEmailaddress, aFullName, aResAddress, aUserId, this);
+    return new User(aUsername, aPassword, aEmailaddress, aFullName, aResAddress, aIsResident, aUserId, this);
   }
 
   public boolean addUser(User aUser)
@@ -377,4 +391,11 @@ public class Library
     }
   }
 
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "libraryId" + ":" + getLibraryId()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "librarySchedule = "+(getLibrarySchedule()!=null?Integer.toHexString(System.identityHashCode(getLibrarySchedule())):"null");
+  }
 }

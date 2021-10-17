@@ -1,12 +1,12 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
-
 package ca.mcgill.ecse321.librarymanagement.model;
+
 
 import java.sql.Date;
 
-// line 89 "model.ump"
-// line 171 "model.ump"
+// line 97 "model.ump"
+// line 175 "model.ump"
 public class Newspaper extends Title
 {
 
@@ -21,9 +21,9 @@ public class Newspaper extends Title
   // CONSTRUCTOR
   //------------------------
 
-  public Newspaper(Date aReleaseDate, String aImage, String aName, String aTitleID, String aHeadline)
+  public Newspaper(Date aReleaseDate, String aImage, String aName, int aTitleId, String aHeadline)
   {
-    super(aReleaseDate, aImage, aName, aTitleID);
+    super(aReleaseDate, aImage, aName, aTitleId);
     headline = aHeadline;
   }
 

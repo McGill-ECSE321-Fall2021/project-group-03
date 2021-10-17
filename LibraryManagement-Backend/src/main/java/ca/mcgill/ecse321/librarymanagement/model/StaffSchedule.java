@@ -1,17 +1,12 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
-
 package ca.mcgill.ecse321.librarymanagement.model;
+
 
 import java.util.*;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-
-// line 21 "model.ump"
-// line 121 "model.ump"
-@Entity
-@DiscriminatorValue("StaffSchedule")
+// line 27 "model.ump"
+// line 123 "model.ump"
 public class StaffSchedule extends Schedule
 {
 
@@ -26,9 +21,9 @@ public class StaffSchedule extends Schedule
   // CONSTRUCTOR
   //------------------------
 
-  public StaffSchedule()
+  public StaffSchedule(int aScheduleId)
   {
-    super();
+    super(aScheduleId);
     librarians = new ArrayList<Librarian>();
   }
 
@@ -71,9 +66,9 @@ public class StaffSchedule extends Schedule
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Librarian addLibrarian(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, int aUserId, Library aLibrary)
+  public Librarian addLibrarian(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, boolean aIsResident, int aUserId, Library aLibrary)
   {
-    return new Librarian(aUsername, aPassword, aEmailaddress, aFullName, aResAddress, aUserId, aLibrary, this);
+    return new Librarian(aUsername, aPassword, aEmailaddress, aFullName, aResAddress, aIsResident, aUserId, aLibrary, this);
   }
 
   public boolean addLibrarian(Librarian aLibrarian)

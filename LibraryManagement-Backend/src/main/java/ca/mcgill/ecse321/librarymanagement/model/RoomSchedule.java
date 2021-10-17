@@ -1,17 +1,12 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
-
 package ca.mcgill.ecse321.librarymanagement.model;
+
 
 import java.util.*;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-
-// line 14 "model.ump"
-// line 111 "model.ump"
-@Entity
-@DiscriminatorValue("RoomSchedule")
+// line 22 "model.ump"
+// line 118 "model.ump"
 public class RoomSchedule extends Schedule
 {
 
@@ -26,9 +21,9 @@ public class RoomSchedule extends Schedule
   // CONSTRUCTOR
   //------------------------
 
-  public RoomSchedule()
+  public RoomSchedule(int aScheduleId)
   {
-    super();
+    super(aScheduleId);
     rooms = new ArrayList<Room>();
   }
 

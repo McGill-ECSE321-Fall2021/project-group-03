@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.Date;
+import java.sql.Time;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +19,8 @@ import ca.mcgill.ecse321.librarymanagement.LibraryManagementApplication;
 import ca.mcgill.ecse321.librarymanagement.model.Book;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.LibrarySchedule;
+import ca.mcgill.ecse321.librarymanagement.model.Schedule;
+import ca.mcgill.ecse321.librarymanagement.model.TimeSlot;
 import ca.mcgill.ecse321.librarymanagement.model.User;
 
 @ExtendWith(SpringExtension.class)
@@ -26,6 +29,9 @@ public class TestLibraryManagementPersistence {
 
 	@Autowired
 	private BookRepository bookRepository;
+	
+	@Autowired
+	private TimeSlotRepository timeSlotRepository;
 
 	
 	@BeforeEach
@@ -82,10 +88,23 @@ public class TestLibraryManagementPersistence {
 		
 	}
 	
+	
 	@Test
 	public void testPersistAndLoadTimeSlot() {
-
 		
+		
+		Schedule mySchedule = new Schedule();
+		
+		 Time startTime = new Time(4, 30, 30);
+		 Time endTime = new Time(8, 30, 30);
+		 int dayOfWeek = 5;
+		 Date date = new Date(1999, 2, 26);
+		 
+		 TimeSlot timeSlot = new TimeSlot(startTime, endTime, dayOfWeek, date,mySchedule );
+		 
+		 timeSlotRepository.save(timeSlot);
+		 
+		 
 		
 	}
 	

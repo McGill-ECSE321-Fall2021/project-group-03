@@ -1,20 +1,12 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
-
 package ca.mcgill.ecse321.librarymanagement.model;
+
 
 import java.sql.Date;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-
-// line 65 "model.ump"
-// line 156 "model.ump"
-
-@Entity
-@DiscriminatorValue("Book")
+// line 74 "model.ump"
+// line 160 "model.ump"
 public class Book extends Title
 {
 
@@ -23,21 +15,17 @@ public class Book extends Title
   //------------------------
 
   //Book Attributes
-
   private String author;
-  private Date publicationDate;
   private String synopsis;
   private String genre;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
-  
-  protected Book() {}
-  
-  public Book(Date aReleaseDate, String aImage, String aName, String aTitleID, String aAuthor, String aSynopsis, String aGenre)
+
+  public Book(Date aReleaseDate, String aImage, String aName, int aTitleId, String aAuthor, String aSynopsis, String aGenre)
   {
-    super(aReleaseDate, aImage, aName, aTitleID);
+    super(aReleaseDate, aImage, aName, aTitleId);
     author = aAuthor;
     synopsis = aSynopsis;
     genre = aGenre;
@@ -51,14 +39,6 @@ public class Book extends Title
   {
     boolean wasSet = false;
     author = aAuthor;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setPublicationDate(Date aPublicationDate)
-  {
-    boolean wasSet = false;
-    publicationDate = aPublicationDate;
     wasSet = true;
     return wasSet;
   }
@@ -84,11 +64,6 @@ public class Book extends Title
     return author;
   }
 
-  public Date getPublicationDate()
-  {
-    return publicationDate;
-  }
-
   public String getSynopsis()
   {
     return synopsis;
@@ -110,7 +85,6 @@ public class Book extends Title
     return super.toString() + "["+
             "author" + ":" + getAuthor()+ "," +
             "synopsis" + ":" + getSynopsis()+ "," +
-            "genre" + ":" + getGenre()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "publicationDate" + "=" + (getPublicationDate() != null ? !getPublicationDate().equals(this)  ? getPublicationDate().toString().replaceAll("  ","    ") : "this" : "null");
+            "genre" + ":" + getGenre()+ "]";
   }
 }

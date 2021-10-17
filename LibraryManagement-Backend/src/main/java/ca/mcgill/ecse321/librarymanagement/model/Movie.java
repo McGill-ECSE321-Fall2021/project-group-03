@@ -5,8 +5,8 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 import java.sql.Date;
 
-// line 73 "model.ump"
-// line 161 "model.ump"
+// line 81 "model.ump"
+// line 165 "model.ump"
 public class Movie extends Title
 {
 
@@ -24,9 +24,9 @@ public class Movie extends Title
   // CONSTRUCTOR
   //------------------------
 
-  public Movie(Date aReleaseDate, String aImage, String aName, String aTitleID, String aDirector, String aGenre, String aSynopsis, int aDuration)
+  public Movie(Date aReleaseDate, String aImage, String aName, int aTitleId, String aDirector, String aGenre, String aSynopsis, int aDuration)
   {
-    super(aReleaseDate, aImage, aName, aTitleID);
+    super(aReleaseDate, aImage, aName, aTitleId);
     director = aDirector;
     genre = aGenre;
     synopsis = aSynopsis;

@@ -1,17 +1,11 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
-
 package ca.mcgill.ecse321.librarymanagement.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-// line 29 "model.ump"
-// line 131 "model.ump"
 
 
+// line 35 "model.ump"
+// line 133 "model.ump"
 public class User
 {
 
@@ -25,8 +19,7 @@ public class User
   private String emailaddress;
   private String fullName;
   private String resAddress;
-  
-  
+  private boolean isResident;
   private int userId;
 
   //User Associations
@@ -36,14 +29,14 @@ public class User
   // CONSTRUCTOR
   //------------------------
 
-
-  public User(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, int aUserId, Library aLibrary)
+  public User(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, boolean aIsResident, int aUserId, Library aLibrary)
   {
     username = aUsername;
     password = aPassword;
     emailaddress = aEmailaddress;
     fullName = aFullName;
     resAddress = aResAddress;
+    isResident = aIsResident;
     userId = aUserId;
     boolean didAddLibrary = setLibrary(aLibrary);
     if (!didAddLibrary)
@@ -96,6 +89,14 @@ public class User
     return wasSet;
   }
 
+  public boolean setIsResident(boolean aIsResident)
+  {
+    boolean wasSet = false;
+    isResident = aIsResident;
+    wasSet = true;
+    return wasSet;
+  }
+
   public boolean setUserId(int aUserId)
   {
     boolean wasSet = false;
@@ -127,6 +128,11 @@ public class User
   public String getResAddress()
   {
     return resAddress;
+  }
+
+  public boolean getIsResident()
+  {
+    return isResident;
   }
 
   public int getUserId()
@@ -177,6 +183,7 @@ public class User
             "emailaddress" + ":" + getEmailaddress()+ "," +
             "fullName" + ":" + getFullName()+ "," +
             "resAddress" + ":" + getResAddress()+ "," +
+            "isResident" + ":" + getIsResident()+ "," +
             "userId" + ":" + getUserId()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "library = "+(getLibrary()!=null?Integer.toHexString(System.identityHashCode(getLibrary())):"null");
   }
