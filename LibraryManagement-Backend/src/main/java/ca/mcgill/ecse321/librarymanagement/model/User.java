@@ -11,7 +11,7 @@ import javax.persistence.Id;
 // line 29 "model.ump"
 // line 131 "model.ump"
 
-@Entity
+
 public class User
 {
 
@@ -26,7 +26,7 @@ public class User
   private String fullName;
   private String resAddress;
   
-  @Id
+  
   private int userId;
 
   //User Associations

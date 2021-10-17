@@ -26,10 +26,7 @@ public class TestLibraryManagementPersistence {
 
 	@Autowired
 	private BookRepository bookRepository;
-	
-	
-	@Autowired
-	private UserRepository userRepository;
+
 	
 	@BeforeEach
 	@AfterEach
@@ -37,7 +34,7 @@ public class TestLibraryManagementPersistence {
 		// Delete any DB used in the tests
 		// Start by deleting databases that depend on other databases. Ex: Registrations. 2.4.3
 		bookRepository.deleteAll();
-		userRepository.deleteAll();
+		//userRepository.deleteAll();
 	}
 	
 	//This test was written by lee and vass and is to be used as example for other tests.
@@ -45,6 +42,7 @@ public class TestLibraryManagementPersistence {
 	// follow the same steps for every other class
 	@Test
 	public void testPersistAndLoadBook() {
+
 		//Start by creating a primary key.
 		String bookId = "TestBook";
 		
@@ -68,12 +66,14 @@ public class TestLibraryManagementPersistence {
 		
 		//Use the CRUD method to query the book from the DB. 
 		book = bookRepository.findBookByTitleID(bookId);
+		
+		System.out.println(book);
 				
 		//Check that the object was properly queried from DB.
 		assertNotNull(book);
 		
 		//Test that all the data was properly saved.
-		//assertEquals(date, book.getReleaseDate());
+		assertEquals(date, book.getReleaseDate());
 		assertEquals(image, book.getImage());
 		assertEquals(bookName, book.getName());
 		assertEquals(author, book.getAuthor());
@@ -81,31 +81,6 @@ public class TestLibraryManagementPersistence {
 		assertEquals(genre, book.getGenre());
 		
 	}
-	
-//	@Test
-//	public void testPersistenceAndLoadUser() {
-//		String username = "username";
-//		String password = "password";
-//		String emailaddress = "email";
-//		String fullName = "fullname";
-//		String resAddress = "address";
-//		int userId = 1234;
-//		
-//		LibrarySchedule librarySchedule = new LibrarySchedule();
-//		Library library = new Library(librarySchedule);
-//		
-//		
-//		User user = new User(username, password, emailaddress, fullName, resAddress, userId, library);
-//		
-//		userRepository.save(user);
-//		
-//		user = null;
-//		
-//		user = userRepository.findUserByUserId(userId);
-//		
-//		assertNotNull(user);
-//		assertEquals(user.getUsername(), username);
-//	}
 	
 }
 

@@ -5,10 +5,19 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 import java.sql.Date;
 
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 
 // line 57 "model.ump"
 // line 151 "model.ump"
+
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "Title_Type")
 public abstract class Title
 {
 
@@ -20,6 +29,8 @@ public abstract class Title
   private Date releaseDate;
   private String image;
   private String name;
+  
+  @Id
   private String titleID;
 
   //------------------------

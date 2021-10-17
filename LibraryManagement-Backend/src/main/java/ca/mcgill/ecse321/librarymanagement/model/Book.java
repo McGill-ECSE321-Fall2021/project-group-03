@@ -5,6 +5,7 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 import java.sql.Date;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 // line 156 "model.ump"
 
 @Entity
+@DiscriminatorValue("Book")
 public class Book extends Title
 {
 
@@ -22,8 +24,6 @@ public class Book extends Title
 
   //Book Attributes
 
-  @Id
-  private String titleID;
   private String author;
   private Date publicationDate;
   private String synopsis;
@@ -41,7 +41,6 @@ public class Book extends Title
     author = aAuthor;
     synopsis = aSynopsis;
     genre = aGenre;
-    this.titleID = aTitleID;
   }
 
   //------------------------
@@ -78,11 +77,6 @@ public class Book extends Title
     genre = aGenre;
     wasSet = true;
     return wasSet;
-  }
-  
-  @Override
-  public String getTitleID() {
-	  return titleID;
   }
 
   public String getAuthor()
