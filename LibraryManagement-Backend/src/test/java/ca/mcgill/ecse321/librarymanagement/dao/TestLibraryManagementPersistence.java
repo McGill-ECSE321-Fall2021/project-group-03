@@ -19,6 +19,8 @@ import ca.mcgill.ecse321.librarymanagement.LibraryManagementApplication;
 import ca.mcgill.ecse321.librarymanagement.model.Book;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.LibrarySchedule;
+import ca.mcgill.ecse321.librarymanagement.model.Room;
+import ca.mcgill.ecse321.librarymanagement.model.RoomSchedule;
 import ca.mcgill.ecse321.librarymanagement.model.Schedule;
 import ca.mcgill.ecse321.librarymanagement.model.TimeSlot;
 import ca.mcgill.ecse321.librarymanagement.model.User;
@@ -71,6 +73,18 @@ public class TestLibraryManagementPersistence {
 	@AfterEach
 	public void clearDatabase() {
 		bookRepository.deleteAll();
+		headLibrarianRepository.deleteAll();
+		librarianRepository.deleteAll();
+		libraryRepository.deleteAll();
+		libraryScheduleRepository.deleteAll();
+		movieRepository.deleteAll();
+		musicAlbumRepository.deleteAll();
+		newspaperRepository.deleteAll();
+		roomRepository.deleteAll();
+		roomScheduleRepository.deleteAll();
+		staffScheduleRepository.deleteAll();
+		timeSlotRepository.deleteAll();
+		userRepository.deleteAll();
 	}
 	
 	/*
@@ -179,6 +193,14 @@ public class TestLibraryManagementPersistence {
 	
 	@Test
 	public void testPersistAndLoadRoom() {
+		
+		RoomSchedule roomSchedule = new RoomSchedule();
+		LibrarySchedule librarySchedule = new LibrarySchedule();
+		Library library = new Library(librarySchedule);
+		
+		Room room = new Room(roomSchedule, library);
+		
+		
 		
 	}
 	
