@@ -163,12 +163,87 @@ public class TestLibraryManagementPersistence {
 	
 	@Test
 	public void testPersistAndLoadUser() {
+		String userUsername = "geener";
+		String userPassword = "pass";
+		String userEmailaddress = "adam@gmail.com";
+		String userFullName = "Adam Geenen";
+		String userResAddress = "kildare";
+		boolean resident = true;
 		
+		LibrarySchedule librarySchedule = new LibrarySchedule();
+		Library library = new Library(librarySchedule);
+		User user = new User(userUsername, userPassword, userEmailaddress, userFullName, userResAddress, resident, library);
+		
+		LibrarySchedule savedLibrarySchedule = libraryScheduleRepository.save(librarySchedule);
+		Library savedLibrary = libraryRepository.save(library);
+		User savedUser = userRepository.save(user);
+		
+		int savedLibraryScheduleId = savedLibrarySchedule.getScheduleId();
+		int savedLibraryId = savedLibrary.getLibraryId();
+		int savedUserId = savedUser.getUserId();
+
+		librarySchedule = null;
+		library = null;
+		user = null;
+		
+		librarySchedule = libraryScheduleRepository.findLibraryScheduleByScheduleId(savedLibraryScheduleId);
+		library = libraryRepository.findLibraryByLibraryId(savedLibraryId);
+		user = userRepository.findUserByUserId(savedUserId);
+				
+		System.out.println(user);
+		
+		assertNotNull(user);
+		
+		assertEquals(userUsername, user.getUsername());
+		assertEquals(userPassword, user.getPassword());
+		assertEquals(userEmailaddress, user.getEmailaddress());
+		assertEquals(userFullName, user.getFullName());
+		assertEquals(userResAddress, user.getResAddress());
 	}
 	
 	@Test
 	public void testPersistAndLoadLibrarian() {
+		String librarianUsername = "geener";
+		String librarianPassword = "pass";
+		String librarianEmailaddress = "adam@gmail.com";
+		String librarianFullName = "Adam Geenen";
+		String librarianResAddress = "kildare";
+		boolean resident = true;
 		
+		LibrarySchedule librarySchedule = new LibrarySchedule();
+		Library library = new Library(librarySchedule);
+		StaffSchedule staffSchedule = new StaffSchedule();
+		Librarian librarian = new Librarian(librarianUsername, librarianPassword, librarianEmailaddress, librarianFullName, librarianResAddress, resident, library, staffSchedule);
+		
+		LibrarySchedule savedLibrarySchedule = libraryScheduleRepository.save(librarySchedule);
+		Library savedLibrary = libraryRepository.save(library);
+		StaffSchedule savedStaffSchedule = staffScheduleRepository.save(staffSchedule);
+		Librarian savedLibrarian = userRepository.save(librarian);
+		
+		int savedLibraryScheduleId = savedLibrarySchedule.getScheduleId();
+		int savedLibraryId = savedLibrary.getLibraryId();
+		int savedstaffScheduleId = savedStaffSchedule.getScheduleId();
+		int savedLibrarianId = savedLibrarian.getUserId();
+
+		librarySchedule = null;
+		library = null;
+		staffSchedule =  null;
+		librarian = null;
+		
+		librarySchedule = libraryScheduleRepository.findLibraryScheduleByScheduleId(savedLibraryScheduleId);
+		library = libraryRepository.findLibraryByLibraryId(savedLibraryId);
+		staffSchedule = staffScheduleRepository.findStaffScheduleByScheduleId(savedstaffScheduleId);
+		librarian = librarianRepository.findLibrarianByUserId(savedLibrarianId);
+				
+		System.out.println(librarian);
+		
+		assertNotNull(librarian);
+		
+		assertEquals(librarianUsername, librarian.getUsername());
+		assertEquals(librarianPassword, librarian.getPassword());
+		assertEquals(librarianEmailaddress, librarian.getEmailaddress());
+		assertEquals(librarianFullName, librarian.getFullName());
+		assertEquals(librarianResAddress, librarian.getResAddress());
 	}
 	
 
