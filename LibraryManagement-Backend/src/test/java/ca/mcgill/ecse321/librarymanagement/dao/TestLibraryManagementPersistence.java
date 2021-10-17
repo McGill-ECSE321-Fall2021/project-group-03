@@ -82,6 +82,16 @@ public class TestLibraryManagementPersistence {
 		
 	}
 	
+	@Test
+	public void testPersistAndLoadTimeSlot() {
+
+		
+		
+	}
+	
+	
+	
+	
 }
 
 

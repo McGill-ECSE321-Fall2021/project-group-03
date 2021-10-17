@@ -7,6 +7,7 @@ import java.util.*;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
@@ -27,7 +28,9 @@ public class Schedule
 
   //Schedule Associations
   private List<TimeSlot> timeSlots;
-
+  
+  @Id
+  private String scheduleID;
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -150,6 +153,20 @@ public class Schedule
       TimeSlot aTimeSlot = timeSlots.get(i - 1);
       aTimeSlot.delete();
     }
+  }
+  
+  @Id
+  public String getScheduleID()
+  {
+    return scheduleID;
+  }
+  
+  public boolean setScheduleID(String aScheduleID)
+  {
+    boolean wasSet = false;
+    scheduleID = aScheduleID;
+    wasSet = true;
+    return wasSet;
   }
 
 }
