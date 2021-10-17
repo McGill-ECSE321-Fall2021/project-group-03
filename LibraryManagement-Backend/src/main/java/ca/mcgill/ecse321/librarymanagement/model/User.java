@@ -2,13 +2,18 @@
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 package ca.mcgill.ecse321.librarymanagement.model;
 
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 // line 35 "model.ump"
 // line 133 "model.ump"
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "User_Type")
 public class User
 {
 
