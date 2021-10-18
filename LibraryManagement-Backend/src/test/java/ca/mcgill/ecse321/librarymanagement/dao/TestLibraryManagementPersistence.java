@@ -85,7 +85,7 @@ public class TestLibraryManagementPersistence {
 	@Autowired
 	private RoomRepository roomRepository;
 
-	@BeforeEach
+	//@BeforeEach
 	@AfterEach
 	public void clearDatabase() {
 		timeSlotRepository.deleteAll();
