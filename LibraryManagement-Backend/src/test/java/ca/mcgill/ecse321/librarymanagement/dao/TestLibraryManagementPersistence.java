@@ -43,6 +43,7 @@ import ca.mcgill.ecse321.librarymanagement.model.Title;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@Deprecated
 public class TestLibraryManagementPersistence {
 
 	@Autowired
