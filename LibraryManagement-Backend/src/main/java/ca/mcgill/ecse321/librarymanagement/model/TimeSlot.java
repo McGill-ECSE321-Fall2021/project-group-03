@@ -6,6 +6,8 @@ package ca.mcgill.ecse321.librarymanagement.model;
 import java.sql.Time;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -29,6 +31,7 @@ public class TimeSlot
   private Date date;
   
   @Id
+  @GeneratedValue(strategy=GenerationType.AUTO)
   private int timeSlotId;
 
   //TimeSlot Associations
@@ -41,13 +44,13 @@ public class TimeSlot
   
   protected TimeSlot() {}
 
-  public TimeSlot(Time aStartTime, Time aEndTime, int aDayOfWeek, Date aDate, int aTimeSlotId, Schedule aSchedule)
+  public TimeSlot(Time aStartTime, Time aEndTime, int aDayOfWeek, Date aDate, Schedule aSchedule)
   {
     startTime = aStartTime;
     endTime = aEndTime;
     dayOfWeek = aDayOfWeek;
     date = aDate;
-    timeSlotId = aTimeSlotId;
+    //timeSlotId = aTimeSlotId;
     boolean didAddSchedule = setSchedule(aSchedule);
     if (!didAddSchedule)
     {
@@ -91,13 +94,13 @@ public class TimeSlot
     return wasSet;
   }
 
-  public boolean setTimeSlotId(int aTimeSlotId)
-  {
-    boolean wasSet = false;
-    timeSlotId = aTimeSlotId;
-    wasSet = true;
-    return wasSet;
-  }
+//  public boolean setTimeSlotId(int aTimeSlotId)
+//  {
+//    boolean wasSet = false;
+//    timeSlotId = aTimeSlotId;
+//    wasSet = true;
+//    return wasSet;
+//  }
 
   public Time getStartTime()
   {

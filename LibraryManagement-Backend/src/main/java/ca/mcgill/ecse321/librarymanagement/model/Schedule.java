@@ -102,7 +102,9 @@ public abstract class Schedule
   /* Code from template association_AddManyToOne */
   public TimeSlot addTimeSlot(Time aStartTime, Time aEndTime, int aDayOfWeek, Date aDate, int aTimeSlotId)
   {
-    return new TimeSlot(aStartTime, aEndTime, aDayOfWeek, aDate, aTimeSlotId, this);
+    //return new TimeSlot(aStartTime, aEndTime, aDayOfWeek, aDate, aTimeSlotId, this);
+    return new TimeSlot(aStartTime, aEndTime, aDayOfWeek, aDate, this);
+
   }
 
   public boolean addTimeSlot(TimeSlot aTimeSlot)
