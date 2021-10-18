@@ -378,6 +378,7 @@ public class TestLibraryManagementPersistence {
 		
 		LibrarySchedule libSchedule = new LibrarySchedule();
 		StaffSchedule staffSchedule = new StaffSchedule();
+		Library library = new Library(libSchedule);
 		
 		String aUsername = "aUsername";
 		String aPassword  = "aPassword";
@@ -385,19 +386,39 @@ public class TestLibraryManagementPersistence {
 		String aFullName  = "aFullName";
 		String aResAddress = "aResAddress";
 		boolean aIsResident  = true;
-		Library aLibrary = new Library(libSchedule);
-		StaffSchedule aStaffSchedule = staffSchedule;
 		
-		HeadLibrarian headLibrarian = new HeadLibrarian(aUsername,aPassword, aEmailaddress, aFullName, aResAddress,aIsResident,aLibrary, aStaffSchedule );
+
 		
+		HeadLibrarian headLibrarian = new HeadLibrarian(aUsername,aPassword, aEmailaddress, aFullName, aResAddress,aIsResident,library, staffSchedule );
+		
+		LibrarySchedule savedLibrarySchedule = libraryScheduleRepository.save(libSchedule);
+		Library savedLibrary = libraryRepository.save(library);
+		StaffSchedule savedStaffSchedule = staffScheduleRepository.save(staffSchedule);
 		HeadLibrarian savedHeadLibrarian = headLibrarianRepository.save(headLibrarian);
+		
+		
+		int savedLibraryScheduleId = savedLibrarySchedule.getScheduleId();
+		int savedLibraryId = savedLibrary.getLibraryId();
+		int savedstaffScheduleId = savedStaffSchedule.getScheduleId();
 		int savedHeadLibrarianId = savedHeadLibrarian.getUserId();
+
+		libSchedule = null;
+		library = null;
+		staffSchedule =  null;
+		headLibrarian = null;
 		
-		//headLibrarian = null;
-		
+		libSchedule = libraryScheduleRepository.findLibraryScheduleByScheduleId(savedLibraryScheduleId);
+		library = libraryRepository.findLibraryByLibraryId(savedLibraryId);
+		staffSchedule = staffScheduleRepository.findStaffScheduleByScheduleId(savedstaffScheduleId);
 		headLibrarian = headLibrarianRepository.findHeadLibrarianByUserId(savedHeadLibrarianId);
 		
 		assertNotNull(headLibrarian);
+		
+		assertEquals(aUsername, headLibrarian.getUsername());
+		assertEquals(aPassword, headLibrarian.getPassword());
+		assertEquals(aEmailaddress, headLibrarian.getEmailaddress());
+		assertEquals(aFullName, headLibrarian.getFullName());
+		assertEquals(aResAddress, headLibrarian.getResAddress());
 	}
 	
 	/*
