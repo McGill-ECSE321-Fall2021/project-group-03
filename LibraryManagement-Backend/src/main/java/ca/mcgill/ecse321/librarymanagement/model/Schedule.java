@@ -7,6 +7,7 @@ import java.util.*;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,7 +34,7 @@ public abstract class Schedule
   private int scheduleId;
 
   //Schedule Associations
-  @OneToMany(targetEntity = TimeSlot.class, mappedBy = "schedule")
+  @OneToMany(targetEntity = TimeSlot.class, mappedBy = "schedule", fetch = FetchType.LAZY)
   private List<TimeSlot> timeSlots;
 
   //------------------------

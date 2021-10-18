@@ -8,6 +8,8 @@ import java.sql.Date;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import org.springframework.stereotype.Component;
+
 
 @Entity
 @DiscriminatorValue("Newspaper")
