@@ -1,2 +1,5 @@
-include ':LibraryManagement-Backend'
+//include ':LibraryManagement-Backend'
+
+rootProject.name = 'project-group-03'
+include 'LibraryManagement-Backend'
 
