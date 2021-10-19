@@ -1,10 +1,6 @@
 # project-group-03
 project-group-03 created by GitHub Classroom
 
-The team should provide a welcome page that introduces the team and describes the main scope of the project in 
-the README.md file in the root of each team’s repository. In addition, the README.md file should contain an 
-overview table with names, team roles, and individual efforts (in hours) with separated entries for each deliverable.
-
 Welcome to group 3's github repository!
 
 Allow us to introduce ourselves! 
