@@ -362,6 +362,7 @@ public class TestLibraryManagementPersistence {
 	@Test
 	public void testPersistAndLoadStaffSchedule() {
 		
+		//create a staff schedule. Save it to persistence. Then make it null and retrieve it.
 		StaffSchedule staffSchedule = new StaffSchedule();
 		
 		StaffSchedule savedStaffSchedule = staffScheduleRepository.save(staffSchedule);
@@ -382,6 +383,7 @@ public class TestLibraryManagementPersistence {
 	@Test
 	public void testPersistAndLoadHeadLibrarian() {
 		
+		//create a head librarian and assign the corresponding fields
 		LibrarySchedule libSchedule = new LibrarySchedule();
 		StaffSchedule staffSchedule = new StaffSchedule();
 		Library library = new Library(libSchedule);
@@ -397,6 +399,7 @@ public class TestLibraryManagementPersistence {
 		
 		HeadLibrarian headLibrarian = new HeadLibrarian(aUsername,aPassword, aEmailaddress, aFullName, aResAddress,aIsResident,library, staffSchedule );
 		
+		
 		LibrarySchedule savedLibrarySchedule = libraryScheduleRepository.save(libSchedule);
 		Library savedLibrary = libraryRepository.save(library);
 		StaffSchedule savedStaffSchedule = staffScheduleRepository.save(staffSchedule);
@@ -407,7 +410,8 @@ public class TestLibraryManagementPersistence {
 		int savedLibraryId = savedLibrary.getLibraryId();
 		int savedstaffScheduleId = savedStaffSchedule.getScheduleId();
 		int savedHeadLibrarianId = savedHeadLibrarian.getUserId();
-
+		
+		//make it null and retrieve it from the database
 		libSchedule = null;
 		library = null;
 		staffSchedule =  null;
@@ -437,11 +441,13 @@ public class TestLibraryManagementPersistence {
 	@Test
 	public void testPersistAndLoadRoom() {
 		
+		//Create a library library schedule and room schedule
 		LibrarySchedule librarySchedule = new LibrarySchedule();
 		Library library = new Library(librarySchedule);
 		RoomSchedule roomSchedule = new RoomSchedule();
 		Room room = new Room(roomSchedule, library);
 		
+		//create a room and save it to persistence
 		LibrarySchedule savedLibrarySchedule = libraryScheduleRepository.save(librarySchedule);
 		Library savedLibrary = libraryRepository.save(library);
 		RoomSchedule savedRoomSchedule = roomScheduleRepository.save(roomSchedule);
@@ -474,6 +480,8 @@ public class TestLibraryManagementPersistence {
 	@Test
 	public void testPersistAndLoadRoomSchedule() {
 		
+		//create a room schedule. save it to the persistence
+		//make it null and check that its retrieved properly
 		RoomSchedule roomSchedule = new RoomSchedule();
 		RoomSchedule savedRoomSchedule = roomScheduleRepository.save(roomSchedule);
 		int savedRoomScheduleId = savedRoomSchedule.getScheduleId();
