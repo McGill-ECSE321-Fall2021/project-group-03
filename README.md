@@ -28,3 +28,4 @@ and room schedules). Finally, the most important parts of the system should be a
 | Liam Serour            | Documentation Manager | 30                                |
 | Samuel-Ryan Vasserman  | Project Manager       | 30                                |
 
+[Link to Project Report](https://github.com/McGill-ECSE321-Fall2021/project-group-03/wiki/Documentation#success-spectrum)
