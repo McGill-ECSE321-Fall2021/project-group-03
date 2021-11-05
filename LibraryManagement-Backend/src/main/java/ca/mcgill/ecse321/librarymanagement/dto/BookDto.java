@@ -16,7 +16,11 @@ public class BookDto {
 		
 	}
 	
-public BookDto(Date aReleaseDate, String aImage, String aName, String aAuthor, String aSynopsis, String aGenre) {
+	public BookDto(String aName) {
+		this.name = aName;
+		}
+	
+	public BookDto(Date aReleaseDate, String aImage, String aName, String aAuthor, String aSynopsis, String aGenre) {
 		this.releaseDate = aReleaseDate;
 		this.image = aImage;
 		this.author= aAuthor;
@@ -24,6 +28,30 @@ public BookDto(Date aReleaseDate, String aImage, String aName, String aAuthor, S
 		this.name = aName;
 		this.genre = aGenre;
 		
+	}
+
+	public String getAuthor() {
+		return this.author;
+	}
+	
+	public String getSynopsis() {
+		return this.synopsis;
+	}
+	
+	public String getGenre() {
+		return this.genre;
+	}
+	
+	public Date ReleaseDate() {
+		return this.releaseDate;
+	}
+	
+	public String getImage() {
+		return this.image;
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 	
 }
