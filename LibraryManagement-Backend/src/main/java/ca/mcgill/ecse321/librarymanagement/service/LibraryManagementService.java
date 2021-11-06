@@ -26,6 +26,7 @@ import ca.mcgill.ecse321.librarymanagement.model.Book;
 import ca.mcgill.ecse321.librarymanagement.model.HeadLibrarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.StaffSchedule;
+import ca.mcgill.ecse321.librarymanagement.model.Movie;
 
 @Service
 public class LibraryManagementService {
@@ -86,6 +87,23 @@ public class LibraryManagementService {
 	
 	public List<Book> getAllBooks() {
 		return toList(bookRepository.findAll());
+	}
+	
+	@Transactional
+	public Movie createMovie(Date aReleaseDate, String aImage, String aName, String aDirector, String aGenre, String aSynopsis, int aDuration ) {
+		Movie movie = new Movie(aReleaseDate, aImage, aName, aDirector, aGenre, aSynopsis, aDuration);
+		movieRepository.save(movie);
+		return movie;
+	}
+	
+	@Transactional
+	public Movie getMovie(int titleId ) {
+		Movie movie = movieRepository.findMovieByTitleId(titleId);
+		return movie;
+	}
+	
+	public List<Movie> getAllMovies() {
+		return toList(movieRepository.findAll());
 	}
 	
 	// Method to convert to a list
