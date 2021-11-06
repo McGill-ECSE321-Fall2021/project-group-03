@@ -72,6 +72,16 @@ public class LibraryManagementService {
 	
 	//Starting with head librarian just as an example.
 	
+	/*
+	 * 
+	 * 
+	 * 
+	 * TARA
+	 * 
+	 * 
+	 * 
+	 */
+	
 	@Transactional
 	public Book createBook(Date aReleaseDate, String aImage, String aName, String aAuthor, String aSynopsis, String aGenre ) {
 		Book book = new Book(aReleaseDate, aImage, aName, aAuthor, aSynopsis, aGenre);
@@ -114,5 +124,45 @@ public class LibraryManagementService {
 		}
 		return resultList;
 	}
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * ADAM
+	 * 
+	 * 
+	 * 
+	 */
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * SAM
+	 * 
+	 * 
+	 * 
+	 */
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * AVI
+	 * 
+	 * 
+	 * 
+	 */
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * LIAM
+	 * 
+	 * 
+	 * 
+	 */
 	
 }

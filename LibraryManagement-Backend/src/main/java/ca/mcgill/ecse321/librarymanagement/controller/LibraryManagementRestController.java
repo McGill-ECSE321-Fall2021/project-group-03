@@ -27,6 +27,16 @@ public class LibraryManagementRestController {
 	@Autowired
 	private LibraryManagementService service;
 	
+	/*
+	 * 
+	 * 
+	 * 
+	 * TARA
+	 * 
+	 * 
+	 * 
+	 */
+	
 	@GetMapping(value = { "/books", "/books/" })
 	public List<BookDto> getAllBooks() {
 		return service.getAllBooks().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
@@ -76,4 +86,48 @@ public class LibraryManagementRestController {
 		
 
 	}
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * ADAM
+	 * 
+	 * 
+	 * 
+	 */
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * SAM
+	 * 
+	 * 
+	 * 
+	 */
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * AVI
+	 * 
+	 * 
+	 * 
+	 */
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * LIAM
+	 * 
+	 * 
+	 * 
+	 */
+	
+	
+	
+	
 }
