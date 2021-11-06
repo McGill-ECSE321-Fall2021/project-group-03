@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.librarymanagement.dto.BookDto;
@@ -34,9 +35,11 @@ public class LibraryManagementRestController {
 	//how to deal with multiple parameters???
 	//@PostMapping(value = { "/books/{releaseDate}/{image}/{name}/{author}/{synopsis}/{genre}", "/books/{releaseDate}/{image}/{name}/{author}/{synopsis}/{genre}/" })
 	@PostMapping(value = { "/books/{name}", "/books/{name}/" })
-	public BookDto createBook(@PathVariable("name") String name) throws IllegalArgumentException {
+	public BookDto createBook(@PathVariable("name") String name, @RequestParam String image, 
+			@RequestParam String author, @RequestParam String synopsis, @RequestParam String genre) throws IllegalArgumentException {
+		// name = django,releaseDate,
 		Date date = new Date(1,1,1);
-		Book book = service.createBook(date, "image", name, "a", "b", "c");
+		Book book = service.createBook(date, image, name, author, synopsis, genre);
 		return convertToDto(book);
 	}
 	
