@@ -24,8 +24,10 @@ import ca.mcgill.ecse321.librarymanagement.dao.TimeSlotRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.UserRepository;
 import ca.mcgill.ecse321.librarymanagement.model.Book;
 import ca.mcgill.ecse321.librarymanagement.model.HeadLibrarian;
+import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.StaffSchedule;
+import ca.mcgill.ecse321.librarymanagement.model.User;
 import ca.mcgill.ecse321.librarymanagement.model.Movie;
 
 @Service
@@ -144,6 +146,64 @@ public class LibraryManagementService {
 	 * 
 	 * 
 	 */
+	
+	
+	// users
+	
+	@Transactional
+	public User createUser(String username, String password, String email, String fullName, String resAddress, boolean isResident, Library library) {
+		User user = new User(username, password, email, fullName, resAddress, isResident, library);
+		userRepository.save(user);
+		return user;
+	}
+	
+	@Transactional
+	public User getUser(int userId ) {
+		User user = userRepository.findUserByUserId(userId);
+		return user;
+	}
+	
+	public List<User> getAllUsers() {
+		return toList(userRepository.findAll());
+	}
+	
+	// librarians
+	
+	@Transactional
+	public Librarian createLibrarian(String username, String password, String email, String fullName, String resAddress, boolean isResident, Library library, StaffSchedule staffSchedule) {
+		Librarian librarian = new Librarian(username, password, email, fullName, resAddress, isResident, library, staffSchedule);
+		librarianRepository.save(librarian);
+		return librarian;
+	}
+	
+	@Transactional
+	public Librarian getLibrarian(int userId) {
+		Librarian librarian = librarianRepository.findLibrarianByUserId(userId);
+		return librarian;
+	}
+	
+	public List<Librarian> getAllLibrarians() {
+		return toList(librarianRepository.findAll());
+	}
+	
+	// head librarian
+	
+	@Transactional
+	public HeadLibrarian createHeadLibrarian(String username, String password, String email, String fullName, String resAddress, boolean isResident, Library library, StaffSchedule staffSchedule) {
+		HeadLibrarian headLibrarian = new HeadLibrarian(username, password, email, fullName, resAddress, isResident, library, staffSchedule);
+		headLibrarianRepository.save(headLibrarian);
+		return headLibrarian;
+	}
+	
+	@Transactional
+	public Librarian getHeadLibrarian(int userId) {
+		Librarian headLibrarian = headLibrarianRepository.findHeadLibrarianByUserId(userId);
+		return headLibrarian;
+	}
+	
+	public List<HeadLibrarian> getAllHeadLibrarians() {
+		return toList(headLibrarianRepository.findAll());
+	}
 	
 	/*
 	 * 

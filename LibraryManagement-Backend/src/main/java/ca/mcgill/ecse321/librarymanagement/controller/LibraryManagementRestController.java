@@ -13,9 +13,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.librarymanagement.dto.BookDto;
+import ca.mcgill.ecse321.librarymanagement.dto.HeadLibrarianDto;
+import ca.mcgill.ecse321.librarymanagement.dto.LibrarianDto;
 import ca.mcgill.ecse321.librarymanagement.dto.MovieDto;
+import ca.mcgill.ecse321.librarymanagement.dto.UserDto;
 import ca.mcgill.ecse321.librarymanagement.model.Book;
+import ca.mcgill.ecse321.librarymanagement.model.HeadLibrarian;
+import ca.mcgill.ecse321.librarymanagement.model.Librarian;
+import ca.mcgill.ecse321.librarymanagement.model.Library;
+import ca.mcgill.ecse321.librarymanagement.model.LibrarySchedule;
 import ca.mcgill.ecse321.librarymanagement.model.Movie;
+import ca.mcgill.ecse321.librarymanagement.model.StaffSchedule;
+import ca.mcgill.ecse321.librarymanagement.model.User;
 import ca.mcgill.ecse321.librarymanagement.service.LibraryManagementService;
 
 //Should imports be the same as example??
@@ -106,6 +115,98 @@ public class LibraryManagementRestController {
 	 * 
 	 * 
 	 */
+	
+	//user
+	
+	@GetMapping(value = { "/users", "/users/" })
+	public List<UserDto> getAllUsers() {
+		return service.getAllUsers().stream().map(u -> convertToDto(u)).collect(Collectors.toList());
+	}
+	
+	@PostMapping(value = { "/users/{name}", "/users/{name}/" })
+	public UserDto createUser(@PathVariable("name") String name) throws IllegalArgumentException {
+		String username = "username";
+		String password = "password";
+		String email = "email";
+		String fullName = "name";
+		String resAddress = "resAddress";
+		boolean isResident = true;
+		LibrarySchedule librarySchedule = new LibrarySchedule();
+		Library library = new Library(librarySchedule);
+		
+		User user = new User(username, password, email, fullName, resAddress, isResident, library);
+		return convertToDto(user);
+	}
+	
+	private UserDto convertToDto(User u) {
+		if (u == null) {
+			throw new IllegalArgumentException("There is no such Book!");
+		}
+		UserDto userDto = new UserDto(u.getUsername(), u.getPassword(), u.getEmailaddress(), u.getFullName(), u.getResAddress(), u.getIsResident(), u.getLibrary());
+		return userDto;
+	}
+	
+	//librarian
+	
+	@GetMapping(value = { "/librarians", "/librarians/" })
+	public List<UserDto> getAllLibrarians() {
+		return service.getAllUsers().stream().map(u -> convertToDto(u)).collect(Collectors.toList());
+	}
+	
+	@PostMapping(value = { "/librarians/{name}", "/librarians/{name}/" })
+	public LibrarianDto createLibrarian(@PathVariable("name") String name) throws IllegalArgumentException {
+		String username = "username";
+		String password = "password";
+		String email = "email";
+		String fullName = "name";
+		String resAddress = "resAddress";
+		boolean isResident = true;
+		LibrarySchedule librarySchedule = new LibrarySchedule();
+		Library library = new Library(librarySchedule);
+		StaffSchedule staffSchedule = new StaffSchedule();
+		
+		Librarian librarian = new Librarian(username, password, email, fullName, resAddress, isResident, library, staffSchedule);
+		return convertToDto(librarian);
+	}
+	
+	private LibrarianDto convertToDto(Librarian l) {
+		if (l == null) {
+			throw new IllegalArgumentException("There is no such Book!");
+		}
+		LibrarianDto librarianDto = new LibrarianDto(l.getUsername(), l.getPassword(), l.getEmailaddress(), l.getFullName(), l.getResAddress(), l.getIsResident(), l.getLibrary(), l.getStaffSchedule());
+		return librarianDto;
+	}
+	
+	// head librarian
+	
+		@GetMapping(value = { "/headLibrarians", "/headLibrarians/" })
+		public List<UserDto> getAllHeadLibrarians() {
+			return service.getAllUsers().stream().map(u -> convertToDto(u)).collect(Collectors.toList());
+		}
+		
+		@PostMapping(value = { "/headLibrarians/{name}", "/headLibrarians/{name}/" })
+		public HeadLibrarianDto createHeadLibrarian(@PathVariable("name") String name) throws IllegalArgumentException {
+			String username = "username";
+			String password = "password";
+			String email = "email";
+			String fullName = "name";
+			String resAddress = "resAddress";
+			boolean isResident = true;
+			LibrarySchedule librarySchedule = new LibrarySchedule();
+			Library library = new Library(librarySchedule);
+			StaffSchedule staffSchedule = new StaffSchedule();
+			
+			HeadLibrarian headLibrarian = new HeadLibrarian(username, password, email, fullName, resAddress, isResident, library, staffSchedule);
+			return convertToDto(headLibrarian);
+		}
+		
+		private HeadLibrarianDto convertToDto(HeadLibrarian hl) {
+			if (hl == null) {
+				throw new IllegalArgumentException("There is no such Book!");
+			}
+			HeadLibrarianDto headLibrarianDto = new HeadLibrarianDto(hl.getUsername(), hl.getPassword(), hl.getEmailaddress(), hl.getFullName(), hl.getResAddress(), hl.getIsResident(), hl.getLibrary(), hl.getStaffSchedule());
+			return headLibrarianDto;
+		}
 	
 	/*
 	 * 
