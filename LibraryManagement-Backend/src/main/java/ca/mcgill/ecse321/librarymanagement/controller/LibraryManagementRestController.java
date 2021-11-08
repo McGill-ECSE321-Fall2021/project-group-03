@@ -300,7 +300,7 @@ public class LibraryManagementRestController {
 		String username = "username";
 		LibraryDto libraryDto = getAllLibraries().get(0);
 		StaffScheduleDto staffScheduleDto = getAllStaffSchedules().get(0);
-		Librarian librarian = service.createLibrarian(username, password, email, fullName, resAddress, isResident, libraryDto, staffSchedule);
+		Librarian librarian = service.createLibrarian(username, password, email, fullName, resAddress, isResident, libraryDto, staffScheduleDto);
 		return convertToDto(librarian);
 	}
 
