@@ -112,9 +112,14 @@ public class LibraryManagementRestController {
 	}
 	
 	@PostMapping(value = { "/newspapers/{name}", "/newspapers/{name}/" })
-	public NewspaperDto createNewspaper(@PathVariable("name") String name) throws IllegalArgumentException {
-		Date date = new Date(1,1,1);
-		Newspaper newspaper = service.createNewspaper(date, "image", name, "a");
+	public NewspaperDto createNewspaper(@PathVariable("name") String name, @RequestParam String date, @RequestParam String image, @RequestParam String headline) throws IllegalArgumentException {
+		//date format YYYY-MM-DD
+		String[] dateArr = date.split("-");
+		int year = Integer.parseInt(dateArr[0]);
+		int month = Integer.parseInt(dateArr[1]);
+		int day = Integer.parseInt(dateArr[2]);
+		Date dateObj = new Date(year, month, day);
+		Newspaper newspaper = service.createNewspaper(dateObj, image , name, headline);
 		return convertToDto(newspaper);
 	}
 	
