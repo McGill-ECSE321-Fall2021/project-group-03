@@ -29,6 +29,8 @@ import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.StaffSchedule;
 import ca.mcgill.ecse321.librarymanagement.model.User;
 import ca.mcgill.ecse321.librarymanagement.model.Movie;
+import ca.mcgill.ecse321.librarymanagement.model.MusicAlbum;
+import ca.mcgill.ecse321.librarymanagement.model.Newspaper;
 
 @Service
 public class LibraryManagementService {
@@ -117,6 +119,41 @@ public class LibraryManagementService {
 	public List<Movie> getAllMovies() {
 		return toList(movieRepository.findAll());
 	}
+	
+	@Transactional
+	public Newspaper createNewspaper(Date aReleaseDate, String aImage, String aName, String aHeadline) {
+		Newspaper newspaper = new Newspaper(aReleaseDate, aImage, aName, aHeadline);
+		newspaperRepository.save(newspaper);
+		return newspaper;
+	}
+	
+	@Transactional
+	public Newspaper getNewspaper(int titleId ) {
+		Newspaper newspaper = newspaperRepository.findNewspaperByTitleId(titleId);
+		return newspaper;
+	}
+	
+	public List<Newspaper> getAllNewspapers(){
+		return toList(newspaperRepository.findAll());
+	}
+	
+	@Transactional
+	public MusicAlbum createMusicAlbum(Date aReleaseDate, String aImage, String aName, String aArtist, int aDuration, String aGenre) {
+		MusicAlbum musicAlbum = new MusicAlbum(aReleaseDate, aImage, aName, aArtist, aDuration, aGenre);
+		musicAlbumRepository.save(musicAlbum);
+		return musicAlbum;
+	}
+	
+	@Transactional
+	public MusicAlbum getMusicAlbum(int titleId) {
+		MusicAlbum musicAlbum = musicAlbumRepository.findMusicAlbumByTitleId(titleId);
+		return musicAlbum;
+	}
+	
+	public List<MusicAlbum> getAllMusicAlbums(){
+		return toList(musicAlbumRepository.findAll());
+	}
+	
 	
 	// Method to convert to a list
 	private <T> List<T> toList(Iterable<T> iterable){

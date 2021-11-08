@@ -16,6 +16,8 @@ import ca.mcgill.ecse321.librarymanagement.dto.BookDto;
 import ca.mcgill.ecse321.librarymanagement.dto.HeadLibrarianDto;
 import ca.mcgill.ecse321.librarymanagement.dto.LibrarianDto;
 import ca.mcgill.ecse321.librarymanagement.dto.MovieDto;
+import ca.mcgill.ecse321.librarymanagement.dto.MusicAlbumDto;
+import ca.mcgill.ecse321.librarymanagement.dto.NewspaperDto;
 import ca.mcgill.ecse321.librarymanagement.dto.UserDto;
 import ca.mcgill.ecse321.librarymanagement.model.Book;
 import ca.mcgill.ecse321.librarymanagement.model.HeadLibrarian;
@@ -23,6 +25,8 @@ import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.LibrarySchedule;
 import ca.mcgill.ecse321.librarymanagement.model.Movie;
+import ca.mcgill.ecse321.librarymanagement.model.MusicAlbum;
+import ca.mcgill.ecse321.librarymanagement.model.Newspaper;
 import ca.mcgill.ecse321.librarymanagement.model.StaffSchedule;
 import ca.mcgill.ecse321.librarymanagement.model.User;
 import ca.mcgill.ecse321.librarymanagement.service.LibraryManagementService;
@@ -95,6 +99,46 @@ public class LibraryManagementRestController {
 		
 
 	}
+	
+	@GetMapping(value = { "/newspapers", "/newspapers/" })
+	public List<NewspaperDto> getAllNewspapers() {
+		return service.getAllNewspapers().stream().map(n-> convertToDto(n)).collect(Collectors.toList());
+	}
+	
+	@PostMapping(value = { "/newspapers/{name}", "/newspapers/{name}/" })
+	public NewspaperDto createNewspaper(@PathVariable("name") String name) throws IllegalArgumentException {
+		Date date = new Date(1,1,1);
+		Newspaper newspaper = service.createNewspaper(date, "image", name, "a");
+		return convertToDto(newspaper);
+	}
+	
+	private NewspaperDto convertToDto(Newspaper n) {
+		if (n == null) {
+			throw new IllegalArgumentException("There is no such Newspaper!");
+		}
+		NewspaperDto newspaperDto = new NewspaperDto(n.getReleaseDate(), n.getImage(), n.getName(), n.getHeadline());
+		return newspaperDto;
+	}
+	
+	@GetMapping(value = { "/musicalbums", "/musicalbums/" })
+	public List<MusicAlbumDto> getAllMusicAlbums() {
+		return service.getAllMusicAlbums().stream().map(m-> convertToDto(m)).collect(Collectors.toList());
+	}
+	
+	@PostMapping(value = { "/musicalbums/{name}", "/musicalbums/{name}/" })
+	public MusicAlbumDto createMusicAlbum(@PathVariable("name") String name) throws IllegalArgumentException {
+		Date date = new Date(1,1,1);
+		MusicAlbum musicAlbum = service.createMusicAlbum(date, "image", name, "artist", 10, "genre");
+		return convertToDto(musicAlbum);
+	}
+	
+	private MusicAlbumDto convertToDto(MusicAlbum m) {
+		if (m == null) {
+			throw new IllegalArgumentException("There is no such Music Album!");
+		}
+		MusicAlbumDto musicAlbumDto = new MusicAlbumDto(m.getReleaseDate(), m.getImage(), m.getName(), m.getArtist(), m.getTrackList(), m.getDuration(), m.getGenre());
+		return musicAlbumDto;
+	}	
 	
 	/*
 	 * 
