@@ -232,7 +232,7 @@ public class LibraryManagementRestController {
 
 	// use these values to get the staffSchedules from service
 	@GetMapping(value = { "/staffSchedules", "/staffSchedules/" })
-	public List<StaffScheduleDto> getAlltaffSchedules() {
+	public List<StaffScheduleDto> getAllStaffSchedules() {
 		return service.getAllStaffSchedules().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
 	}
 
@@ -272,9 +272,9 @@ public class LibraryManagementRestController {
 	public UserDto createUser(@PathVariable("username") String username, @RequestParam String password,
 			@RequestParam String email, @RequestParam String fullName, @RequestParam String resAddress,
 			@RequestParam boolean isResident) throws IllegalArgumentException {
-		LibrarySchedule librarySchedule = new LibrarySchedule();
-		Library library = new Library(librarySchedule);
-		User user = new User(username, password, email, fullName, resAddress, isResident, library);
+		
+		LibraryDto libraryDto = getAllLibraries().get(0);
+		User user = service.createUser(username, password, email, fullName, resAddress, isResident, libraryDto);
 		return convertToDto(user);
 	}
 
@@ -296,21 +296,11 @@ public class LibraryManagementRestController {
 
 	@PostMapping(value = { "/librarians/{name}", "/librarians/{name}/" })
 	public LibrarianDto createLibrarian(@PathVariable("name") String name, @RequestParam String password, String email,
-			String fullName, String resAddress, String isResident) throws IllegalArgumentException {
+			String fullName, String resAddress, boolean isResident) throws IllegalArgumentException {
 		String username = "username";
-		LibrarySchedule librarySchedule = new LibrarySchedule();
-		Library library = new Library(librarySchedule);
-		StaffSchedule staffSchedule = new StaffSchedule();
-		boolean resident;
-		if (isResident.equals("true")) {
-			resident = true;
-		}
-		else {
-			resident = false;
-		}
-
-		Librarian librarian = new Librarian(username, password, email, fullName, resAddress, resident, library,
-				staffSchedule);
+		LibraryDto libraryDto = getAllLibraries().get(0);
+		StaffScheduleDto staffScheduleDto = getAllStaffSchedules().get(0);
+		Librarian librarian = service.createLibrarian(username, password, email, fullName, resAddress, isResident, libraryDto, staffSchedule);
 		return convertToDto(librarian);
 	}
 
@@ -334,12 +324,11 @@ public class LibraryManagementRestController {
 	public HeadLibrarianDto createHeadLibrarian(@PathVariable("username") String username,
 			@RequestParam String password, @RequestParam String email, @RequestParam String fullName,
 			@RequestParam String resAddress, @RequestParam boolean isResident) throws IllegalArgumentException {
-		LibrarySchedule librarySchedule = new LibrarySchedule();
-		Library library = new Library(librarySchedule);
-		StaffSchedule staffSchedule = new StaffSchedule();
+		LibraryDto libraryDto = getAllLibraries().get(0);
+		StaffScheduleDto staffScheduleDto = getAllStaffSchedules().get(0);
 
-		HeadLibrarian headLibrarian = new HeadLibrarian(username, password, email, fullName, resAddress, isResident,
-				library, staffSchedule);
+		HeadLibrarian headLibrarian =  service.createHeadLibrarian(username, password, email, fullName, resAddress, isResident,
+				libraryDto, staffScheduleDto);
 		return convertToDto(headLibrarian);
 	}
 

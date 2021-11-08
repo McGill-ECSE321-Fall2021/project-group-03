@@ -25,6 +25,7 @@ import ca.mcgill.ecse321.librarymanagement.dao.TimeSlotRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.UserRepository;
 import ca.mcgill.ecse321.librarymanagement.dto.LibraryDto;
 import ca.mcgill.ecse321.librarymanagement.dto.RoomScheduleDto;
+import ca.mcgill.ecse321.librarymanagement.dto.StaffScheduleDto;
 import ca.mcgill.ecse321.librarymanagement.model.Book;
 import ca.mcgill.ecse321.librarymanagement.model.HeadLibrarian;
 import ca.mcgill.ecse321.librarymanagement.model.Librarian;
@@ -245,7 +246,8 @@ public class LibraryManagementService {
 	// users
 	
 	@Transactional
-	public User createUser(String username, String password, String email, String fullName, String resAddress, boolean isResident, Library library) {
+	public User createUser(String username, String password, String email, String fullName, String resAddress, boolean isResident, LibraryDto libraryDto) {
+		Library library = libraryRepository.findLibraryByLibraryId(libraryDto.getLibraryId());
 		User user = new User(username, password, email, fullName, resAddress, isResident, library);
 		userRepository.save(user);
 		return user;
@@ -264,7 +266,9 @@ public class LibraryManagementService {
 	// librarians
 	
 	@Transactional
-	public Librarian createLibrarian(String username, String password, String email, String fullName, String resAddress, boolean isResident, Library library, StaffSchedule staffSchedule) {
+	public Librarian createLibrarian(String username, String password, String email, String fullName, String resAddress, boolean isResident, LibraryDto libraryDto, StaffScheduleDto staffScheduleDto) {
+		Library library = libraryRepository.findLibraryByLibraryId(libraryDto.getLibraryId());
+		StaffSchedule staffSchedule = staffScheduleRepository.findStaffScheduleByScheduleId(staffScheduleDto.getScheduleId());
 		Librarian librarian = new Librarian(username, password, email, fullName, resAddress, isResident, library, staffSchedule);
 		librarianRepository.save(librarian);
 		return librarian;
@@ -283,7 +287,9 @@ public class LibraryManagementService {
 	// head librarian
 	
 	@Transactional
-	public HeadLibrarian createHeadLibrarian(String username, String password, String email, String fullName, String resAddress, boolean isResident, Library library, StaffSchedule staffSchedule) {
+	public HeadLibrarian createHeadLibrarian(String username, String password, String email, String fullName, String resAddress, boolean isResident, LibraryDto libraryDto, StaffScheduleDto staffScheduleDto) {
+		Library library = libraryRepository.findLibraryByLibraryId(libraryDto.getLibraryId());
+		StaffSchedule staffSchedule = staffScheduleRepository.findStaffScheduleByScheduleId(staffScheduleDto.getScheduleId());
 		HeadLibrarian headLibrarian = new HeadLibrarian(username, password, email, fullName, resAddress, isResident, library, staffSchedule);
 		headLibrarianRepository.save(headLibrarian);
 		return headLibrarian;
