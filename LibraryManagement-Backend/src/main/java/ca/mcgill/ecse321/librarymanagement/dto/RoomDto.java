@@ -7,7 +7,7 @@ public class RoomDto {
 
 	private RoomSchedule aRoomSchedule;
 	private Library aLibrary;
-	private int roomId;	//is this necessary??
+	private int roomId;	
 	
 	public RoomDto() {
 		
@@ -24,5 +24,9 @@ public class RoomDto {
 	
 	public RoomSchedule getRoomSchedule() {
 		return this.aRoomSchedule;
+	}
+	
+	public int getRoomId() {
+		return this.roomId;
 	}
 }

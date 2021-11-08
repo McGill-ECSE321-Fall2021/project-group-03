@@ -350,20 +350,19 @@ public class LibraryManagementRestController {
 		}
 	
 		//The name needs to be verified. 
-		@PostMapping(value = { "/rooms/{name}", "/rooms/{name}/" })
-		public RoomDto createRoom(@PathVariable("name") String name, @RequestParam RoomSchedule aRoomSchedule, 
-				@RequestParam Library aLibrary) {
+		@PostMapping(value = { "/rooms", "/rooms/" })
+		public RoomDto createRoom(@PathVariable("") String name) {
 			
-			Room room = service.createRoom(aRoomSchedule, aLibrary);
+			Room room = service.createRoom(null, null);
 			return convertToDto(room);
 		}
 
-private RoomDto convertToDto(Room r) {
-	if (r == null) {
-		throw new IllegalArgumentException("There is no such Room!");
+		private RoomDto convertToDto(Room r) {
+			if (r == null) {
+				throw new IllegalArgumentException("There is no such Room!");
 	}
-	RoomDto roomDto = new RoomDto(r.getRoomSchedule(), r.getLibrary());
-	return roomDto;
+			RoomDto roomDto = new RoomDto(r.getRoomSchedule(), r.getLibrary());
+			return roomDto;
 }
 	
 	
