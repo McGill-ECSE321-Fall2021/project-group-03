@@ -16,8 +16,11 @@ import ca.mcgill.ecse321.librarymanagement.dto.BookDto;
 import ca.mcgill.ecse321.librarymanagement.dto.HeadLibrarianDto;
 import ca.mcgill.ecse321.librarymanagement.dto.LibrarianDto;
 import ca.mcgill.ecse321.librarymanagement.dto.MovieDto;
+
+import ca.mcgill.ecse321.librarymanagement.dto.RoomDto;
 import ca.mcgill.ecse321.librarymanagement.dto.MusicAlbumDto;
 import ca.mcgill.ecse321.librarymanagement.dto.NewspaperDto;
+
 import ca.mcgill.ecse321.librarymanagement.dto.UserDto;
 import ca.mcgill.ecse321.librarymanagement.model.Book;
 import ca.mcgill.ecse321.librarymanagement.model.HeadLibrarian;
@@ -25,6 +28,9 @@ import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.LibrarySchedule;
 import ca.mcgill.ecse321.librarymanagement.model.Movie;
+
+import ca.mcgill.ecse321.librarymanagement.model.Room;
+import ca.mcgill.ecse321.librarymanagement.model.RoomSchedule;
 import ca.mcgill.ecse321.librarymanagement.model.MusicAlbum;
 import ca.mcgill.ecse321.librarymanagement.model.Newspaper;
 import ca.mcgill.ecse321.librarymanagement.model.StaffSchedule;
@@ -113,9 +119,14 @@ public class LibraryManagementRestController {
 	}
 	
 	@PostMapping(value = { "/newspapers/{name}", "/newspapers/{name}/" })
-	public NewspaperDto createNewspaper(@PathVariable("name") String name) throws IllegalArgumentException {
-		Date date = new Date(1,1,1);
-		Newspaper newspaper = service.createNewspaper(date, "image", name, "a");
+	public NewspaperDto createNewspaper(@PathVariable("name") String name, @RequestParam String date, @RequestParam String image, @RequestParam String headline) throws IllegalArgumentException {
+		//date format YYYY-MM-DD
+		String[] dateArr = date.split("-");
+		int year = Integer.parseInt(dateArr[0]);
+		int month = Integer.parseInt(dateArr[1]);
+		int day = Integer.parseInt(dateArr[2]);
+		Date dateObj = new Date(year, month, day);
+		Newspaper newspaper = service.createNewspaper(dateObj, image , name, headline);
 		return convertToDto(newspaper);
 	}
 	
@@ -178,17 +189,10 @@ public class LibraryManagementRestController {
 		return service.getAllUsers().stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
 	
-	@PostMapping(value = { "/users/{name}", "/users/{name}/" })
-	public UserDto createUser(@PathVariable("name") String name) throws IllegalArgumentException {
-		String username = "username";
-		String password = "password";
-		String email = "email";
-		String fullName = "name";
-		String resAddress = "resAddress";
-		boolean isResident = true;
+	@PostMapping(value = { "/users/{username}", "/users/{username}/" })
+	public UserDto createUser(@PathVariable("username") String username, @RequestParam String password, @RequestParam String email, @RequestParam String fullName, @RequestParam String resAddress, @RequestParam boolean isResident) throws IllegalArgumentException {
 		LibrarySchedule librarySchedule = new LibrarySchedule();
 		Library library = new Library(librarySchedule);
-		
 		User user = new User(username, password, email, fullName, resAddress, isResident, library);
 		return convertToDto(user);
 	}
@@ -209,13 +213,8 @@ public class LibraryManagementRestController {
 	}
 	
 	@PostMapping(value = { "/librarians/{name}", "/librarians/{name}/" })
-	public LibrarianDto createLibrarian(@PathVariable("name") String name) throws IllegalArgumentException {
+	public LibrarianDto createLibrarian(@PathVariable("name") String name, @RequestParam String password, String email, String fullName, String resAddress, boolean isResident) throws IllegalArgumentException {
 		String username = "username";
-		String password = "password";
-		String email = "email";
-		String fullName = "name";
-		String resAddress = "resAddress";
-		boolean isResident = true;
 		LibrarySchedule librarySchedule = new LibrarySchedule();
 		Library library = new Library(librarySchedule);
 		StaffSchedule staffSchedule = new StaffSchedule();
@@ -240,13 +239,7 @@ public class LibraryManagementRestController {
 		}
 		
 		@PostMapping(value = { "/headLibrarians/{name}", "/headLibrarians/{name}/" })
-		public HeadLibrarianDto createHeadLibrarian(@PathVariable("name") String name) throws IllegalArgumentException {
-			String username = "username";
-			String password = "password";
-			String email = "email";
-			String fullName = "name";
-			String resAddress = "resAddress";
-			boolean isResident = true;
+		public HeadLibrarianDto createHeadLibrarian(@PathVariable("username") String username, @RequestParam String password, @RequestParam String email, @RequestParam String fullName, @RequestParam String resAddress, @RequestParam boolean isResident) throws IllegalArgumentException {
 			LibrarySchedule librarySchedule = new LibrarySchedule();
 			Library library = new Library(librarySchedule);
 			StaffSchedule staffSchedule = new StaffSchedule();
@@ -257,7 +250,9 @@ public class LibraryManagementRestController {
 		
 		private HeadLibrarianDto convertToDto(HeadLibrarian hl) {
 			if (hl == null) {
-				throw new IllegalArgumentException("There is no such Head Librarian!");
+
+				throw new IllegalArgumentException("There is no such HeadLibrarian!");
+
 			}
 			HeadLibrarianDto headLibrarianDto = new HeadLibrarianDto(hl.getUsername(), hl.getPassword(), hl.getEmailaddress(), hl.getFullName(), hl.getResAddress(), hl.getIsResident(), hl.getLibrary(), hl.getStaffSchedule());
 			return headLibrarianDto;
@@ -283,7 +278,27 @@ public class LibraryManagementRestController {
 	 * 
 	 */
 	
+		@GetMapping(value = { "/rooms", "/rooms/" })
+		public List<RoomDto> getAllRooms() {
+			return service.getAllRooms().stream().map(r -> convertToDto(r)).collect(Collectors.toList());
+		}
 	
+		//The name needs to be verified. 
+		@PostMapping(value = { "/rooms/{name}", "/rooms/{name}/" })
+		public RoomDto createRoom(@PathVariable("name") String name, @RequestParam RoomSchedule aRoomSchedule, 
+				@RequestParam Library aLibrary) {
+			
+			Room room = service.createRoom(aRoomSchedule, aLibrary);
+			return convertToDto(room);
+		}
+
+private RoomDto convertToDto(Room r) {
+	if (r == null) {
+		throw new IllegalArgumentException("There is no such Room!");
+	}
+	RoomDto roomDto = new RoomDto(r.getRoomSchedule(), r.getLibrary());
+	return roomDto;
+}
 	
 	
 }
