@@ -10,8 +10,10 @@ public class StaffScheduleDto {
 	private int scheduleId;
 	private List<TimeSlot> timeSlots;
 	
-	public StaffScheduleDto() {
-		
+	public StaffScheduleDto(int scheduleId, List<Librarian> librarians, List<TimeSlot> timeSlots) {
+		this.scheduleId = scheduleId;
+		this.librarians = librarians;
+		this.timeSlots = timeSlots;
 	}
 	
 	public int getScheduleId() {

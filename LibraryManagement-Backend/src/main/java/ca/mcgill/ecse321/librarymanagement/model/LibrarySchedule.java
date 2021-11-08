@@ -3,8 +3,6 @@
 
 package ca.mcgill.ecse321.librarymanagement.model;
 
-import java.util.*;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
