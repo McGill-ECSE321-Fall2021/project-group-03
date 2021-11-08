@@ -187,14 +187,17 @@ public class LibraryManagementRestController {
 	 * 
 	 * 
 	 */
-
+	
+	//ROOM SCHEDULE
+	
 	// use these values to get the staffSchedules from service
 	@GetMapping(value = { "/roomSchedules", "/roomSchedules/" })
 	public List<RoomScheduleDto> getAllRoomSchedules() {
 		return service.getAllRoomSchedules().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
 	}
 
-	@PostMapping(value = { "/roomSchedules/{name}", "/roomSchedules/{name}" })
+	//WHY DO WE TAKE IN A NAME IF WE DONT USE IT???
+	@PostMapping(value = { "/roomSchedules/{name}", "/roomSchedules/{name}/" })
 	public RoomScheduleDto createRoomSchedule(@PathVariable("name") String name) throws IllegalArgumentException {
 		RoomSchedule roomSchedule = new RoomSchedule();
 		return convertToDto(roomSchedule);
@@ -209,14 +212,18 @@ public class LibraryManagementRestController {
 		return roomScheduleDto;
 	}
 
+	
+	//LIBRARY SCHEDULE
+	
 	// use these values to get the staffSchedules from service
 	@GetMapping(value = { "/librarySchedules", "/librarySchedules/" })
 	public List<LibraryScheduleDto> getAllLibrarySchedules() {
 		return service.getAllLibrarySchedules().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
 	}
 
-	@PostMapping(value = { "/librarySchedule/", "/librarySchedule" })
-	public LibraryScheduleDto createLibrarySchedule() throws IllegalArgumentException {
+	//WHY DO WE TAKE IN A NAME IF WE DONT USE IT???
+	@PostMapping(value = { "/librarySchedule/{name}", "/librarySchedule/{name}/" })
+	public LibraryScheduleDto createLibrarySchedule(@PathVariable("name") String name) throws IllegalArgumentException {
 		LibrarySchedule librarySchedule = new LibrarySchedule();
 		return convertToDto(librarySchedule);
 	}
@@ -226,9 +233,12 @@ public class LibraryManagementRestController {
 		if (b == null) {
 			throw new IllegalArgumentException("There is no such Library Schedule!");
 		}
-		LibraryScheduleDto libraryScheduleDto = new LibraryScheduleDto();
+		LibraryScheduleDto libraryScheduleDto = new LibraryScheduleDto(b.getScheduleId(), b.getTimeSlots());
 		return libraryScheduleDto;
 	}
+	
+	
+	//STAFF SCHEDULE
 
 	// use these values to get the staffSchedules from service
 	@GetMapping(value = { "/staffSchedules", "/staffSchedules/" })
@@ -236,8 +246,9 @@ public class LibraryManagementRestController {
 		return service.getAllStaffSchedules().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
 	}
 
-	@PostMapping(value = { "/staffSchedules/", "/staffSchedules" })
-	public StaffScheduleDto createStaffSchedule() throws IllegalArgumentException {
+	//WHY DO WE TAKE IN A NAME IF WE DONT USE IT???
+	@PostMapping(value = { "/staffSchedules/{name}", "/staffSchedules/{name}/" })
+	public StaffScheduleDto createStaffSchedule(@PathVariable("name") String name) throws IllegalArgumentException {
 		StaffSchedule staffSchedule = new StaffSchedule();
 		return convertToDto(staffSchedule);
 	}
@@ -247,7 +258,7 @@ public class LibraryManagementRestController {
 		if (b == null) {
 			throw new IllegalArgumentException("There is no such Library Schedule!");
 		}
-		StaffScheduleDto staffScheduleDto = new StaffScheduleDto();
+		StaffScheduleDto staffScheduleDto = new StaffScheduleDto(b.getScheduleId(), b.getLibrarians(), b.getTimeSlots());
 		return staffScheduleDto;
 	}
 

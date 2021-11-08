@@ -9,8 +9,9 @@ public class LibraryScheduleDto {
 	private int scheduleId;
 	private List<TimeSlot> timeSlots;
 	
-	public LibraryScheduleDto() {
-		
+	public LibraryScheduleDto(int scheduleId, List<TimeSlot> timeSlots) {
+		this.scheduleId = scheduleId;
+		this.timeSlots = timeSlots;
 	}
 	
 	public int getScheduleId() {
