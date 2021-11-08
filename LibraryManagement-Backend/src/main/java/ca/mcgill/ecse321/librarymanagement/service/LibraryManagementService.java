@@ -26,9 +26,11 @@ import ca.mcgill.ecse321.librarymanagement.model.Book;
 import ca.mcgill.ecse321.librarymanagement.model.HeadLibrarian;
 import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
+import ca.mcgill.ecse321.librarymanagement.model.LibrarySchedule;
 import ca.mcgill.ecse321.librarymanagement.model.StaffSchedule;
 import ca.mcgill.ecse321.librarymanagement.model.User;
 import ca.mcgill.ecse321.librarymanagement.model.Movie;
+import ca.mcgill.ecse321.librarymanagement.model.RoomSchedule;
 
 import ca.mcgill.ecse321.librarymanagement.model.Room;
 import ca.mcgill.ecse321.librarymanagement.model.RoomSchedule;
@@ -177,6 +179,54 @@ public class LibraryManagementService {
 	 * 
 	 * 
 	 */
+	
+	@Transactional
+	public RoomSchedule createRoomSchedule() {
+		RoomSchedule roomSchedule = new RoomSchedule();
+		return roomSchedule;
+	}
+	
+	@Transactional
+	public RoomSchedule getRoomSchedule(int scheduleId) {
+		RoomSchedule roomSchedule = roomScheduleRepository.findRoomScheduleByScheduleId(scheduleId);
+		return roomSchedule;
+	}
+	
+	public List<RoomSchedule> getAllRoomSchedules() {
+		return toList(roomScheduleRepository.findAll());
+	}
+	
+	@Transactional
+	public LibrarySchedule createLibrarySchedule() {
+		LibrarySchedule librarySchedule = new LibrarySchedule();
+		return librarySchedule;
+	}
+	
+	@Transactional
+	public LibrarySchedule getLibrarySchedule(int scheduleId) {
+		LibrarySchedule librarySchedule = libraryScheduleRepository.findLibraryScheduleByScheduleId(scheduleId);
+		return librarySchedule;
+	}
+	
+	public List<LibrarySchedule> getAllLibrarySchedules() {
+		return toList(libraryScheduleRepository.findAll());
+	}
+	
+	@Transactional
+	public StaffSchedule createStaffSchedule() {
+		StaffSchedule staffSchedule = new StaffSchedule();
+		return staffSchedule;
+	}
+	
+	@Transactional
+	public StaffSchedule getStaffSchedule(int scheduleId) {
+		StaffSchedule staffSchedule = staffScheduleRepository.findStaffScheduleByScheduleId(scheduleId);
+		return staffSchedule;
+	}
+	
+	public List<StaffSchedule> getAllStaffSchedules() {
+		return toList(staffScheduleRepository.findAll());
+	}
 	
 	/*
 	 * 
