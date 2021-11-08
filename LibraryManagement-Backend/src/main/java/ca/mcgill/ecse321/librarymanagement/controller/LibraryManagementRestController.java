@@ -58,11 +58,14 @@ public class LibraryManagementRestController {
 	//how to deal with multiple parameters???
 	//@PostMapping(value = { "/books/{releaseDate}/{image}/{name}/{author}/{synopsis}/{genre}", "/books/{releaseDate}/{image}/{name}/{author}/{synopsis}/{genre}/" })
 	@PostMapping(value = { "/books/{name}", "/books/{name}/" })
-	public BookDto createBook(@PathVariable("name") String name, @RequestParam String image, 
-			@RequestParam String author, @RequestParam String synopsis, @RequestParam String genre) throws IllegalArgumentException {
-		// name = django,releaseDate,
-		Date date = new Date(1,1,1);
-		Book book = service.createBook(date, image, name, author, synopsis, genre);
+	public BookDto createBook(@PathVariable("name") String name, @RequestParam String date, @RequestParam String image, @RequestParam String author, @RequestParam String synopsis, @RequestParam String genre) throws IllegalArgumentException {
+
+		String[] dateArr = date.split("-");
+		int year = Integer.parseInt(dateArr[0]);
+		int month = Integer.parseInt(dateArr[1]);
+		int day = Integer.parseInt(dateArr[2]);
+		Date dateObj = new Date(year,month,day);
+		Book book = service.createBook(dateObj, image, name, author, synopsis, genre);
 		return convertToDto(book);
 	}
 	
@@ -84,9 +87,13 @@ public class LibraryManagementRestController {
 	//how to deal with multiple parameters???
 	//@PostMapping(value = { "/books/{releaseDate}/{image}/{name}/{author}/{synopsis}/{genre}", "/books/{releaseDate}/{image}/{name}/{author}/{synopsis}/{genre}/" })
 	@PostMapping(value = { "/movies/{name}", "/movies/{name}/" })
-	public MovieDto createMovie(@PathVariable("name") String name) throws IllegalArgumentException {
-		Date date = new Date(1,1,1);
-		Movie movie = service.createMovie(date, "image", name, "a", "b", "c", 10);
+	public MovieDto createMovie(@PathVariable("name") String name, @RequestParam String date, @RequestParam String image, @RequestParam String director, @RequestParam String genre, @RequestParam String synopsis, @RequestParam int duration) throws IllegalArgumentException {
+		String[] dateArr = date.split("-");
+		int year = Integer.parseInt(dateArr[0]);
+		int month = Integer.parseInt(dateArr[1]);
+		int day = Integer.parseInt(dateArr[2]);
+		Date dateObj = new Date(year,month,day);
+		Movie movie = service.createMovie(dateObj, image, name, director, genre, synopsis, duration);
 		return convertToDto(movie);
 	}
 	
@@ -126,9 +133,13 @@ public class LibraryManagementRestController {
 	}
 	
 	@PostMapping(value = { "/musicalbums/{name}", "/musicalbums/{name}/" })
-	public MusicAlbumDto createMusicAlbum(@PathVariable("name") String name) throws IllegalArgumentException {
-		Date date = new Date(1,1,1);
-		MusicAlbum musicAlbum = service.createMusicAlbum(date, "image", name, "artist", 10, "genre");
+	public MusicAlbumDto createMusicAlbum(@PathVariable("name") String name, @RequestParam String date, @RequestParam String image, @RequestParam String artist, @RequestParam int duration, @RequestParam String genre) throws IllegalArgumentException {
+		String[] dateArr = date.split("-");
+		int year = Integer.parseInt(dateArr[0]);
+		int month = Integer.parseInt(dateArr[1]);
+		int day = Integer.parseInt(dateArr[2]);
+		Date dateObj = new Date(year,month,day);
+		MusicAlbum musicAlbum = service.createMusicAlbum(dateObj, image, name, artist, 10, genre);
 		return convertToDto(musicAlbum);
 	}
 	
@@ -184,7 +195,7 @@ public class LibraryManagementRestController {
 	
 	private UserDto convertToDto(User u) {
 		if (u == null) {
-			throw new IllegalArgumentException("There is no such Book!");
+			throw new IllegalArgumentException("There is no such User!");
 		}
 		UserDto userDto = new UserDto(u.getUsername(), u.getPassword(), u.getEmailaddress(), u.getFullName(), u.getResAddress(), u.getIsResident(), u.getLibrary());
 		return userDto;
@@ -215,7 +226,7 @@ public class LibraryManagementRestController {
 	
 	private LibrarianDto convertToDto(Librarian l) {
 		if (l == null) {
-			throw new IllegalArgumentException("There is no such Book!");
+			throw new IllegalArgumentException("There is no such Librarian!");
 		}
 		LibrarianDto librarianDto = new LibrarianDto(l.getUsername(), l.getPassword(), l.getEmailaddress(), l.getFullName(), l.getResAddress(), l.getIsResident(), l.getLibrary(), l.getStaffSchedule());
 		return librarianDto;
@@ -246,7 +257,7 @@ public class LibraryManagementRestController {
 		
 		private HeadLibrarianDto convertToDto(HeadLibrarian hl) {
 			if (hl == null) {
-				throw new IllegalArgumentException("There is no such Book!");
+				throw new IllegalArgumentException("There is no such Head Librarian!");
 			}
 			HeadLibrarianDto headLibrarianDto = new HeadLibrarianDto(hl.getUsername(), hl.getPassword(), hl.getEmailaddress(), hl.getFullName(), hl.getResAddress(), hl.getIsResident(), hl.getLibrary(), hl.getStaffSchedule());
 			return headLibrarianDto;
