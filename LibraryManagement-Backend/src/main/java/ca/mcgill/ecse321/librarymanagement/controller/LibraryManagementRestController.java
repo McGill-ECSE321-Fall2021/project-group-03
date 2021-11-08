@@ -16,6 +16,7 @@ import ca.mcgill.ecse321.librarymanagement.dto.BookDto;
 import ca.mcgill.ecse321.librarymanagement.dto.HeadLibrarianDto;
 import ca.mcgill.ecse321.librarymanagement.dto.LibrarianDto;
 import ca.mcgill.ecse321.librarymanagement.dto.MovieDto;
+import ca.mcgill.ecse321.librarymanagement.dto.RoomDto;
 import ca.mcgill.ecse321.librarymanagement.dto.UserDto;
 import ca.mcgill.ecse321.librarymanagement.model.Book;
 import ca.mcgill.ecse321.librarymanagement.model.HeadLibrarian;
@@ -23,6 +24,8 @@ import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.LibrarySchedule;
 import ca.mcgill.ecse321.librarymanagement.model.Movie;
+import ca.mcgill.ecse321.librarymanagement.model.Room;
+import ca.mcgill.ecse321.librarymanagement.model.RoomSchedule;
 import ca.mcgill.ecse321.librarymanagement.model.StaffSchedule;
 import ca.mcgill.ecse321.librarymanagement.model.User;
 import ca.mcgill.ecse321.librarymanagement.service.LibraryManagementService;
@@ -228,7 +231,27 @@ public class LibraryManagementRestController {
 	 * 
 	 */
 	
+		@GetMapping(value = { "/rooms", "/rooms/" })
+		public List<RoomDto> getAllRooms() {
+			return service.getAllRooms().stream().map(r -> convertToDto(r)).collect(Collectors.toList());
+		}
 	
+		//The name needs to be verified. 
+		@PostMapping(value = { "/rooms/{name}", "/rooms/{name}/" })
+		public RoomDto createRoom(@PathVariable("name") String name, @RequestParam RoomSchedule aRoomSchedule, 
+				@RequestParam Library aLibrary) {
+			
+			Room room = service.createRoom(aRoomSchedule, aLibrary);
+			return convertToDto(room);
+		}
+
+private RoomDto convertToDto(Room r) {
+	if (r == null) {
+		throw new IllegalArgumentException("There is no such Room!");
+	}
+	RoomDto roomDto = new RoomDto(r.getRoomSchedule(), r.getLibrary());
+	return roomDto;
+}
 	
 	
 }

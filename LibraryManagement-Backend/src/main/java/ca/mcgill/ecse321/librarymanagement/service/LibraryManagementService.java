@@ -29,6 +29,8 @@ import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.StaffSchedule;
 import ca.mcgill.ecse321.librarymanagement.model.User;
 import ca.mcgill.ecse321.librarymanagement.model.Movie;
+import ca.mcgill.ecse321.librarymanagement.model.Room;
+import ca.mcgill.ecse321.librarymanagement.model.RoomSchedule;
 
 @Service
 public class LibraryManagementService {
@@ -224,5 +226,23 @@ public class LibraryManagementService {
 	 * 
 	 * 
 	 */
+	
+	@Transactional
+	public Room createRoom (RoomSchedule aRoomSchedule, Library aLibrary) {
+		Room room = new Room(aRoomSchedule, aLibrary);
+		roomRepository.save(room);
+		return room;
+	}
+	
+	@Transactional
+	public Room getRoom(int roomId ) {
+		Room room = roomRepository.findRoomByRoomId(roomId);
+		return room;
+	}
+	
+	@Transactional
+	public List<Room> getAllRooms() {
+		return toList(roomRepository.findAll());
+	}
 	
 }
