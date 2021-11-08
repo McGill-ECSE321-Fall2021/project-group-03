@@ -178,24 +178,17 @@ public class LibraryManagementRestController {
 		return service.getAllUsers().stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
 	
-	@PostMapping(value = { "/users/{name}", "/users/{name}/" })
-	public UserDto createUser(@PathVariable("name") String name) throws IllegalArgumentException {
-		String username = "username";
-		String password = "password";
-		String email = "email";
-		String fullName = "name";
-		String resAddress = "resAddress";
-		boolean isResident = true;
+	@PostMapping(value = { "/users/{username}", "/users/{username}/" })
+	public UserDto createUser(@PathVariable("username") String username, @RequestParam String password, @RequestParam String email, @RequestParam String fullName, @RequestParam String resAddress, @RequestParam boolean isResident) throws IllegalArgumentException {
 		LibrarySchedule librarySchedule = new LibrarySchedule();
 		Library library = new Library(librarySchedule);
-		
 		User user = new User(username, password, email, fullName, resAddress, isResident, library);
 		return convertToDto(user);
 	}
 	
 	private UserDto convertToDto(User u) {
 		if (u == null) {
-			throw new IllegalArgumentException("There is no such Book!");
+			throw new IllegalArgumentException("There is no such User!");
 		}
 		UserDto userDto = new UserDto(u.getUsername(), u.getPassword(), u.getEmailaddress(), u.getFullName(), u.getResAddress(), u.getIsResident(), u.getLibrary());
 		return userDto;
@@ -209,13 +202,8 @@ public class LibraryManagementRestController {
 	}
 	
 	@PostMapping(value = { "/librarians/{name}", "/librarians/{name}/" })
-	public LibrarianDto createLibrarian(@PathVariable("name") String name) throws IllegalArgumentException {
+	public LibrarianDto createLibrarian(@PathVariable("name") String name, @RequestParam String password, String email, String fullName, String resAddress, boolean isResident) throws IllegalArgumentException {
 		String username = "username";
-		String password = "password";
-		String email = "email";
-		String fullName = "name";
-		String resAddress = "resAddress";
-		boolean isResident = true;
 		LibrarySchedule librarySchedule = new LibrarySchedule();
 		Library library = new Library(librarySchedule);
 		StaffSchedule staffSchedule = new StaffSchedule();
@@ -226,7 +214,7 @@ public class LibraryManagementRestController {
 	
 	private LibrarianDto convertToDto(Librarian l) {
 		if (l == null) {
-			throw new IllegalArgumentException("There is no such Book!");
+			throw new IllegalArgumentException("There is no such Librarian!");
 		}
 		LibrarianDto librarianDto = new LibrarianDto(l.getUsername(), l.getPassword(), l.getEmailaddress(), l.getFullName(), l.getResAddress(), l.getIsResident(), l.getLibrary(), l.getStaffSchedule());
 		return librarianDto;
@@ -240,13 +228,7 @@ public class LibraryManagementRestController {
 		}
 		
 		@PostMapping(value = { "/headLibrarians/{name}", "/headLibrarians/{name}/" })
-		public HeadLibrarianDto createHeadLibrarian(@PathVariable("name") String name) throws IllegalArgumentException {
-			String username = "username";
-			String password = "password";
-			String email = "email";
-			String fullName = "name";
-			String resAddress = "resAddress";
-			boolean isResident = true;
+		public HeadLibrarianDto createHeadLibrarian(@PathVariable("username") String username, @RequestParam String password, @RequestParam String email, @RequestParam String fullName, @RequestParam String resAddress, @RequestParam boolean isResident) throws IllegalArgumentException {
 			LibrarySchedule librarySchedule = new LibrarySchedule();
 			Library library = new Library(librarySchedule);
 			StaffSchedule staffSchedule = new StaffSchedule();
@@ -257,7 +239,7 @@ public class LibraryManagementRestController {
 		
 		private HeadLibrarianDto convertToDto(HeadLibrarian hl) {
 			if (hl == null) {
-				throw new IllegalArgumentException("There is no such Book!");
+				throw new IllegalArgumentException("There is no such HeadLibrarian!");
 			}
 			HeadLibrarianDto headLibrarianDto = new HeadLibrarianDto(hl.getUsername(), hl.getPassword(), hl.getEmailaddress(), hl.getFullName(), hl.getResAddress(), hl.getIsResident(), hl.getLibrary(), hl.getStaffSchedule());
 			return headLibrarianDto;
