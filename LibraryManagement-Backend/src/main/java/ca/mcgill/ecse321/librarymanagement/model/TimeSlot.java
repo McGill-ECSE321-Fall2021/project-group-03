@@ -31,8 +31,14 @@ public class TimeSlot
   private Time endTime;
   private int dayOfWeek;
   private Date date;
+  
+  @ManyToOne(targetEntity = Librarian.class)
   private Librarian librarian = new Librarian();
+
+  @ManyToOne(targetEntity = Library.class)
   private Library library = new Library();
+
+  @ManyToOne(targetEntity = Room.class)
   private Room room = new Room();
   
   @Id

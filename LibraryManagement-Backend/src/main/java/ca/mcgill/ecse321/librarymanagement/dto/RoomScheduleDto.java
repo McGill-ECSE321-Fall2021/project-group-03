@@ -10,8 +10,10 @@ public class RoomScheduleDto {
 	private List<Room> rooms;
 	private List<TimeSlot> timeSlots;
 	
-	public RoomScheduleDto() {
-		
+	public RoomScheduleDto(int scheduleId, List<Room> rooms, List<TimeSlot> timeSlots) {
+		this.scheduleId = scheduleId;
+		this.rooms = rooms;
+		this.timeSlots = timeSlots;
 	}
 	
 	public List<Room> getRoomSchedule(){
