@@ -24,6 +24,7 @@ import ca.mcgill.ecse321.librarymanagement.dao.StaffScheduleRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TimeSlotRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.UserRepository;
 import ca.mcgill.ecse321.librarymanagement.dto.LibraryDto;
+import ca.mcgill.ecse321.librarymanagement.dto.LibraryScheduleDto;
 import ca.mcgill.ecse321.librarymanagement.dto.RoomScheduleDto;
 import ca.mcgill.ecse321.librarymanagement.model.Book;
 import ca.mcgill.ecse321.librarymanagement.model.HeadLibrarian;
@@ -309,8 +310,8 @@ public class LibraryManagementService {
 	 * 
 	 */
 	
-	public Library createLibrary() {
-		LibrarySchedule librarySchedule = new LibrarySchedule();
+	public Library createLibrary(LibraryScheduleDto libraryScheduleDto) {
+		LibrarySchedule librarySchedule = libraryScheduleRepository.findLibraryScheduleByScheduleId(libraryScheduleDto.getScheduleId());
 		Library library = new Library(librarySchedule);
 		libraryRepository.save(library);
 		return library;
