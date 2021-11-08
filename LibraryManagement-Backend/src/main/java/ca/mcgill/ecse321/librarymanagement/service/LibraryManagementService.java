@@ -30,6 +30,13 @@ import ca.mcgill.ecse321.librarymanagement.model.LibrarySchedule;
 import ca.mcgill.ecse321.librarymanagement.model.StaffSchedule;
 import ca.mcgill.ecse321.librarymanagement.model.User;
 import ca.mcgill.ecse321.librarymanagement.model.Movie;
+import ca.mcgill.ecse321.librarymanagement.model.RoomSchedule;
+
+import ca.mcgill.ecse321.librarymanagement.model.Room;
+import ca.mcgill.ecse321.librarymanagement.model.RoomSchedule;
+import ca.mcgill.ecse321.librarymanagement.model.MusicAlbum;
+import ca.mcgill.ecse321.librarymanagement.model.Newspaper;
+
 
 @Service
 public class LibraryManagementService {
@@ -119,6 +126,41 @@ public class LibraryManagementService {
 		return toList(movieRepository.findAll());
 	}
 	
+	@Transactional
+	public Newspaper createNewspaper(Date aReleaseDate, String aImage, String aName, String aHeadline) {
+		Newspaper newspaper = new Newspaper(aReleaseDate, aImage, aName, aHeadline);
+		newspaperRepository.save(newspaper);
+		return newspaper;
+	}
+	
+	@Transactional
+	public Newspaper getNewspaper(int titleId ) {
+		Newspaper newspaper = newspaperRepository.findNewspaperByTitleId(titleId);
+		return newspaper;
+	}
+	
+	public List<Newspaper> getAllNewspapers(){
+		return toList(newspaperRepository.findAll());
+	}
+	
+	@Transactional
+	public MusicAlbum createMusicAlbum(Date aReleaseDate, String aImage, String aName, String aArtist, int aDuration, String aGenre) {
+		MusicAlbum musicAlbum = new MusicAlbum(aReleaseDate, aImage, aName, aArtist, aDuration, aGenre);
+		musicAlbumRepository.save(musicAlbum);
+		return musicAlbum;
+	}
+	
+	@Transactional
+	public MusicAlbum getMusicAlbum(int titleId) {
+		MusicAlbum musicAlbum = musicAlbumRepository.findMusicAlbumByTitleId(titleId);
+		return musicAlbum;
+	}
+	
+	public List<MusicAlbum> getAllMusicAlbums(){
+		return toList(musicAlbumRepository.findAll());
+	}
+	
+	
 	// Method to convert to a list
 	private <T> List<T> toList(Iterable<T> iterable){
 		List<T> resultList = new ArrayList<T>();
@@ -137,6 +179,54 @@ public class LibraryManagementService {
 	 * 
 	 * 
 	 */
+	
+	@Transactional
+	public RoomSchedule createRoomSchedule() {
+		RoomSchedule roomSchedule = new RoomSchedule();
+		return roomSchedule;
+	}
+	
+	@Transactional
+	public RoomSchedule getRoomSchedule(int scheduleId) {
+		RoomSchedule roomSchedule = roomScheduleRepository.findRoomScheduleByScheduleId(scheduleId);
+		return roomSchedule;
+	}
+	
+	public List<RoomSchedule> getAllRoomSchedules() {
+		return toList(roomScheduleRepository.findAll());
+	}
+	
+	@Transactional
+	public LibrarySchedule createLibrarySchedule() {
+		LibrarySchedule librarySchedule = new LibrarySchedule();
+		return librarySchedule;
+	}
+	
+	@Transactional
+	public LibrarySchedule getLibrarySchedule(int scheduleId) {
+		LibrarySchedule librarySchedule = libraryScheduleRepository.findLibraryScheduleByScheduleId(scheduleId);
+		return librarySchedule;
+	}
+	
+	public List<LibrarySchedule> getAllLibrarySchedules() {
+		return toList(libraryScheduleRepository.findAll());
+	}
+	
+	@Transactional
+	public StaffSchedule createStaffSchedule() {
+		StaffSchedule staffSchedule = new StaffSchedule();
+		return staffSchedule;
+	}
+	
+	@Transactional
+	public StaffSchedule getStaffSchedule(int scheduleId) {
+		StaffSchedule staffSchedule = staffScheduleRepository.findStaffScheduleByScheduleId(scheduleId);
+		return staffSchedule;
+	}
+	
+	public List<StaffSchedule> getAllStaffSchedules() {
+		return toList(staffScheduleRepository.findAll());
+	}
 	
 	/*
 	 * 
@@ -244,5 +334,23 @@ public class LibraryManagementService {
 	 * 
 	 * 
 	 */
+	
+	@Transactional
+	public Room createRoom (RoomSchedule aRoomSchedule, Library aLibrary) {
+		Room room = new Room(aRoomSchedule, aLibrary);
+		roomRepository.save(room);
+		return room;
+	}
+	
+	@Transactional
+	public Room getRoom(int roomId ) {
+		Room room = roomRepository.findRoomByRoomId(roomId);
+		return room;
+	}
+	
+	@Transactional
+	public List<Room> getAllRooms() {
+		return toList(roomRepository.findAll());
+	}
 	
 }

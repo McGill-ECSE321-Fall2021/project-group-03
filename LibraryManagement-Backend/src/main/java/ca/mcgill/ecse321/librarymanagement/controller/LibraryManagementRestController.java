@@ -17,6 +17,13 @@ import ca.mcgill.ecse321.librarymanagement.dto.HeadLibrarianDto;
 import ca.mcgill.ecse321.librarymanagement.dto.LibrarianDto;
 import ca.mcgill.ecse321.librarymanagement.dto.LibraryDto;
 import ca.mcgill.ecse321.librarymanagement.dto.MovieDto;
+
+import ca.mcgill.ecse321.librarymanagement.dto.RoomDto;
+import ca.mcgill.ecse321.librarymanagement.dto.RoomScheduleDto;
+import ca.mcgill.ecse321.librarymanagement.dto.StaffScheduleDto;
+import ca.mcgill.ecse321.librarymanagement.dto.MusicAlbumDto;
+import ca.mcgill.ecse321.librarymanagement.dto.NewspaperDto;
+
 import ca.mcgill.ecse321.librarymanagement.dto.UserDto;
 import ca.mcgill.ecse321.librarymanagement.model.Book;
 import ca.mcgill.ecse321.librarymanagement.model.HeadLibrarian;
@@ -24,7 +31,7 @@ import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.LibrarySchedule;
 import ca.mcgill.ecse321.librarymanagement.model.Movie;
-import ca.mcgill.ecse321.librarymanagement.model.Room;
+
 import ca.mcgill.ecse321.librarymanagement.model.StaffSchedule;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
 import ca.mcgill.ecse321.librarymanagement.model.User;
@@ -57,11 +64,14 @@ public class LibraryManagementRestController {
 	//how to deal with multiple parameters???
 	//@PostMapping(value = { "/books/{releaseDate}/{image}/{name}/{author}/{synopsis}/{genre}", "/books/{releaseDate}/{image}/{name}/{author}/{synopsis}/{genre}/" })
 	@PostMapping(value = { "/books/{name}", "/books/{name}/" })
-	public BookDto createBook(@PathVariable("name") String name, @RequestParam String image, 
-			@RequestParam String author, @RequestParam String synopsis, @RequestParam String genre) throws IllegalArgumentException {
-		// name = django,releaseDate,
-		Date date = new Date(1,1,1);
-		Book book = service.createBook(date, image, name, author, synopsis, genre);
+	public BookDto createBook(@PathVariable("name") String name, @RequestParam String date, @RequestParam String image, @RequestParam String author, @RequestParam String synopsis, @RequestParam String genre) throws IllegalArgumentException {
+
+		String[] dateArr = date.split("-");
+		int year = Integer.parseInt(dateArr[0]);
+		int month = Integer.parseInt(dateArr[1]);
+		int day = Integer.parseInt(dateArr[2]);
+		Date dateObj = new Date(year,month,day);
+		Book book = service.createBook(dateObj, image, name, author, synopsis, genre);
 		return convertToDto(book);
 	}
 	
@@ -83,9 +93,13 @@ public class LibraryManagementRestController {
 	//how to deal with multiple parameters???
 	//@PostMapping(value = { "/books/{releaseDate}/{image}/{name}/{author}/{synopsis}/{genre}", "/books/{releaseDate}/{image}/{name}/{author}/{synopsis}/{genre}/" })
 	@PostMapping(value = { "/movies/{name}", "/movies/{name}/" })
-	public MovieDto createMovie(@PathVariable("name") String name) throws IllegalArgumentException {
-		Date date = new Date(1,1,1);
-		Movie movie = service.createMovie(date, "image", name, "a", "b", "c", 10);
+	public MovieDto createMovie(@PathVariable("name") String name, @RequestParam String date, @RequestParam String image, @RequestParam String director, @RequestParam String genre, @RequestParam String synopsis, @RequestParam int duration) throws IllegalArgumentException {
+		String[] dateArr = date.split("-");
+		int year = Integer.parseInt(dateArr[0]);
+		int month = Integer.parseInt(dateArr[1]);
+		int day = Integer.parseInt(dateArr[2]);
+		Date dateObj = new Date(year,month,day);
+		Movie movie = service.createMovie(dateObj, image, name, director, genre, synopsis, duration);
 		return convertToDto(movie);
 	}
 	
@@ -99,6 +113,55 @@ public class LibraryManagementRestController {
 
 	}
 	
+	@GetMapping(value = { "/newspapers", "/newspapers/" })
+	public List<NewspaperDto> getAllNewspapers() {
+		return service.getAllNewspapers().stream().map(n-> convertToDto(n)).collect(Collectors.toList());
+	}
+	
+	@PostMapping(value = { "/newspapers/{name}", "/newspapers/{name}/" })
+	public NewspaperDto createNewspaper(@PathVariable("name") String name, @RequestParam String date, @RequestParam String image, @RequestParam String headline) throws IllegalArgumentException {
+		//date format YYYY-MM-DD
+		String[] dateArr = date.split("-");
+		int year = Integer.parseInt(dateArr[0]);
+		int month = Integer.parseInt(dateArr[1]);
+		int day = Integer.parseInt(dateArr[2]);
+		Date dateObj = new Date(year, month, day);
+		Newspaper newspaper = service.createNewspaper(dateObj, image , name, headline);
+		return convertToDto(newspaper);
+	}
+	
+	private NewspaperDto convertToDto(Newspaper n) {
+		if (n == null) {
+			throw new IllegalArgumentException("There is no such Newspaper!");
+		}
+		NewspaperDto newspaperDto = new NewspaperDto(n.getReleaseDate(), n.getImage(), n.getName(), n.getHeadline());
+		return newspaperDto;
+	}
+	
+	@GetMapping(value = { "/musicalbums", "/musicalbums/" })
+	public List<MusicAlbumDto> getAllMusicAlbums() {
+		return service.getAllMusicAlbums().stream().map(m-> convertToDto(m)).collect(Collectors.toList());
+	}
+	
+	@PostMapping(value = { "/musicalbums/{name}", "/musicalbums/{name}/" })
+	public MusicAlbumDto createMusicAlbum(@PathVariable("name") String name, @RequestParam String date, @RequestParam String image, @RequestParam String artist, @RequestParam int duration, @RequestParam String genre) throws IllegalArgumentException {
+		String[] dateArr = date.split("-");
+		int year = Integer.parseInt(dateArr[0]);
+		int month = Integer.parseInt(dateArr[1]);
+		int day = Integer.parseInt(dateArr[2]);
+		Date dateObj = new Date(year,month,day);
+		MusicAlbum musicAlbum = service.createMusicAlbum(dateObj, image, name, artist, 10, genre);
+		return convertToDto(musicAlbum);
+	}
+	
+	private MusicAlbumDto convertToDto(MusicAlbum m) {
+		if (m == null) {
+			throw new IllegalArgumentException("There is no such Music Album!");
+		}
+		MusicAlbumDto musicAlbumDto = new MusicAlbumDto(m.getReleaseDate(), m.getImage(), m.getName(), m.getArtist(), m.getTrackList(), m.getDuration(), m.getGenre());
+		return musicAlbumDto;
+	}	
+	
 	/*
 	 * 
 	 * 
@@ -108,6 +171,69 @@ public class LibraryManagementRestController {
 	 * 
 	 * 
 	 */
+	
+	//use these values to get the staffSchedules from service
+		@GetMapping(value = { "/roomSchedules", "/roomSchedules/" })
+		public List<RoomScheduleDto> getAllRoomSchedules() {
+			return service.getAllRoomSchedules().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+		}
+		
+		@PostMapping(value = { "/roomSchedules/", "/roomSchedules"  })
+		public RoomScheduleDto createRoomSchedule() throws IllegalArgumentException {
+			RoomSchedule roomSchedule = new RoomSchedule();
+			return convertToDto(roomSchedule);
+		}
+		
+		//used to copy a given RoomSchedule object to be used as a DTO
+		private RoomScheduleDto convertToDto(RoomSchedule b) {
+			if (b == null) {
+				throw new IllegalArgumentException("There is no such Room Schedule!");
+			}
+			RoomScheduleDto roomScheduleDto = new RoomScheduleDto();
+			return roomScheduleDto;
+		}
+		
+		//use these values to get the staffSchedules from service
+		@GetMapping(value = { "/librarySchedules", "/librarySchedules/" })
+		public List<LibraryScheduleDto> getAllLibrarySchedules() {
+			return service.getAllLibrarySchedules().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+		}
+		
+		@PostMapping(value = { "/librarySchedule/", "/librarySchedule" })
+		public LibraryScheduleDto createLibrarySchedule() throws IllegalArgumentException {
+			LibrarySchedule librarySchedule = new LibrarySchedule();
+			return convertToDto(librarySchedule);
+		}
+		
+		//used to copy a given LibrarySchedule object to be used as a DTO
+		private LibraryScheduleDto convertToDto(LibrarySchedule b) {
+			if (b == null) {
+				throw new IllegalArgumentException("There is no such Library Schedule!");
+			}
+			LibraryScheduleDto libraryScheduleDto = new LibraryScheduleDto();
+			return libraryScheduleDto;
+		}
+		
+		//use these values to get the staffSchedules from service
+		@GetMapping(value = { "/staffSchedules", "/staffSchedules/" })
+		public List<StaffScheduleDto> getAlltaffSchedules() {
+			return service.getAllStaffSchedules().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+		}
+		
+		@PostMapping(value = { "/staffSchedules/", "/staffSchedules" })
+		public StaffScheduleDto createStaffSchedule() throws IllegalArgumentException {
+			StaffSchedule staffSchedule = new StaffSchedule();
+			return convertToDto(staffSchedule);
+		}
+		
+		//used to copy a given StaffSchedule object to be used as a DTO
+		private StaffScheduleDto convertToDto(StaffSchedule b) {
+			if (b == null) {
+				throw new IllegalArgumentException("There is no such Library Schedule!");
+			}
+			StaffScheduleDto staffScheduleDto = new StaffScheduleDto();
+			return staffScheduleDto;
+		}
 	
 	/*
 	 * 
@@ -126,24 +252,17 @@ public class LibraryManagementRestController {
 		return service.getAllUsers().stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 	}
 	
-	@PostMapping(value = { "/users/{name}", "/users/{name}/" })
-	public UserDto createUser(@PathVariable("name") String name) throws IllegalArgumentException {
-		String username = "username";
-		String password = "password";
-		String email = "email";
-		String fullName = "name";
-		String resAddress = "resAddress";
-		boolean isResident = true;
+	@PostMapping(value = { "/users/{username}", "/users/{username}/" })
+	public UserDto createUser(@PathVariable("username") String username, @RequestParam String password, @RequestParam String email, @RequestParam String fullName, @RequestParam String resAddress, @RequestParam boolean isResident) throws IllegalArgumentException {
 		LibrarySchedule librarySchedule = new LibrarySchedule();
 		Library library = new Library(librarySchedule);
-		
 		User user = new User(username, password, email, fullName, resAddress, isResident, library);
 		return convertToDto(user);
 	}
 	
 	private UserDto convertToDto(User u) {
 		if (u == null) {
-			throw new IllegalArgumentException("There is no such Book!");
+			throw new IllegalArgumentException("There is no such User!");
 		}
 		UserDto userDto = new UserDto(u.getUsername(), u.getPassword(), u.getEmailaddress(), u.getFullName(), u.getResAddress(), u.getIsResident(), u.getLibrary());
 		return userDto;
@@ -157,13 +276,8 @@ public class LibraryManagementRestController {
 	}
 	
 	@PostMapping(value = { "/librarians/{name}", "/librarians/{name}/" })
-	public LibrarianDto createLibrarian(@PathVariable("name") String name) throws IllegalArgumentException {
+	public LibrarianDto createLibrarian(@PathVariable("name") String name, @RequestParam String password, String email, String fullName, String resAddress, boolean isResident) throws IllegalArgumentException {
 		String username = "username";
-		String password = "password";
-		String email = "email";
-		String fullName = "name";
-		String resAddress = "resAddress";
-		boolean isResident = true;
 		LibrarySchedule librarySchedule = new LibrarySchedule();
 		Library library = new Library(librarySchedule);
 		StaffSchedule staffSchedule = new StaffSchedule();
@@ -174,7 +288,7 @@ public class LibraryManagementRestController {
 	
 	private LibrarianDto convertToDto(Librarian l) {
 		if (l == null) {
-			throw new IllegalArgumentException("There is no such Book!");
+			throw new IllegalArgumentException("There is no such Librarian!");
 		}
 		LibrarianDto librarianDto = new LibrarianDto(l.getUsername(), l.getPassword(), l.getEmailaddress(), l.getFullName(), l.getResAddress(), l.getIsResident(), l.getLibrary(), l.getStaffSchedule());
 		return librarianDto;
@@ -188,13 +302,7 @@ public class LibraryManagementRestController {
 		}
 		
 		@PostMapping(value = { "/headLibrarians/{name}", "/headLibrarians/{name}/" })
-		public HeadLibrarianDto createHeadLibrarian(@PathVariable("name") String name) throws IllegalArgumentException {
-			String username = "username";
-			String password = "password";
-			String email = "email";
-			String fullName = "name";
-			String resAddress = "resAddress";
-			boolean isResident = true;
+		public HeadLibrarianDto createHeadLibrarian(@PathVariable("username") String username, @RequestParam String password, @RequestParam String email, @RequestParam String fullName, @RequestParam String resAddress, @RequestParam boolean isResident) throws IllegalArgumentException {
 			LibrarySchedule librarySchedule = new LibrarySchedule();
 			Library library = new Library(librarySchedule);
 			StaffSchedule staffSchedule = new StaffSchedule();
@@ -205,7 +313,9 @@ public class LibraryManagementRestController {
 		
 		private HeadLibrarianDto convertToDto(HeadLibrarian hl) {
 			if (hl == null) {
-				throw new IllegalArgumentException("There is no such Book!");
+
+				throw new IllegalArgumentException("There is no such HeadLibrarian!");
+
 			}
 			HeadLibrarianDto headLibrarianDto = new HeadLibrarianDto(hl.getUsername(), hl.getPassword(), hl.getEmailaddress(), hl.getFullName(), hl.getResAddress(), hl.getIsResident(), hl.getLibrary(), hl.getStaffSchedule());
 			return headLibrarianDto;
@@ -222,31 +332,32 @@ public class LibraryManagementRestController {
 	 */
 		
 		
-	@GetMapping(value = { "/library", "/library/" })     //in singular because we will only have one library????
-	public List<LibraryDto> getAllLibraries() {
-		return service.getAllLibraries().stream().map(u -> convertToDto(u)).collect(Collectors.toList());
-	}
-	
-	//ARE YOU SUPPOSED TO BE ABLE TO ADD USERS, ROOMS, ETC?????
-	//I used ID to be the identifier for library, but isn't it supposed to be autogenerated - unsure what else to use...
-	@PostMapping(value = { "/library/{ID}", "/librarians/{ID}/" })
-	public LibraryDto createLibrary(@PathVariable("ID") int ID) throws IllegalArgumentException {
-		LibrarySchedule librarySchedule = new LibrarySchedule();
-		Library library = new Library(librarySchedule);
-		library.setLibraryId(ID);
-		return convertToDto(library);
-	}
-	
-	private LibraryDto convertToDto(Library library) {
-		if (library == null) {
-			throw new IllegalArgumentException("There is no such Library!");
-		} else {
-			LibraryDto libraryDto = new LibraryDto (library.getLibraryId(), library.getRooms(), library.getTitles(), library.getLibrarySchedule(), library.getUsers());
-			return libraryDto;
+		@GetMapping(value = { "/library", "/library/" })     //in singular because we will only have one library????
+		public List<LibraryDto> getAllLibraries() {
+			return service.getAllLibraries().stream().map(u -> convertToDto(u)).collect(Collectors.toList());
 		}
-	}
-	//DO WE NEED TO MAKE DEEP COPIES OF ANYTHING OR JUST DOING THIS IS FINE???
-	
+		
+		//ARE YOU SUPPOSED TO BE ABLE TO ADD USERS, ROOMS, ETC?????
+		//I used ID to be the identifier for library, but isn't it supposed to be autogenerated - unsure what else to use...
+		@PostMapping(value = { "/library/{ID}", "/librarians/{ID}/" })
+		public LibraryDto createLibrary(@PathVariable("ID") int ID) throws IllegalArgumentException {
+			LibrarySchedule librarySchedule = new LibrarySchedule();
+			Library library = new Library(librarySchedule);
+			library.setLibraryId(ID);
+			return convertToDto(library);
+		}
+		
+		private LibraryDto convertToDto(Library library) {
+			if (library == null) {
+				throw new IllegalArgumentException("There is no such Library!");
+			} else {
+				LibraryDto libraryDto = new LibraryDto (library.getLibraryId(), library.getRooms(), library.getTitles(), library.getLibrarySchedule(), library.getUsers());
+				return libraryDto;
+			}
+		}
+		//DO WE NEED TO MAKE DEEP COPIES OF ANYTHING OR JUST DOING THIS IS FINE???
+
+
 	/*
 	 * 
 	 * 
@@ -257,7 +368,26 @@ public class LibraryManagementRestController {
 	 * 
 	 */
 	
+		@GetMapping(value = { "/rooms", "/rooms/" })
+		public List<RoomDto> getAllRooms() {
+			return service.getAllRooms().stream().map(r -> convertToDto(r)).collect(Collectors.toList());
+		}
 	
+		//The name needs to be verified. 
+		@PostMapping(value = { "/rooms", "/rooms/" })
+		public RoomDto createRoom(@PathVariable("") String name) {
+			
+			Room room = service.createRoom(null, null);
+			return convertToDto(room);
+		}
+
+		private RoomDto convertToDto(Room r) {
+			if (r == null) {
+				throw new IllegalArgumentException("There is no such Room!");
+	}
+			RoomDto roomDto = new RoomDto(r.getRoomSchedule(), r.getLibrary());
+			return roomDto;
+}
 	
 	
 }
