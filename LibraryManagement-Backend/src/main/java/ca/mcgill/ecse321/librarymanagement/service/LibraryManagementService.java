@@ -26,6 +26,7 @@ import ca.mcgill.ecse321.librarymanagement.model.Book;
 import ca.mcgill.ecse321.librarymanagement.model.HeadLibrarian;
 import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
+import ca.mcgill.ecse321.librarymanagement.model.LibrarySchedule;
 import ca.mcgill.ecse321.librarymanagement.model.StaffSchedule;
 import ca.mcgill.ecse321.librarymanagement.model.User;
 import ca.mcgill.ecse321.librarymanagement.model.Movie;
@@ -214,6 +215,25 @@ public class LibraryManagementService {
 	 * 
 	 * 
 	 */
+	
+	public Library createLibrary() {
+		LibrarySchedule librarySchedule = new LibrarySchedule();
+		Library library = new Library(librarySchedule);
+		libraryRepository.save(library);
+		return library;
+	}
+	
+
+	@Transactional
+	public Library getLibrary (int libraryId) {
+		Library library = libraryRepository.findLibraryByLibraryId(libraryId);
+		return library;
+	}
+	
+	@Transactional
+	public List<Library> getAllLibraries() {
+		return toList(libraryRepository.findAll());
+	}
 	
 	/*
 	 * 
