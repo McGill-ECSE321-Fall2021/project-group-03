@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import ca.mcgill.ecse321.librarymanagement.dao.RoomScheduleRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.StaffScheduleRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TimeSlotRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.UserRepository;
+import ca.mcgill.ecse321.librarymanagement.dto.RoomScheduleDto;
 import ca.mcgill.ecse321.librarymanagement.model.Book;
 import ca.mcgill.ecse321.librarymanagement.model.HeadLibrarian;
 import ca.mcgill.ecse321.librarymanagement.model.Librarian;
@@ -317,8 +319,9 @@ public class LibraryManagementService {
 	 */
 	
 	@Transactional
-	public Room createRoom (RoomSchedule aRoomSchedule, Library aLibrary) {
-		Room room = new Room(aRoomSchedule, aLibrary);
+	public Room createRoom (RoomScheduleDto aRoomSchedule, Library aLibrary) {
+		RoomSchedule roomSchedule = roomScheduleRepository.findRoomScheduleByScheduleId(aRoomSchedule.getScheduleId());
+		Room room = new Room(roomSchedule, aLibrary);
 		roomRepository.save(room);
 		return room;
 	}
