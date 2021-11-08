@@ -31,6 +31,9 @@ public class TimeSlot
   private Time endTime;
   private int dayOfWeek;
   private Date date;
+  private Librarian librarian = new Librarian();
+  private Library library = new Library();
+  private Room room = new Room();
   
   @Id
   @GeneratedValue(strategy=GenerationType.AUTO)
@@ -58,6 +61,22 @@ public class TimeSlot
     {
       throw new RuntimeException("Unable to create timeSlot due to schedule. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
+    
+    if (aSchedule instanceof StaffSchedule) {
+    	room = null;
+    	library = null;
+    }
+    
+    else if (aSchedule instanceof RoomSchedule) {
+    	library= null;
+    	librarian = null;
+    }
+    
+    else if (aSchedule instanceof LibrarySchedule) {
+    	room = null;
+    	librarian = null;
+    }
+    
   }
 
   //------------------------
@@ -70,6 +89,22 @@ public class TimeSlot
     startTime = aStartTime;
     wasSet = true;
     return wasSet;
+  }
+  
+  public void setLibrarian(Librarian librarian) {
+	  if (librarian != null) {
+		  this.librarian = librarian;
+	  }
+  }
+  public void setLibrary(Library library) {
+	  if (library != null) {
+		  this.library = library;
+	  }
+  }
+  public void setRoom(Room room) {
+	  if (room != null) {
+		  this.room = room;
+	  }
   }
 
   public boolean setEndTime(Time aEndTime)
