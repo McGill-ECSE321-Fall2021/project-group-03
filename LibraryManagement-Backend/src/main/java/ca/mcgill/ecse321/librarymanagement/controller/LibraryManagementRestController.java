@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.librarymanagement.dto.BookDto;
 import ca.mcgill.ecse321.librarymanagement.dto.HeadLibrarianDto;
 import ca.mcgill.ecse321.librarymanagement.dto.LibrarianDto;
+import ca.mcgill.ecse321.librarymanagement.dto.LibraryScheduleDto;
 import ca.mcgill.ecse321.librarymanagement.dto.MovieDto;
 
 import ca.mcgill.ecse321.librarymanagement.dto.RoomDto;
+import ca.mcgill.ecse321.librarymanagement.dto.RoomScheduleDto;
+import ca.mcgill.ecse321.librarymanagement.dto.StaffScheduleDto;
 import ca.mcgill.ecse321.librarymanagement.dto.MusicAlbumDto;
 import ca.mcgill.ecse321.librarymanagement.dto.NewspaperDto;
 
@@ -171,6 +174,69 @@ public class LibraryManagementRestController {
 	 * 
 	 * 
 	 */
+	
+	//use these values to get the staffSchedules from service
+		@GetMapping(value = { "/roomSchedules", "/roomSchedules/" })
+		public List<RoomScheduleDto> getAllRoomSchedules() {
+			return service.getAllRoomSchedules().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+		}
+		
+		@PostMapping(value = { "/roomSchedules/", "/roomSchedules"  })
+		public RoomScheduleDto createRoomSchedule() throws IllegalArgumentException {
+			RoomSchedule roomSchedule = new RoomSchedule();
+			return convertToDto(roomSchedule);
+		}
+		
+		//used to copy a given RoomSchedule object to be used as a DTO
+		private RoomScheduleDto convertToDto(RoomSchedule b) {
+			if (b == null) {
+				throw new IllegalArgumentException("There is no such Room Schedule!");
+			}
+			RoomScheduleDto roomScheduleDto = new RoomScheduleDto();
+			return roomScheduleDto;
+		}
+		
+		//use these values to get the staffSchedules from service
+		@GetMapping(value = { "/librarySchedules", "/librarySchedules/" })
+		public List<LibraryScheduleDto> getAllLibrarySchedules() {
+			return service.getAllLibrarySchedules().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+		}
+		
+		@PostMapping(value = { "/librarySchedule/", "/librarySchedule" })
+		public LibraryScheduleDto createLibrarySchedule() throws IllegalArgumentException {
+			LibrarySchedule librarySchedule = new LibrarySchedule();
+			return convertToDto(librarySchedule);
+		}
+		
+		//used to copy a given LibrarySchedule object to be used as a DTO
+		private LibraryScheduleDto convertToDto(LibrarySchedule b) {
+			if (b == null) {
+				throw new IllegalArgumentException("There is no such Library Schedule!");
+			}
+			LibraryScheduleDto libraryScheduleDto = new LibraryScheduleDto();
+			return libraryScheduleDto;
+		}
+		
+		//use these values to get the staffSchedules from service
+		@GetMapping(value = { "/staffSchedules", "/staffSchedules/" })
+		public List<StaffScheduleDto> getAlltaffSchedules() {
+			return service.getAllStaffSchedules().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+		}
+		
+		@PostMapping(value = { "/staffSchedules/", "/staffSchedules" })
+		public StaffScheduleDto createStaffSchedule() throws IllegalArgumentException {
+			StaffSchedule staffSchedule = new StaffSchedule();
+			return convertToDto(staffSchedule);
+		}
+		
+		//used to copy a given StaffSchedule object to be used as a DTO
+		private StaffScheduleDto convertToDto(StaffSchedule b) {
+			if (b == null) {
+				throw new IllegalArgumentException("There is no such Library Schedule!");
+			}
+			StaffScheduleDto staffScheduleDto = new StaffScheduleDto();
+			return staffScheduleDto;
+		}
 	
 	/*
 	 * 
