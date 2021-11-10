@@ -275,7 +275,7 @@ public class Library
   /* Code from template association_AddManyToOne */
   public Title addTitle(String aName, int aTitleId, String aDescription, String aGenre, boolean aIsAvailable, Title.TitleType aTitleType)
   {
-    return new Title(aName, aDescription, aGenre, aIsAvailable , aTitleType, this);
+    return new Title(aName, aDescription, aGenre, aIsAvailable , aTitleType);
   }
 
   public boolean addTitle(Title aTitle)
@@ -347,7 +347,7 @@ public class Library
   /* Code from template association_AddManyToOne */
   public Room addRoom(int aRoomId, int aCapacity, boolean aIsAvailable, Room.RoomType aRoomType)
   {
-    return new Room(aCapacity, aIsAvailable, aRoomType, this);
+    return new Room(aCapacity, aIsAvailable, aRoomType);
   }
 
   public boolean addRoom(Room aRoom)

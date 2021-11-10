@@ -31,9 +31,9 @@ public class Client extends User
   
   protected Client() {}
   
-  public Client(String aUsername, String aPassword, String aFullname, Library aLibrary, String aResidentialAddress, String aEmail, boolean aIsResident, boolean aIsOnline)
+  public Client(String aUsername, String aPassword, String aFullname, String aResidentialAddress, String aEmail, boolean aIsResident, boolean aIsOnline)
   {
-    super(aUsername, aPassword, aFullname, aLibrary);
+    super(aUsername, aPassword, aFullname);
     residentialAddress = aResidentialAddress;
     email = aEmail;
     isResident = aIsResident;

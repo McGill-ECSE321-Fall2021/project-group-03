@@ -83,8 +83,8 @@ public class TestLibraryManagementPersistence {
 		Library library = new Library();
 
 		// Create Title object with parameters. ^^
-		Title book = new Title(name, description, genre, true, titleType, library);
-
+		Title book = new Title(name, description, genre, true, titleType);
+		library.addTitle(book);
 		// Save the title to the DB.
 		libraryRepository.save(library);
 		Title savedBook = titleRepository.save(book);
@@ -104,7 +104,6 @@ public class TestLibraryManagementPersistence {
 		assertEquals(description, book.getDescription());
 		assertEquals(genre, book.getGenre());
 		assertEquals(titleType, book.getTitleType());
-		assertEquals(library.getLibraryId(), book.getLibrary().getLibraryId());
 
 	}
 
@@ -119,8 +118,8 @@ public class TestLibraryManagementPersistence {
 		Library library = new Library();
 
 		// Create Title object with parameters. ^^
-		Title newspaper = new Title(name, description, genre, true, titleType, library);
-
+		Title newspaper = new Title(name, description, genre, true, titleType);
+		library.addTitle(newspaper);
 		// Save the title to the DB.
 		libraryRepository.save(library);
 		Title savedNewspaper = titleRepository.save(newspaper);
@@ -140,7 +139,6 @@ public class TestLibraryManagementPersistence {
 		assertEquals(description, newspaper.getDescription());
 		assertEquals(genre, newspaper.getGenre());
 		assertEquals(titleType, newspaper.getTitleType());
-		assertEquals(library.getLibraryId(), newspaper.getLibrary().getLibraryId());
 
 	}
 
@@ -155,7 +153,9 @@ public class TestLibraryManagementPersistence {
 		Library library = new Library();
 
 		// Create Title object with parameters. ^^
-		Title musicAlbum = new Title(name, description, genre, true, titleType, library);
+		Title musicAlbum = new Title(name, description, genre, true, titleType);
+		library.addTitle(musicAlbum);
+
 
 		// Save the title to the DB.
 		libraryRepository.save(library);
@@ -176,7 +176,6 @@ public class TestLibraryManagementPersistence {
 		assertEquals(description, musicAlbum.getDescription());
 		assertEquals(genre, musicAlbum.getGenre());
 		assertEquals(titleType, musicAlbum.getTitleType());
-		assertEquals(library.getLibraryId(), musicAlbum.getLibrary().getLibraryId());
 	}
 
 	@Test
@@ -190,7 +189,9 @@ public class TestLibraryManagementPersistence {
 		Library library = new Library();
 
 		// Create Title object with parameters. ^^
-		Title movie = new Title(name, description, genre, true, titleType, library);
+		Title movie = new Title(name, description, genre, true, titleType);
+		library.addTitle(movie);
+
 
 		// Save the title to the DB.
 		libraryRepository.save(library);
@@ -211,7 +212,6 @@ public class TestLibraryManagementPersistence {
 		assertEquals(description, movie.getDescription());
 		assertEquals(genre, movie.getGenre());
 		assertEquals(titleType, movie.getTitleType());
-		assertEquals(library.getLibraryId(), movie.getLibrary().getLibraryId());
 
 	}
 
@@ -226,7 +226,8 @@ public class TestLibraryManagementPersistence {
 		Library library = new Library();
 
 		// Create Title object with parameters. ^^
-		Title archive = new Title(name, description, genre, true, titleType, library);
+		Title archive = new Title(name, description, genre, true, titleType);
+		library.addTitle(archive);
 
 		// Save the title to the DB.
 		libraryRepository.save(library);
@@ -247,7 +248,6 @@ public class TestLibraryManagementPersistence {
 		assertEquals(description, archive.getDescription());
 		assertEquals(genre, archive.getGenre());
 		assertEquals(titleType, archive.getTitleType());
-		assertEquals(library.getLibraryId(), archive.getLibrary().getLibraryId());
 
 	}
 
@@ -262,9 +262,10 @@ public class TestLibraryManagementPersistence {
 		Library library = new Library();
 		boolean isOnline = true;
 
-		Client client = new Client(userUsername, userPassword, userFullName, library, userResAddress, userEmailaddress,
+		Client client = new Client(userUsername, userPassword, userFullName, userResAddress, userEmailaddress,
 				isResident, isOnline);
 
+		library.addUser(client);
 		libraryRepository.save(library);
 		Client savedClient = clientRepository.save(client);
 
@@ -279,7 +280,6 @@ public class TestLibraryManagementPersistence {
 		assertEquals(userUsername, client.getUsername());
 		assertEquals(userPassword, client.getPassword());
 		assertEquals(userFullName, client.getFullname());
-		assertEquals(library.getLibraryId(), client.getLibrary().getLibraryId());
 		assertEquals(userResAddress, client.getResidentialAddress());
 		assertEquals(userEmailaddress, client.getEmail());
 		assertEquals(isResident, client.getIsResident());
@@ -295,9 +295,10 @@ public class TestLibraryManagementPersistence {
 		boolean isHeadLibrarian = false;
 
 		Library library = new Library();
-		Librarian librarian = new Librarian(librarianUsername, librarianPassword, librarianFullName, library,
+		Librarian librarian = new Librarian(librarianUsername, librarianPassword, librarianFullName,
 				isHeadLibrarian);
 
+		library.addUser(librarian);
 		libraryRepository.save(library);
 		Librarian savedLibrarian = librarianRepository.save(librarian);
 
@@ -313,7 +314,6 @@ public class TestLibraryManagementPersistence {
 		assertEquals(librarianPassword, librarian.getPassword());
 		assertEquals(librarianFullName, librarian.getFullname());
 		assertEquals(isHeadLibrarian, librarian.getIsHeadLibrarian());
-		assertEquals(library.getLibraryId(), librarian.getLibrary().getLibraryId());
 	}
 
 	@Test
@@ -324,9 +324,10 @@ public class TestLibraryManagementPersistence {
 		boolean isHeadLibrarian = true;
 
 		Library library = new Library();
-		Librarian librarian = new Librarian(librarianUsername, librarianPassword, librarianFullName, library,
+		Librarian librarian = new Librarian(librarianUsername, librarianPassword, librarianFullName,
 				isHeadLibrarian);
 
+		library.addUser(librarian);
 		libraryRepository.save(library);
 		Librarian savedLibrarian = librarianRepository.save(librarian);
 
@@ -342,7 +343,6 @@ public class TestLibraryManagementPersistence {
 		assertEquals(librarianPassword, librarian.getPassword());
 		assertEquals(librarianFullName, librarian.getFullname());
 		assertEquals(isHeadLibrarian, librarian.getIsHeadLibrarian());
-		assertEquals(library.getLibraryId(), librarian.getLibrary().getLibraryId());
 	}
 
 	@Test
@@ -350,7 +350,8 @@ public class TestLibraryManagementPersistence {
 
 		// create a schedule. Save it to persistence. Then make it null and retrieve it.
 		Library library = new Library();
-		Schedule schedule = new Schedule(library);
+		Schedule schedule = new Schedule();
+		library.setLibrarySchedule(schedule);
 
 		libraryRepository.save(library);
 		Schedule savedSchedule = scheduleRepository.save(schedule);
@@ -374,9 +375,10 @@ public class TestLibraryManagementPersistence {
 		int capacity = 10;
 		boolean isAvailable = true;
 		RoomType roomType = RoomType.Study;
-		Room room = new Room(capacity, isAvailable, roomType, library);
+		Room room = new Room(capacity, isAvailable, roomType);
 
 		// create a room and save it to persistence
+		library.addRoom(room);
 		libraryRepository.save(library);
 		Room savedRoom = roomRepository.save(room);
 
@@ -391,7 +393,6 @@ public class TestLibraryManagementPersistence {
 		assertEquals(capacity, room.getCapacity());
 		assertEquals(isAvailable, room.getIsAvailable());
 		assertEquals(roomType, room.getRoomType());
-		assertEquals(library.getLibraryId(), room.getLibrary().getLibraryId());
 	}
 
 	@Test
@@ -441,7 +442,8 @@ public class TestLibraryManagementPersistence {
 		boolean isAvailable = false;
 		TitleType titleType = TitleType.Movie;
 		Library library = new Library();
-		Title title = new Title(name, description, genre, isAvailable, titleType, library);
+		
+		Title title = new Title(name, description, genre, isAvailable, titleType);
 		String username = "tara";
 		String password = "hello";
 		String fullname = "tara ginsberg";
@@ -449,11 +451,16 @@ public class TestLibraryManagementPersistence {
 		String email = "tara@gmail.com";
 		boolean isResident = true;
 		boolean isOnline = false;
-		Client client = new Client(username, password, fullname, library, residentialAddress, email, isResident,
+		
+		Client client = new Client(username, password, fullname, residentialAddress, email, isResident,
 				isOnline);
 
+		
 		TitleReservation titleReservation = new TitleReservation(returnDate, isCheckedOut, title, client);
 
+		
+		library.addTitle(title);
+		library.addUser(client);
 		libraryRepository.save(library);
 		TitleReservation savedTitleReservation = titleReservationRepository.save(titleReservation);
 
@@ -489,11 +496,14 @@ public class TestLibraryManagementPersistence {
 		boolean isResident = true;
 		boolean isOnline = false;
 
-		Room room = new Room(capacity, isAvailable, roomType, library);
-		Client client = new Client(username, password, fullname, library, residentialAddress, email, isResident,
+		Room room = new Room(capacity, isAvailable, roomType);
+		Client client = new Client(username, password, fullname, residentialAddress, email, isResident,
 				isOnline);
+		
 		RoomReservation roomReservation = new RoomReservation(startTime, endTime, date, room, client);
 
+		library.addUser(client);
+		library.addRoom(room);
 		libraryRepository.save(library);
 		RoomReservation savedRoomReservation = roomReservationRepository.save(roomReservation);
 

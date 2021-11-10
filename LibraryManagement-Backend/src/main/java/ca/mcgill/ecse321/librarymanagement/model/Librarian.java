@@ -31,9 +31,9 @@ public class Librarian extends User
   
   protected Librarian() {}
 
-  public Librarian(String aUsername, String aPassword, String aFullname, Library aLibrary, boolean aIsHeadLibrarian)
+  public Librarian(String aUsername, String aPassword, String aFullname, boolean aIsHeadLibrarian)
   {
-    super(aUsername, aPassword, aFullname, aLibrary);
+    super(aUsername, aPassword, aFullname);
     isHeadLibrarian = aIsHeadLibrarian;
   }
 

@@ -45,16 +45,11 @@ public class Room
   
   protected Room() {}
 
-  public Room(int aCapacity, boolean aIsAvailable, RoomType aRoomType, Library aLibrary)
+  public Room(int aCapacity, boolean aIsAvailable, RoomType aRoomType)
   {
     capacity = aCapacity;
     isAvailable = aIsAvailable;
     roomType = aRoomType;
-    boolean didAddLibrary = setLibrary(aLibrary);
-    if (!didAddLibrary)
-    {
-      throw new RuntimeException("Unable to create room due to library. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
   }
 
   //------------------------

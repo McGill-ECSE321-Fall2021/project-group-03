@@ -43,17 +43,10 @@ public class Schedule
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
-  protected Schedule() {}
   
-  public Schedule(Library aLibrary)
+  public Schedule()
   {
     timeslots = new ArrayList<Timeslot>();
-    boolean didAddLibrary = setLibrary(aLibrary);
-    if (!didAddLibrary)
-    {
-      throw new RuntimeException("Unable to create librarySchedule due to library. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
   }
 
   //------------------------

@@ -53,18 +53,14 @@ public class Title
   
   protected Title() {}
 
-  public Title(String aName, String aDescription, String aGenre, boolean aIsAvailable, TitleType aTitleType, Library aLibrary)
+  public Title(String aName, String aDescription, String aGenre, boolean aIsAvailable, TitleType aTitleType)
   {
     name = aName;
     description = aDescription;
     genre = aGenre;
     isAvailable = aIsAvailable;
     titleType = aTitleType;
-    boolean didAddLibrary = setLibrary(aLibrary);
-    if (!didAddLibrary)
-    {
-      throw new RuntimeException("Unable to create title due to library. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+    
   }
 
   //------------------------

@@ -48,16 +48,11 @@ public abstract class User
   
   protected User() {}
 
-  public User(String aUsername, String aPassword, String aFullname, Library aLibrary)
+  public User(String aUsername, String aPassword, String aFullname)
   {
     username = aUsername;
     password = aPassword;
     fullname = aFullname;
-    boolean didAddLibrary = setLibrary(aLibrary);
-    if (!didAddLibrary)
-    {
-      throw new RuntimeException("Unable to create user due to library. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
   }
 
   //------------------------
