@@ -45,9 +45,8 @@ public class Room
   
   protected Room() {}
 
-  public Room(int aRoomId, int aCapacity, boolean aIsAvailable, RoomType aRoomType, Library aLibrary)
+  public Room(int aCapacity, boolean aIsAvailable, RoomType aRoomType, Library aLibrary)
   {
-    roomId = aRoomId;
     capacity = aCapacity;
     isAvailable = aIsAvailable;
     roomType = aRoomType;
@@ -61,14 +60,6 @@ public class Room
   //------------------------
   // INTERFACE
   //------------------------
-
-  public boolean setRoomId(int aRoomId)
-  {
-    boolean wasSet = false;
-    roomId = aRoomId;
-    wasSet = true;
-    return wasSet;
-  }
 
   public boolean setCapacity(int aCapacity)
   {

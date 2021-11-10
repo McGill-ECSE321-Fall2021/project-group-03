@@ -30,7 +30,8 @@ public class Library
 
   //Library Associations
   
-  @OneToOne(targetEntity = Schedule.class)
+//  @OneToOne(targetEntity = Schedule.class)
+  @OneToOne(cascade = CascadeType.ALL)
   private Schedule librarySchedule;
   
   @OneToMany(cascade = CascadeType.ALL)
@@ -346,7 +347,7 @@ public class Library
   /* Code from template association_AddManyToOne */
   public Room addRoom(int aRoomId, int aCapacity, boolean aIsAvailable, Room.RoomType aRoomType)
   {
-    return new Room(aRoomId, aCapacity, aIsAvailable, aRoomType, this);
+    return new Room(aCapacity, aIsAvailable, aRoomType, this);
   }
 
   public boolean addRoom(Room aRoom)
