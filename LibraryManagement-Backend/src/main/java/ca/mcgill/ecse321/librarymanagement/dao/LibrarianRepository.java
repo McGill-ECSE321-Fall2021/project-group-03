@@ -8,5 +8,7 @@ import ca.mcgill.ecse321.librarymanagement.model.User;
 public interface LibrarianRepository extends CrudRepository<Librarian, Integer>{
 	
 	Librarian findLibrarianByUserId(int userId); 
+	
+	Librarian findLibrarianByUsername(String username);
 
 }

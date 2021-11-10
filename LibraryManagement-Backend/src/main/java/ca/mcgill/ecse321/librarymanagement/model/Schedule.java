@@ -1,27 +1,25 @@
+package ca.mcgill.ecse321.librarymanagement.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
-package ca.mcgill.ecse321.librarymanagement.model;
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-import java.sql.Time;
-import java.sql.Date;
-
+// line 53 "model.ump"
+// line 125 "model.ump"
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "Schedule_Type")
-public abstract class Schedule
+//@Table(name="pseudoSchedule")
+public class Schedule
 {
 
   //------------------------
@@ -34,19 +32,28 @@ public abstract class Schedule
   private int scheduleId;
 
   //Schedule Associations
-  @OneToMany(targetEntity = TimeSlot.class, mappedBy = "schedule", fetch = FetchType.LAZY)
-  private List<TimeSlot> timeSlots;
+  
+  @OneToMany (targetEntity = Timeslot.class)
+  private List<Timeslot> timeslots;
+  
+  // ?
+  @OneToOne (targetEntity = Library.class)
+  private Library library;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
-  
-//  protected Schedule() {}
 
-  public Schedule()
+  protected Schedule() {}
+  
+  public Schedule(Library aLibrary)
   {
-    
-    timeSlots = new ArrayList<TimeSlot>();
+    timeslots = new ArrayList<Timeslot>();
+    boolean didAddLibrary = setLibrary(aLibrary);
+    if (!didAddLibrary)
+    {
+      throw new RuntimeException("Unable to create librarySchedule due to library. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
   }
 
   //------------------------
@@ -66,116 +73,134 @@ public abstract class Schedule
     return scheduleId;
   }
   /* Code from template association_GetMany */
-  public TimeSlot getTimeSlot(int index)
+  public Timeslot getTimeslot(int index)
   {
-    TimeSlot aTimeSlot = timeSlots.get(index);
-    return aTimeSlot;
+    Timeslot aTimeslot = timeslots.get(index);
+    return aTimeslot;
   }
 
-  public List<TimeSlot> getTimeSlots()
+  public List<Timeslot> getTimeslots()
   {
-    List<TimeSlot> newTimeSlots = Collections.unmodifiableList(timeSlots);
-    return newTimeSlots;
+    List<Timeslot> newTimeslots = Collections.unmodifiableList(timeslots);
+    return newTimeslots;
   }
 
-  public int numberOfTimeSlots()
+  public int numberOfTimeslots()
   {
-    int number = timeSlots.size();
+    int number = timeslots.size();
     return number;
   }
 
-  public boolean hasTimeSlots()
+  public boolean hasTimeslots()
   {
-    boolean has = timeSlots.size() > 0;
+    boolean has = timeslots.size() > 0;
     return has;
   }
 
-  public int indexOfTimeSlot(TimeSlot aTimeSlot)
+  public int indexOfTimeslot(Timeslot aTimeslot)
   {
-    int index = timeSlots.indexOf(aTimeSlot);
+    int index = timeslots.indexOf(aTimeslot);
     return index;
   }
+  /* Code from template association_GetOne */
+  public Library getLibrary()
+  {
+    return library;
+  }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfTimeSlots()
+  public static int minimumNumberOfTimeslots()
   {
     return 0;
   }
-  /* Code from template association_AddManyToOne */
-  public TimeSlot addTimeSlot(Time aStartTime, Time aEndTime, int aDayOfWeek, Date aDate, int aTimeSlotId)
-  {
-    //return new TimeSlot(aStartTime, aEndTime, aDayOfWeek, aDate, aTimeSlotId, this);
-    return new TimeSlot(aStartTime, aEndTime, aDayOfWeek, aDate, this);
-
-  }
-
-  public boolean addTimeSlot(TimeSlot aTimeSlot)
+  /* Code from template association_AddUnidirectionalMany */
+  public boolean addTimeslot(Timeslot aTimeslot)
   {
     boolean wasAdded = false;
-    if (timeSlots.contains(aTimeSlot)) { return false; }
-    Schedule existingSchedule = aTimeSlot.getSchedule();
-    boolean isNewSchedule = existingSchedule != null && !this.equals(existingSchedule);
-    if (isNewSchedule)
-    {
-      aTimeSlot.setSchedule(this);
-    }
-    else
-    {
-      timeSlots.add(aTimeSlot);
-    }
+    if (timeslots.contains(aTimeslot)) { return false; }
+    timeslots.add(aTimeslot);
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removeTimeSlot(TimeSlot aTimeSlot)
+  public boolean removeTimeslot(Timeslot aTimeslot)
   {
     boolean wasRemoved = false;
-    //Unable to remove aTimeSlot, as it must always have a schedule
-    if (!this.equals(aTimeSlot.getSchedule()))
+    if (timeslots.contains(aTimeslot))
     {
-      timeSlots.remove(aTimeSlot);
+      timeslots.remove(aTimeslot);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addTimeSlotAt(TimeSlot aTimeSlot, int index)
+  public boolean addTimeslotAt(Timeslot aTimeslot, int index)
   {  
     boolean wasAdded = false;
-    if(addTimeSlot(aTimeSlot))
+    if(addTimeslot(aTimeslot))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfTimeSlots()) { index = numberOfTimeSlots() - 1; }
-      timeSlots.remove(aTimeSlot);
-      timeSlots.add(index, aTimeSlot);
+      if(index > numberOfTimeslots()) { index = numberOfTimeslots() - 1; }
+      timeslots.remove(aTimeslot);
+      timeslots.add(index, aTimeslot);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveTimeSlotAt(TimeSlot aTimeSlot, int index)
+  public boolean addOrMoveTimeslotAt(Timeslot aTimeslot, int index)
   {
     boolean wasAdded = false;
-    if(timeSlots.contains(aTimeSlot))
+    if(timeslots.contains(aTimeslot))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfTimeSlots()) { index = numberOfTimeSlots() - 1; }
-      timeSlots.remove(aTimeSlot);
-      timeSlots.add(index, aTimeSlot);
+      if(index > numberOfTimeslots()) { index = numberOfTimeslots() - 1; }
+      timeslots.remove(aTimeslot);
+      timeslots.add(index, aTimeslot);
       wasAdded = true;
     } 
     else 
     {
-      wasAdded = addTimeSlotAt(aTimeSlot, index);
+      wasAdded = addTimeslotAt(aTimeslot, index);
     }
     return wasAdded;
+  }
+  /* Code from template association_SetOneToOptionalOne */
+  public boolean setLibrary(Library aNewLibrary)
+  {
+    boolean wasSet = false;
+    if (aNewLibrary == null)
+    {
+      //Unable to setLibrary to null, as librarySchedule must always be associated to a library
+      return wasSet;
+    }
+    
+    Schedule existingLibrarySchedule = aNewLibrary.getLibrarySchedule();
+    if (existingLibrarySchedule != null && !equals(existingLibrarySchedule))
+    {
+      //Unable to setLibrary, the current library already has a librarySchedule, which would be orphaned if it were re-assigned
+      return wasSet;
+    }
+    
+    Library anOldLibrary = library;
+    library = aNewLibrary;
+    library.setLibrarySchedule(this);
+
+    if (anOldLibrary != null)
+    {
+      anOldLibrary.setLibrarySchedule(null);
+    }
+    wasSet = true;
+    return wasSet;
   }
 
   public void delete()
   {
-    for(int i=timeSlots.size(); i > 0; i--)
+    timeslots.clear();
+    Library existingLibrary = library;
+    library = null;
+    if (existingLibrary != null)
     {
-      TimeSlot aTimeSlot = timeSlots.get(i - 1);
-      aTimeSlot.delete();
+      existingLibrary.setLibrarySchedule(null);
     }
   }
 
@@ -183,6 +208,7 @@ public abstract class Schedule
   public String toString()
   {
     return super.toString() + "["+
-            "scheduleId" + ":" + getScheduleId()+ "]";
+            "scheduleID" + ":" + getScheduleId()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "library = "+(getLibrary()!=null?Integer.toHexString(System.identityHashCode(getLibrary())):"null");
   }
 }

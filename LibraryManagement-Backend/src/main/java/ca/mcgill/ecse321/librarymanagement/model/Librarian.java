@@ -1,13 +1,13 @@
+package ca.mcgill.ecse321.librarymanagement.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
-package ca.mcgill.ecse321.librarymanagement.model;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
-// line 45 "model.ump"
-// line 138 "model.ump"
+// line 48 "model.ump"
+// line 118 "model.ump"
 
 @Entity
 @DiscriminatorValue("Librarian")
@@ -18,63 +18,70 @@ public class Librarian extends User
   // MEMBER VARIABLES
   //------------------------
 
+  //Librarian Attributes
+  private boolean isHeadLibrarian;
+
   //Librarian Associations
-  @ManyToOne(targetEntity = StaffSchedule.class)
-  private StaffSchedule staffSchedule;
+  @OneToOne (targetEntity = Schedule.class)
+  private Schedule staffSchedule;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
-  
-  protected Librarian() {}
 
-  public Librarian(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, boolean aIsResident, Library aLibrary, StaffSchedule aStaffSchedule)
+  public Librarian(int aUserId, String aUsername, String aPassword, String aFullname, Library aLibrary, boolean aIsHeadLibrarian)
   {
-    super(aUsername, aPassword, aEmailaddress, aFullName, aResAddress, aIsResident, aLibrary);
-    boolean didAddStaffSchedule = setStaffSchedule(aStaffSchedule);
-    if (!didAddStaffSchedule)
-    {
-      throw new RuntimeException("Unable to create librarian due to staffSchedule. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+    super(aUserId, aUsername, aPassword, aFullname, aLibrary);
+    isHeadLibrarian = aIsHeadLibrarian;
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setIsHeadLibrarian(boolean aIsHeadLibrarian)
+  {
+    boolean wasSet = false;
+    isHeadLibrarian = aIsHeadLibrarian;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean getIsHeadLibrarian()
+  {
+    return isHeadLibrarian;
+  }
   /* Code from template association_GetOne */
-  public StaffSchedule getStaffSchedule()
+  public Schedule getStaffSchedule()
   {
     return staffSchedule;
   }
-  /* Code from template association_SetOneToMany */
-  public boolean setStaffSchedule(StaffSchedule aStaffSchedule)
+
+  public boolean hasStaffSchedule()
+  {
+    boolean has = staffSchedule != null;
+    return has;
+  }
+  /* Code from template association_SetUnidirectionalOptionalOne */
+  public boolean setStaffSchedule(Schedule aNewStaffSchedule)
   {
     boolean wasSet = false;
-    if (aStaffSchedule == null)
-    {
-      return wasSet;
-    }
-
-    StaffSchedule existingStaffSchedule = staffSchedule;
-    staffSchedule = aStaffSchedule;
-    if (existingStaffSchedule != null && !existingStaffSchedule.equals(aStaffSchedule))
-    {
-      existingStaffSchedule.removeLibrarian(this);
-    }
-    staffSchedule.addLibrarian(this);
+    staffSchedule = aNewStaffSchedule;
     wasSet = true;
     return wasSet;
   }
 
   public void delete()
   {
-    StaffSchedule placeholderStaffSchedule = staffSchedule;
-    this.staffSchedule = null;
-    if(placeholderStaffSchedule != null)
-    {
-      placeholderStaffSchedule.removeLibrarian(this);
-    }
+    staffSchedule = null;
     super.delete();
   }
 
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "isHeadLibrarian" + ":" + getIsHeadLibrarian()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "staffSchedule = "+(getStaffSchedule()!=null?Integer.toHexString(System.identityHashCode(getStaffSchedule())):"null");
+  }
 }

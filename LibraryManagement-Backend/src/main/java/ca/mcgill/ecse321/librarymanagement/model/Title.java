@@ -1,72 +1,73 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 package ca.mcgill.ecse321.librarymanagement.model;
-
-
-import java.sql.Date;
-
-import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
+
+
+// line 18 "model.ump"
+// line 100 "model.ump"
 @Entity
 @Table(name="pseudoTitle")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "Title_Type")
-public abstract class Title
+public class Title
 {
+
+  //------------------------
+  // ENUMERATIONS
+  //------------------------
+
+  public enum TitleType { Book, Movie, MusicAlbum, Newspaper, Archives }
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Title Attributes
-  private Date releaseDate;
-  private String image;
   private String name;
-  
+
+
   @Id
   @GeneratedValue(strategy=GenerationType.AUTO)
   private int titleId;
+  private String description;
+  private String genre;
+  
+  //@Column(nullable = true) 
+  private boolean isAvailable;
+  private TitleType titleType;
+
+  //Title Associations
+  @ManyToOne (targetEntity = Library.class)
+  private Library library;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
-  
-  protected Title() {}
 
-  public Title(Date aReleaseDate, String aImage, String aName)
+  public Title(String aName, String aDescription, String aGenre, boolean aIsAvailable, TitleType aTitleType, Library aLibrary)
   {
-    releaseDate = aReleaseDate;
-    image = aImage;
     name = aName;
+    description = aDescription;
+    genre = aGenre;
+    isAvailable = aIsAvailable;
+    titleType = aTitleType;
+    boolean didAddLibrary = setLibrary(aLibrary);
+    if (!didAddLibrary)
+    {
+      throw new RuntimeException("Unable to create title due to library. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
   }
 
   //------------------------
   // INTERFACE
   //------------------------
-
-  public boolean setReleaseDate(Date aReleaseDate)
-  {
-    boolean wasSet = false;
-    releaseDate = aReleaseDate;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setImage(String aImage)
-  {
-    boolean wasSet = false;
-    image = aImage;
-    wasSet = true;
-    return wasSet;
-  }
 
   public boolean setName(String aName)
   {
@@ -84,14 +85,36 @@ public abstract class Title
     return wasSet;
   }
 
-  public Date getReleaseDate()
+  public boolean setDescription(String aDescription)
   {
-    return releaseDate;
+    boolean wasSet = false;
+    description = aDescription;
+    wasSet = true;
+    return wasSet;
   }
 
-  public String getImage()
+  public boolean setGenre(String aGenre)
   {
-    return image;
+    boolean wasSet = false;
+    genre = aGenre;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setIsAvailable(boolean aIsAvailable)
+  {
+    boolean wasSet = false;
+    isAvailable = aIsAvailable;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setTitleType(TitleType aTitleType)
+  {
+    boolean wasSet = false;
+    titleType = aTitleType;
+    wasSet = true;
+    return wasSet;
   }
 
   public String getName()
@@ -104,16 +127,70 @@ public abstract class Title
     return titleId;
   }
 
+  public String getDescription()
+  {
+    return description;
+  }
+
+  public String getGenre()
+  {
+    return genre;
+  }
+
+  public boolean getIsAvailable()
+  {
+    return isAvailable;
+  }
+
+  public TitleType getTitleType()
+  {
+    return titleType;
+  }
+  /* Code from template association_GetOne */
+  public Library getLibrary()
+  {
+    return library;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setLibrary(Library aLibrary)
+  {
+    boolean wasSet = false;
+    if (aLibrary == null)
+    {
+      return wasSet;
+    }
+
+    Library existingLibrary = library;
+    library = aLibrary;
+    if (existingLibrary != null && !existingLibrary.equals(aLibrary))
+    {
+      existingLibrary.removeTitle(this);
+    }
+    library.addTitle(this);
+    wasSet = true;
+    return wasSet;
+  }
+
   public void delete()
-  {}
+  {
+    Library placeholderLibrary = library;
+    this.library = null;
+    if(placeholderLibrary != null)
+    {
+      placeholderLibrary.removeTitle(this);
+    }
+  }
 
 
   public String toString()
   {
     return super.toString() + "["+
-            "image" + ":" + getImage()+ "," +
             "name" + ":" + getName()+ "," +
-            "titleId" + ":" + getTitleId()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "releaseDate" + "=" + (getReleaseDate() != null ? !getReleaseDate().equals(this)  ? getReleaseDate().toString().replaceAll("  ","    ") : "this" : "null");
+            "titleId" + ":" + getTitleId()+ "," +
+            "description" + ":" + getDescription()+ "," +
+            "genre" + ":" + getGenre()+ "," +
+            "isAvailable" + ":" + getIsAvailable()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "titleType" + "=" + (getTitleType() != null ? !getTitleType().equals(this)  ? getTitleType().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "library = "+(getLibrary()!=null?Integer.toHexString(System.identityHashCode(getLibrary())):"null");
   }
 }

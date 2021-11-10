@@ -1,12 +1,15 @@
 package ca.mcgill.ecse321.librarymanagement;
 
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
 //import org.junit.jupiter.api.Test;
 //import org.springframework.boot.test.context.SpringBootTest;
 
-//@SpringBootTest
+@SpringBootTest
 class LibraryManagementApplicationTests {
 
-//	@Test
+	@Test
 	void contextLoads() {
 		LibraryManagementApplication myLibraryManagementApplication = new LibraryManagementApplication();
 	}

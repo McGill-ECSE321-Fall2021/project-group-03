@@ -1,5 +1,3 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 package ca.mcgill.ecse321.librarymanagement.model;
 
 import javax.persistence.Entity;
@@ -7,30 +5,37 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
-// line 11 "model.ump"
-// line 113 "model.ump"
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
+
+
+// line 10 "model.ump"
+// line 94 "model.ump"
 @Entity
 public class Room
 {
 
   //------------------------
+  // ENUMERATIONS
+  //------------------------
+
+  public enum RoomType { Study, Event }
+
+  //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  
   //Room Attributes
   @Id
   @GeneratedValue(strategy=GenerationType.AUTO)
   private int roomId;
+  private int capacity;
+  private boolean isAvailable;
+  private RoomType roomType;
 
   //Room Associations
-  @ManyToOne(targetEntity = RoomSchedule.class)
-
-  private RoomSchedule roomSchedule;
-  
   @ManyToOne(targetEntity = Library.class)
   private Library library;
 
@@ -40,13 +45,12 @@ public class Room
   
   protected Room() {}
 
-  public Room(RoomSchedule aRoomSchedule, Library aLibrary)
+  public Room(int aRoomId, int aCapacity, boolean aIsAvailable, RoomType aRoomType, Library aLibrary)
   {
-    boolean didAddRoomSchedule = setRoomSchedule(aRoomSchedule);
-    if (!didAddRoomSchedule)
-    {
-      throw new RuntimeException("Unable to create room due to roomSchedule. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
+    roomId = aRoomId;
+    capacity = aCapacity;
+    isAvailable = aIsAvailable;
+    roomType = aRoomType;
     boolean didAddLibrary = setLibrary(aLibrary);
     if (!didAddLibrary)
     {
@@ -66,14 +70,48 @@ public class Room
     return wasSet;
   }
 
+  public boolean setCapacity(int aCapacity)
+  {
+    boolean wasSet = false;
+    capacity = aCapacity;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setIsAvailable(boolean aIsAvailable)
+  {
+    boolean wasSet = false;
+    isAvailable = aIsAvailable;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setRoomType(RoomType aRoomType)
+  {
+    boolean wasSet = false;
+    roomType = aRoomType;
+    wasSet = true;
+    return wasSet;
+  }
+
   public int getRoomId()
   {
     return roomId;
   }
-  /* Code from template association_GetOne */
-  public RoomSchedule getRoomSchedule()
+
+  public int getCapacity()
   {
-    return roomSchedule;
+    return capacity;
+  }
+
+  public boolean getIsAvailable()
+  {
+    return isAvailable;
+  }
+
+  public RoomType getRoomType()
+  {
+    return roomType;
   }
   /* Code from template association_GetOne */
   public Library getLibrary()
@@ -81,50 +119,19 @@ public class Room
     return library;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setRoomSchedule(RoomSchedule aRoomSchedule)
-  {
-    boolean wasSet = false;
-    if (aRoomSchedule == null)
-    {
-      return wasSet;
-    }
-
-    RoomSchedule existingRoomSchedule = roomSchedule;
-    roomSchedule = aRoomSchedule;
-    if (existingRoomSchedule != null && !existingRoomSchedule.equals(aRoomSchedule))
-    {
-      existingRoomSchedule.removeRoom(this);
-    }
-    roomSchedule.addRoom(this);
-    wasSet = true;
-    return wasSet;
-  }
-  /* Code from template association_SetOneToAtMostN */
   public boolean setLibrary(Library aLibrary)
   {
     boolean wasSet = false;
-    //Must provide library to room
     if (aLibrary == null)
     {
       return wasSet;
     }
 
-    //library already at maximum (4)
-    if (aLibrary.numberOfRooms() >= Library.maximumNumberOfRooms())
-    {
-      return wasSet;
-    }
-    
     Library existingLibrary = library;
     library = aLibrary;
     if (existingLibrary != null && !existingLibrary.equals(aLibrary))
     {
-      boolean didRemove = existingLibrary.removeRoom(this);
-      if (!didRemove)
-      {
-        library = existingLibrary;
-        return wasSet;
-      }
+      existingLibrary.removeRoom(this);
     }
     library.addRoom(this);
     wasSet = true;
@@ -133,12 +140,6 @@ public class Room
 
   public void delete()
   {
-    RoomSchedule placeholderRoomSchedule = roomSchedule;
-    this.roomSchedule = null;
-    if(placeholderRoomSchedule != null)
-    {
-      placeholderRoomSchedule.removeRoom(this);
-    }
     Library placeholderLibrary = library;
     this.library = null;
     if(placeholderLibrary != null)
@@ -151,8 +152,10 @@ public class Room
   public String toString()
   {
     return super.toString() + "["+
-            "roomId" + ":" + getRoomId()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "roomSchedule = "+(getRoomSchedule()!=null?Integer.toHexString(System.identityHashCode(getRoomSchedule())):"null") + System.getProperties().getProperty("line.separator") +
+            "roomId" + ":" + getRoomId()+ "," +
+            "capacity" + ":" + getCapacity()+ "," +
+            "isAvailable" + ":" + getIsAvailable()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "roomType" + "=" + (getRoomType() != null ? !getRoomType().equals(this)  ? getRoomType().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "library = "+(getLibrary()!=null?Integer.toHexString(System.identityHashCode(getLibrary())):"null");
   }
 }

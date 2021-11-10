@@ -1,7 +1,7 @@
+package ca.mcgill.ecse321.librarymanagement.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 
-package ca.mcgill.ecse321.librarymanagement.model;
 
 import java.util.*;
 
@@ -12,11 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import java.sql.Date;
-
 // line 2 "model.ump"
-// line 105 "model.ump"
-
+// line 84 "model.ump"
 @Entity
 public class Library
 {
@@ -25,39 +22,34 @@ public class Library
   // MEMBER VARIABLES
   //------------------------
 
-	//Library Attributes
+  //Library Attributes
   @Id
   @GeneratedValue(strategy=GenerationType.AUTO)
   private int libraryId;
 
   //Library Associations
-  @OneToMany(targetEntity = Room.class, mappedBy = "library")
-  private List<Room> rooms;
+  
+  @OneToOne(targetEntity = Schedule.class)
+  private Schedule librarySchedule;
+  
+  @OneToMany(targetEntity = User.class)
+  private List<User> users;
   
   @OneToMany(targetEntity = Title.class)
   private List<Title> titles;
   
-  @OneToOne(targetEntity = LibrarySchedule.class)
-  private LibrarySchedule librarySchedule;
-  
-  @OneToMany(targetEntity = User.class, mappedBy = "library")
-  private List<User> users;
+  @OneToMany(targetEntity = Room.class)
+  private List<Room> rooms;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
-  
-  protected Library() {}
 
-  public Library(LibrarySchedule aLibrarySchedule)
+  public Library()
   {
-    rooms = new ArrayList<Room>();
-    titles = new ArrayList<Title>();
-    if (!setLibrarySchedule(aLibrarySchedule))
-    {
-      throw new RuntimeException("Unable to create Library due to aLibrarySchedule. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
     users = new ArrayList<User>();
+    titles = new ArrayList<Title>();
+    rooms = new ArrayList<Room>();
   }
 
   //------------------------
@@ -76,34 +68,45 @@ public class Library
   {
     return libraryId;
   }
+  /* Code from template association_GetOne */
+  public Schedule getLibrarySchedule()
+  {
+    return librarySchedule;
+  }
+
+  public boolean hasLibrarySchedule()
+  {
+    boolean has = librarySchedule != null;
+    return has;
+  }
   /* Code from template association_GetMany */
-  public Room getRoom(int index)
+  public User getUser(int index)
   {
-    Room aRoom = rooms.get(index);
-    return aRoom;
+    User aUser = users.get(index);
+    return aUser;
   }
 
-  public List<Room> getRooms()
+  public List<User> getUsers()
   {
-    List<Room> newRooms = Collections.unmodifiableList(rooms);
-    return newRooms;
+    List<User> newUsers = Collections.unmodifiableList(users);
+    return newUsers;
   }
 
-  public int numberOfRooms()
+  public int numberOfUsers()
   {
-    int number = rooms.size();
+    int number = users.size();
     return number;
   }
 
-  public boolean hasRooms()
+  public boolean hasUsers()
   {
-    boolean has = rooms.size() > 0;
+    boolean has = users.size() > 0;
     return has;
   }
 
-  public int indexOfRoom(Room aRoom)
+  public int indexOfUser(User aUser)
   {
-    int index = rooms.indexOf(aRoom);
+    int index = users.indexOf(aUser);
     return index;
   }
   /* Code from template association_GetMany */
@@ -136,188 +139,61 @@ public class Library
     int index = titles.indexOf(aTitle);
     return index;
   }
-  /* Code from template association_GetOne */
-  public LibrarySchedule getLibrarySchedule()
-  {
-    return librarySchedule;
-  }
   /* Code from template association_GetMany */
-  public User getUser(int index)
+  public Room getRoom(int index)
   {
-    User aUser = users.get(index);
-    return aUser;
+    Room aRoom = rooms.get(index);
+    return aRoom;
   }
 
-  public List<User> getUsers()
+  public List<Room> getRooms()
   {
-    List<User> newUsers = Collections.unmodifiableList(users);
-    return newUsers;
+    List<Room> newRooms = Collections.unmodifiableList(rooms);
+    return newRooms;
   }
 
-  public int numberOfUsers()
+  public int numberOfRooms()
   {
-    int number = users.size();
+    int number = rooms.size();
     return number;
   }
 
-  public boolean hasUsers()
+  public boolean hasRooms()
   {
-    boolean has = users.size() > 0;
+    boolean has = rooms.size() > 0;
     return has;
   }
 
-  public int indexOfUser(User aUser)
+  public int indexOfRoom(Room aRoom)
   {
-    int index = users.indexOf(aUser);
+    int index = rooms.indexOf(aRoom);
     return index;
   }
-  /* Code from template association_IsNumberOfValidMethod */
-  public boolean isNumberOfRoomsValid()
-  {
-    boolean isValid = numberOfRooms() >= minimumNumberOfRooms() && numberOfRooms() <= maximumNumberOfRooms();
-    return isValid;
-  }
-  /* Code from template association_RequiredNumberOfMethod */
-  public static int requiredNumberOfRooms()
-  {
-    return 4;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfRooms()
-  {
-    return 4;
-  }
-  /* Code from template association_MaximumNumberOfMethod */
-  public static int maximumNumberOfRooms()
-  {
-    return 4;
-  }
-  /* Code from template association_AddMNToOnlyOne */
-  public Room addRoom(int aRoomId, RoomSchedule aRoomSchedule)
-  {
-    if (numberOfRooms() >= maximumNumberOfRooms())
-    {
-      return null;
-    }
-    else
-    {
-      return new Room(aRoomSchedule, this);
-    }
-  }
-
-  public boolean addRoom(Room aRoom)
-  {
-    boolean wasAdded = false;
-    if (rooms.contains(aRoom)) { return false; }
-    if (numberOfRooms() >= maximumNumberOfRooms())
-    {
-      return wasAdded;
-    }
-
-    Library existingLibrary = aRoom.getLibrary();
-    boolean isNewLibrary = existingLibrary != null && !this.equals(existingLibrary);
-
-    if (isNewLibrary && existingLibrary.numberOfRooms() <= minimumNumberOfRooms())
-    {
-      return wasAdded;
-    }
-
-    if (isNewLibrary)
-    {
-      aRoom.setLibrary(this);
-    }
-    else
-    {
-      rooms.add(aRoom);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeRoom(Room aRoom)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aRoom, as it must always have a library
-    if (this.equals(aRoom.getLibrary()))
-    {
-      return wasRemoved;
-    }
-
-    //library already at minimum (4)
-    if (numberOfRooms() <= minimumNumberOfRooms())
-    {
-      return wasRemoved;
-    }
-    rooms.remove(aRoom);
-    wasRemoved = true;
-    return wasRemoved;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfTitles()
-  {
-    return 0;
-  }
-  /* Code from template association_AddUnidirectionalMany */
-  public boolean addTitle(Title aTitle)
-  {
-    boolean wasAdded = false;
-    if (titles.contains(aTitle)) { return false; }
-    titles.add(aTitle);
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeTitle(Title aTitle)
-  {
-    boolean wasRemoved = false;
-    if (titles.contains(aTitle))
-    {
-      titles.remove(aTitle);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addTitleAt(Title aTitle, int index)
-  {  
-    boolean wasAdded = false;
-    if(addTitle(aTitle))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfTitles()) { index = numberOfTitles() - 1; }
-      titles.remove(aTitle);
-      titles.add(index, aTitle);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveTitleAt(Title aTitle, int index)
-  {
-    boolean wasAdded = false;
-    if(titles.contains(aTitle))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfTitles()) { index = numberOfTitles() - 1; }
-      titles.remove(aTitle);
-      titles.add(index, aTitle);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addTitleAt(aTitle, index);
-    }
-    return wasAdded;
-  }
-  /* Code from template association_SetUnidirectionalOne */
-  public boolean setLibrarySchedule(LibrarySchedule aNewLibrarySchedule)
+  /* Code from template association_SetOptionalOneToOne */
+  public boolean setLibrarySchedule(Schedule aNewLibrarySchedule)
   {
     boolean wasSet = false;
-    if (aNewLibrarySchedule != null)
+    if (librarySchedule != null && !librarySchedule.equals(aNewLibrarySchedule) && equals(librarySchedule.getLibrary()))
     {
-      librarySchedule = aNewLibrarySchedule;
-      wasSet = true;
+      //Unable to setLibrarySchedule, as existing librarySchedule would become an orphan
+      return wasSet;
     }
+
+    librarySchedule = aNewLibrarySchedule;
+    Library anOldLibrary = aNewLibrarySchedule != null ? aNewLibrarySchedule.getLibrary() : null;
+
+    if (!this.equals(anOldLibrary))
+    {
+      if (anOldLibrary != null)
+      {
+        anOldLibrary.librarySchedule = null;
+      }
+      if (librarySchedule != null)
+      {
+        librarySchedule.setLibrary(this);
+      }
+    }
+    wasSet = true;
     return wasSet;
   }
   /* Code from template association_MinimumNumberOfMethod */
@@ -326,10 +202,7 @@ public class Library
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public User addUser(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, boolean aIsResident, int aUserId)
-  {
-    return new User(aUsername, aPassword, aEmailaddress, aFullName, aResAddress, aIsResident, this);
-  }
+
 
   public boolean addUser(User aUser)
   {
@@ -392,9 +265,174 @@ public class Library
     }
     return wasAdded;
   }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfTitles()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public Title addTitle(String aName, int aTitleId, String aDescription, String aGenre, boolean aIsAvailable, Title.TitleType aTitleType)
+  {
+    return new Title(aName, aDescription, aGenre, aIsAvailable , aTitleType, this);
+  }
+
+  public boolean addTitle(Title aTitle)
+  {
+    boolean wasAdded = false;
+    if (titles.contains(aTitle)) { return false; }
+    Library existingLibrary = aTitle.getLibrary();
+    boolean isNewLibrary = existingLibrary != null && !this.equals(existingLibrary);
+    if (isNewLibrary)
+    {
+      aTitle.setLibrary(this);
+    }
+    else
+    {
+      titles.add(aTitle);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeTitle(Title aTitle)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aTitle, as it must always have a library
+    if (!this.equals(aTitle.getLibrary()))
+    {
+      titles.remove(aTitle);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addTitleAt(Title aTitle, int index)
+  {  
+    boolean wasAdded = false;
+    if(addTitle(aTitle))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfTitles()) { index = numberOfTitles() - 1; }
+      titles.remove(aTitle);
+      titles.add(index, aTitle);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveTitleAt(Title aTitle, int index)
+  {
+    boolean wasAdded = false;
+    if(titles.contains(aTitle))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfTitles()) { index = numberOfTitles() - 1; }
+      titles.remove(aTitle);
+      titles.add(index, aTitle);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addTitleAt(aTitle, index);
+    }
+    return wasAdded;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfRooms()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public Room addRoom(int aRoomId, int aCapacity, boolean aIsAvailable, Room.RoomType aRoomType)
+  {
+    return new Room(aRoomId, aCapacity, aIsAvailable, aRoomType, this);
+  }
+
+  public boolean addRoom(Room aRoom)
+  {
+    boolean wasAdded = false;
+    if (rooms.contains(aRoom)) { return false; }
+    Library existingLibrary = aRoom.getLibrary();
+    boolean isNewLibrary = existingLibrary != null && !this.equals(existingLibrary);
+    if (isNewLibrary)
+    {
+      aRoom.setLibrary(this);
+    }
+    else
+    {
+      rooms.add(aRoom);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeRoom(Room aRoom)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aRoom, as it must always have a library
+    if (!this.equals(aRoom.getLibrary()))
+    {
+      rooms.remove(aRoom);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addRoomAt(Room aRoom, int index)
+  {  
+    boolean wasAdded = false;
+    if(addRoom(aRoom))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfRooms()) { index = numberOfRooms() - 1; }
+      rooms.remove(aRoom);
+      rooms.add(index, aRoom);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveRoomAt(Room aRoom, int index)
+  {
+    boolean wasAdded = false;
+    if(rooms.contains(aRoom))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfRooms()) { index = numberOfRooms() - 1; }
+      rooms.remove(aRoom);
+      rooms.add(index, aRoom);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addRoomAt(aRoom, index);
+    }
+    return wasAdded;
+  }
 
   public void delete()
   {
+    Schedule existingLibrarySchedule = librarySchedule;
+    librarySchedule = null;
+    if (existingLibrarySchedule != null)
+    {
+      existingLibrarySchedule.delete();
+      existingLibrarySchedule.setLibrary(null);
+    }
+    while (users.size() > 0)
+    {
+      User aUser = users.get(users.size() - 1);
+      aUser.delete();
+      users.remove(aUser);
+    }
+    
+    while (titles.size() > 0)
+    {
+      Title aTitle = titles.get(titles.size() - 1);
+      aTitle.delete();
+      titles.remove(aTitle);
+    }
+    
     while (rooms.size() > 0)
     {
       Room aRoom = rooms.get(rooms.size() - 1);
@@ -402,13 +440,6 @@ public class Library
       rooms.remove(aRoom);
     }
     
-    titles.clear();
-    librarySchedule = null;
-    for(int i=users.size(); i > 0; i--)
-    {
-      User aUser = users.get(i - 1);
-      aUser.delete();
-    }
   }
 
 

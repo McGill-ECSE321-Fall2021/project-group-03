@@ -1,5 +1,3 @@
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
 package ca.mcgill.ecse321.librarymanagement.model;
 
 import javax.persistence.DiscriminatorColumn;
@@ -12,14 +10,19 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-// line 35 "model.ump"
-// line 133 "model.ump"
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
+
+
+
+// line 30 "model.ump"
+// line 105 "model.ump"
 
 @Entity
 @Table(name="pseudoUser")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "User_Type")
-public class User
+public abstract class User
 {
 
   //------------------------
@@ -27,19 +30,16 @@ public class User
   //------------------------
 
   //User Attributes
-  private String username;
-  private String password;
-  private String emailaddress;
-  private String fullName;
-  private String resAddress;
-  private boolean isResident;
-  
   @Id
   @GeneratedValue(strategy=GenerationType.AUTO)
   private int userId;
+  
+  private String username;
+  private String password;
+  private String fullname;
 
   //User Associations
-  @ManyToOne(targetEntity = Library.class)
+  @ManyToOne (targetEntity = Library.class)
   private Library library;
 
   //------------------------
@@ -48,14 +48,12 @@ public class User
   
   protected User() {}
 
-  public User(String aUsername, String aPassword, String aEmailaddress, String aFullName, String aResAddress, boolean aIsResident, Library aLibrary)
+  public User(int aUserId, String aUsername, String aPassword, String aFullname, Library aLibrary)
   {
+    userId = aUserId;
     username = aUsername;
     password = aPassword;
-    emailaddress = aEmailaddress;
-    fullName = aFullName;
-    resAddress = aResAddress;
-    isResident = aIsResident;
+    fullname = aFullname;
     boolean didAddLibrary = setLibrary(aLibrary);
     if (!didAddLibrary)
     {
@@ -66,6 +64,14 @@ public class User
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setUserId(int aUserId)
+  {
+    boolean wasSet = false;
+    userId = aUserId;
+    wasSet = true;
+    return wasSet;
+  }
 
   public boolean setUsername(String aUsername)
   {
@@ -83,44 +89,17 @@ public class User
     return wasSet;
   }
 
-  public boolean setEmailaddress(String aEmailaddress)
+  public boolean setFullname(String aFullname)
   {
     boolean wasSet = false;
-    emailaddress = aEmailaddress;
+    fullname = aFullname;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setFullName(String aFullName)
+  public int getUserId()
   {
-    boolean wasSet = false;
-    fullName = aFullName;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setResAddress(String aResAddress)
-  {
-    boolean wasSet = false;
-    resAddress = aResAddress;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setIsResident(boolean aIsResident)
-  {
-    boolean wasSet = false;
-    isResident = aIsResident;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setUserId(int aUserId)
-  {
-    boolean wasSet = false;
-    userId = aUserId;
-    wasSet = true;
-    return wasSet;
+    return userId;
   }
 
   public String getUsername()
@@ -133,29 +112,9 @@ public class User
     return password;
   }
 
-  public String getEmailaddress()
+  public String getFullname()
   {
-    return emailaddress;
-  }
-
-  public String getFullName()
-  {
-    return fullName;
-  }
-
-  public String getResAddress()
-  {
-    return resAddress;
-  }
-
-  public boolean getIsResident()
-  {
-    return isResident;
-  }
-
-  public int getUserId()
-  {
-    return userId;
+    return fullname;
   }
   /* Code from template association_GetOne */
   public Library getLibrary()
@@ -196,13 +155,10 @@ public class User
   public String toString()
   {
     return super.toString() + "["+
+            "userId" + ":" + getUserId()+ "," +
             "username" + ":" + getUsername()+ "," +
             "password" + ":" + getPassword()+ "," +
-            "emailaddress" + ":" + getEmailaddress()+ "," +
-            "fullName" + ":" + getFullName()+ "," +
-            "resAddress" + ":" + getResAddress()+ "," +
-            "isResident" + ":" + getIsResident()+ "," +
-            "userId" + ":" + getUserId()+ "]" + System.getProperties().getProperty("line.separator") +
+            "fullname" + ":" + getFullname()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "library = "+(getLibrary()!=null?Integer.toHexString(System.identityHashCode(getLibrary())):"null");
   }
 }

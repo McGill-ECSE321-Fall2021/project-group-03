@@ -1,88 +1,54 @@
+package ca.mcgill.ecse321.librarymanagement.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.31.1.5860.78bb27cc6 modeling language!*/
-package ca.mcgill.ecse321.librarymanagement.model;
 
 
+import java.sql.Date;
 import java.sql.Time;
 
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.transaction.Transactional;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
-import java.sql.Date;
-
-// line 55 "model.ump"
-// line 149 "model.ump"
+// line 66 "model.ump"
+// line 131 "model.ump"
 
 @Entity
-public class TimeSlot
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "Timeslot_Type")
+@DiscriminatorValue(value = "Timeslot")
+public class Timeslot
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //TimeSlot Attributes
+  //Timeslot Attributes
   private Time startTime;
   private Time endTime;
-  private int dayOfWeek;
   private Date date;
-  
-  @ManyToOne(targetEntity = Librarian.class)
-  private Librarian librarian = new Librarian();
-
-  @ManyToOne(targetEntity = Library.class)
-  private Library library = new Library();
-
-  @ManyToOne(targetEntity = Room.class)
-  private Room room = new Room();
   
   @Id
   @GeneratedValue(strategy=GenerationType.AUTO)
-  private int timeSlotId;
-
-  //TimeSlot Associations
-  @ManyToOne(targetEntity = Schedule.class)
-  private Schedule schedule;
+  private int timeslotId;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
-  
-  protected TimeSlot() {}
 
-  public TimeSlot(Time aStartTime, Time aEndTime, int aDayOfWeek, Date aDate, Schedule aSchedule)
+  protected Timeslot() {}
+  
+  public Timeslot(Time aStartTime, Time aEndTime, Date aDate)
   {
     startTime = aStartTime;
     endTime = aEndTime;
-    dayOfWeek = aDayOfWeek;
     date = aDate;
-    //timeSlotId = aTimeSlotId;
-    boolean didAddSchedule = setSchedule(aSchedule);
-    if (!didAddSchedule)
-    {
-      throw new RuntimeException("Unable to create timeSlot due to schedule. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    
-    if (aSchedule instanceof StaffSchedule) {
-    	room = null;
-    	library = null;
-    }
-    
-    else if (aSchedule instanceof RoomSchedule) {
-    	library= null;
-    	librarian = null;
-    }
-    
-    else if (aSchedule instanceof LibrarySchedule) {
-    	room = null;
-    	librarian = null;
-    }
-    
   }
 
   //------------------------
@@ -96,35 +62,11 @@ public class TimeSlot
     wasSet = true;
     return wasSet;
   }
-  
-  public void setLibrarian(Librarian librarian) {
-	  if (librarian != null) {
-		  this.librarian = librarian;
-	  }
-  }
-  public void setLibrary(Library library) {
-	  if (library != null) {
-		  this.library = library;
-	  }
-  }
-  public void setRoom(Room room) {
-	  if (room != null) {
-		  this.room = room;
-	  }
-  }
 
   public boolean setEndTime(Time aEndTime)
   {
     boolean wasSet = false;
     endTime = aEndTime;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setDayOfWeek(int aDayOfWeek)
-  {
-    boolean wasSet = false;
-    dayOfWeek = aDayOfWeek;
     wasSet = true;
     return wasSet;
   }
@@ -137,13 +79,13 @@ public class TimeSlot
     return wasSet;
   }
 
-//  public boolean setTimeSlotId(int aTimeSlotId)
-//  {
-//    boolean wasSet = false;
-//    timeSlotId = aTimeSlotId;
-//    wasSet = true;
-//    return wasSet;
-//  }
+  public boolean setTimeslotId(int aTimeSlotId)
+  {
+    boolean wasSet = false;
+    timeslotId = aTimeSlotId;
+    wasSet = true;
+    return wasSet;
+  }
 
   public Time getStartTime()
   {
@@ -155,11 +97,6 @@ public class TimeSlot
     return endTime;
   }
 
-  public int getDayOfWeek()
-  {
-    return dayOfWeek;
-  }
-
   public Date getDate()
   {
     return date;
@@ -167,52 +104,19 @@ public class TimeSlot
 
   public int getTimeSlotId()
   {
-    return timeSlotId;
-  }
-  /* Code from template association_GetOne */
-  public Schedule getSchedule()
-  {
-    return schedule;
-  }
-  /* Code from template association_SetOneToMany */
-  public boolean setSchedule(Schedule aSchedule)
-  {
-    boolean wasSet = false;
-    if (aSchedule == null)
-    {
-      return wasSet;
-    }
-
-    Schedule existingSchedule = schedule;
-    schedule = aSchedule;
-    if (existingSchedule != null && !existingSchedule.equals(aSchedule))
-    {
-      existingSchedule.removeTimeSlot(this);
-    }
-    schedule.addTimeSlot(this);
-    wasSet = true;
-    return wasSet;
+    return timeslotId;
   }
 
   public void delete()
-  {
-    Schedule placeholderSchedule = schedule;
-    this.schedule = null;
-    if(placeholderSchedule != null)
-    {
-      placeholderSchedule.removeTimeSlot(this);
-    }
-  }
+  {}
 
 
   public String toString()
   {
     return super.toString() + "["+
-            "dayOfWeek" + ":" + getDayOfWeek()+ "," +
             "timeSlotId" + ":" + getTimeSlotId()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "endTime" + "=" + (getEndTime() != null ? !getEndTime().equals(this)  ? getEndTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "schedule = "+(getSchedule()!=null?Integer.toHexString(System.identityHashCode(getSchedule())):"null");
+            "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null");
   }
 }
