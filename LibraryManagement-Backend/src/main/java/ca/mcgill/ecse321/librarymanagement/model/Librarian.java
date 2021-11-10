@@ -28,10 +28,12 @@ public class Librarian extends User
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  
+  protected Librarian() {}
 
-  public Librarian(int aUserId, String aUsername, String aPassword, String aFullname, Library aLibrary, boolean aIsHeadLibrarian)
+  public Librarian(String aUsername, String aPassword, String aFullname, Library aLibrary, boolean aIsHeadLibrarian)
   {
-    super(aUserId, aUsername, aPassword, aFullname, aLibrary);
+    super(aUsername, aPassword, aFullname, aLibrary);
     isHeadLibrarian = aIsHeadLibrarian;
   }
 

@@ -50,6 +50,8 @@ public class Title
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  
+  protected Title() {}
 
   public Title(String aName, String aDescription, String aGenre, boolean aIsAvailable, TitleType aTitleType, Library aLibrary)
   {

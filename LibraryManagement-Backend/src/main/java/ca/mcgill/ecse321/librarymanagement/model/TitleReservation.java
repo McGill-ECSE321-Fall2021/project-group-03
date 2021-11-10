@@ -43,6 +43,8 @@ public class TitleReservation
   // CONSTRUCTOR
   //------------------------
 
+  protected TitleReservation() {}
+  
   public TitleReservation(Date aReturnDate, boolean aIsCheckedOut, Title aTitle, Client aClient)
   {
     returnDate = aReturnDate;

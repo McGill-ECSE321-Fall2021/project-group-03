@@ -3,11 +3,6 @@ package ca.mcgill.ecse321.librarymanagement.dao;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.sql.Date;
-import java.sql.Time;
-
-import javax.transaction.Transactional;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,9 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import ca.mcgill.ecse321.librarymanagement.model.Librarian;
+import ca.mcgill.ecse321.librarymanagement.model.Client;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
-import ca.mcgill.ecse321.librarymanagement.model.Room;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
 import ca.mcgill.ecse321.librarymanagement.model.User;
@@ -59,15 +53,15 @@ public class TestLibraryManagementPersistence {
 	@BeforeEach
 	@AfterEach
 	public void clearDatabase() {
-		timeslotRepository.deleteAll();
-		titleRepository.deleteAll();
-		roomRepository.deleteAll();
-		clientRepository.deleteAll();
-		librarianRepository.deleteAll();
+		//timeslotRepository.deleteAll();
 		libraryRepository.deleteAll();
-		scheduleRepository.deleteAll();
-		roomReservationRepository.deleteAll();
-		titleReservationRepository.deleteAll();
+		titleRepository.deleteAll();
+		clientRepository.deleteAll();
+//		roomRepository.deleteAll();
+//		librarianRepository.deleteAll();
+//		scheduleRepository.deleteAll();
+//		roomReservationRepository.deleteAll();
+//		titleReservationRepository.deleteAll();
 	}
 	
 	/*
@@ -89,8 +83,9 @@ public class TestLibraryManagementPersistence {
 		
 		//Create Title object with parameters. ^^
 		Title book = new Title(name, description, genre, true, titleType, library);
-				
+						
 		//Save the title to the DB.
+		libraryRepository.save(library);
 		Title savedBook = titleRepository.save(book);
 		int bookId = savedBook.getTitleId();
 	
@@ -108,7 +103,7 @@ public class TestLibraryManagementPersistence {
 		assertEquals(description, book.getDescription());
 		assertEquals(genre, book.getGenre());
 		assertEquals(titleType, book.getTitleType());
-		assertEquals(library, book.getLibrary());
+		assertEquals(library.getLibraryId(), book.getLibrary().getLibraryId());
 
 	}
 	
@@ -126,14 +121,15 @@ public class TestLibraryManagementPersistence {
 		Title newspaper = new Title(name, description, genre, true, titleType, library);
 				
 		//Save the title to the DB.
-		Title savedBook = titleRepository.save(newspaper);
-		int bookId = savedBook.getTitleId();
+		libraryRepository.save(library);
+		Title savedNewspaper = titleRepository.save(newspaper);
+		int newspaperId = savedNewspaper.getTitleId();
 	
 		//Get rid of the title.
 		newspaper = null;
 		
 		//Use the CRUD method to query the title from the DB. 
-		newspaper = titleRepository.findTitleByTitleId(bookId);
+		newspaper = titleRepository.findTitleByTitleId(newspaperId);
 						
 		//Check that the object was properly queried from DB.
 		assertNotNull(newspaper);
@@ -143,7 +139,7 @@ public class TestLibraryManagementPersistence {
 		assertEquals(description, newspaper.getDescription());
 		assertEquals(genre, newspaper.getGenre());
 		assertEquals(titleType, newspaper.getTitleType());
-		assertEquals(library, newspaper.getLibrary());
+		assertEquals(library.getLibraryId(), newspaper.getLibrary().getLibraryId());
 		
 	}
 	
@@ -161,14 +157,15 @@ public class TestLibraryManagementPersistence {
 		Title musicAlbum = new Title(name, description, genre, true, titleType, library);
 				
 		//Save the title to the DB.
-		Title savedBook = titleRepository.save(musicAlbum);
-		int bookId = savedBook.getTitleId();
+		libraryRepository.save(library);
+		Title savedMusicAlbum = titleRepository.save(musicAlbum);
+		int musicAlbumId = savedMusicAlbum.getTitleId();
 	
 		//Get rid of the title.
 		musicAlbum = null;
 		
 		//Use the CRUD method to query the title from the DB. 
-		musicAlbum = titleRepository.findTitleByTitleId(bookId);
+		musicAlbum = titleRepository.findTitleByTitleId(musicAlbumId);
 						
 		//Check that the object was properly queried from DB.
 		assertNotNull(musicAlbum);
@@ -178,7 +175,7 @@ public class TestLibraryManagementPersistence {
 		assertEquals(description, musicAlbum.getDescription());
 		assertEquals(genre, musicAlbum.getGenre());
 		assertEquals(titleType, musicAlbum.getTitleType());
-		assertEquals(library, musicAlbum.getLibrary());
+		assertEquals(library.getLibraryId(), musicAlbum.getLibrary().getLibraryId());
 	}
 	
 	@Test
@@ -195,14 +192,15 @@ public class TestLibraryManagementPersistence {
 		Title movie = new Title(name, description, genre, true , titleType, library);
 				
 		//Save the title to the DB.
-		Title savedBook = titleRepository.save(movie);
-		int bookId = savedBook.getTitleId();
+		libraryRepository.save(library);
+		Title savedMovie = titleRepository.save(movie);
+		int movieId = savedMovie.getTitleId();
 	
 		//Get rid of the title.
 		movie = null;
 		
 		//Use the CRUD method to query the title from the DB. 
-		movie = titleRepository.findTitleByTitleId(bookId);
+		movie = titleRepository.findTitleByTitleId(movieId);
 						
 		//Check that the object was properly queried from DB.
 		assertNotNull(movie);
@@ -212,57 +210,89 @@ public class TestLibraryManagementPersistence {
 		assertEquals(description, movie.getDescription());
 		assertEquals(genre, movie.getGenre());
 		assertEquals(titleType, movie.getTitleType());
-		assertEquals(library, movie.getLibrary());
+		assertEquals(library.getLibraryId(), movie.getLibrary().getLibraryId());
+		
+	}
+	
+	@Test
+	public void testPersistAndLoadArchive() {
+		
+		//Create all constructor fields
+		String name = "moby dick";
+		String description = "whale eats guy";
+		String genre = "adventure";
+		TitleType titleType = TitleType.Movie;
+		Library library = new Library();
+		
+		//Create Title object with parameters. ^^
+		Title archive = new Title(name, description, genre, true , titleType, library);
+				
+		//Save the title to the DB.
+		libraryRepository.save(library);
+		Title savedArchive = titleRepository.save(archive);
+		int archiveId = savedArchive.getTitleId();
+	
+		//Get rid of the title.
+		archive = null;
+		
+		//Use the CRUD method to query the title from the DB. 
+		archive = titleRepository.findTitleByTitleId(archiveId);
+						
+		//Check that the object was properly queried from DB.
+		assertNotNull(archive);
+		
+		//Test that all the data was properly saved.
+		assertEquals(name, archive.getName());
+		assertEquals(description, archive.getDescription());
+		assertEquals(genre, archive.getGenre());
+		assertEquals(titleType, archive.getTitleType());
+		assertEquals(library.getLibraryId(), archive.getLibrary().getLibraryId());
 		
 	}
 		
+		
 	
-//	/*
-//	 * 
-//	 * adam
-//	 * 
-//	 * 
-//	 * */
-//	
-//	@Test
-//	public void testPersistAndLoadUser() {
-//		String userUsername = "geener";
-//		String userPassword = "pass";
-//		String userEmailaddress = "adam@gmail.com";
-//		String userFullName = "Adam Geenen";
-//		String userResAddress = "kildare";
-//		boolean resident = true;
-//		
-//		LibrarySchedule librarySchedule = new LibrarySchedule();
-//		Library library = new Library(librarySchedule);
-//		User user = new User(userUsername, userPassword, userEmailaddress, userFullName, userResAddress, resident, library);
-//		
-//		LibrarySchedule savedLibrarySchedule = libraryScheduleRepository.save(librarySchedule);
-//		Library savedLibrary = libraryRepository.save(library);
-//		User savedUser = userRepository.save(user);
-//		
-//		int savedLibraryScheduleId = savedLibrarySchedule.getScheduleId();
-//		int savedLibraryId = savedLibrary.getLibraryId();
-//		int savedUserId = savedUser.getUserId();
-//
-//		librarySchedule = null;
-//		library = null;
-//		user = null;
-//		
-//		librarySchedule = libraryScheduleRepository.findLibraryScheduleByScheduleId(savedLibraryScheduleId);
-//		library = libraryRepository.findLibraryByLibraryId(savedLibraryId);
-//		user = userRepository.findUserByUserId(savedUserId);
-//				
-//		System.out.println(user);
-//		
-//		assertNotNull(user);
-//		
-//		assertEquals(userUsername, user.getUsername());
-//		assertEquals(userPassword, user.getPassword());
-//		assertEquals(userEmailaddress, user.getEmailaddress());
-//		assertEquals(userFullName, user.getFullName());
-//		assertEquals(userResAddress, user.getResAddress());
-//	}
+	/*
+	 * 
+	 * adam
+	 * 
+	 * 
+	 * */
+	
+	@Test
+	public void testPersistAndLoadClient() {
+		String userUsername = "geener";
+		String userPassword = "pass";
+		String userEmailaddress = "adam@gmail.com";
+		String userFullName = "Adam Geenen";
+		String userResAddress = "kildare";
+		boolean isResident = true;
+		Library library = new Library();
+		boolean isOnline = true;
+		
+		Client client = new Client(userUsername, userPassword, userFullName, library, userResAddress, userEmailaddress, isResident, isOnline);
+		
+		libraryRepository.save(library);
+		Client savedClient = clientRepository.save(client);
+		
+		int savedClientId = savedClient.getUserId();
+
+		client = null;
+		
+		client = clientRepository.findClientByUserId(savedClientId);
+		
+		assertNotNull(client);
+		
+		assertEquals(userUsername, client.getUsername());
+		assertEquals(userPassword, client.getPassword());
+		assertEquals(userFullName, client.getFullname());
+		assertEquals(library.getLibraryId(), client.getLibrary().getLibraryId());
+		assertEquals(userResAddress, client.getResidentialAddress());
+		assertEquals(userEmailaddress, client.getEmail());
+		assertEquals(isResident, client.getIsResident());
+		assertEquals(isOnline, client.getIsOnline());
+
+	}
 //	
 //	@Test
 //	public void testPersistAndLoadLibrarian() {

@@ -5,6 +5,7 @@ package ca.mcgill.ecse321.librarymanagement.model;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,13 +33,13 @@ public class Library
   @OneToOne(targetEntity = Schedule.class)
   private Schedule librarySchedule;
   
-  @OneToMany(targetEntity = User.class)
+  @OneToMany(cascade = CascadeType.ALL)
   private List<User> users;
   
-  @OneToMany(targetEntity = Title.class)
+  @OneToMany(cascade = CascadeType.ALL)
   private List<Title> titles;
   
-  @OneToMany(targetEntity = Room.class)
+  @OneToMany(cascade = CascadeType.ALL)
   private List<Room> rooms;
 
   //------------------------

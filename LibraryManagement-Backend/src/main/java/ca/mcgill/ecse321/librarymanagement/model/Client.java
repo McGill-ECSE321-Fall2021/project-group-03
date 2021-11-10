@@ -29,9 +29,11 @@ public class Client extends User
   // CONSTRUCTOR
   //------------------------
   
-  public Client(int aUserId, String aUsername, String aPassword, String aFullname, Library aLibrary, String aResidentialAddress, String aEmail, boolean aIsResident, boolean aIsOnline)
+  protected Client() {}
+  
+  public Client(String aUsername, String aPassword, String aFullname, Library aLibrary, String aResidentialAddress, String aEmail, boolean aIsResident, boolean aIsOnline)
   {
-    super(aUserId, aUsername, aPassword, aFullname, aLibrary);
+    super(aUsername, aPassword, aFullname, aLibrary);
     residentialAddress = aResidentialAddress;
     email = aEmail;
     isResident = aIsResident;

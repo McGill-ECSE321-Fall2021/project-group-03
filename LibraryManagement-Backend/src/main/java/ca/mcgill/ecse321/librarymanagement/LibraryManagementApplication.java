@@ -5,6 +5,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.RestController;
+
+import ca.mcgill.ecse321.librarymanagement.dao.LibraryRepository;
+import ca.mcgill.ecse321.librarymanagement.model.Library;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController

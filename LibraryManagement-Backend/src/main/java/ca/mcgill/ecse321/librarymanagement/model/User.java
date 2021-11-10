@@ -48,9 +48,8 @@ public abstract class User
   
   protected User() {}
 
-  public User(int aUserId, String aUsername, String aPassword, String aFullname, Library aLibrary)
+  public User(String aUsername, String aPassword, String aFullname, Library aLibrary)
   {
-    userId = aUserId;
     username = aUsername;
     password = aPassword;
     fullname = aFullname;
