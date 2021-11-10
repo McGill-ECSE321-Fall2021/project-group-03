@@ -8,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ca.mcgill.ecse321.librarymanagement.dao.ClientRepository;
+import ca.mcgill.ecse321.librarymanagement.dao.LibrarianRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.LibraryRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TitleRepository;
-import ca.mcgill.ecse321.librarymanagement.dto.LibraryDto;
+import ca.mcgill.ecse321.librarymanagement.dto.ClientDto;
+import ca.mcgill.ecse321.librarymanagement.model.Client;
+import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
@@ -24,6 +28,12 @@ public class LibraryManagementService {
 	@Autowired
 	private LibraryRepository libraryRepository;
 
+	@Autowired
+	private ClientRepository clientRepository;
+	
+	@Autowired
+	private LibrarianRepository librarianRepository;
+	
 	@Transactional
 	public Title createTitle(String aName, String aDescription, String aGenre, boolean aIsAvailable,
 			TitleType aTitleType, Library aLibrary) {
@@ -54,12 +64,42 @@ public class LibraryManagementService {
 	}
 
 	public Library getLibrary() {
-		return  toList(libraryRepository.findAll()).get(0);
+		try {
+			Library library = toList(libraryRepository.findAll()).get(0);	
+		}
+		
+		catch (Exception e) {
+			Library library = new Library();
+			libraryRepository.save(library);
+			return library;
+			
+		}
+		
+		return toList(libraryRepository.findAll()).get(0);
+		
+		
 	}
-	
-	public void createLibrary() {
-		Library library = new Library();
+
+	public Client createClient(String aUsername, String aPassword, String aFullname, String aResidentialAddress, String aEmail, boolean aIsResident, boolean aIsOnline, Library library) {
+		
+		Client client = new Client(aUsername, aPassword, aFullname, aResidentialAddress, aEmail, aIsResident, aIsOnline);
+		library.addUser(client);
+		clientRepository.save(client);
 		libraryRepository.save(library);
+		
+		return client;
+	}
+
+	public List<Client> getAllClients() {
+		return toList(clientRepository.findAll());
+	}
+
+	public Librarian createLibrarian(String username, String password, String fullName, boolean isHeadLibrarian, Library library) {
+		Librarian librarian = new Librarian(username, password, fullName, isHeadLibrarian);
+		library.addUser(librarian);
+		librarianRepository.save(librarian);
+		libraryRepository.save(library);
+		return librarian;
 	}
 
 }

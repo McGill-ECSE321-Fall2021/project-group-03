@@ -19,7 +19,7 @@ import javax.persistence.Table;
 // line 125 "model.ump"
 @Entity
 //@Table(name="pseudoSchedule")
-public class Schedule
+public class ScheduleDto
 {
 
   //------------------------
@@ -44,7 +44,7 @@ public class Schedule
   // CONSTRUCTOR
   //------------------------
   
-  public Schedule()
+  public ScheduleDto()
   {
     timeslots = new ArrayList<Timeslot>();
   }
@@ -167,7 +167,7 @@ public class Schedule
       return wasSet;
     }
     
-    Schedule existingLibrarySchedule = aNewLibrary.getLibrarySchedule();
+    ScheduleDto existingLibrarySchedule = aNewLibrary.getLibrarySchedule();
     if (existingLibrarySchedule != null && !equals(existingLibrarySchedule))
     {
       //Unable to setLibrary, the current library already has a librarySchedule, which would be orphaned if it were re-assigned

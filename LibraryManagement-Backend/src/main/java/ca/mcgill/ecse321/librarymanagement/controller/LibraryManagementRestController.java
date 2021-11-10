@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.librarymanagement.dto.ClientDto;
+import ca.mcgill.ecse321.librarymanagement.dto.LibrarianDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TitleDto;
+import ca.mcgill.ecse321.librarymanagement.model.Client;
+import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
@@ -25,6 +29,13 @@ public class LibraryManagementRestController {
 
 	@Autowired
 	private LibraryManagementService service;
+	
+	
+	/*
+	 * 
+	 * Titles
+	 * 
+	 * */
 	
 	@GetMapping(value = { "/titles", "/titles/" })
 	public List<TitleDto> getAllBooks() {
@@ -47,6 +58,82 @@ public class LibraryManagementRestController {
 		return titleDto;
 	}
 	
+	/*
+	 * 
+	 * Client
+	 * 
+	 * */
+	
+	@GetMapping(value = { "/clients", "/clients/" })
+	public List<ClientDto> getAllClients() {
+		return service.getAllClients().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+	}
+	
+	@PostMapping(value = { "/clients/{username}", "/clients/{username}/" })
+	public ClientDto createClient(@PathVariable("username") String username , @RequestParam String password, @RequestParam String fullName, @RequestParam String residentialAddress, @RequestParam String email, @RequestParam String isResident, @RequestParam String isOnline)
+			throws IllegalArgumentException {
+		
+		Library library = getLibrary();
+		
+		Client client = service.createClient(username, password, fullName, residentialAddress, email, Boolean.parseBoolean(isResident), Boolean.parseBoolean(isOnline), library);
+		
+		
+		return convertToDto(client);
+	}
+	
+	public ClientDto convertToDto(Client client) {
+		ClientDto clientDto = new ClientDto(client.getUserId(), client.getUsername(), client.getPassword(), client.getResidentialAddress(), client.getEmail(), client.getIsResident(), client.getIsOnline());
+		return clientDto;
+	}
+	
+	/*
+	 * 
+	 * Librarian
+	 * 
+	 * */
+	
+	@GetMapping(value = { "/librarians", "/librarians/" })
+	public List<TitleDto> getAllLibrarians() {
+		return service.getAllTitles().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+	}
+	
+	@PostMapping(value = { "/librarians/{username}", "/librarians/{username}/" })
+	public LibrarianDto createLibrarian(@PathVariable("username") String username , @RequestParam String password, @RequestParam String fullName, @RequestParam boolean isHeadLibrarian)
+			throws IllegalArgumentException {
+		
+		Library library = getLibrary();
+		
+		Librarian librarian = service.createLibrarian(username, password, fullName, isHeadLibrarian, library);
+		
+		
+		return convertToDto(librarian);
+	}
+	
+	public LibrarianDto convertToDto(Librarian librarian) {
+		LibrarianDto librarianDto = new LibrarianDto(librarian.getUserId(), librarian.getUsername(), librarian.getPassword(), librarian.getFullname(), librarian.getIsHeadLibrarian());
+		return librarianDto;
+	}
+	
+	
+	/*
+	 * 
+	 * Library
+	 * 
+	 * */
+	
+	@GetMapping(value = { "/library", "/library/" })
+	public Library getLibrary() {
+		
+		return service.getLibrary();
+		
+	}
+	
+	/*
+	 * 
+	 * Helper methods
+	 * 
+	 * */
+	
 	public TitleType parseTitleType(String titleType) {
 		TitleType type = null;
 		
@@ -66,19 +153,7 @@ public class LibraryManagementRestController {
 			type = TitleType.Movie;
 		}
 		return type;
-		
-		
 	}
-	
-	@GetMapping(value = { "/library", "/library/" })
-	public Library getLibrary() {
-		return service.getLibrary();
-	}
-	
-	public void createLibrary() {
-		service.createLibrary();
-	}
-	
 
 
 }
