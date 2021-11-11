@@ -175,6 +175,11 @@ public class LibraryManagementService {
 		return toList(libraryRepository.findAll()).get(0);
 
 	}
+	
+	public void removeLibrary(Library library) {
+		library.delete();
+		libraryRepository.save(library);
+	}
 
 	@Transactional
 	public Client createClient(String aUsername, String aPassword, String aFullname, String aResidentialAddress,
@@ -215,32 +220,6 @@ public class LibraryManagementService {
 		return client;
 	}
 	
-//	@Transactional
-//	public Title createTitle(String name, String description, String genre, boolean isAvailable, TitleType titleType,
-//			Library library) {
-//
-//		if (name == null || name.trim().length() == 0) {
-//			throw new IllegalArgumentException("Title cannot be empty!");
-//		}
-//
-//		if (description == null || description.trim().length() == 0) {
-//			throw new IllegalArgumentException("Title cannot be empty!");
-//		}
-//
-//		if (genre == null || description.trim().length() == 0) {
-//			throw new IllegalArgumentException("Title cannot be empty!");
-//		}
-//
-//		if (titleType == null) {
-//			throw new IllegalArgumentException("Title cannot be empty!");
-//		}
-//
-//		Title title = new Title(name, description, genre, isAvailable, titleType);
-//		library.addTitle(title);
-//		titleRepository.save(title);
-//		libraryRepository.save(library);
-//		return title;
-//	}
 
 	@Transactional
 	public List<Client> getAllClients() {
@@ -456,6 +435,20 @@ public class LibraryManagementService {
 		roomReservationRepository.save(roomReservation);
 		return null;
 	}
+	
+	@Transactional
+	public void removeRoomReservation(int roomId, int userId, Library library) {
+		for (RoomReservation roomReservation : library.getRoomReservations()) {
+			if (roomReservation.getClient().getUsername().equals(userId) && roomReservation.getRoom().getRoomId() == roomId) {
+				library.getRoomReservations().remove(roomReservation);
+				roomReservationRepository.delete(roomReservation);
+				libraryRepository.save(library);
+			}
+		}
+		
+		throw new IllegalArgumentException("Cannot find Room Reservation");
+	}
+
 
 	@Transactional
 	public Timeslot createStaffScheduleTimeslot(Time startTime, Time endTime, Date date, Library library,

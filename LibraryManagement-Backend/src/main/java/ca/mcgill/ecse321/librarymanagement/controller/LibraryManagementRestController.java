@@ -69,12 +69,12 @@ public class LibraryManagementRestController {
 		Library library = getLibrary();
 
 		Title title = service.createTitle(name, description, genre, Boolean.parseBoolean(isAvailable),
-				parseTitleType("Movie"), library);
+				parseTitleType(titleType), library);
 
 		return convertToDto(title);
 	}
 	
-	@PostMapping(value = { "/titles/create/{name}", "/titles/create/{name}/" })
+	@PostMapping(value = { "/titles/update/{name}", "/titles/update/{name}/" })
 	public TitleDto updateTitle(@PathVariable("name") String name, @RequestParam String description,
 			@RequestParam String genre, @RequestParam String titleType)
 			throws IllegalArgumentException {
@@ -82,7 +82,7 @@ public class LibraryManagementRestController {
 		Library library = getLibrary();
 
 		Title title = service.updateTitle(name, description, genre,
-				parseTitleType("Movie"), library);
+				parseTitleType(titleType), library);
 
 		return convertToDto(title);
 	}
@@ -185,7 +185,7 @@ public class LibraryManagementRestController {
 		return convertToDto(client);
 	}
 	
-	@PostMapping(value = { "/clients/create/{username}", "/clients/create/{username}/" })
+	@PostMapping(value = { "/clients/remove/{username}", "/clients/remove/{username}/" })
 	public void removeClient(@PathVariable("username") String username) throws IllegalArgumentException {
 
 		Library library = getLibrary();
@@ -264,6 +264,13 @@ public class LibraryManagementRestController {
 	public Library getLibrary() {
 		return service.getLibrary();
 	}
+	
+	@PostMapping(value = { "/library/remove", "/library/remove/" })
+	public void removeLibrary() {
+		Library library = getLibrary();
+		service.removeLibrary(library);
+	}
+	
 
 
 	/*
@@ -359,7 +366,6 @@ public class LibraryManagementRestController {
 	 * 
 	 */
 
-	// room reservation for a room
 	@GetMapping(value = { "/roomReservations/get/{roomId}", "/roomReservations/get/{roomId}/" })
 	public List<RoomReservationDto> getRoomReservations(@PathVariable("roomId") String roomId) {
 		return service.getAllRoomReservations(Integer.parseInt(roomId)).stream().map(b -> convertToDto(b))
@@ -374,16 +380,23 @@ public class LibraryManagementRestController {
 
 		Library library = getLibrary();
 
-		// Schedule roomSchedule = room
 		Time startTime = new Time(Integer.parseInt(startHour), Integer.parseInt(startMin), 0);
 		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
 		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
-
 
 		RoomReservation roomReservation = service.createRoomReservation(startTime, endTime, date,
 				Integer.parseInt(roomId), Integer.parseInt(userId), library);
 
 		return convertToDto(roomReservation);
+	}
+	
+	@PostMapping(value = { "/roomReservations/remove/{roomId}", "/roomReservations/remove/{timeslotId}/" })
+	public void removeRoomReservation(@PathVariable("roomId") String roomId, @RequestParam String userId)
+			throws IllegalArgumentException {
+		Library library = getLibrary();
+		
+		service.removeRoomReservation(Integer.parseInt(roomId), Integer.parseInt(userId), library);
+
 	}
 
 	public RoomReservationDto convertToDto(RoomReservation rr) {
