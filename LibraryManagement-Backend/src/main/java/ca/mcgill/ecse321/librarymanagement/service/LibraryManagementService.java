@@ -657,5 +657,14 @@ public class LibraryManagementService {
 		
 		return librarian;
 	}
+	
+	public Timeslot getTimeslot(int timeslotId) {
+		Timeslot timeSlot = timeslotRepository.findTimeslotByTimeslotId(timeslotId);
+		
+		if (timeSlot == null) {
+			throw new IllegalArgumentException("Timeslot does not exist!");
+		}
+		return timeSlot;
+	}
 
 }

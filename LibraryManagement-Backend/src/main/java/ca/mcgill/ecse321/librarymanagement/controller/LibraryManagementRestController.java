@@ -21,6 +21,7 @@ import ca.mcgill.ecse321.librarymanagement.dto.RoomReservationDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TimeslotDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TitleDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TitleReservationDto;
+import ca.mcgill.ecse321.librarymanagement.dto.UserDto;
 import ca.mcgill.ecse321.librarymanagement.model.Client;
 import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
@@ -266,11 +267,11 @@ public class LibraryManagementRestController {
 		return timeslotDto;
 	}
 	
-//	@GetMapping(value = { "/timeslots/get/{timeslotId}", "/timeslots/get/{timeslotId}/" })
-//	public Timeslot getTimeslot(@PathVariable("timeslotId") String timeslotId) {
-//		Timeslot timeslot = service.getTimeslot(Integer.parseInt(timeslotId));
-//		return convertToDto(timeslot);
-//	}
+	@GetMapping(value = { "/timeslots/get/{timeslotId}", "/timeslots/get/{timeslotId}/" })
+	public TimeslotDto getTimeslot(@PathVariable("timeslotId") String timeslotId) {
+		Timeslot timeslot = service.getTimeslot(Integer.parseInt(timeslotId));
+		return convertToDto(timeslot);
+	}
 
 	/*
 	 * 
