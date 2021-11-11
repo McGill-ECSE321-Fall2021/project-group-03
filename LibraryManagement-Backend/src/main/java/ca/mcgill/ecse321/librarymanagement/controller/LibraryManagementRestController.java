@@ -155,6 +155,27 @@ public class LibraryManagementRestController {
 		return type;
 	}
 
+	/*
+	 * 
+	 * Schedule
+	 * 
+	 * */
 
+	@GetMapping(value = { "/schedules", "/schedules/" })
+	public List<ScheduleDto> getAllSchedules() {
+		return service.getAllSchedules().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+	}
+	
+	public ScheduleDto convertToDto(Schedule schedule) {
+		ScheduleDto scheduleDto = new LibrarianDto(librarian.getUserId(), librarian.getUsername(), librarian.getPassword(), librarian.getFullname(), librarian.getIsHeadLibrarian());
+		return librarianDto;
+	}
+	
+	
+	/*
+	 * 
+	 * Vassy
+	 * 
+	 * */
 }
 

@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.librarymanagement.dto;
 
-public class LibrarianDto {
+public class LibrarianDto extends UserDto {
 
 	private int userId;
 	private String username;

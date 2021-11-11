@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.librarymanagement.dto;
 
-public class ClientDto {
+public class ClientDto extends UserDto {
 
 	private String residentialAddress;
 	private String email;

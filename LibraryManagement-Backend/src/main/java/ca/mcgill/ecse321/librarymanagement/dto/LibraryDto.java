@@ -2,19 +2,13 @@ package ca.mcgill.ecse321.librarymanagement.dto;
 
 import java.util.List;
 
-import ca.mcgill.ecse321.librarymanagement.model.Library;
-import ca.mcgill.ecse321.librarymanagement.model.Room;
-import ca.mcgill.ecse321.librarymanagement.model.ScheduleDto;
-import ca.mcgill.ecse321.librarymanagement.model.Title;
-import ca.mcgill.ecse321.librarymanagement.model.User;
-
 public class LibraryDto {
 
 	private int libraryId;
 	private List<RoomDto> rooms;
 	private List<TitleDto> titles;
 	private ScheduleDto librarySchedule;
-	private List<User> users;
+	private List<UserDto> users;
 
 	public LibraryDto(List<RoomDto> rooms, List<TitleDto> titles,  ScheduleDto librarySchedule, List<UserDto> users) {
 		this.rooms = rooms;

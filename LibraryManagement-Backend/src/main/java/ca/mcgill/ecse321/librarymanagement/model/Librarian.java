@@ -22,8 +22,8 @@ public class Librarian extends User
   private boolean isHeadLibrarian;
 
   //Librarian Associations
-  @OneToOne (targetEntity = ScheduleDto.class)
-  private ScheduleDto staffSchedule;
+  @OneToOne (targetEntity = Schedule.class)
+  private Schedule staffSchedule;
 
   //------------------------
   // CONSTRUCTOR
@@ -54,7 +54,7 @@ public class Librarian extends User
     return isHeadLibrarian;
   }
   /* Code from template association_GetOne */
-  public ScheduleDto getStaffSchedule()
+  public Schedule getStaffSchedule()
   {
     return staffSchedule;
   }
@@ -65,7 +65,7 @@ public class Librarian extends User
     return has;
   }
   /* Code from template association_SetUnidirectionalOptionalOne */
-  public boolean setStaffSchedule(ScheduleDto aNewStaffSchedule)
+  public boolean setStaffSchedule(Schedule aNewStaffSchedule)
   {
     boolean wasSet = false;
     staffSchedule = aNewStaffSchedule;

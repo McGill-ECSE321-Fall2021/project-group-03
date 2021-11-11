@@ -32,7 +32,7 @@ public class Library
   
 //  @OneToOne(targetEntity = Schedule.class)
   @OneToOne(cascade = CascadeType.ALL)
-  private ScheduleDto librarySchedule;
+  private Schedule librarySchedule;
   
   @OneToMany(cascade = CascadeType.ALL)
   private List<User> users;
@@ -49,7 +49,7 @@ public class Library
 
   public Library()
   {
-	librarySchedule = new ScheduleDto();
+	librarySchedule = new Schedule();
     users = new ArrayList<User>();
     titles = new ArrayList<Title>();
     rooms = new ArrayList<Room>();
@@ -72,7 +72,7 @@ public class Library
     return libraryId;
   }
   /* Code from template association_GetOne */
-  public ScheduleDto getLibrarySchedule()
+  public Schedule getLibrarySchedule()
   {
     return librarySchedule;
   }
@@ -173,7 +173,7 @@ public class Library
     return index;
   }
   /* Code from template association_SetOptionalOneToOne */
-  public boolean setLibrarySchedule(ScheduleDto aNewLibrarySchedule)
+  public boolean setLibrarySchedule(Schedule aNewLibrarySchedule)
   {
     boolean wasSet = false;
     if (librarySchedule != null && !librarySchedule.equals(aNewLibrarySchedule) && equals(librarySchedule.getLibrary()))
@@ -415,7 +415,7 @@ public class Library
 
   public void delete()
   {
-    ScheduleDto existingLibrarySchedule = librarySchedule;
+    Schedule existingLibrarySchedule = librarySchedule;
     librarySchedule = null;
     if (existingLibrarySchedule != null)
     {
