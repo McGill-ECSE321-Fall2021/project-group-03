@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.librarymanagement.service;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,10 +76,6 @@ public class LibraryManagementService {
 
 		if (genre == null || description.trim().length() == 0) {
 			throw new IllegalArgumentException("Title cannot be empty!");
-		}
-
-		if (isAvailable == false) {
-			throw new IllegalArgumentException("Title cannot be false when first created!");
 		}
 
 		if (titleType == null) {
@@ -165,10 +162,9 @@ public class LibraryManagementService {
 
 	public Librarian createLibrarian(String username, String password, String fullName, boolean isHeadLibrarian,
 			Library library) {
-		
-		
-		Librarian headLibrarian =  null;
-		
+
+		Librarian headLibrarian = null;
+
 		for (User u : library.getUsers()) {
 			if (u instanceof Librarian) {
 				Librarian l = (Librarian) u;
@@ -177,7 +173,7 @@ public class LibraryManagementService {
 				}
 			}
 		}
-		
+
 		if (username == null || username.trim().length() == 0) {
 			throw new IllegalArgumentException("Librarian information cannot be empty!");
 		}
@@ -189,12 +185,11 @@ public class LibraryManagementService {
 		if (fullName == null || fullName.trim().length() == 0) {
 			throw new IllegalArgumentException("Librarian information cannot be empty!");
 		}
-		
+
 		if (isHeadLibrarian && headLibrarian != null) {
 			throw new IllegalArgumentException("Head Librarian already exists!");
 		}
-		
-		
+
 		Librarian librarian = new Librarian(username, password, fullName, isHeadLibrarian);
 		library.addUser(librarian);
 		librarianRepository.save(librarian);
@@ -204,6 +199,23 @@ public class LibraryManagementService {
 
 	public Timeslot createLibraryTimeslot(Time startTime, Time endTime, Date date, Schedule librarySchedule,
 			Library library) {
+		
+		for (Timeslot t : library.getLibrarySchedule().getTimeslots()) {
+		
+		if (isOverlapping(t, date, startTime, endTime)) {
+				throw new IllegalArgumentException("Library time slot cannot overlap existing time slot");
+			}
+		}
+		
+		if (startTime.after(endTime) || startTime.equals(endTime)) {
+			throw new IllegalArgumentException("start time must be before end time");
+		}
+		
+		Date today = new Date(Calendar.getInstance().getTime().getTime());
+		if (today.after(date)) {
+			throw new IllegalArgumentException("Library time slot cannot be created in the past");
+		}
+		
 		Timeslot timeslot = new Timeslot(startTime, endTime, date);
 		librarySchedule.addTimeslot(timeslot);
 		timeslotRepository.save(timeslot);
@@ -313,6 +325,55 @@ public class LibraryManagementService {
 		titleRepository.delete(title);
 		library.removeTitle(title);
 		libraryRepository.save(library);
+	}
+
+	public boolean isOverlapping(Timeslot existingTimeslot, Date newDate, Time newStart, Time newEnd) {
+		Date date = existingTimeslot.getDate();
+
+		// is it on the same day?
+		if (date.getYear() == newDate.getYear() && date.getMonth() == newDate.getMonth()
+				&& date.getDay() == newDate.getDate()) {
+			Time startTime = existingTimeslot.getStartTime();
+			Time endTime = existingTimeslot.getEndTime();
+
+			if (newStart.before(startTime) && newEnd.after(startTime)) {
+				return true;
+			}
+
+			if (newStart.after(startTime) && newEnd.after(endTime)) {
+				return true;
+			}
+
+			if (newStart.before(startTime) && newEnd.after(endTime)) {
+				return true;
+			}
+
+			if (newStart.after(startTime) && newEnd.before(endTime)) {
+				return true;
+			}
+
+			if (newStart.equals(startTime) && newEnd.equals(endTime)) {
+				return true;
+			}
+
+			if (newStart.equals(startTime) && newEnd.after(endTime)) {
+				return true;
+			}
+
+			if (newStart.equals(startTime) && newEnd.before(endTime)) {
+				return true;
+			}
+
+			if (newStart.after(startTime) && newEnd.equals(endTime)) {
+				return true;
+			}
+
+			if (newStart.before(startTime) && newEnd.equals(endTime)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }
