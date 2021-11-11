@@ -116,6 +116,7 @@ public class LibraryManagementService {
 		return resultList;
 	}
 
+	@Transactional
 	public Library getLibrary() {
 		try {
 			Library library = toList(libraryRepository.findAll()).get(0);
@@ -132,6 +133,7 @@ public class LibraryManagementService {
 
 	}
 
+	@Transactional
 	public Client createClient(String aUsername, String aPassword, String aFullname, String aResidentialAddress,
 			String aEmail, boolean aIsResident, boolean aIsOnline, Library library)
 
@@ -149,7 +151,7 @@ public class LibraryManagementService {
 		}
 		
 		for (User u : library.getUsers()) {
-			if (u.getUsername() == aUsername) {
+			if (u.getUsername().equals(aUsername)) {
 				throw new IllegalArgumentException("username already exists");
 			}
 		}
@@ -197,6 +199,7 @@ public class LibraryManagementService {
 //		return title;
 //	}
 
+	@Transactional
 	public List<Client> getAllClients() {
 		return toList(clientRepository.findAll());
 	}
@@ -211,6 +214,7 @@ public class LibraryManagementService {
 		return client;
 	}
 
+	@Transactional
 	public Librarian createLibrarian(String username, String password, String fullName, boolean isHeadLibrarian,
 			Library library) {
 
@@ -258,6 +262,7 @@ public class LibraryManagementService {
 		return librarian;
 	}
 
+	@Transactional
 	public Timeslot createLibraryTimeslot(Time startTime, Time endTime, Date date, Schedule librarySchedule,
 			Library library) {
 		
@@ -286,6 +291,7 @@ public class LibraryManagementService {
 		return timeslot;
 	}
 
+	@Transactional
 	public List<Timeslot> getAllLibraryTimeslots() {
 
 		Library library = getLibrary();
@@ -293,6 +299,7 @@ public class LibraryManagementService {
 		return library.getLibrarySchedule().getTimeslots();
 	}
 
+	@Transactional
 	public List<Timeslot> getAllLibrarianTimeslots(int librarianId) {
 		// filter through only the library timeslots	
 		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);	
@@ -300,6 +307,7 @@ public class LibraryManagementService {
 		return librarian.getStaffSchedule().getTimeslots();
 	}
 
+	@Transactional
 	public List<Room> getAllRooms() {
 		return toList(roomRepository.findAll());
 	}
@@ -314,6 +322,7 @@ public class LibraryManagementService {
 		return room;
 	}
 
+	@Transactional
 	public List<RoomReservation> getAllRoomReservations(int roomId) {
 		List<RoomReservation> roomReservations = toList(roomReservationRepository.findAll());
 		List<RoomReservation> thisRoomReservations = null;
@@ -326,6 +335,7 @@ public class LibraryManagementService {
 		return thisRoomReservations;
 	}
 
+	@Transactional
 	public Room createRoom(int capacity, boolean isAvailable, RoomType roomType, Library library) {
 		
 		
@@ -344,6 +354,7 @@ public class LibraryManagementService {
 		return room;
 	}
 
+	@Transactional
 	public RoomReservation createRoomReservation(Time startTime, Time endTime, Date date, int roomId, int clientId,
 			Library library) {
 		
@@ -380,6 +391,7 @@ public class LibraryManagementService {
 		return null;
 	}
 
+	@Transactional
 	public Timeslot createStaffScheduleTimeslot(Time startTime, Time endTime, Date date, Library library,
 			int librarianId) {
 		
@@ -431,6 +443,7 @@ public class LibraryManagementService {
 		return timeslot;
 	}
 
+	@Transactional
 	public void deleteLibrarian(Library library, int librarianId) {
 		
 		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
@@ -449,7 +462,8 @@ public class LibraryManagementService {
 		library.removeUser(librarian);
 		libraryRepository.save(library);
 	}
-
+	
+	@Transactional
 	public void removeStaffScheduleTimeslot(Time startTime, Time endTime, Date date, int librarianId) {
 		
 		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
@@ -488,10 +502,36 @@ public class LibraryManagementService {
 		return librarian;
 	}
 
-	public TitleReservation createTitleReservation(Date returnDate, boolean aBoolean, Title title, Client client,
+	@Transactional
+	public TitleReservation createTitleReservation(Date returnDate, boolean isCheckedOut, String titleName, String username,
 			Library library) {
 
-		TitleReservation titleReservation = new TitleReservation(returnDate, aBoolean, title, client);
+	
+		Client client = null;
+		Title title = null;
+		
+		for (User u : library.getUsers()) {
+			if (u instanceof Client && u.getUsername().equals(username)) {
+				client = (Client) u;
+			}
+		}
+		
+		for (Title t : library.getTitles()) {
+			if (t.getIsAvailable() && t.getName().equals(titleName)) {
+				title = t;
+			}
+		}
+		
+		
+		if (client == null) {
+			throw new IllegalArgumentException("Client does not exist!");
+		}
+		
+		if (title == null) {
+			throw new IllegalArgumentException("Title is not available!");
+		}
+		
+		TitleReservation titleReservation = new TitleReservation(returnDate, isCheckedOut, title, client);
 		library.addTitleReservation(titleReservation);
 		title.setIsAvailable(false);
 
@@ -503,6 +543,7 @@ public class LibraryManagementService {
 	}
 
 	// sets titleReservation IsCheckedOut=true
+	@Transactional
 	public TitleReservation updateTitleReservation(TitleReservation titleReservation, Library library) {
 		titleReservation.setIsCheckedOut(true);
 
@@ -524,12 +565,14 @@ public class LibraryManagementService {
 		return thisTitleReservation;
 	}
 
+	@Transactional
 	public void deleteTitle(Library library, Title title) {
 		titleRepository.delete(title);
 		library.removeTitle(title);
 		libraryRepository.save(library);
 	}
 
+	@Transactional
 	public boolean isOverlapping(Timeslot existingTimeslot, Date newDate, Time newStart, Time newEnd) {
 		Date date = existingTimeslot.getDate();
 
