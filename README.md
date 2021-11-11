@@ -16,12 +16,14 @@ management system will allow for users to create accounts, use the library syste
 and room schedules). Finally, the most important parts of the system should be accesible via a web frontend and a mobile android application. 
 
 
-| Team member (name)     | Role                  |  Effort for Deliverable 1 (hours) | 
-| ---------------------- | --------------------- | --------------------------------  |
-| Adam Geenen            | Software Engineer     | 30                                |
-| Tara Ginsberg          | Software Team Leader  | 30                                |
-| Abraham Somech         | Testing Team Leader   | 30                                |
-| Liam Serour            | Documentation Manager | 30                                |
-| Samuel-Ryan Vasserman  | Project Manager       | 30                                |
+| Team member (name)     | Role                  |  Effort for Deliverable 1 (hours) |  Effort for Deliverable 2 (hours) | 
+| ---------------------- | --------------------- | --------------------------------  | --------------------------------  |
+| Adam Geenen            | Software Engineer     | 30                                | 55                                |
+| Tara Ginsberg          | Software Team Leader  | 30                                | 55                                |
+| Abraham Somech         | Testing Team Leader   | 30                                | 55                                |
+| Liam Serour            | Documentation Manager | 30                                | 55                                |
+| Samuel-Ryan Vasserman  | Project Manager       | 30                                | 55                                |
+
+
 
 [Click this link to see our Project Report](https://github.com/McGill-ECSE321-Fall2021/project-group-03/wiki/Project-Report)
