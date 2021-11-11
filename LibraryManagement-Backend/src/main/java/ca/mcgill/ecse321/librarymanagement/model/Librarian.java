@@ -35,6 +35,7 @@ public class Librarian extends User
   {
     super(aUsername, aPassword, aFullname);
     isHeadLibrarian = aIsHeadLibrarian;
+    staffSchedule = new Schedule();
   }
 
   //------------------------

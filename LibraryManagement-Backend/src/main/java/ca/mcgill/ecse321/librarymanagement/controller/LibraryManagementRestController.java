@@ -165,6 +165,54 @@ public class LibraryManagementRestController {
 		}
 		return type;
 	}
+	
+	public boolean isOverlapping(Timeslot existingTimeslot, Date newDate, Time newStart, Time newEnd) {		
+		Date date = existingTimeslot.getDate();
+		
+		// is it on the same day?
+		if (date.getYear() == newDate.getYear() && date.getMonth() == newDate.getMonth() && date.getDay() == newDate.getDate()) {
+			Time startTime = existingTimeslot.getStartTime();
+			Time endTime = existingTimeslot.getEndTime();
+			
+			if (newStart.before(startTime) && newEnd.after(startTime)) {
+				return true;
+			}
+			
+			if (newStart.after(startTime) && newEnd.after(endTime)) {
+				return true;
+			}
+			
+			if (newStart.before(startTime) && newEnd.after(endTime)) {
+				return true;
+			}
+			
+			if (newStart.after(startTime) && newEnd.before(endTime)) {
+				return true;
+			}
+			
+			if (newStart.equals(startTime) && newEnd.equals(endTime)) {
+				return true;
+			}
+			
+			if (newStart.equals(startTime) && newEnd.after(endTime)) {
+				return true;
+			}
+			
+			if (newStart.equals(startTime) && newEnd.before(endTime)) {
+				return true;
+			}
+			
+			if (newStart.after(startTime) && newEnd.equals(endTime)) {
+				return true;
+			}
+			
+			if (newStart.before(startTime) && newEnd.equals(endTime)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 
 	public RoomType parseRoomType(String roomType) {
 		if (roomType.equals("Study")) {
@@ -237,11 +285,10 @@ public class LibraryManagementRestController {
 		return roomDto;
 	}
 
-	// room reservation
-
-	@GetMapping(value = { "/roomReservations", "/roomReservations/" })
-	public List<RoomReservationDto> getRoomReservations() {
-		return service.getAllRoomReservations().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+	// room reservation for a room
+	@GetMapping(value = { "/roomReservations/{roomId}", "/roomReservations/{roomId}" })
+	public List<RoomReservationDto> getRoomReservations(@PathVariable String roomId) {
+		return service.getAllRoomReservations(Integer.parseInt(roomId)).stream().map(b -> convertToDto(b)).collect(Collectors.toList());
 	}
 
 	@PostMapping(value = { "/roomReservation/", "/roomReservation/" })
@@ -260,12 +307,20 @@ public class LibraryManagementRestController {
 			}
 		}
 		
+		if (client == null) {
+			throw new IllegalArgumentException("client does not exist");
+		}
+		
 		// find room
 		Room room = null;
 		for (Room r : library.getRooms()) {
 			if (r.getRoomId() == Integer.parseInt(roomId)) {
 				room = r;
 			}
+		}
+		
+		if (room == null) {
+			throw new IllegalArgumentException("room does not exist");
 		}
 
 		// Schedule roomSchedule = room
@@ -274,9 +329,16 @@ public class LibraryManagementRestController {
 		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
 
 		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
+	
+		
+		for (RoomReservation rr : library.getRoomReservations()) {
+			if (isOverlapping(rr, date, startTime, endTime)) {
+				throw new IllegalArgumentException("overlapping room reservations");
+			}
+		}
 
-		RoomReservation roomReservation = service.createRoomReservation(startTime, endTime, date, room, client);
-
+		RoomReservation roomReservation = service.createRoomReservation(startTime, endTime, date, room, client, library);
+		
 		return convertToDto(roomReservation);
 	}
 
@@ -286,6 +348,33 @@ public class LibraryManagementRestController {
 
 		RoomReservationDto roomReservationDto = new RoomReservationDto(roomDto, clientDto);
 		return roomReservationDto;
+	}
+	
+	// view/ edit staff schedule
+	
+	@GetMapping(value = { "/staffSchedule/{librarianId}", "/librarianTimeslots/{librarianId}/" })
+	public List<TimeslotDto> getAllTimeSlotsInStaffSchedule(@PathVariable String librarianId) {
+		return service.getAllLibraryTimeslots(Integer.parseInt(librarianId)).stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+	}
+
+	@PostMapping(value = { "/libraryTimeslot", "/libraryTimeslot/" })
+	public TimeslotDto createLibraryTimeslot(@RequestParam String startHour, String startMin,
+			@RequestParam String endHour, @RequestParam String endMin, @RequestParam String year,
+			@RequestParam String month, @RequestParam String day) throws IllegalArgumentException {
+
+		Library library = getLibrary();
+
+		Schedule librarySchedule = library.getLibrarySchedule();
+
+		Time startTime = new Time(Integer.parseInt(startHour), Integer.parseInt(startMin), 0);
+
+		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
+
+		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
+
+		Timeslot timeslot = service.createTimeslot(startTime, endTime, date, librarySchedule, library);
+
+		return convertToDto(timeslot);
 	}
 
 	/*

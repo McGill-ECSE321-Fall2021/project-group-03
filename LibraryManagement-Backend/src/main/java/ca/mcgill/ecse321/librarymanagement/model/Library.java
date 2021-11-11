@@ -42,6 +42,12 @@ public class Library
   
   @OneToMany(cascade = CascadeType.ALL)
   private List<Room> rooms;
+  
+  @OneToMany(cascade = CascadeType.ALL)
+  private List<RoomReservation> roomReservations;
+  
+  @OneToMany(cascade = CascadeType.ALL)
+  private List<TitleReservation> titleReservations;
 
   //------------------------
   // CONSTRUCTOR
@@ -452,4 +458,12 @@ public class Library
             "libraryId" + ":" + getLibraryId()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "librarySchedule = "+(getLibrarySchedule()!=null?Integer.toHexString(System.identityHashCode(getLibrarySchedule())):"null");
   }
+
+	public void addRoomReservation(RoomReservation roomReservation) {
+		roomReservations.add(roomReservation);
+	}
+
+	public List<RoomReservation> getRoomReservations() {
+		return roomReservations;
+	}
 }

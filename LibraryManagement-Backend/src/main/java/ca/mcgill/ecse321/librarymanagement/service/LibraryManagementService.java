@@ -134,30 +134,31 @@ public class LibraryManagementService {
 		return timeslot;
 	}
 
-	public List<Timeslot> getAllLibraryTimeslots() {
+	public List<Timeslot> getAllLibraryTimeslots(int librarianId) {
 		List<Timeslot> timeslots = toList(timeslotRepository.findAll());
 		
 		// filter through only the library timeslots
 		
-		Library library = getLibrary();
+		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
 		
-		for (Timeslot t : timeslots) {
-			
-			// if the timeslot is not part of the library schedule remove it
-			if (!library.getLibrarySchedule().getTimeslots().contains(t)) {
-				timeslots.remove(t);
-			}
-		}
 		
-		return timeslots;
+		return librarian.getStaffSchedule().getTimeslots();
 	}
 
 	public List<Room> getAllRooms() {
 		return toList(roomRepository.findAll());
 	}
 
-	public List<RoomReservation> getAllRoomReservations() {
-		return toList(roomReservationRepository.findAll());
+	public List<RoomReservation> getAllRoomReservations(int roomId) {
+		List <RoomReservation> roomReservations = toList(roomReservationRepository.findAll());
+		List<RoomReservation> thisRoomReservations = null;
+		for (RoomReservation rr : roomReservations) {
+			if (rr.getRoom().getRoomId() == roomId) {
+				thisRoomReservations.add(rr);
+			}
+		}
+		
+		return thisRoomReservations;
 	}
 
 	public Room createRoom(int capacity, boolean isAvailable, RoomType roomType, Library library) {
@@ -168,8 +169,10 @@ public class LibraryManagementService {
 	}
 
 	public RoomReservation createRoomReservation(Time startTime, Time endTime, Date date, Room room,
-			Client client) {
+			Client client, Library library) {
 		RoomReservation roomReservation = new RoomReservation(startTime, endTime, date, room, client);
+		library.addRoomReservation(roomReservation);
+		libraryRepository.save(library);
 		roomReservationRepository.save(roomReservation);
 		return null;
 	}
