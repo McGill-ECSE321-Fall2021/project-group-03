@@ -20,11 +20,13 @@ import ca.mcgill.ecse321.librarymanagement.dto.RoomDto;
 import ca.mcgill.ecse321.librarymanagement.dto.RoomReservationDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TimeslotDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TitleDto;
+import ca.mcgill.ecse321.librarymanagement.dto.TitleReservationDto;
 import ca.mcgill.ecse321.librarymanagement.model.Client;
 import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.Room;
 import ca.mcgill.ecse321.librarymanagement.model.RoomReservation;
+import ca.mcgill.ecse321.librarymanagement.model.Schedule;
 import ca.mcgill.ecse321.librarymanagement.model.Timeslot;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
 import ca.mcgill.ecse321.librarymanagement.model.Room.RoomType;
@@ -304,13 +306,17 @@ public class LibraryManagementRestController {
 	}
 
 
-	// library time slot
+	/*
+	 * 
+	 * Library Timeslots
+	 * 
+	 */
 
-//	@GetMapping(value = { "/libraryTimeslots", "/libraryTimeslots/" })
-//	public List<TimeslotDto> getAllLibraryTimeslots() {
-//		return service.getAllLibraryTimeslots().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
-//	}
-//
+	@GetMapping(value = { "/libraryTimeslots", "/libraryTimeslots/" })
+	public List<TimeslotDto> getAllLibraryTimeslots() {
+		return service.getAllLibraryTimeslots().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+	}
+
 //	@PostMapping(value = { "/libraryTimeslot", "/libraryTimeslot/" })
 //	public TimeslotDto createLibraryTimeslot(@RequestParam String startHour, String startMin,
 //			@RequestParam String endHour, @RequestParam String endMin, @RequestParam String year,
@@ -321,9 +327,7 @@ public class LibraryManagementRestController {
 //		Schedule librarySchedule = library.getLibrarySchedule();
 //
 //		Time startTime = new Time(Integer.parseInt(startHour), Integer.parseInt(startMin), 0);
-//
 //		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
-//
 //		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
 //
 //		Timeslot timeslot = service.createTimeslot(startTime, endTime, date, librarySchedule, library);
@@ -342,6 +346,12 @@ public class LibraryManagementRestController {
 		TimeslotDto timeslotDto = new TimeslotDto(t.getStartTime(), t.getEndTime(), t.getDate(), t.getTimeSlotId());
 		return timeslotDto;
 	}
+	
+//	@GetMapping(value = { "/timeslots/get/{timeslotId}", "/timeslots/get/{timeslotId}/" })
+//	public Timeslot getTimeslot(@PathVariable("timeslotId") String timeslotId) {
+//		Timeslot timeslot = service.getTimeslot(Integer.parseInt(timeslotId));
+//		return convertToDto(timeslot);
+//	}
 
 	/*
 	 * 
@@ -382,7 +392,6 @@ public class LibraryManagementRestController {
 	 * 
 	 */
 
-	// room reservation for a room
 	@GetMapping(value = { "/roomReservations/get/{roomId}", "/roomReservations/get/{roomId}/" })
 	public List<RoomReservationDto> getRoomReservations(@PathVariable("roomId") String roomId) {
 		return service.getAllRoomReservations(Integer.parseInt(roomId)).stream().map(b -> convertToDto(b))
@@ -445,10 +454,27 @@ public class LibraryManagementRestController {
 		RoomReservationDto roomReservationDto = new RoomReservationDto(roomDto, clientDto);
 		return roomReservationDto;
 	}
+	
+	/*
+	 * 
+	 * Title Reservations
+	 * 
+	 */
+	
+	@GetMapping(value = { "/titleReservations/get/{titleId}", "/titleReservations/get/{titleId}/" })
+	public List<TitleReservationDto> getTitleReservations(@PathVariable("titleId") String titleId) {
+		return service.getAllTitleReservations(Integer.parseInt(titleId)).stream().map(b -> convertToDto(b))
+				.collect(Collectors.toList());
+	}
+	
+	public TitleReservationDto convertToDto(TitleReservation titleReservation) {
+		TitleReservationDto titleReservationDto = new TitleReservationDto(titleReservation.getReturnDate(), titleReservation.getIsCheckedOut(), convertToDto(titleReservation.getTitle()), convertToDto(titleReservation.getClient()), titleReservation.getTitleReservationId());
+		return titleReservationDto;
+	}
 
 	/*
 	 * 
-	 * staffSchedules
+	 * Staff Schedules
 	 * 
 	 */
 
