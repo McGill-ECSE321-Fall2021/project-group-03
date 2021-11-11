@@ -167,8 +167,10 @@ public class LibraryManagementService {
 		return room;
 	}
 
-	public RoomReservation createRoomReservation(int roomId, int clientId, Time startTime, Time endTime, Date date) {
-		// get the room 
+	public RoomReservation createRoomReservation(Time startTime, Time endTime, Date date, Room room,
+			Client client) {
+		RoomReservation roomReservation = new RoomReservation(startTime, endTime, date, room, client);
+		roomReservationRepository.save(roomReservation);
 		return null;
 	}
 

@@ -30,6 +30,7 @@ import ca.mcgill.ecse321.librarymanagement.model.Timeslot;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
 import ca.mcgill.ecse321.librarymanagement.model.Room.RoomType;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
+import ca.mcgill.ecse321.librarymanagement.model.User;
 import ca.mcgill.ecse321.librarymanagement.service.LibraryManagementService;
 
 //Should imports be the same as example??
@@ -251,7 +252,21 @@ public class LibraryManagementRestController {
 
 		Library library = getLibrary();
 
-		// Room room = getRoom
+		// find client
+		Client client = null;
+		for (User u : library.getUsers()) {
+			if (u.getUserId() == Integer.parseInt(userId) && u instanceof Client) {
+				client = (Client) u;
+			}
+		}
+		
+		// find room
+		Room room = null;
+		for (Room r : library.getRooms()) {
+			if (r.getRoomId() == Integer.parseInt(roomId)) {
+				room = r;
+			}
+		}
 
 		// Schedule roomSchedule = room
 		Time startTime = new Time(Integer.parseInt(startHour), Integer.parseInt(startMin), 0);
@@ -260,14 +275,16 @@ public class LibraryManagementRestController {
 
 		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
 
-		// Timeslot timeslot = service.createTimeslot(startTime, endTime, date, ,
-		// library);
+		RoomReservation roomReservation = service.createRoomReservation(startTime, endTime, date, room, client);
 
-		return convertToDto(timeslot);
+		return convertToDto(roomReservation);
 	}
 
 	public RoomReservationDto convertToDto(RoomReservation rr) {
-		RoomReservationDto roomReservationDto = new RoomReservationDto(rr.getRoom(), rr.getClient());
+		RoomDto roomDto = convertToDto(rr.getRoom());
+		ClientDto clientDto = convertToDto(rr.getClient());
+
+		RoomReservationDto roomReservationDto = new RoomReservationDto(roomDto, clientDto);
 		return roomReservationDto;
 	}
 
