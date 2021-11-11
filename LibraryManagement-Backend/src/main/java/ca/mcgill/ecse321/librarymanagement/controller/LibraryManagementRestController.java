@@ -73,6 +73,19 @@ public class LibraryManagementRestController {
 
 		return convertToDto(title);
 	}
+	
+	@PostMapping(value = { "/titles/create/{name}", "/titles/create/{name}/" })
+	public TitleDto updateTitle(@PathVariable("name") String name, @RequestParam String description,
+			@RequestParam String genre, @RequestParam String titleType)
+			throws IllegalArgumentException {
+
+		Library library = getLibrary();
+
+		Title title = service.updateTitle(name, description, genre,
+				parseTitleType("Movie"), library);
+
+		return convertToDto(title);
+	}
 
 	@PostMapping(value = { "/titles/reserve/{titleName}", "/titles/reserve/{titleName}/" })
 	public TitleReservationDto reserveTitle(@PathVariable("titleName") String titleName, @RequestParam String clientUsername)
@@ -156,6 +169,28 @@ public class LibraryManagementRestController {
 				Boolean.parseBoolean(isResident), Boolean.parseBoolean(isOnline), library);
 
 		return convertToDto(client);
+	}
+	
+	@PostMapping(value = { "/clients/update/{username}", "/clients/update/{username}/" })
+	public ClientDto updateClient(@PathVariable("username") String username, @RequestParam String password,
+			@RequestParam String fullName, @RequestParam String residentialAddress, @RequestParam String email,
+			@RequestParam String isResident, @RequestParam String isOnline) throws IllegalArgumentException {
+
+		Library library = getLibrary();
+
+		Client client = service.updateClient(username, password, fullName, residentialAddress, email,
+				Boolean.parseBoolean(isResident), Boolean.parseBoolean(isOnline), library);
+
+		return convertToDto(client);
+	}
+	
+	@PostMapping(value = { "/clients/create/{username}", "/clients/create/{username}/" })
+	public void removeClient(@PathVariable("username") String username) throws IllegalArgumentException {
+
+		Library library = getLibrary();
+
+		service.removeClient(username, library);
+
 	}
 
 	public ClientDto convertToDto(Client client) {
@@ -324,40 +359,11 @@ public class LibraryManagementRestController {
 
 		Library library = getLibrary();
 
-		// find client
-		Client client = null;
-		for (User u : library.getUsers()) {
-			if (u.getUserId() == Integer.parseInt(userId) && u instanceof Client) {
-				client = (Client) u;
-			}
-		}
-
-		if (client == null) {
-			throw new IllegalArgumentException("client does not exist");
-		}
-
-		// find room
-		Room room = null;
-		for (Room r : library.getRooms()) {
-			if (r.getRoomId() == Integer.parseInt(roomId)) {
-				room = r;
-			}
-		}
-
-		if (room == null) {
-			throw new IllegalArgumentException("room does not exist");
-		}
-
 		// Schedule roomSchedule = room
 		Time startTime = new Time(Integer.parseInt(startHour), Integer.parseInt(startMin), 0);
 		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
 		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
 
-		for (RoomReservation rr : library.getRoomReservations()) {
-			if (isOverlapping(rr, date, startTime, endTime)) {
-				throw new IllegalArgumentException("overlapping room reservations");
-			}
-		}
 
 		RoomReservation roomReservation = service.createRoomReservation(startTime, endTime, date,
 				Integer.parseInt(roomId), Integer.parseInt(userId), library);
