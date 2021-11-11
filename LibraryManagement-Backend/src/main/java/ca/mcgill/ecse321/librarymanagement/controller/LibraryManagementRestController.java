@@ -73,6 +73,19 @@ public class LibraryManagementRestController {
 
 		return convertToDto(title);
 	}
+	
+	@PostMapping(value = { "/titles/create/{name}", "/titles/create/{name}/" })
+	public TitleDto updateTitle(@PathVariable("name") String name, @RequestParam String description,
+			@RequestParam String genre, @RequestParam String titleType)
+			throws IllegalArgumentException {
+
+		Library library = getLibrary();
+
+		Title title = service.updateTitle(name, description, genre,
+				parseTitleType("Movie"), library);
+
+		return convertToDto(title);
+	}
 
 	@PostMapping(value = { "/titles/reserve/{titleName}", "/titles/reserve/{titleName}/" })
 	public TitleReservationDto reserveTitle(@PathVariable("titleName") String titleName, @RequestParam String clientUsername)
@@ -88,6 +101,19 @@ public class LibraryManagementRestController {
 				library);
 
 		return convertToDto(titleReservation);
+	}
+	
+	@PostMapping(value = { "/titles/return/{titleName}", "/titles/return/{titleName}/" })
+	public void returnTitle(@PathVariable("titleName") String titleName, @RequestParam String clientUsername)
+			throws IllegalArgumentException {
+		Library library = getLibrary();
+
+		
+		for (TitleReservation titleReservation : library.getTitleReservations()) {
+			if (titleReservation.getTitle().getName().equals(titleName) && titleReservation.getClient().getUsername().equals(clientUsername)) {
+				service.removeTitleReservation(titleReservation, library);
+			}
+		}
 	}
 	
 	public TitleReservationDto convertToDto(TitleReservation tr) {
@@ -112,18 +138,6 @@ public class LibraryManagementRestController {
 
 		Library library = getLibrary();
 		Title title = null;
-
-		for (Title titleA : library.getTitles()) {
-			if (titleA.getTitleId() == Integer.parseInt(titleId)) {
-				title = titleA;
-			}
-		}
-
-		if (title == null) {
-			throw new IllegalArgumentException("This title does not exist");
-		} else if (title.getIsAvailable() == false) {
-			throw new IllegalArgumentException("This title is not available to be deleted right now");
-		}
 
 		service.deleteTitle(library, title);
 	}
@@ -156,6 +170,28 @@ public class LibraryManagementRestController {
 				Boolean.parseBoolean(isResident), Boolean.parseBoolean(isOnline), library);
 
 		return convertToDto(client);
+	}
+	
+	@PostMapping(value = { "/clients/update/{username}", "/clients/update/{username}/" })
+	public ClientDto updateClient(@PathVariable("username") String username, @RequestParam String password,
+			@RequestParam String fullName, @RequestParam String residentialAddress, @RequestParam String email,
+			@RequestParam String isResident, @RequestParam String isOnline) throws IllegalArgumentException {
+
+		Library library = getLibrary();
+
+		Client client = service.updateClient(username, password, fullName, residentialAddress, email,
+				Boolean.parseBoolean(isResident), Boolean.parseBoolean(isOnline), library);
+
+		return convertToDto(client);
+	}
+	
+	@PostMapping(value = { "/clients/create/{username}", "/clients/create/{username}/" })
+	public void removeClient(@PathVariable("username") String username) throws IllegalArgumentException {
+
+		Library library = getLibrary();
+
+		service.removeClient(username, library);
+
 	}
 
 	public ClientDto convertToDto(Client client) {
@@ -258,6 +294,20 @@ public class LibraryManagementRestController {
 
 		return convertToDto(timeslot);
 	}
+	
+	@PostMapping(value = { "/librarySchedule/remove/{timeslotId}", "/librarySchedule/remove/{timeslotId}/" })
+	public void removeLibraryTimeslot(@PathVariable("timeslotId") String timeslotId)
+			throws IllegalArgumentException {
+
+		Library library = getLibrary();
+
+		// find timeslot
+		for (Timeslot timeslot : library.getLibrarySchedule().getTimeslots()) {
+			if (timeslot.getTimeSlotId() == Integer.parseInt(timeslotId)) {
+				service.removeLibraryScheduleTimeslot(Integer.parseInt(timeslotId));
+			}
+		}
+	}
 
 	/*
 	 * 
@@ -324,40 +374,11 @@ public class LibraryManagementRestController {
 
 		Library library = getLibrary();
 
-		// find client
-		Client client = null;
-		for (User u : library.getUsers()) {
-			if (u.getUserId() == Integer.parseInt(userId) && u instanceof Client) {
-				client = (Client) u;
-			}
-		}
-
-		if (client == null) {
-			throw new IllegalArgumentException("client does not exist");
-		}
-
-		// find room
-		Room room = null;
-		for (Room r : library.getRooms()) {
-			if (r.getRoomId() == Integer.parseInt(roomId)) {
-				room = r;
-			}
-		}
-
-		if (room == null) {
-			throw new IllegalArgumentException("room does not exist");
-		}
-
 		// Schedule roomSchedule = room
 		Time startTime = new Time(Integer.parseInt(startHour), Integer.parseInt(startMin), 0);
 		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
 		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
 
-		for (RoomReservation rr : library.getRoomReservations()) {
-			if (isOverlapping(rr, date, startTime, endTime)) {
-				throw new IllegalArgumentException("overlapping room reservations");
-			}
-		}
 
 		RoomReservation roomReservation = service.createRoomReservation(startTime, endTime, date,
 				Integer.parseInt(roomId), Integer.parseInt(userId), library);
@@ -375,7 +396,7 @@ public class LibraryManagementRestController {
 
 	/*
 	 * 
-	 * staffSchedules
+	 * Staff Schedules
 	 * 
 	 */
 
@@ -410,35 +431,11 @@ public class LibraryManagementRestController {
 			@RequestParam String year, @RequestParam String month, @RequestParam String day)
 			throws IllegalArgumentException {
 
-		Library library = getLibrary();
-		Librarian librarian = null;
-		Timeslot timeslot = null;
-
-		// find user
-		for (User user : library.getUsers()) {
-			if (user.getUserId() == Integer.parseInt(librarianId) && user instanceof Librarian) {
-				librarian = (Librarian) user;
-			}
-		}
-
-		if (librarian == null) {
-			throw new IllegalArgumentException("librarian does not exist");
-		}
 
 		Time startTime = new Time(Integer.parseInt(startHour), Integer.parseInt(startMin), 0);
 		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
 		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
 
-		// find timeslot
-		for (Timeslot t : librarian.getStaffSchedule().getTimeslots()) {
-			if (t.getDate().equals(date) && t.getStartTime().equals(startTime) && t.getEndTime().equals(endTime)) {
-				timeslot = t;
-			}
-		}
-
-		if (timeslot == null) {
-			throw new IllegalArgumentException("time slot does not exist");
-		}
 
 		service.removeStaffScheduleTimeslot(startTime, endTime, date, Integer.parseInt(librarianId));
 	}
@@ -464,55 +461,6 @@ public class LibraryManagementRestController {
 			type = TitleType.Movie;
 		}
 		return type;
-	}
-
-	public boolean isOverlapping(Timeslot existingTimeslot, Date newDate, Time newStart, Time newEnd) {
-		Date date = existingTimeslot.getDate();
-
-		// is it on the same day?
-		if (date.getYear() == newDate.getYear() && date.getMonth() == newDate.getMonth()
-				&& date.getDay() == newDate.getDate()) {
-			Time startTime = existingTimeslot.getStartTime();
-			Time endTime = existingTimeslot.getEndTime();
-
-			if (newStart.before(startTime) && newEnd.after(startTime)) {
-				return true;
-			}
-
-			if (newStart.after(startTime) && newEnd.after(endTime)) {
-				return true;
-			}
-
-			if (newStart.before(startTime) && newEnd.after(endTime)) {
-				return true;
-			}
-
-			if (newStart.after(startTime) && newEnd.before(endTime)) {
-				return true;
-			}
-
-			if (newStart.equals(startTime) && newEnd.equals(endTime)) {
-				return true;
-			}
-
-			if (newStart.equals(startTime) && newEnd.after(endTime)) {
-				return true;
-			}
-
-			if (newStart.equals(startTime) && newEnd.before(endTime)) {
-				return true;
-			}
-
-			if (newStart.after(startTime) && newEnd.equals(endTime)) {
-				return true;
-			}
-
-			if (newStart.before(startTime) && newEnd.equals(endTime)) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	public RoomType parseRoomType(String roomType) {
