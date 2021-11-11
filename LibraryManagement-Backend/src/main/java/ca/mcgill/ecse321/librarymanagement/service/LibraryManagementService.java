@@ -107,8 +107,9 @@ public class LibraryManagementService {
 		
 	}
 
-	public Client createClient(String aUsername, String aPassword, String aFullname, String aResidentialAddress, String aEmail, boolean aIsResident, boolean aIsOnline, Library library) {
-		
+	public Client createClient(String aUsername, String aPassword, String aFullname, String aResidentialAddress, String aEmail, boolean aIsResident, boolean aIsOnline, Library library) 
+	
+	{
 		Client client = new Client(aUsername, aPassword, aFullname, aResidentialAddress, aEmail, aIsResident, aIsOnline);
 		library.addUser(client);
 		clientRepository.save(client);
@@ -212,8 +213,6 @@ public class LibraryManagementService {
 		librarianRepository.save(librarian);
 	}
 	
-<<<<<<< Updated upstream
-=======
 	public TitleReservation createTitleReservation(Date returnDate,  boolean aBoolean, Title title, Client client, Library library ) {
 		
 		TitleReservation titleReservation = new TitleReservation(returnDate, aBoolean, title, client);
@@ -231,6 +230,5 @@ public class LibraryManagementService {
 		
 		return titleReservation;
 	}
->>>>>>> Stashed changes
 
 }
