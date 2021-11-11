@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.mcgill.ecse321.librarymanagement.dao.ClientRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TitleRepository;
+import ca.mcgill.ecse321.librarymanagement.model.Client;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
 
@@ -29,7 +30,7 @@ public class TestLibraryManagementService {
 	private LibraryManagementService service;
 	
 	private static final int TITLE_KEY = 123;
-	private static final int USER_KEY = 1234;
+	private static final int CLIENT_KEY = 1234;
 	
 	// Title tests
 	
@@ -51,13 +52,16 @@ public class TestLibraryManagementService {
 		
 		lenient().when(clientRepository.findById(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
 	        if(invocation.getArgument(0).equals(TITLE_KEY)) {
-	        	String name = "moby dick";
-	    		String description = "whale eats guy";
-	    		String genre = "adventure";
-	    		TitleType titleType = TitleType.Book;
-	    		Title title = new Title(name, description, genre, true, titleType);
-	            title.setTitleId(TITLE_KEY);
-	            return title;
+	        	String residentialAddress = "514 marwan road";
+	        	String email = "email@123.com";
+	        	boolean isResident = true;
+	        	boolean isOnline = true;
+	        	String username = "big shot";
+	        	String password = "spaghetti_noodles";
+	        	String fullName = "John Doe";
+	    		Client client = new Client(username, password, fullName, residentialAddress, email, isResident, isOnline);
+	            client.setUserId(CLIENT_KEY);
+	            return client;
 	        } else {
 	            return null;
 	        }
@@ -123,6 +127,29 @@ public class TestLibraryManagementService {
 		Title title = titleRepository.findTitleByTitleId(TITLE_KEY);
 				
 		return title;
+	}
+	
+	@Transactional
+	public Client createClient(String username, String password, String fullname, String residentialAddress, String email, boolean isResident, boolean isOnline) {
+		
+		if (username == null || username.trim().length() == 0) {
+			throw new IllegalArgumentException("username cannot be empty!");
+		}
+		
+		if (password == null || password.trim().length() == 0) {
+			throw new IllegalArgumentException("password description cannot be empty!");
+		}
+		
+		if (fullname == null || fullname.trim().length() == 0) {
+			throw new IllegalArgumentException("full name cannot be empty!");
+		}
+		
+		Client client = new Client(username, password, fullname, residentialAddress, email, isResident, isOnline);
+		
+		clientRepository.save(client);
+		
+		return client;
+		
 	}
 	
 	// TARA
