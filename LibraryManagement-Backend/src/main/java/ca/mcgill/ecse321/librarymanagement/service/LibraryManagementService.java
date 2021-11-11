@@ -3,7 +3,6 @@ package ca.mcgill.ecse321.librarymanagement.service;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,63 +27,64 @@ import ca.mcgill.ecse321.librarymanagement.model.RoomReservation;
 import ca.mcgill.ecse321.librarymanagement.model.Schedule;
 import ca.mcgill.ecse321.librarymanagement.model.Timeslot;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
-import ca.mcgill.ecse321.librarymanagement.model.TitleReservation;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
+import ca.mcgill.ecse321.librarymanagement.model.TitleReservation;
+import ca.mcgill.ecse321.librarymanagement.model.User;
 
 @Service
 public class LibraryManagementService {
 
 	@Autowired
 	private TitleRepository titleRepository;
-	
+
 	@Autowired
 	private LibraryRepository libraryRepository;
 
 	@Autowired
 	private ClientRepository clientRepository;
-	
+
 	@Autowired
 	private LibrarianRepository librarianRepository;
-	
+
 	@Autowired
 	private TimeslotRepository timeslotRepository;
-	
+
 	@Autowired
 	private ScheduleRepository scheduleRepository;
-	
+
 	@Autowired
 	private RoomRepository roomRepository;
-	
+
 	@Autowired
 	private RoomReservationRepository roomReservationRepository;
-	
+
 	@Autowired
 	private TitleReservationRepository titleReservationRepository;
-	
+
 	@Transactional
-	public Title createTitle(String name, String description, String genre, boolean isAvailable,
-			TitleType titleType, Library library) {
-		
+	public Title createTitle(String name, String description, String genre, boolean isAvailable, TitleType titleType,
+			Library library) {
+
 		if (name == null || name.trim().length() == 0) {
-			throw new IllegalArgumentException("Title name cannot be empty!");
+			throw new IllegalArgumentException("Title cannot be empty!");
 		}
-		
+
 		if (description == null || description.trim().length() == 0) {
-			throw new IllegalArgumentException("Title description cannot be empty!");
+			throw new IllegalArgumentException("Title cannot be empty!");
 		}
-		
+
 		if (genre == null || description.trim().length() == 0) {
-			throw new IllegalArgumentException("Title genre cannot be empty!");
+			throw new IllegalArgumentException("Title cannot be empty!");
 		}
-		
+
 		if (isAvailable == false) {
-			throw new IllegalArgumentException("Title availability cannot be false when first created!");
+			throw new IllegalArgumentException("Title cannot be false when first created!");
 		}
-		
+
 		if (titleType == null) {
-			throw new IllegalArgumentException("Title type cannot be empty!");
+			throw new IllegalArgumentException("Title cannot be empty!");
 		}
-		
+
 		Title title = new Title(name, description, genre, isAvailable, titleType);
 		library.addTitle(title);
 		titleRepository.save(title);
@@ -96,7 +96,7 @@ public class LibraryManagementService {
 	public Title getTitle(int titleId) {
 		Title title = titleRepository.findTitleByTitleId(titleId);
 		if (title == null) {
-			throw new IllegalArgumentException("title does not exist");
+			throw new IllegalArgumentException("Title does not exist!");
 		}
 		return title;
 	}
@@ -120,29 +120,42 @@ public class LibraryManagementService {
 
 	public Library getLibrary() {
 		try {
-			Library library = toList(libraryRepository.findAll()).get(0);	
+			Library library = toList(libraryRepository.findAll()).get(0);
 		}
-		
+
 		catch (Exception e) {
 			Library library = new Library();
 			libraryRepository.save(library);
 			return library;
-			
+
 		}
-		
+
 		return toList(libraryRepository.findAll()).get(0);
-		
-		
+
 	}
 
-	public Client createClient(String aUsername, String aPassword, String aFullname, String aResidentialAddress, String aEmail, boolean aIsResident, boolean aIsOnline, Library library) 
-	
+	public Client createClient(String aUsername, String aPassword, String aFullname, String aResidentialAddress,
+			String aEmail, boolean aIsResident, boolean aIsOnline, Library library)
+
 	{
-		Client client = new Client(aUsername, aPassword, aFullname, aResidentialAddress, aEmail, aIsResident, aIsOnline);
+		if (aUsername == null || aUsername.trim().length() == 0) {
+			throw new IllegalArgumentException("Client information cannot be empty!");
+		}
+
+		if (aPassword == null || aPassword.trim().length() == 0) {
+			throw new IllegalArgumentException("Client information cannot be empty!");
+		}
+
+		if (aFullname == null || aFullname.trim().length() == 0) {
+			throw new IllegalArgumentException("Client information cannot be empty!");
+		}
+
+		Client client = new Client(aUsername, aPassword, aFullname, aResidentialAddress, aEmail, aIsResident,
+				aIsOnline);
 		library.addUser(client);
 		clientRepository.save(client);
 		libraryRepository.save(library);
-		
+
 		return client;
 	}
 
@@ -150,7 +163,38 @@ public class LibraryManagementService {
 		return toList(clientRepository.findAll());
 	}
 
-	public Librarian createLibrarian(String username, String password, String fullName, boolean isHeadLibrarian, Library library) {
+	public Librarian createLibrarian(String username, String password, String fullName, boolean isHeadLibrarian,
+			Library library) {
+		
+		
+		Librarian headLibrarian =  null;
+		
+		for (User u : library.getUsers()) {
+			if (u instanceof Librarian) {
+				Librarian l = (Librarian) u;
+				if (l.getIsHeadLibrarian()) {
+					headLibrarian = l;
+				}
+			}
+		}
+		
+		if (username == null || username.trim().length() == 0) {
+			throw new IllegalArgumentException("Librarian information cannot be empty!");
+		}
+
+		if (password == null || password.trim().length() == 0) {
+			throw new IllegalArgumentException("Librarian information cannot be empty!");
+		}
+
+		if (fullName == null || fullName.trim().length() == 0) {
+			throw new IllegalArgumentException("Librarian information cannot be empty!");
+		}
+		
+		if (isHeadLibrarian && headLibrarian != null) {
+			throw new IllegalArgumentException("Head Librarian already exists!");
+		}
+		
+		
 		Librarian librarian = new Librarian(username, password, fullName, isHeadLibrarian);
 		library.addUser(librarian);
 		librarianRepository.save(librarian);
@@ -158,24 +202,24 @@ public class LibraryManagementService {
 		return librarian;
 	}
 
-	
-	public Timeslot createLibraryTimeslot(Time startTime, Time endTime, Date date, Schedule librarySchedule, Library library) {
+	public Timeslot createLibraryTimeslot(Time startTime, Time endTime, Date date, Schedule librarySchedule,
+			Library library) {
 		Timeslot timeslot = new Timeslot(startTime, endTime, date);
 		librarySchedule.addTimeslot(timeslot);
 		timeslotRepository.save(timeslot);
 		scheduleRepository.save(librarySchedule);
 		libraryRepository.save(library);
-		
+
 		return timeslot;
 	}
 
 	public List<Timeslot> getAllLibraryTimeslots() {
-				
+
 		Library library = getLibrary();
-		
+
 		return library.getLibrarySchedule().getTimeslots();
 	}
-	
+
 	public List<Timeslot> getAllLibrarianTimeslots(int librarianId) {
 		// filter through only the library timeslots	
 		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);	
@@ -188,14 +232,14 @@ public class LibraryManagementService {
 	}
 
 	public List<RoomReservation> getAllRoomReservations(int roomId) {
-		List <RoomReservation> roomReservations = toList(roomReservationRepository.findAll());
+		List<RoomReservation> roomReservations = toList(roomReservationRepository.findAll());
 		List<RoomReservation> thisRoomReservations = null;
 		for (RoomReservation rr : roomReservations) {
 			if (rr.getRoom().getRoomId() == roomId) {
 				thisRoomReservations.add(rr);
 			}
 		}
-		
+
 		return thisRoomReservations;
 	}
 
@@ -207,21 +251,23 @@ public class LibraryManagementService {
 		return room;
 	}
 
-	public RoomReservation createRoomReservation(Time startTime, Time endTime, Date date, Room room,
-			Client client, Library library) {
+	public RoomReservation createRoomReservation(Time startTime, Time endTime, Date date, Room room, Client client,
+			Library library) {
 		RoomReservation roomReservation = new RoomReservation(startTime, endTime, date, room, client);
 		library.addRoomReservation(roomReservation);
 		libraryRepository.save(library);
 		roomReservationRepository.save(roomReservation);
 		return null;
 	}
-	public Timeslot createStaffScheduleTimeslot(Time startTime, Time endTime, Date date, Library library, Librarian librarian) {
+
+	public Timeslot createStaffScheduleTimeslot(Time startTime, Time endTime, Date date, Library library,
+			Librarian librarian) {
 		Timeslot timeslot = new Timeslot(startTime, endTime, date);
 		librarian.getStaffSchedule().addTimeslot(timeslot);
 		timeslotRepository.save(timeslot);
 		scheduleRepository.save(librarian.getStaffSchedule());
 		libraryRepository.save(library);
-		
+
 		return timeslot;
 	}
 
@@ -238,35 +284,35 @@ public class LibraryManagementService {
 		scheduleRepository.save(staffSchedule);
 		librarianRepository.save(librarian);
 	}
-	
-	public TitleReservation createTitleReservation(Date returnDate,  boolean aBoolean, Title title, Client client, Library library ) {
-		
+
+	public TitleReservation createTitleReservation(Date returnDate, boolean aBoolean, Title title, Client client,
+			Library library) {
+
 		TitleReservation titleReservation = new TitleReservation(returnDate, aBoolean, title, client);
 		library.addTitleReservation(titleReservation);
 		title.setIsAvailable(false);
-			
+
 		titleRepository.save(title);
 		titleReservationRepository.save(titleReservation);
 		libraryRepository.save(library);
-		
+
 		return titleReservation;
 	}
-	
-	//sets titleReservation IsCheckedOut=true
+
+	// sets titleReservation IsCheckedOut=true
 	public TitleReservation updateTitleReservation(TitleReservation titleReservation, Library library) {
 		titleReservation.setIsCheckedOut(true);
-		
+
 		titleReservationRepository.save(titleReservation);
 		libraryRepository.save(library);
-		
-		return titleReservation;	
+
+		return titleReservation;
 	}
-	
+
 	public void deleteTitle(Library library, Title title) {
 		titleRepository.delete(title);
 		library.removeTitle(title);
 		libraryRepository.save(library);
 	}
-	
 
 }

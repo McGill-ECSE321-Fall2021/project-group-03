@@ -43,6 +43,12 @@ public class Title
   private boolean isAvailable;
   private TitleType titleType;
 
+<<<<<<< HEAD
+  //Title Associations
+ 
+
+=======
+>>>>>>> 052596205e2ddf7283b9e60c34d61e9f4dfa4bd5
   //------------------------
   // CONSTRUCTOR
   //------------------------
