@@ -72,6 +72,28 @@ public class Library
 	  titleReservations.add(aTitleReservation);
 	  return true;
   }
+  
+  public List<TitleReservation> getTitleReservations() {
+		return titleReservations;
+	}
+  
+//  {
+//	    boolean wasAdded = false;
+//	    if (titles.contains(aTitle)) { return false; }
+//	    Library existingLibrary = aTitle.getLibrary();
+//	    boolean isNewLibrary = existingLibrary != null && !this.equals(existingLibrary);
+//	    if (isNewLibrary)
+//	    {
+//	      aTitle.setLibrary(this);
+//	    }
+//	    else
+//	    {
+//	      titles.add(aTitle);
+//	    }
+//	    wasAdded = true;
+//	    return wasAdded;
+//	  }
+
 
   public boolean setLibraryId(int aLibraryId)
   {

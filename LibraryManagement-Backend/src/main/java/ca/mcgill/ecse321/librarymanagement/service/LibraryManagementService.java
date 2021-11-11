@@ -212,5 +212,25 @@ public class LibraryManagementService {
 		librarianRepository.save(librarian);
 	}
 	
+<<<<<<< Updated upstream
+=======
+	public TitleReservation createTitleReservation(Date returnDate,  boolean aBoolean, Title title, Client client, Library library ) {
+		
+		TitleReservation titleReservation = new TitleReservation(returnDate, aBoolean, title, client);
+		library.addTitleReservation(titleReservation);
+		title.setIsAvailable(false);
+		
+		
+		titleRepository.save(title);
+		titleReservationRepository.save(titleReservation);
+		libraryRepository.save(library);
+		
+//		library.addUser(client);
+//		clientRepository.save(client);
+//		libraryRepository.save(library);
+		
+		return titleReservation;
+	}
+>>>>>>> Stashed changes
 
 }

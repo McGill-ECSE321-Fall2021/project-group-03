@@ -424,7 +424,7 @@ public class LibraryManagementRestController {
 		return convertToDto(timeslot);
 	}
 	
-	@PostMapping(value = { "/staffSchedule/{librarianId}", "/staffSchedule/{librarianId}/" })
+	@PostMapping(value = { "/staffSchedule/remove/{librarianId}", "/staffSchedule/remove/{librarianId}/" })
 	public TimeslotDto removeStaffScheduleTimeslot(@PathVariable String librarianId, @RequestParam String startHour, String startMin,
 			@RequestParam String endHour, @RequestParam String endMin, @RequestParam String year,
 			@RequestParam String month, @RequestParam String day) throws IllegalArgumentException {
@@ -501,10 +501,6 @@ public class LibraryManagementRestController {
 			
 
 			service.createTitleReservation(returnDate, false, title, (Client) user, library);
-
-			
-	
-			
 			
 			return convertToDto(title);
 		}
@@ -516,21 +512,63 @@ public class LibraryManagementRestController {
 	    return Date.valueOf(date.toLocalDate().plusDays(14));
 	}
 	
-//	@PostMapping(value = { "/titles/{name}", "/titles/{name}/" })
-//	public TitleDto reserveTitle(@PathVariable("name") String name, @RequestParam String isAvailable)
-//			throws IllegalArgumentException {
-//
-//		Library library = getLibrary();
-//		
-//		for (Title title : library.getTitles()) {
-//			if (title.getName().equals(name) && title.getIsAvailable() == true) {
-//				title.setIsAvailable(false);
-//				return convertToDto(title);
-//			}
-//		}
-//		
-//		throw new IllegalArgumentException("This title is not available to reserve");
-//	}
+	@PostMapping(value = { "/titleCheckout/{name}", "/titleCheckout/{name}/" })
+	public TitleDto checkoutTitle(@PathVariable("name") String titleName, @RequestParam String clientUsername)
+			throws IllegalArgumentException {
+
+		Library library = getLibrary();
+		
+		User user = null;
+		Title title = null;
+		
+		for (Title titleA : library.getTitles()) {
+			if (titleA.getName().equals(titleName)) {		
+				title = titleA;
+			}
+		}
+		
+		for (User userA : library.getUsers()) {
+			if (userA.getUsername().equals(clientUsername)) {
+				user = userA;
+			}
+		}
+		
+		System.out.println("==============YAYYAYAY==");
+		System.out.println(title);
+		System.out.println(user);
+		
+		if (user != null && title != null) {
+			System.out.println("==============a");
+			if (title.getIsAvailable() == true) {
+				System.out.println("==============b");
+				title.setIsAvailable(false);
+				
+				Date date = new Date(Calendar.getInstance().getTime().getTime());
+				Date returnDate = sqlDatePlusDays(date);	
+				
+				service.createTitleReservation(returnDate, true, title, (Client) user, library);
+				
+				return convertToDto(title);
+			} else {
+				System.out.println("==============c");
+				for (TitleReservation titleReservation : library.getTitleReservations()) {
+					if (titleReservation.getTitle().equals(title)) {
+						System.out.println("==============d");
+						if (titleReservation.getClient().getUsername().equals(user.getUsername())) {
+							System.out.println("==============e");
+							titleReservation.setIsCheckedOut(true);
+							return convertToDto(title);
+						} else {
+							System.out.println("==============f");
+							throw new IllegalArgumentException("This title is reserved by someone else");
+						}
+					}
+				}
+			}
+		}
+		
+		throw new IllegalArgumentException("adawdwadw");
+	}
 
 	/*
 	 * 
