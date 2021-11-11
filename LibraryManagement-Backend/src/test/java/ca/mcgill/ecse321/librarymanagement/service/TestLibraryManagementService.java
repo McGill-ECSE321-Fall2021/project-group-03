@@ -250,6 +250,20 @@ public class TestLibraryManagementService {
 
 	}
 
+	// valid input
+	
+	@Test
+	public void getExistingTitle() {
+		assertEquals(TITLE_KEY, service.getTitle(TITLE_KEY).getTitleId());
+	}
+	
+	// invalid input
+	
+	@Test
+	public void getNonExistingTitle() {
+		assertNull(service.getTitle(2000));
+	}
+	
 	// client tests
 
 	// valid input
@@ -948,5 +962,6 @@ public class TestLibraryManagementService {
 	public void getNonExistingRoomReservation() {
 		assertNull(service.getRoomReservation(4321));
 	}
+
 
 }
