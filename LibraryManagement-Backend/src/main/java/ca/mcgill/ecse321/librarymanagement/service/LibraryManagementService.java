@@ -98,7 +98,7 @@ public class LibraryManagementService {
 		}
 		return title;
 	}
-
+	@Transactional
 	public List<Title> getAllTitles() {
 		return toList(titleRepository.findAll());
 	}
@@ -353,6 +353,34 @@ public class LibraryManagementService {
 		libraryRepository.save(library);
 		return room;
 	}
+	@Transactional
+	public Room updateRoom(int capacity, boolean isAvailable, RoomType roomType, Library library) {
+		
+		if (capacity <= 0) {
+			throw new IllegalArgumentException("capacity must be greater than 0");
+		}
+		
+		if (roomType == null) {
+			throw new IllegalArgumentException("invalid room type");
+		}
+		
+		Room room = new Room(capacity, isAvailable, roomType);
+		library.addRoom(room);
+		roomRepository.save(room);
+		libraryRepository.save(library);
+		return room;
+	
+	}
+	
+	@Transactional
+	public void removeRoom(int roomId, Library library) {
+		if (roomRepository.findRoomByRoomId(roomId) == null) {
+			throw new IllegalArgumentException("room does not exist.");
+		}
+		Room room = roomRepository.findRoomByRoomId(roomId);
+		library.removeRoom(room);
+		libraryRepository.save(library);		
+	}
 
 	@Transactional
 	public RoomReservation createRoomReservation(Time startTime, Time endTime, Date date, int roomId, int clientId,
@@ -552,18 +580,78 @@ public class LibraryManagementService {
 
 		return titleReservation;
 	}
-	
-	public List<TitleReservation> getAllTitleReservations(int titleId) {
+	@Transactional
+	public TitleReservation updateTitleReservationParameters(Date returnDate, boolean isCheckedOut, String titleName, String username,
+			Library library) {
+		Client client = null;
+		Title title = null;
+		
+		for (User u : library.getUsers()) {
+			if (u instanceof Client && u.getUsername().equals(username)) {
+				client = (Client) u;
+			}
+		}
+		
+		for (Title t : library.getTitles()) {
+			if (t.getIsAvailable() && t.getName().equals(titleName)) {
+				title = t;
+			}
+		}
+		
+		
+		if (client == null) {
+			throw new IllegalArgumentException("Client does not exist!");
+		}
+		
+		if (title == null) {
+			throw new IllegalArgumentException("Title is not available!");
+		}
+		
+		TitleReservation titleReservation = new TitleReservation(returnDate, isCheckedOut, title, client);
+		library.addTitleReservation(titleReservation);
+		title.setIsAvailable(false);
+
+		titleRepository.save(title);
+		titleReservationRepository.save(titleReservation);
+		libraryRepository.save(library);
+		
+		return titleReservation;
+
+	}
+	@Transactional
+	public TitleReservation getTitleReservationByTitleId(int titleId) {
 		List<TitleReservation> titleReservations = toList(titleReservationRepository.findAll());
-		List<TitleReservation> thisTitleReservation = null;
+		TitleReservation thisTitleReservation =null;
 		for (TitleReservation tr : titleReservations) {
 			if (tr.getTitle().getTitleId() == titleId) {
-				thisTitleReservation.add(tr);
+				thisTitleReservation = tr;
 			}
 		}
 
 		return thisTitleReservation;
 	}
+	
+	@Transactional
+	public List<TitleReservation> getAllTitleReservations() {
+		List<TitleReservation> titleReservations = toList(titleReservationRepository.findAll());
+		return titleReservations;	
+	}
+	
+	@Transactional
+	public void removeTitleReservation(int titleReservationId, Library library) {
+		
+		List<TitleReservation> titleReservations = toList(titleReservationRepository.findAll());
+		TitleReservation thisTitleReservation =null;
+		for (TitleReservation tr : titleReservations) {
+			if (tr.getTitle().getTitleId() == titleReservationId) {
+				thisTitleReservation = tr;
+			}	
+		}
+		library.removeTitleReservation(thisTitleReservation);
+		
+	}
+
+	
 
 	@Transactional
 	public void deleteTitle(Library library, Title title) {
@@ -639,7 +727,7 @@ public class LibraryManagementService {
 		
 		return client;
 	}
-	
+	@Transactional
 	public Librarian loginLibrarian(String username, String password) {
 		
 		Library library = getLibrary();
@@ -657,7 +745,7 @@ public class LibraryManagementService {
 		
 		return librarian;
 	}
-	
+	@Transactional
 	public Timeslot getTimeslot(int timeslotId) {
 		Timeslot timeSlot = timeslotRepository.findTimeslotByTimeslotId(timeslotId);
 		
