@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.librarymanagement.service;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,11 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 import ca.mcgill.ecse321.librarymanagement.dao.ClientRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.LibrarianRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.LibraryRepository;
+import ca.mcgill.ecse321.librarymanagement.dao.ScheduleRepository;
+import ca.mcgill.ecse321.librarymanagement.dao.TimeslotRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TitleRepository;
-import ca.mcgill.ecse321.librarymanagement.dto.ClientDto;
+import ca.mcgill.ecse321.librarymanagement.dto.TitleDto;
 import ca.mcgill.ecse321.librarymanagement.model.Client;
 import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
+import ca.mcgill.ecse321.librarymanagement.model.Schedule;
+import ca.mcgill.ecse321.librarymanagement.model.Timeslot;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
 
@@ -33,6 +39,12 @@ public class LibraryManagementService {
 	
 	@Autowired
 	private LibrarianRepository librarianRepository;
+	
+	@Autowired
+	private TimeslotRepository timeslotRepository;
+	
+	@Autowired
+	private ScheduleRepository scheduleRepository;
 	
 	@Transactional
 	public Title createTitle(String aName, String aDescription, String aGenre, boolean aIsAvailable,
@@ -100,6 +112,34 @@ public class LibraryManagementService {
 		librarianRepository.save(librarian);
 		libraryRepository.save(library);
 		return librarian;
+	}
+
+	public Timeslot createTimeslot(Time startTime, Time endTime, Date date, Schedule librarySchedule, Library library) {
+		Timeslot timeslot = new Timeslot(startTime, endTime, date);
+		librarySchedule.addTimeslot(timeslot);
+		timeslotRepository.save(timeslot);
+		scheduleRepository.save(librarySchedule);
+		libraryRepository.save(library);
+		
+		return timeslot;
+	}
+
+	public List<Timeslot> getAllLibraryTimeslots() {
+		List<Timeslot> timeslots = toList(timeslotRepository.findAll());
+		
+		// filter through only the library timeslots
+		
+		Library library = getLibrary();
+		
+		for (Timeslot t : timeslots) {
+			
+			// if the timeslot is not part of the library schedule remove it
+			if (!library.getLibrarySchedule().getTimeslots().contains(t)) {
+				timeslots.remove(t);
+			}
+		}
+		
+		return timeslots;
 	}
 
 }

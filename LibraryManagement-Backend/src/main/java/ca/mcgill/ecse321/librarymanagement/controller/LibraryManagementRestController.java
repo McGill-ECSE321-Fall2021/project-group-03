@@ -1,4 +1,6 @@
 package ca.mcgill.ecse321.librarymanagement.controller;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,10 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.librarymanagement.dto.ClientDto;
 import ca.mcgill.ecse321.librarymanagement.dto.LibrarianDto;
+import ca.mcgill.ecse321.librarymanagement.dto.ScheduleDto;
+import ca.mcgill.ecse321.librarymanagement.dto.TimeslotDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TitleDto;
 import ca.mcgill.ecse321.librarymanagement.model.Client;
 import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
+import ca.mcgill.ecse321.librarymanagement.model.Schedule;
+import ca.mcgill.ecse321.librarymanagement.model.Timeslot;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
 import ca.mcgill.ecse321.librarymanagement.service.LibraryManagementService;
@@ -177,5 +183,64 @@ public class LibraryManagementRestController {
 	 * Vassy
 	 * 
 	 * */
+	
+	@GetMapping(value = { "/libraryTimeslots", "/libraryTimeslots/" })
+	public List<TimeslotDto> getAllLibraryTimeslots() {
+		return service.getAllLibraryTimeslots().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+	}
+	
+	@PostMapping(value = { "/libraryTimeslot", "/libraryTimeslot/" })
+	public TimeslotDto createLibraryTimeslot(@RequestParam String startHour, String startMin, @RequestParam String endHour, @RequestParam String endMin, @RequestParam String year, @RequestParam String month, @RequestParam String day)
+			throws IllegalArgumentException {
+		
+		Library library = getLibrary();
+		
+		Schedule librarySchedule = library.getLibrarySchedule();
+		
+		Time startTime = new Time(Integer.parseInt(startHour), Integer.parseInt(startMin), 0);
+		
+		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
+		
+		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
+
+		
+		Timeslot timeslot = service.createTimeslot(startTime, endTime, date, librarySchedule, library);
+		
+		
+		return convertToDto(timeslot);
+	}
+	
+	public TimeslotDto convertToDto(Timeslot t) {
+		TimeslotDto timeslotDto = new TimeslotDto(t.getStartTime(), t.getEndTime(), t.getDate(), t.getTimeSlotId());
+		return timeslotDto;
+	}
+	
+	/*
+	 * 
+	 * Adam
+	 * 
+	 * */
+	
+	
+	/*
+	 * 
+	 * Tara
+	 * 
+	 * */
+	
+	
+	
+	/*
+	 * 
+	 * Avi
+	 * 
+	 * */
+	
+	/*
+	 * 
+	 * Liam
+	 * 
+	 * */
+	
 }
 
