@@ -104,6 +104,10 @@ public class LibraryManagementService {
 	public List<Title> getAllTitles() {
 		return toList(titleRepository.findAll());
 	}
+	
+//	public List<Title> getTitle(int titleId) {
+//		return titleRepository.findById(titleId);
+//	}
 
 	// Method to convert to a list
 	private <T> List<T> toList(Iterable<T> iterable) {
@@ -173,12 +177,8 @@ public class LibraryManagementService {
 	}
 	
 	public List<Timeslot> getAllLibrarianTimeslots(int librarianId) {
-		List<Timeslot> timeslots = toList(timeslotRepository.findAll());
-		
-		// filter through only the library timeslots
-		
-		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
-		
+		// filter through only the library timeslots	
+		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);	
 		
 		return librarian.getStaffSchedule().getTimeslots();
 	}
