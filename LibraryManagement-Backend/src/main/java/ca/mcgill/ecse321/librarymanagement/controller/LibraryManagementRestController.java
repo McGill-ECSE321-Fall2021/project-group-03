@@ -20,6 +20,7 @@ import ca.mcgill.ecse321.librarymanagement.dto.RoomDto;
 import ca.mcgill.ecse321.librarymanagement.dto.RoomReservationDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TimeslotDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TitleDto;
+import ca.mcgill.ecse321.librarymanagement.dto.UserDto;
 import ca.mcgill.ecse321.librarymanagement.model.Client;
 import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
@@ -256,22 +257,8 @@ public class LibraryManagementRestController {
 	public void removeLibrarian(@PathVariable("userId") String userId) throws IllegalArgumentException {		
 
 		Library library = getLibrary();
-		Librarian librarian = null;
 
-		// find librarian
-		for (User user : library.getUsers()) {
-			if (user.getUserId() == Integer.parseInt(userId) && user instanceof Librarian) {
-				librarian = (Librarian) user;
-			}
-		}
-
-		if (librarian == null) {
-			throw new IllegalArgumentException("librarian does not exist");
-		} else if (librarian.getIsHeadLibrarian()) {
-			throw new IllegalArgumentException("cannot fire head librarian");
-		}
-
-		service.deleteLibrarian(library, librarian);
+		service.deleteLibrarian(library, Integer.parseInt(userId));
 
 	}
 
@@ -279,6 +266,23 @@ public class LibraryManagementRestController {
 		LibrarianDto librarianDto = new LibrarianDto(librarian.getUserId(), librarian.getUsername(),
 				librarian.getPassword(), librarian.getFullname(), librarian.getIsHeadLibrarian());
 		return librarianDto;
+	}
+	
+	/**
+	 * 
+	 * 
+	 * Login account
+	 * 
+	 */
+	
+	@GetMapping(value = { "/clients/login", "/clients/login/" })
+	public ClientDto loginClient(@RequestParam String username, @RequestParam String password) {
+		return convertToDto(service.loginClient(username, password));
+	}
+	
+	@GetMapping(value = { "/librarians/login", "/librarians/login/" })
+	public LibrarianDto loginLibrarian(@RequestParam String username, @RequestParam String password) {
+		return convertToDto(service.loginLibrarian(username, password));
 	}
 
 	/*
@@ -380,30 +384,6 @@ public class LibraryManagementRestController {
 
 		Library library = getLibrary();
 
-		// find client
-		Client client = null;
-		for (User u : library.getUsers()) {
-			if (u.getUserId() == Integer.parseInt(userId) && u instanceof Client) {
-				client = (Client) u;
-			}
-		}
-
-		if (client == null) {
-			throw new IllegalArgumentException("client does not exist");
-		}
-
-		// find room
-		Room room = null;
-		for (Room r : library.getRooms()) {
-			if (r.getRoomId() == Integer.parseInt(roomId)) {
-				room = r;
-			}
-		}
-
-		if (room == null) {
-			throw new IllegalArgumentException("room does not exist");
-		}
-
 		// Schedule roomSchedule = room
 		Time startTime = new Time(Integer.parseInt(startHour), Integer.parseInt(startMin), 0);
 		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
@@ -415,7 +395,7 @@ public class LibraryManagementRestController {
 			}
 		}
 
-		RoomReservation roomReservation = service.createRoomReservation(startTime, endTime, date, room, client,
+		RoomReservation roomReservation = service.createRoomReservation(startTime, endTime, date, Integer.parseInt(roomId), Integer.parseInt(userId),
 				library);
 
 		return convertToDto(roomReservation);
@@ -449,69 +429,28 @@ public class LibraryManagementRestController {
 		Library library = getLibrary();
 		Librarian librarian = null;
 
-		// find user
-		for (User user : library.getUsers()) {
-			if (user.getUserId() == Integer.parseInt(librarianId) && user instanceof Librarian) {
-				librarian = (Librarian) user;
-			}
-		}
-
-		if (librarian == null) {
-			throw new IllegalArgumentException("librarian does not exist");
-		}
 
 		Time startTime = new Time(Integer.parseInt(startHour), Integer.parseInt(startMin), 0);
 		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
 		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
-
-		for (Timeslot t : librarian.getStaffSchedule().getTimeslots()) {
-			if (isOverlapping(t, date, endTime, startTime)) {
-				throw new IllegalArgumentException("overlapping timeslot in current staff schedule");
-			}
-		}
-
-		Timeslot timeslot = service.createStaffScheduleTimeslot(startTime, endTime, date, library, librarian);
+		
+		Timeslot timeslot = service.createStaffScheduleTimeslot(startTime, endTime, date, library, Integer.parseInt(librarianId));
 
 		return convertToDto(timeslot);
 	}
 
 	@PostMapping(value = { "/staffSchedules/remove/{librarianId}", "/staffSchedules/remove/{librarianId}/" })
-	public TimeslotDto removeStaffScheduleTimeslot(@PathVariable("librarianId") String librarianId, @RequestParam String startHour, String startMin,
+	public void removeStaffScheduleTimeslot(@PathVariable("librarianId") String librarianId, @RequestParam String startHour, String startMin,
 			@RequestParam String endHour, @RequestParam String endMin, @RequestParam String year,
 			@RequestParam String month, @RequestParam String day) throws IllegalArgumentException {
 
 		Library library = getLibrary();
-		Librarian librarian = null;
-		Timeslot timeslot = null;
-
-		// find user
-		for (User user : library.getUsers()) {
-			if (user.getUserId() == Integer.parseInt(librarianId) && user instanceof Librarian) {
-				librarian = (Librarian) user;
-			}
-		}
-
-		if (librarian == null) {
-			throw new IllegalArgumentException("librarian does not exist");
-		}
 
 		Time startTime = new Time(Integer.parseInt(startHour), Integer.parseInt(startMin), 0);
 		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
 		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
 
-		// find timeslot
-		for (Timeslot t : librarian.getStaffSchedule().getTimeslots()) {
-			if (t.getDate().equals(date) && t.getStartTime().equals(startTime) && t.getEndTime().equals(endTime)) {
-				timeslot = t;
-			}
-		}
-
-		if (timeslot == null) {
-			throw new IllegalArgumentException("time slot does not exist");
-		}
-
-		service.removeStaffScheduleTimeslot(timeslot, librarian);
-		return convertToDto(timeslot);
+		service.removeStaffScheduleTimeslot(startTime, endTime, date, Integer.parseInt(librarianId));
 	}
 	
 	/*

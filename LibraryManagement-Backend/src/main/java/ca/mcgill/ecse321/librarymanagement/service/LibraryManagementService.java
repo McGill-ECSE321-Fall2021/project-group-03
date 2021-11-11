@@ -19,6 +19,7 @@ import ca.mcgill.ecse321.librarymanagement.dao.ScheduleRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TimeslotRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TitleRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TitleReservationRepository;
+import ca.mcgill.ecse321.librarymanagement.dto.ClientDto;
 import ca.mcgill.ecse321.librarymanagement.model.Client;
 import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
@@ -146,6 +147,19 @@ public class LibraryManagementService {
 		if (aFullname == null || aFullname.trim().length() == 0) {
 			throw new IllegalArgumentException("Client information cannot be empty!");
 		}
+		
+		for (User u : library.getUsers()) {
+			if (u.getUsername() == aUsername) {
+				throw new IllegalArgumentException("username already exists");
+			}
+		}
+		
+		
+		for (User u : library.getUsers()) {
+			if (u.getUsername() == aUsername) {
+				throw new IllegalArgumentException("username already exists");
+			}
+		}
 
 		Client client = new Client(aUsername, aPassword, aFullname, aResidentialAddress, aEmail, aIsResident,
 				aIsOnline);
@@ -164,6 +178,14 @@ public class LibraryManagementService {
 			Library library) {
 
 		Librarian headLibrarian = null;
+		
+		
+		for (User u : library.getUsers()) {
+			if (u.getUsername() == username) {
+				throw new IllegalArgumentException("username already exists");
+			}
+		}
+		
 
 		for (User u : library.getUsers()) {
 			if (u instanceof Librarian) {
@@ -173,6 +195,7 @@ public class LibraryManagementService {
 				}
 			}
 		}
+		
 
 		if (username == null || username.trim().length() == 0) {
 			throw new IllegalArgumentException("Librarian information cannot be empty!");
@@ -256,6 +279,16 @@ public class LibraryManagementService {
 	}
 
 	public Room createRoom(int capacity, boolean isAvailable, RoomType roomType, Library library) {
+		
+		
+		if (capacity <= 0) {
+			throw new IllegalArgumentException("capacity must be greater than 0");
+		}
+		
+		if (roomType == null) {
+			throw new IllegalArgumentException("invalid room type");
+		}
+		
 		Room room = new Room(capacity, isAvailable, roomType);
 		library.addRoom(room);
 		roomRepository.save(room);
@@ -263,8 +296,35 @@ public class LibraryManagementService {
 		return room;
 	}
 
-	public RoomReservation createRoomReservation(Time startTime, Time endTime, Date date, Room room, Client client,
+	public RoomReservation createRoomReservation(Time startTime, Time endTime, Date date, int roomId, int clientId,
 			Library library) {
+		
+		Room room = roomRepository.findRoomByRoomId(roomId);
+		Client client = clientRepository.findClientByUserId(clientId);
+		
+		if (room == null || client == null) {
+			throw new IllegalArgumentException("room reservations must include a valid client and room");
+		}
+		
+		if (startTime.after(endTime) || startTime.equals(endTime)) {
+			throw new IllegalArgumentException("start time must be before end time");
+		}
+		
+		Date today = new Date(Calendar.getInstance().getTime().getTime());
+		if (today.after(date)) {
+			throw new IllegalArgumentException("Library time slot cannot be created in the past");
+		}
+		
+		List<RoomReservation> roomReservations = toList(roomReservationRepository.findAll());
+		
+		for (RoomReservation rr : roomReservations) {
+			if (rr.getRoom().equals(room)) {
+				if (isOverlapping(rr, date, startTime, endTime)) {
+					throw new IllegalArgumentException("room reservation is overlapping with an existing reservation");
+				}
+			}
+		}
+		
 		RoomReservation roomReservation = new RoomReservation(startTime, endTime, date, room, client);
 		library.addRoomReservation(roomReservation);
 		libraryRepository.save(library);
@@ -273,7 +333,47 @@ public class LibraryManagementService {
 	}
 
 	public Timeslot createStaffScheduleTimeslot(Time startTime, Time endTime, Date date, Library library,
-			Librarian librarian) {
+			int librarianId) {
+		
+		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
+		
+		if (librarian == null) {
+			throw new IllegalArgumentException("librarian does not exist");
+		}
+		
+		if (startTime.after(endTime) || startTime.equals(endTime)) {
+			throw new IllegalArgumentException("start time must be before end time");
+		}
+		
+		Date today = new Date(Calendar.getInstance().getTime().getTime());
+		if (today.after(date)) {
+			throw new IllegalArgumentException("Librarian time slot cannot be created in the past");
+		}
+		
+		for (Timeslot t : librarian.getStaffSchedule().getTimeslots()) {
+			if (isOverlapping(t, date, startTime, endTime)) {
+				throw new IllegalArgumentException("Librarian time slot cannot overlap existing time slot");
+			}
+			
+			boolean dayHasHours = false;
+			
+			for (Timeslot lt : library.getLibrarySchedule().getTimeslots()) {
+				if (lt.getDate().equals(today) || lt.getDate().after(today)) {
+					if (lt.getDate().equals(date) && (lt.getStartTime().before(startTime) || lt.getStartTime().equals(startTime)) && (lt.getEndTime().after(endTime) || lt.getEndTime().equals(endTime))) {
+						throw new IllegalArgumentException("Librarian time slot must be within opening hours of the library");
+					}
+					
+					else if (lt.getDate().equals(date)) {
+						dayHasHours = true;
+					}
+				}
+			}
+			
+			if (!dayHasHours) {
+				throw new IllegalArgumentException("Librarian time slot must be within opening hours of the library");
+			}
+		}
+		
 		Timeslot timeslot = new Timeslot(startTime, endTime, date);
 		librarian.getStaffSchedule().addTimeslot(timeslot);
 		timeslotRepository.save(timeslot);
@@ -283,13 +383,46 @@ public class LibraryManagementService {
 		return timeslot;
 	}
 
-	public void deleteLibrarian(Library library, Librarian librarian) {
+	public void deleteLibrarian(Library library, int librarianId) {
+		
+		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
+		
+		if (librarian == null) {
+			
+			throw new IllegalArgumentException("librarian does not exist");
+		} 
+		
+		else if (librarian.getIsHeadLibrarian()) {
+			
+			throw new IllegalArgumentException("cannot fire head librarian");
+		}
+		
 		librarianRepository.delete(librarian);
 		library.removeUser(librarian);
 		libraryRepository.save(library);
 	}
 
-	public void removeStaffScheduleTimeslot(Timeslot timeslot, Librarian librarian) {
+	public void removeStaffScheduleTimeslot(Time startTime, Time endTime, Date date, int librarianId) {
+		
+		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
+		Timeslot timeslot = null;
+		
+		if (librarian == null) {
+			
+			throw new IllegalArgumentException("librarian does not exist");
+		} 
+		
+		// find time slot
+		for (Timeslot t : librarian.getStaffSchedule().getTimeslots()) {
+			if (t.getDate().equals(date) && t.getStartTime().equals(startTime) && t.getEndTime().equals(endTime)) {
+				timeslot = t;
+			}
+		}
+		
+		if (timeslot == null) {
+			throw new IllegalArgumentException("timeslot does not exist");
+		} 
+		
 		Schedule staffSchedule = librarian.getStaffSchedule();
 		staffSchedule.removeTimeslot(timeslot);
 		timeslotRepository.delete(timeslot);
@@ -374,6 +507,42 @@ public class LibraryManagementService {
 		}
 
 		return false;
+	}
+
+	public Client loginClient(String username, String password) {
+		
+		Library library = getLibrary();
+		Client client = null;
+		
+		for (User u : library.getUsers()) {
+			if (u instanceof Client && u.getUsername() == username && u.getPassword() == password) {
+				client = (Client) u;
+			}
+		}
+		
+		if (client == null) {
+			throw new IllegalArgumentException("username and password incorrect");
+		}
+		
+		return client;
+	}
+	
+	public Librarian loginLibrarian(String username, String password) {
+		
+		Library library = getLibrary();
+		Librarian librarian = null;
+		
+		for (User u : library.getUsers()) {
+			if (u instanceof Librarian && u.getUsername() == username && u.getPassword() == password) {
+				librarian = (Librarian) u;
+			}
+		}
+		
+		if (librarian == null) {
+			throw new IllegalArgumentException("username and password incorrect");
+		}
+		
+		return librarian;
 	}
 
 }
