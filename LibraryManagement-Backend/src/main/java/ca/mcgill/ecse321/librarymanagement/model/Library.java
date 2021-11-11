@@ -59,11 +59,19 @@ public class Library
     users = new ArrayList<User>();
     titles = new ArrayList<Title>();
     rooms = new ArrayList<Room>();
+    titleReservations = new ArrayList<TitleReservation>();
+    roomReservations = new ArrayList<RoomReservation>();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+  
+  public boolean addTitleReservation(TitleReservation aTitleReservation)
+  {
+	  titleReservations.add(aTitleReservation);
+	  return true;
+  }
 
   public boolean setLibraryId(int aLibraryId)
   {
@@ -450,6 +458,8 @@ public class Library
     }
     
   }
+  
+  
 
 
   public String toString()

@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.librarymanagement.controller;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.librarymanagement.dao.LibraryRepository;
 import ca.mcgill.ecse321.librarymanagement.dto.ClientDto;
 import ca.mcgill.ecse321.librarymanagement.dto.LibrarianDto;
 import ca.mcgill.ecse321.librarymanagement.dto.RoomDto;
@@ -30,6 +32,7 @@ import ca.mcgill.ecse321.librarymanagement.model.Timeslot;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
 import ca.mcgill.ecse321.librarymanagement.model.Room.RoomType;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
+import ca.mcgill.ecse321.librarymanagement.model.TitleReservation;
 import ca.mcgill.ecse321.librarymanagement.model.User;
 import ca.mcgill.ecse321.librarymanagement.service.LibraryManagementService;
 
@@ -232,30 +235,30 @@ public class LibraryManagementRestController {
 
 	// library timeslot
 
-	@GetMapping(value = { "/libraryTimeslots", "/libraryTimeslots/" })
-	public List<TimeslotDto> getAllLibraryTimeslots() {
-		return service.getAllLibraryTimeslots().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
-	}
-
-	@PostMapping(value = { "/libraryTimeslot", "/libraryTimeslot/" })
-	public TimeslotDto createLibraryTimeslot(@RequestParam String startHour, String startMin,
-			@RequestParam String endHour, @RequestParam String endMin, @RequestParam String year,
-			@RequestParam String month, @RequestParam String day) throws IllegalArgumentException {
-
-		Library library = getLibrary();
-
-		Schedule librarySchedule = library.getLibrarySchedule();
-
-		Time startTime = new Time(Integer.parseInt(startHour), Integer.parseInt(startMin), 0);
-
-		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
-
-		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
-
-		Timeslot timeslot = service.createTimeslot(startTime, endTime, date, librarySchedule, library);
-
-		return convertToDto(timeslot);
-	}
+//	@GetMapping(value = { "/libraryTimeslots", "/libraryTimeslots/" })
+//	public List<TimeslotDto> getAllLibraryTimeslots() {
+//		return service.getAllLibraryTimeslots().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+//	}
+//
+//	@PostMapping(value = { "/libraryTimeslot", "/libraryTimeslot/" })
+//	public TimeslotDto createLibraryTimeslot(@RequestParam String startHour, String startMin,
+//			@RequestParam String endHour, @RequestParam String endMin, @RequestParam String year,
+//			@RequestParam String month, @RequestParam String day) throws IllegalArgumentException {
+//
+//		Library library = getLibrary();
+//
+//		Schedule librarySchedule = library.getLibrarySchedule();
+//
+//		Time startTime = new Time(Integer.parseInt(startHour), Integer.parseInt(startMin), 0);
+//
+//		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
+//
+//		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
+//
+//		Timeslot timeslot = service.createTimeslot(startTime, endTime, date, librarySchedule, library);
+//
+//		return convertToDto(timeslot);
+//	}
 
 	public TimeslotDto convertToDto(Timeslot t) {
 		TimeslotDto timeslotDto = new TimeslotDto(t.getStartTime(), t.getEndTime(), t.getDate(), t.getTimeSlotId());
@@ -382,6 +385,65 @@ public class LibraryManagementRestController {
 	 * Adam
 	 * 
 	 */
+	
+	@PostMapping(value = { "/titleReserve/{name}", "/titleReserve/{name}/" })
+	public TitleDto reserveTitle(@PathVariable("name") String titleName, @RequestParam String clientUsername)
+			throws IllegalArgumentException {
+
+		Library library = getLibrary();
+		
+		User user = null;
+		Title title = null;
+		
+		for (Title titleA : library.getTitles()) {
+			if (titleA.getName().equals(titleName) && titleA.getIsAvailable() == true) {		
+				title = titleA;
+			}
+		}
+		
+		for (User userA : library.getUsers()) {
+			if (userA.getUsername().equals(clientUsername)) {
+				user = userA;
+			}
+		}
+		
+		if (user != null && title != null) {
+			//get todays date and add two weeks to it
+			Date date = new Date(Calendar.getInstance().getTime().getTime());
+			Date returnDate = sqlDatePlusDays(date);	
+			
+
+			service.createTitleReservation(returnDate, false, title, (Client) user, library);
+
+			
+	
+			
+			
+			return convertToDto(title);
+		}
+		
+		throw new IllegalArgumentException("This title is not available to reserve");
+	}
+	
+	private Date sqlDatePlusDays(Date date) {
+	    return Date.valueOf(date.toLocalDate().plusDays(14));
+	}
+	
+//	@PostMapping(value = { "/titles/{name}", "/titles/{name}/" })
+//	public TitleDto reserveTitle(@PathVariable("name") String name, @RequestParam String isAvailable)
+//			throws IllegalArgumentException {
+//
+//		Library library = getLibrary();
+//		
+//		for (Title title : library.getTitles()) {
+//			if (title.getName().equals(name) && title.getIsAvailable() == true) {
+//				title.setIsAvailable(false);
+//				return convertToDto(title);
+//			}
+//		}
+//		
+//		throw new IllegalArgumentException("This title is not available to reserve");
+//	}
 
 	/*
 	 * 

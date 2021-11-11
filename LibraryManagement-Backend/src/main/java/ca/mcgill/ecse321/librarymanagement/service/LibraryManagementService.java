@@ -18,6 +18,7 @@ import ca.mcgill.ecse321.librarymanagement.dao.RoomReservationRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.ScheduleRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TimeslotRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TitleRepository;
+import ca.mcgill.ecse321.librarymanagement.dao.TitleReservationRepository;
 import ca.mcgill.ecse321.librarymanagement.model.Client;
 import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
@@ -27,6 +28,7 @@ import ca.mcgill.ecse321.librarymanagement.model.RoomReservation;
 import ca.mcgill.ecse321.librarymanagement.model.Schedule;
 import ca.mcgill.ecse321.librarymanagement.model.Timeslot;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
+import ca.mcgill.ecse321.librarymanagement.model.TitleReservation;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
 
 @Service
@@ -55,6 +57,9 @@ public class LibraryManagementService {
 	
 	@Autowired
 	private RoomReservationRepository roomReservationRepository;
+	
+	@Autowired
+	private TitleReservationRepository titleReservationRepository;
 	
 	@Transactional
 	public Title createTitle(String aName, String aDescription, String aGenre, boolean aIsAvailable,
@@ -175,6 +180,20 @@ public class LibraryManagementService {
 		libraryRepository.save(library);
 		roomReservationRepository.save(roomReservation);
 		return null;
+	}
+	
+	public TitleReservation createTitleReservation(Date returnDate,  boolean aBoolean, Title title, Client client, Library library ) {
+		
+		TitleReservation titleReservation = new TitleReservation(returnDate, aBoolean, title, client);
+		library.addTitleReservation(titleReservation);
+		title.setIsAvailable(false);
+		
+		libraryRepository.save(library);
+		titleRepository.save(title);
+		titleReservationRepository.save(titleReservation);
+		
+		
+		return titleReservation;
 	}
 
 }
