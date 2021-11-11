@@ -155,9 +155,46 @@ public class LibraryManagementService {
 
 		return client;
 	}
+	
+//	@Transactional
+//	public Title createTitle(String name, String description, String genre, boolean isAvailable, TitleType titleType,
+//			Library library) {
+//
+//		if (name == null || name.trim().length() == 0) {
+//			throw new IllegalArgumentException("Title cannot be empty!");
+//		}
+//
+//		if (description == null || description.trim().length() == 0) {
+//			throw new IllegalArgumentException("Title cannot be empty!");
+//		}
+//
+//		if (genre == null || description.trim().length() == 0) {
+//			throw new IllegalArgumentException("Title cannot be empty!");
+//		}
+//
+//		if (titleType == null) {
+//			throw new IllegalArgumentException("Title cannot be empty!");
+//		}
+//
+//		Title title = new Title(name, description, genre, isAvailable, titleType);
+//		library.addTitle(title);
+//		titleRepository.save(title);
+//		libraryRepository.save(library);
+//		return title;
+//	}
 
 	public List<Client> getAllClients() {
 		return toList(clientRepository.findAll());
+	}
+	
+	@Transactional
+	public Client getClient(int clientId) {
+		Client client = clientRepository.findClientByUserId(clientId);
+		
+		if (client == null) {
+			throw new IllegalArgumentException("Client does not exist!");
+		}
+		return client;
 	}
 
 	public Librarian createLibrarian(String username, String password, String fullName, boolean isHeadLibrarian,
@@ -192,6 +229,7 @@ public class LibraryManagementService {
 
 		Librarian librarian = new Librarian(username, password, fullName, isHeadLibrarian);
 		library.addUser(librarian);
+		scheduleRepository.save(librarian.getStaffSchedule());
 		librarianRepository.save(librarian);
 		libraryRepository.save(library);
 		return librarian;
@@ -241,6 +279,16 @@ public class LibraryManagementService {
 
 	public List<Room> getAllRooms() {
 		return toList(roomRepository.findAll());
+	}
+	
+	@Transactional
+	public Room getRoom(int roomId) {
+		Room room = roomRepository.findRoomByRoomId(roomId);
+		
+		if (room == null) {
+			throw new IllegalArgumentException("Room does not exist!");
+		}
+		return room;
 	}
 
 	public List<RoomReservation> getAllRoomReservations(int roomId) {
@@ -295,6 +343,16 @@ public class LibraryManagementService {
 		timeslotRepository.delete(timeslot);
 		scheduleRepository.save(staffSchedule);
 		librarianRepository.save(librarian);
+	}
+	
+	@Transactional
+	public Librarian getLibrarian(int librarianId) {
+		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
+		
+		if (librarian == null) {
+			throw new IllegalArgumentException("Librarian does not exist!");
+		}
+		return librarian;
 	}
 
 	public TitleReservation createTitleReservation(Date returnDate, boolean aBoolean, Title title, Client client,

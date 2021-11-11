@@ -210,6 +210,12 @@ public class LibraryManagementRestController {
 	public List<ClientDto> getAllClients() {
 		return service.getAllClients().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
 	}
+	
+	@GetMapping(value = { "/clients/get/{clientId}", "/clients/get/{clientId}/" })
+	public ClientDto getClient(@PathVariable("clientId") String clientId) {
+		Client client = service.getClient(Integer.parseInt(clientId));
+		return convertToDto(client);
+	}
 
 	@PostMapping(value = { "/clients/create/{username}", "/clients/create/{username}/" })
 	public ClientDto createClient(@PathVariable("username") String username, @RequestParam String password,
@@ -239,6 +245,12 @@ public class LibraryManagementRestController {
 	@GetMapping(value = { "/librarians/get", "/librarians/get/" })
 	public List<TitleDto> getAllLibrarians() {
 		return service.getAllTitles().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+	}
+	
+	@GetMapping(value = { "/librarians/get/{librarianId}", "/librarians/get/{librarianId}/" })
+	public LibrarianDto getLibrarian(@PathVariable("librarianId") String librarianId) {
+		Librarian librarian = service.getLibrarian(Integer.parseInt(librarianId));
+		return convertToDto(librarian);
 	}
 
 	@PostMapping(value = { "/librarians/create/{username}", "/librarians/create/{username}/" })
@@ -272,7 +284,6 @@ public class LibraryManagementRestController {
 		}
 
 		service.deleteLibrarian(library, librarian);
-
 	}
 
 	public LibrarianDto convertToDto(Librarian librarian) {
@@ -342,14 +353,20 @@ public class LibraryManagementRestController {
 	public List<RoomDto> getRooms() {
 		return service.getAllRooms().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
 	}
+	
+	@GetMapping(value = { "/rooms/get/{roomId}", "/rooms/get/{roomId}/" })
+	public RoomDto getRoom(@PathVariable("roomId") String roomId) {
+		Room room = service.getRoom(Integer.parseInt(roomId));
+		return convertToDto(room);
+	}
 
 	@PostMapping(value = { "/rooms/create/{capacity}" })
-	public RoomDto createRoom(@PathVariable("capacity") int capacity, @RequestParam boolean isAvailable,
+	public RoomDto createRoom(@PathVariable("capacity") String capacity, @RequestParam String isAvailable,
 			@RequestParam String roomType) throws IllegalArgumentException {
 
 		Library library = getLibrary();
 
-		Room room = service.createRoom(capacity, isAvailable, parseRoomType(roomType), library);
+		Room room = service.createRoom(Integer.parseInt(capacity), Boolean.parseBoolean(isAvailable), parseRoomType(roomType), library);
 
 		return convertToDto(room);
 	}
