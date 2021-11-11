@@ -77,7 +77,6 @@ public class Librarian extends User
   public void delete()
   {
     staffSchedule = null;
-    super.delete();
   }
 
 

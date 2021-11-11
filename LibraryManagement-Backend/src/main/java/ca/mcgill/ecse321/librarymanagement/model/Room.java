@@ -35,8 +35,6 @@ public class Room {
 	private RoomType roomType;
 
 	// Room Associations
-	@ManyToOne(targetEntity = Library.class)
-	private Library library;
 
 	// ------------------------
 	// CONSTRUCTOR
@@ -91,36 +89,9 @@ public class Room {
 	public RoomType getRoomType() {
 		return roomType;
 	}
-
 	/* Code from template association_GetOne */
-	public Library getLibrary() {
-		return library;
-	}
 
 	/* Code from template association_SetOneToMany */
-	public boolean setLibrary(Library aLibrary) {
-		boolean wasSet = false;
-		if (aLibrary == null) {
-			return wasSet;
-		}
-
-		Library existingLibrary = library;
-		library = aLibrary;
-		if (existingLibrary != null && !existingLibrary.equals(aLibrary)) {
-			existingLibrary.removeRoom(this);
-		}
-		library.addRoom(this);
-		wasSet = true;
-		return wasSet;
-	}
-
-	public void delete() {
-		Library placeholderLibrary = library;
-		this.library = null;
-		if (placeholderLibrary != null) {
-			placeholderLibrary.removeRoom(this);
-		}
-	}
 
 	public String toString() {
 		return super.toString() + "[" + "roomId" + ":" + getRoomId() + "," + "capacity" + ":" + getCapacity() + ","
@@ -129,11 +100,11 @@ public class Room {
 				+ (getRoomType() != null
 						? !getRoomType().equals(this) ? getRoomType().toString().replaceAll("  ", "    ") : "this"
 						: "null")
-				+ System.getProperties().getProperty("line.separator") + "  " + "library = "
-				+ (getLibrary() != null ? Integer.toHexString(System.identityHashCode(getLibrary())) : "null");
+				+ System.getProperties().getProperty("line.separator");
 	}
 
 	public void setRoomId(int roomId) {
 		this.roomId = roomId;
+
 	}
 }

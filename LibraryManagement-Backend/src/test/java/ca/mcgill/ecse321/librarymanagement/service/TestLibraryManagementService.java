@@ -198,6 +198,20 @@ public class TestLibraryManagementService {
 		
 	}
 	
+	// valid input
+	
+	@Test
+	public void getExistingTitle() {
+		assertEquals(TITLE_KEY, service.getTitle(TITLE_KEY).getTitleId());
+	}
+	
+	// invalid input
+	
+	@Test
+	public void getNonExistingTitle() {
+		assertNull(service.getTitle(2000));
+	}
+	
 	// client tests
 	
 	// valid input
@@ -525,115 +539,4 @@ public class TestLibraryManagementService {
 			
 		}
 	
-	
-	
-	
-	
-	
-//	@Transactional
-//	public Title createTitle(String name, String description, String genre, boolean isAvailable, TitleType titleType) {
-//		
-//		if (name == null || name.trim().length() == 0) {
-//			throw new IllegalArgumentException("Title name cannot be empty!");
-//		}
-//		
-//		if (description == null || description.trim().length() == 0) {
-//			throw new IllegalArgumentException("Title description cannot be empty!");
-//		}
-//		
-//		if (genre == null || description.trim().length() == 0) {
-//			throw new IllegalArgumentException("Title genre cannot be empty!");
-//		}
-//		
-//		if (isAvailable == false) {
-//			throw new IllegalArgumentException("Title availability cannot be false when first created!");
-//		}
-//		
-//		if (titleType == null) {
-//			throw new IllegalArgumentException("Title type cannot be null!");
-//		}
-//		
-//		Title title = new Title(name, description, genre, true, titleType);
-//		
-//		titleRepository.save(title);
-//		
-//		return title;
-//		
-//	}
-//	
-//	@Transactional
-//	public Title getTitle(String name, String description, String genre, boolean isAvailable, TitleType titleType) {
-//		
-//		if (name == null || name.trim().length() == 0) {
-//			throw new IllegalArgumentException("Title name cannot be empty!");
-//		}
-//		
-//		if (description == null || description.trim().length() == 0) {
-//			throw new IllegalArgumentException("Title description cannot be empty!");
-//		}
-//		
-//		if (genre == null || description.trim().length() == 0) {
-//			throw new IllegalArgumentException("Title genre cannot be empty!");
-//		}
-//		
-//		if (isAvailable == false) {
-//			throw new IllegalArgumentException("Title availability cannot be false when first created!");
-//		}
-//		
-//		if (titleType == null) {
-//			throw new IllegalArgumentException("Title type cannot be null!");
-//		}
-//		
-//		Title title = titleRepository.findTitleByTitleId(TITLE_KEY);
-//				
-//		return title;
-//	}
-//	
-//	@Transactional
-//	public Client createClient(String username, String password, String fullname, String residentialAddress, String email, boolean isResident, boolean isOnline) {
-//		
-//		if (username == null || username.trim().length() == 0) {
-//			throw new IllegalArgumentException("username cannot be empty!");
-//		}
-//		
-//		if (password == null || password.trim().length() == 0) {
-//			throw new IllegalArgumentException("password description cannot be empty!");
-//		}
-//		
-//		if (fullname == null || fullname.trim().length() == 0) {
-//			throw new IllegalArgumentException("full name cannot be empty!");
-//		}
-//		
-//		Client client = new Client(username, password, fullname, residentialAddress, email, isResident, isOnline);
-//		
-//		clientRepository.save(client);
-//		
-//		return client;
-//		
-//	}
-//	
-//	
-//	@Transactional
-//	public Client getClient(String username, String password, String fullname, String residentialAddress, String email, boolean isResident, boolean isOnline) {
-//		
-//		if (username == null || username.trim().length() == 0) {
-//			throw new IllegalArgumentException("username cannot be empty!");
-//		}
-//		
-//		if (password == null || password.trim().length() == 0) {
-//			throw new IllegalArgumentException("password description cannot be empty!");
-//		}
-//		
-//		if (fullname == null || fullname.trim().length() == 0) {
-//			throw new IllegalArgumentException("full name cannot be empty!");
-//		}
-//		
-//		Client client = clientRepository.findClientByUserId(CLIENT_KEY);
-//				
-//		return client;
-//		
-//	}
-	
-	// TARA
-
 }

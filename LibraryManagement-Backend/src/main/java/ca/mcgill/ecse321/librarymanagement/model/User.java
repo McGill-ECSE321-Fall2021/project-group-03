@@ -39,9 +39,7 @@ public abstract class User
   private String fullname;
 
   //User Associations
-  @ManyToOne (targetEntity = Library.class)
-  private Library library;
-
+ 
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -110,40 +108,6 @@ public abstract class User
   {
     return fullname;
   }
-  /* Code from template association_GetOne */
-  public Library getLibrary()
-  {
-    return library;
-  }
-  /* Code from template association_SetOneToMany */
-  public boolean setLibrary(Library aLibrary)
-  {
-    boolean wasSet = false;
-    if (aLibrary == null)
-    {
-      return wasSet;
-    }
-
-    Library existingLibrary = library;
-    library = aLibrary;
-    if (existingLibrary != null && !existingLibrary.equals(aLibrary))
-    {
-      existingLibrary.removeUser(this);
-    }
-    library.addUser(this);
-    wasSet = true;
-    return wasSet;
-  }
-
-  public void delete()
-  {
-    Library placeholderLibrary = library;
-    this.library = null;
-    if(placeholderLibrary != null)
-    {
-      placeholderLibrary.removeUser(this);
-    }
-  }
 
 
   public String toString()
@@ -152,7 +116,6 @@ public abstract class User
             "userId" + ":" + getUserId()+ "," +
             "username" + ":" + getUsername()+ "," +
             "password" + ":" + getPassword()+ "," +
-            "fullname" + ":" + getFullname()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "library = "+(getLibrary()!=null?Integer.toHexString(System.identityHashCode(getLibrary())):"null");
+            "fullname" + ":" + getFullname()+ "]" + System.getProperties().getProperty("line.separator");
   }
 }

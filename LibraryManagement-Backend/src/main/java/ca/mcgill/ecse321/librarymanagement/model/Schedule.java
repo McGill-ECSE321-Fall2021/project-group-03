@@ -36,9 +36,6 @@ public class Schedule
   @OneToMany (targetEntity = Timeslot.class)
   private List<Timeslot> timeslots;
   
-  // ?
-  @OneToOne (targetEntity = Library.class)
-  private Library library;
 
   //------------------------
   // CONSTRUCTOR
@@ -95,11 +92,7 @@ public class Schedule
     int index = timeslots.indexOf(aTimeslot);
     return index;
   }
-  /* Code from template association_GetOne */
-  public Library getLibrary()
-  {
-    return library;
-  }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfTimeslots()
   {
@@ -157,51 +150,13 @@ public class Schedule
     }
     return wasAdded;
   }
-  /* Code from template association_SetOneToOptionalOne */
-  public boolean setLibrary(Library aNewLibrary)
-  {
-    boolean wasSet = false;
-    if (aNewLibrary == null)
-    {
-      //Unable to setLibrary to null, as librarySchedule must always be associated to a library
-      return wasSet;
-    }
-    
-    Schedule existingLibrarySchedule = aNewLibrary.getLibrarySchedule();
-    if (existingLibrarySchedule != null && !equals(existingLibrarySchedule))
-    {
-      //Unable to setLibrary, the current library already has a librarySchedule, which would be orphaned if it were re-assigned
-      return wasSet;
-    }
-    
-    Library anOldLibrary = library;
-    library = aNewLibrary;
-    library.setLibrarySchedule(this);
 
-    if (anOldLibrary != null)
-    {
-      anOldLibrary.setLibrarySchedule(null);
-    }
-    wasSet = true;
-    return wasSet;
-  }
 
-  public void delete()
-  {
-    timeslots.clear();
-    Library existingLibrary = library;
-    library = null;
-    if (existingLibrary != null)
-    {
-      existingLibrary.setLibrarySchedule(null);
-    }
-  }
 
 
   public String toString()
   {
     return super.toString() + "["+
-            "scheduleID" + ":" + getScheduleId()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "library = "+(getLibrary()!=null?Integer.toHexString(System.identityHashCode(getLibrary())):"null");
+            "scheduleID" + ":" + getScheduleId()+ "]" + System.getProperties().getProperty("line.separator");
   }
 }
