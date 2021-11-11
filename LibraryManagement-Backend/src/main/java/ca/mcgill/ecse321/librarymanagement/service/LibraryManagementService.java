@@ -564,6 +564,17 @@ public class LibraryManagementService {
 
 		return thisTitleReservation;
 	}
+	
+	@Transactional
+	public void removeTitleReservation(TitleReservation titleReservation, Library library) {
+		library.getTitleReservations().remove(titleReservation);
+		
+		titleReservation.getTitle().setIsAvailable(true);
+		titleRepository.save(titleReservation.getTitle());
+		titleReservationRepository.delete(titleReservation);
+//		titleReservationRepository.save();
+		libraryRepository.save(library);
+	}
 
 	@Transactional
 	public void deleteTitle(Library library, Title title) {
