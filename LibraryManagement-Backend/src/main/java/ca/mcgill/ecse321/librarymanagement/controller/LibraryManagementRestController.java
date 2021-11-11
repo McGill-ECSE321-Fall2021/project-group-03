@@ -20,17 +20,18 @@ import ca.mcgill.ecse321.librarymanagement.dto.RoomDto;
 import ca.mcgill.ecse321.librarymanagement.dto.RoomReservationDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TimeslotDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TitleDto;
+import ca.mcgill.ecse321.librarymanagement.dto.TitleReservationDto;
+import ca.mcgill.ecse321.librarymanagement.dto.UserDto;
 import ca.mcgill.ecse321.librarymanagement.model.Client;
 import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.Room;
+import ca.mcgill.ecse321.librarymanagement.model.Room.RoomType;
 import ca.mcgill.ecse321.librarymanagement.model.RoomReservation;
 import ca.mcgill.ecse321.librarymanagement.model.Timeslot;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
-import ca.mcgill.ecse321.librarymanagement.model.Room.RoomType;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
 import ca.mcgill.ecse321.librarymanagement.model.TitleReservation;
-import ca.mcgill.ecse321.librarymanagement.model.User;
 import ca.mcgill.ecse321.librarymanagement.service.LibraryManagementService;
 
 //Should imports be the same as example??
@@ -52,7 +53,7 @@ public class LibraryManagementRestController {
 	public List<TitleDto> getAllTitles() {
 		return service.getAllTitles().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
 	}
-	
+
 	@GetMapping(value = { "/titles/get/{titleId}", "/titles/get/{titleId}/" })
 	public TitleDto getTitle(@PathVariable("titleId") String titleId) {
 		Title title = service.getTitle(Integer.parseInt(titleId));
@@ -71,106 +72,36 @@ public class LibraryManagementRestController {
 
 		return convertToDto(title);
 	}
-	
+
 	@PostMapping(value = { "/titles/reserve/{titleName}", "/titles/reserve/{titleName}/" })
 	public TitleDto reserveTitle(@PathVariable("titleName") String titleName, @RequestParam String clientUsername)
 			throws IllegalArgumentException {
 
 		Library library = getLibrary();
 
-		User user = null;
-		Title title = null;
+		// get todays date and add two weeks to it
+		Date date = new Date(Calendar.getInstance().getTime().getTime());
+		Date returnDate = sqlDatePlusDays(date);
 
-		for (Title titleA : library.getTitles()) {
-			if (titleA.getName().equals(titleName) && titleA.getIsAvailable() == true) {
-				title = titleA;
-			}
-		}
+		TitleReservation titleReservation = service.createTitleReservation(returnDate, false, titleName, clientUsername,
+				library);
 
-		for (User userA : library.getUsers()) {
-			if (userA.getUsername().equals(clientUsername)) {
-				user = userA;
-			}
-		}
+		return convertToDto(titleReservation);
 
-		if (user != null && title != null) {
-			// get todays date and add two weeks to it
-			Date date = new Date(Calendar.getInstance().getTime().getTime());
-			Date returnDate = sqlDatePlusDays(date);	
-			
-			service.createTitleReservation(returnDate, false, title, (Client) user, library);
-
-			return convertToDto(title);
-		}
-
-		throw new IllegalArgumentException("This title is not available to reserve");
 	}
-
-	
 
 	@PostMapping(value = { "/titles/checkout/{name}", "/titles/checkout/{name}/" })
 	public TitleDto checkoutTitle(@PathVariable("name") String titleName, @RequestParam String clientUsername)
 			throws IllegalArgumentException {
 		Library library = getLibrary();
 
-		User user = null;
-		Title title = null;
+		Date date = new Date(Calendar.getInstance().getTime().getTime());
+		Date returnDate = sqlDatePlusDays(date);
 
-		for (Title titleA : library.getTitles()) {
-			if (titleA.getName().equals(titleName)) {
-				title = titleA;
-			}
-		}
+		TitleReservation titleReservation = service.createTitleReservation(returnDate, true, titleName, clientUsername, library);
 
-		for (User userA : library.getUsers()) {
-			if (userA.getUsername().equals(clientUsername)) {
-				user = userA;
-			}
-		}
+		return convertToDto(titleReservation.getTitle());
 
-		if (title == null) {
-			throw new IllegalArgumentException("This title does not exist");
-		} else if (user == null) {
-			throw new IllegalArgumentException("This user does not exist");
-		}
-
-		// !! WHAT IS THERE ARE TWO OF THE SAME BOOKS AND THEY ARE BOTH RESERVED
-		// if the user and title were found
-		if (user != null && title != null) {
-		
-			//if title is available
-			if (title.getIsAvailable() == true) {
-				title.setIsAvailable(false);
-
-				Date date = new Date(Calendar.getInstance().getTime().getTime());
-				Date returnDate = sqlDatePlusDays(date);
-
-				service.createTitleReservation(returnDate, true, title, (Client) user, library);
-
-				return convertToDto(title);
-
-				// if title was not available
-			} else { 
-				for (TitleReservation titleReservation : library.getTitleReservations()) {
-
-					// if there is a titleReservation for the title
-					if (titleReservation.getTitle().equals(title)) {
-						
-						//if the titleReservation was created by the user
-						if (titleReservation.getClient().getUsername().equals(user.getUsername())) {						
-							service.updateTitleReservation(titleReservation, library);
-							return convertToDto(title);
-
-							// if the titleReservation was not created by the user
-						} else {
-							throw new IllegalArgumentException("This title is reserved by someone else");
-						}
-					}
-				}
-			}
-		}
-
-		throw new IllegalArgumentException("adawdwadw");
 	}
 
 	@PostMapping(value = { "/titles/remove/{titleId}", "/titles/remove/{titleId}/" })
@@ -210,12 +141,6 @@ public class LibraryManagementRestController {
 	public List<ClientDto> getAllClients() {
 		return service.getAllClients().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
 	}
-	
-	@GetMapping(value = { "/clients/get/{clientId}", "/clients/get/{clientId}/" })
-	public ClientDto getClient(@PathVariable("clientId") String clientId) {
-		Client client = service.getClient(Integer.parseInt(clientId));
-		return convertToDto(client);
-	}
 
 	@PostMapping(value = { "/clients/create/{username}", "/clients/create/{username}/" })
 	public ClientDto createClient(@PathVariable("username") String username, @RequestParam String password,
@@ -246,12 +171,6 @@ public class LibraryManagementRestController {
 	public List<TitleDto> getAllLibrarians() {
 		return service.getAllTitles().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
 	}
-	
-	@GetMapping(value = { "/librarians/get/{librarianId}", "/librarians/get/{librarianId}/" })
-	public LibrarianDto getLibrarian(@PathVariable("librarianId") String librarianId) {
-		Librarian librarian = service.getLibrarian(Integer.parseInt(librarianId));
-		return convertToDto(librarian);
-	}
 
 	@PostMapping(value = { "/librarians/create/{username}", "/librarians/create/{username}/" })
 	public LibrarianDto createLibrarian(@PathVariable("username") String username, @RequestParam String password,
@@ -265,7 +184,7 @@ public class LibraryManagementRestController {
 	}
 
 	@PostMapping(value = { "/librarians/remove/{userId}", "/librarians/remove/{userId}/" })
-	public void removeLibrarian(@PathVariable("userId") String userId) throws IllegalArgumentException {		
+	public void removeLibrarian(@PathVariable("userId") String userId) throws IllegalArgumentException {
 
 		Library library = getLibrary();
 		Librarian librarian = null;
@@ -290,6 +209,23 @@ public class LibraryManagementRestController {
 		LibrarianDto librarianDto = new LibrarianDto(librarian.getUserId(), librarian.getUsername(),
 				librarian.getPassword(), librarian.getFullname(), librarian.getIsHeadLibrarian());
 		return librarianDto;
+	}
+
+	/**
+	 * 
+	 * 
+	 * Login account
+	 * 
+	 */
+
+	@GetMapping(value = { "/clients/login", "/clients/login/" })
+	public ClientDto loginClient(@RequestParam String username, @RequestParam String password) {
+		return convertToDto(service.loginClient(username, password));
+	}
+
+	@GetMapping(value = { "/librarians/login", "/librarians/login/" })
+	public LibrarianDto loginLibrarian(@RequestParam String username, @RequestParam String password) {
+		return convertToDto(service.loginLibrarian(username, password));
 	}
 
 	/*
@@ -330,8 +266,7 @@ public class LibraryManagementRestController {
 //
 //		return convertToDto(timeslot);
 //	}
-	
-	
+
 	/*
 	 * 
 	 * Timeslots
@@ -341,6 +276,12 @@ public class LibraryManagementRestController {
 	public TimeslotDto convertToDto(Timeslot t) {
 		TimeslotDto timeslotDto = new TimeslotDto(t.getStartTime(), t.getEndTime(), t.getDate(), t.getTimeSlotId());
 		return timeslotDto;
+	}
+	
+	@GetMapping(value = { "/timeslots/get/{timeslotId}", "/timeslots/get/{timeslotId}/" })
+	public TimeslotDto getTimeslot(@PathVariable("timeslotId") String timeslotId) {
+		Timeslot timeslot = service.getTimeslot(Integer.parseInt(timeslotId));
+		return convertToDto(timeslot);
 	}
 
 	/*
@@ -353,20 +294,14 @@ public class LibraryManagementRestController {
 	public List<RoomDto> getRooms() {
 		return service.getAllRooms().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
 	}
-	
-	@GetMapping(value = { "/rooms/get/{roomId}", "/rooms/get/{roomId}/" })
-	public RoomDto getRoom(@PathVariable("roomId") String roomId) {
-		Room room = service.getRoom(Integer.parseInt(roomId));
-		return convertToDto(room);
-	}
 
 	@PostMapping(value = { "/rooms/create/{capacity}" })
-	public RoomDto createRoom(@PathVariable("capacity") String capacity, @RequestParam String isAvailable,
+	public RoomDto createRoom(@PathVariable("capacity") int capacity, @RequestParam boolean isAvailable,
 			@RequestParam String roomType) throws IllegalArgumentException {
 
 		Library library = getLibrary();
 
-		Room room = service.createRoom(Integer.parseInt(capacity), Boolean.parseBoolean(isAvailable), parseRoomType(roomType), library);
+		Room room = service.createRoom(capacity, isAvailable, parseRoomType(roomType), library);
 
 		return convertToDto(room);
 	}
@@ -375,7 +310,7 @@ public class LibraryManagementRestController {
 		RoomDto roomDto = new RoomDto(r.getRoomId(), r.getCapacity(), r.getIsAvailable(), r.getRoomType());
 		return roomDto;
 	}
-	
+
 	/*
 	 * 
 	 * Room Reservations
@@ -390,7 +325,7 @@ public class LibraryManagementRestController {
 	}
 
 	@PostMapping(value = { "/roomReservations/create/{roomId}" })
-	public RoomReservationDto createRoomReservation(@PathVariable("roomId") String roomId, @RequestParam String userId, 
+	public RoomReservationDto createRoomReservation(@PathVariable("roomId") String roomId, @RequestParam String userId,
 			@RequestParam String startHour, String startMin, @RequestParam String endHour, @RequestParam String endMin,
 			@RequestParam String year, @RequestParam String month, @RequestParam String day)
 			throws IllegalArgumentException {
@@ -432,8 +367,8 @@ public class LibraryManagementRestController {
 			}
 		}
 
-		RoomReservation roomReservation = service.createRoomReservation(startTime, endTime, date, room, client,
-				library);
+		RoomReservation roomReservation = service.createRoomReservation(startTime, endTime, date,
+				Integer.parseInt(roomId), Integer.parseInt(userId), library);
 
 		return convertToDto(roomReservation);
 	}
@@ -459,43 +394,29 @@ public class LibraryManagementRestController {
 	}
 
 	@PostMapping(value = { "/staffSchedules/create/{librarianId}", "/staffSchedules/create/{librarianId}/" })
-	public TimeslotDto createStaffScheduleTimeslot(@PathVariable("librarianId") String librarianId, @RequestParam String startHour, String startMin,
-			@RequestParam String endHour, @RequestParam String endMin, @RequestParam String year,
-			@RequestParam String month, @RequestParam String day) throws IllegalArgumentException {
+	public TimeslotDto createStaffScheduleTimeslot(@PathVariable("librarianId") String librarianId,
+			@RequestParam String startHour, String startMin, @RequestParam String endHour, @RequestParam String endMin,
+			@RequestParam String year, @RequestParam String month, @RequestParam String day)
+			throws IllegalArgumentException {
 
 		Library library = getLibrary();
 		Librarian librarian = null;
-
-		// find user
-		for (User user : library.getUsers()) {
-			if (user.getUserId() == Integer.parseInt(librarianId) && user instanceof Librarian) {
-				librarian = (Librarian) user;
-			}
-		}
-
-		if (librarian == null) {
-			throw new IllegalArgumentException("librarian does not exist");
-		}
 
 		Time startTime = new Time(Integer.parseInt(startHour), Integer.parseInt(startMin), 0);
 		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
 		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
 
-		for (Timeslot t : librarian.getStaffSchedule().getTimeslots()) {
-			if (isOverlapping(t, date, endTime, startTime)) {
-				throw new IllegalArgumentException("overlapping timeslot in current staff schedule");
-			}
-		}
-
-		Timeslot timeslot = service.createStaffScheduleTimeslot(startTime, endTime, date, library, librarian);
+		Timeslot timeslot = service.createStaffScheduleTimeslot(startTime, endTime, date, library,
+				Integer.parseInt(librarianId));
 
 		return convertToDto(timeslot);
 	}
 
 	@PostMapping(value = { "/staffSchedules/remove/{librarianId}", "/staffSchedules/remove/{librarianId}/" })
-	public TimeslotDto removeStaffScheduleTimeslot(@PathVariable("librarianId") String librarianId, @RequestParam String startHour, String startMin,
-			@RequestParam String endHour, @RequestParam String endMin, @RequestParam String year,
-			@RequestParam String month, @RequestParam String day) throws IllegalArgumentException {
+	public void removeStaffScheduleTimeslot(@PathVariable("librarianId") String librarianId,
+			@RequestParam String startHour, String startMin, @RequestParam String endHour, @RequestParam String endMin,
+			@RequestParam String year, @RequestParam String month, @RequestParam String day)
+			throws IllegalArgumentException {
 
 		Library library = getLibrary();
 		Librarian librarian = null;
@@ -530,7 +451,7 @@ public class LibraryManagementRestController {
 		service.removeStaffScheduleTimeslot(timeslot, librarian);
 		return convertToDto(timeslot);
 	}
-	
+
 	/*
 	 * 
 	 * Helper methods
@@ -610,7 +531,7 @@ public class LibraryManagementRestController {
 			return RoomType.Event;
 		}
 	}
-	
+
 	private Date sqlDatePlusDays(Date date) {
 		return Date.valueOf(date.toLocalDate().plusDays(14));
 	}
