@@ -21,17 +21,18 @@ import ca.mcgill.ecse321.librarymanagement.dto.RoomReservationDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TimeslotDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TitleDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TitleReservationDto;
-import ca.mcgill.ecse321.librarymanagement.dto.UserDto;
 import ca.mcgill.ecse321.librarymanagement.model.Client;
 import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.Room;
 import ca.mcgill.ecse321.librarymanagement.model.Room.RoomType;
 import ca.mcgill.ecse321.librarymanagement.model.RoomReservation;
+import ca.mcgill.ecse321.librarymanagement.model.Schedule;
 import ca.mcgill.ecse321.librarymanagement.model.Timeslot;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
 import ca.mcgill.ecse321.librarymanagement.model.TitleReservation;
+import ca.mcgill.ecse321.librarymanagement.model.User;
 import ca.mcgill.ecse321.librarymanagement.service.LibraryManagementService;
 
 //Should imports be the same as example??
@@ -87,6 +88,10 @@ public class LibraryManagementRestController {
 				library);
 
 		return convertToDto(titleReservation);
+	}
+	
+	public TitleReservationDto convertToDto(TitleReservation tr) {
+		return new TitleReservationDto(tr.getReturnDate(), tr.getIsCheckedOut(), convertToDto(tr.getTitle()), convertToDto(tr.getClient()), tr.getTitleReservationId());
 	}
 
 	@PostMapping(value = { "/titles/checkout/{name}", "/titles/checkout/{name}/" })
@@ -187,20 +192,7 @@ public class LibraryManagementRestController {
 		Library library = getLibrary();
 		Librarian librarian = null;
 
-		// find librarian
-		for (User user : library.getUsers()) {
-			if (user.getUserId() == Integer.parseInt(userId) && user instanceof Librarian) {
-				librarian = (Librarian) user;
-			}
-		}
-
-		if (librarian == null) {
-			throw new IllegalArgumentException("librarian does not exist");
-		} else if (librarian.getIsHeadLibrarian()) {
-			throw new IllegalArgumentException("cannot fire head librarian");
-		}
-
-		service.deleteLibrarian(library, librarian);
+		service.deleteLibrarian(library, Integer.parseInt(userId));
 	}
 
 	public LibrarianDto convertToDto(Librarian librarian) {
@@ -448,8 +440,7 @@ public class LibraryManagementRestController {
 			throw new IllegalArgumentException("time slot does not exist");
 		}
 
-		service.removeStaffScheduleTimeslot(timeslot, librarian);
-		return convertToDto(timeslot);
+		service.removeStaffScheduleTimeslot(startTime, endTime, date, Integer.parseInt(librarianId));
 	}
 
 	/*
