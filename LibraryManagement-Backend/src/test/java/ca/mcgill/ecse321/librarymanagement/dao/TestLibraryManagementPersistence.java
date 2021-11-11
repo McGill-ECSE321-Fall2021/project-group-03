@@ -363,7 +363,6 @@ public class TestLibraryManagementPersistence {
 		schedule = scheduleRepository.findScheduleByScheduleId(savedScheduleId);
 
 		assertNotNull(schedule);
-		assertEquals(library.getLibraryId(), schedule.getLibrary().getLibraryId());
 	}
 
 	@Test

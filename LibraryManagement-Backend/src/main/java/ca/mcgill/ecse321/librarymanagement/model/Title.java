@@ -43,10 +43,6 @@ public class Title
   private boolean isAvailable;
   private TitleType titleType;
 
-  //Title Associations
-  @ManyToOne (targetEntity = Library.class)
-  private Library library;
-
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -144,40 +140,9 @@ public class Title
   {
     return titleType;
   }
-  /* Code from template association_GetOne */
-  public Library getLibrary()
-  {
-    return library;
-  }
-  /* Code from template association_SetOneToMany */
-  public boolean setLibrary(Library aLibrary)
-  {
-    boolean wasSet = false;
-    if (aLibrary == null)
-    {
-      return wasSet;
-    }
 
-    Library existingLibrary = library;
-    library = aLibrary;
-    if (existingLibrary != null && !existingLibrary.equals(aLibrary))
-    {
-      existingLibrary.removeTitle(this);
-    }
-    library.addTitle(this);
-    wasSet = true;
-    return wasSet;
-  }
 
-  public void delete()
-  {
-    Library placeholderLibrary = library;
-    this.library = null;
-    if(placeholderLibrary != null)
-    {
-      placeholderLibrary.removeTitle(this);
-    }
-  }
+
 
 
   public String toString()
@@ -188,7 +153,6 @@ public class Title
             "description" + ":" + getDescription()+ "," +
             "genre" + ":" + getGenre()+ "," +
             "isAvailable" + ":" + getIsAvailable()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "titleType" + "=" + (getTitleType() != null ? !getTitleType().equals(this)  ? getTitleType().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "library = "+(getLibrary()!=null?Integer.toHexString(System.identityHashCode(getLibrary())):"null");
+            "  " + "titleType" + "=" + (getTitleType() != null ? !getTitleType().equals(this)  ? getTitleType().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator");
   }
 }

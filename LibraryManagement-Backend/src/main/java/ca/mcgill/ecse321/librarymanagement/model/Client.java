@@ -96,12 +96,6 @@ public class Client extends User
     return isOnline;
   }
 
-  public void delete()
-  {
-    super.delete();
-  }
-
-
   public String toString()
   {
     return super.toString() + "["+
