@@ -44,8 +44,7 @@ public class Title
   private TitleType titleType;
 
   //Title Associations
-  @ManyToOne (targetEntity = Library.class)
-  private Library library;
+ 
 
   //------------------------
   // CONSTRUCTOR
