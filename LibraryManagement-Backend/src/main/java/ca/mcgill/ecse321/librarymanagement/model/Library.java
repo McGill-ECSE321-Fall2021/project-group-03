@@ -71,6 +71,10 @@ public class Library {
 		return titleReservations;
 	}
 	
+	public void removeTitleReservation(TitleReservation aTitleReservation) {
+		titleReservations.remove(aTitleReservation);
+	}
+	
 	public void setLibrarySchedule(Schedule librarySchedule) {
 		this.librarySchedule = librarySchedule;
 	}
