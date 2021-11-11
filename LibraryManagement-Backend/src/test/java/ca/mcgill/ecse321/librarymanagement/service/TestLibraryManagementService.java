@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.lenient;
 
+import java.sql.Date;
+import java.sql.Time;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,13 +19,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.mcgill.ecse321.librarymanagement.dao.ClientRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.LibrarianRepository;
-import ca.mcgill.ecse321.librarymanagement.dao.TitleRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.RoomRepository;
+import ca.mcgill.ecse321.librarymanagement.dao.TimeslotRepository;
+import ca.mcgill.ecse321.librarymanagement.dao.TitleRepository;
 import ca.mcgill.ecse321.librarymanagement.model.Client;
 import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.Room;
 import ca.mcgill.ecse321.librarymanagement.model.Room.RoomType;
+import ca.mcgill.ecse321.librarymanagement.model.Timeslot;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
 
@@ -41,6 +46,9 @@ public class TestLibraryManagementService {
 	@Mock
 	private RoomRepository roomRepository;
 	
+	@Mock
+	private TimeslotRepository timeslotRepository;
+	
 	@InjectMocks
 	private LibraryManagementService service;
 	
@@ -48,6 +56,7 @@ public class TestLibraryManagementService {
 	private static final int CLIENT_KEY = 1234;
 	private static final int LIBRARIAN_KEY = 1234;
 	private static final int ROOM_KEY = 1234;
+	private static final int TIMESLOT_KEY = 1234;
 	
 	// Title tests
 	
@@ -109,6 +118,19 @@ public class TestLibraryManagementService {
 	    		Room room = new Room(capacity, isAvailable, roomType);
 	    		room.setRoomId(ROOM_KEY);
 	            return room;
+	        } else {
+	            return null;
+	        }
+	    });
+		
+		lenient().when(timeslotRepository.findById(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+	        if(invocation.getArgument(0).equals(TIMESLOT_KEY)) {
+	        	Date date = new Date(2021, 11, 11);
+	        	Time startTime = new Time(10, 0, 0);
+	        	Time endTime = new Time(20, 0, 0);
+	    		Timeslot timeslot = new Timeslot(startTime, endTime, date);
+	    		timeslot.setTimeslotId(TIMESLOT_KEY);
+	            return timeslot;
 	        } else {
 	            return null;
 	        }
@@ -293,6 +315,215 @@ public class TestLibraryManagementService {
 		assertEquals("Librarian cannot be empty", error);
 		
 	}
+	
+	//valid input
+	@Test
+	public void createRoom() {
+		
+		int capacity = 4;	
+		boolean isAvailable = true;
+		RoomType roomType = RoomType.Study;
+		Room room = null;
+		Library library = new Library();
+		
+		try {
+			room = service.createRoom(capacity, isAvailable, roomType, library);
+		}
+		
+		catch (IllegalArgumentException e) {
+			fail();
+		}
+		
+		assertNotNull(room);
+		assertEquals(capacity, room.getCapacity());
+		assertEquals(isAvailable, room.getIsAvailable());
+		assertEquals(roomType, room.getRoomType());
+		
+	}
+	
+	// invalid input
+	
+	@Test
+	public void createRoomNull() {
+		
+		int capacity = 4;	
+		boolean isAvailable = true;
+		RoomType roomType = RoomType.Study;
+		Room room = null;
+		Library library = new Library();
+		String error = "";
+
+		try {
+			room = service.createRoom(capacity, isAvailable, roomType, library);
+		}
+		
+		catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(room);
+		assertEquals("Room cannot be empty", error);
+		
+	}
+	
+	//valid input
+	@Test
+	public void createLibraryTimeslot() {
+		
+		Date date = new Date(2021, 11, 11);
+		Time start = new Time(10, 0, 0);
+		Time end = new Time(20, 0, 0);
+		
+		Timeslot timeslot = null;
+		Library library = new Library();
+		
+		try {
+			timeslot = service.createLibraryTimeslot(start, end, date, library.getLibrarySchedule(), library);
+		}
+		
+		catch (IllegalArgumentException e) {
+			fail();
+		}
+		
+		assertNotNull(timeslot);
+		assertEquals(date, timeslot.getDate());
+		assertEquals(start, timeslot.getStartTime());
+		assertEquals(end, timeslot.getEndTime());
+		
+	}
+	
+	// invalid input
+	
+	@Test
+	public void createLibraryTimeslotNull() {
+		
+		Date date = null;
+		Time start = null;
+		Time end = null;
+		Timeslot timeslot = null;
+		Library library = new Library();
+		String error = "";
+
+		try {
+			timeslot = service.createLibraryTimeslot(start, end, date, library.getLibrarySchedule(), library);
+		}
+		
+		catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(timeslot);
+		assertEquals("Library time slot cannot be empty", error);
+		
+	}
+	
+	// invalid input
+	
+	@Test
+	public void createLibraryTimeslotOverlapping() {
+				
+		// try to add another timeslot at the same time
+		Date date = new Date(2021, 11, 11);
+		Time start = new Time(10, 0, 0);
+		Time end = new Time(20, 0, 0);
+		Timeslot timeslot = null;
+		Timeslot timeslot2 = null;
+		Library library = new Library();
+		String error = "";
+
+		try {
+			timeslot = service.createLibraryTimeslot(start, end, date, library.getLibrarySchedule(), library);
+			timeslot2 = service.createLibraryTimeslot(start, end, date, library.getLibrarySchedule(), library);
+		}
+		
+		catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(timeslot);
+		assertEquals("Overlapping library time slots", error);
+		
+	}
+	
+	//valid input
+		@Test
+		public void createStaffScheduleTimeslot() {
+			
+			Date date = new Date(2021, 11, 11);
+			Time start = new Time(10, 0, 0);
+			Time end = new Time(20, 0, 0);
+			
+			Timeslot timeslot = null;
+			Library library = new Library();
+			Librarian librarian = (Librarian) library.getUser(LIBRARIAN_KEY);
+			
+			try {
+				timeslot = service.createStaffScheduleTimeslot(start, end, date, library, librarian);
+			}
+			
+			catch (IllegalArgumentException e) {
+				fail();
+			}
+			
+			assertNotNull(timeslot);
+			assertEquals(date, timeslot.getDate());
+			assertEquals(start, timeslot.getStartTime());
+			assertEquals(end, timeslot.getEndTime());
+			
+		}
+		
+		// invalid input
+		
+		@Test
+		public void createStaffScheduleTimeslotNull() {
+			
+			Date date = null;
+			Time start = null;
+			Time end = null;
+			Timeslot timeslot = null;
+			Library library = new Library();
+			Librarian librarian = null;
+			String error = "";
+
+			try {
+				timeslot = service.createStaffScheduleTimeslot(start, end, date, library, librarian);
+			}
+			
+			catch (IllegalArgumentException e) {
+				error = e.getMessage();
+			}
+			
+			assertNull(timeslot);
+			assertEquals("Staff Schedule time slot cannot be empty", error);
+			
+		}
+		
+		// invalid input
+		
+		@Test
+		public void createStaffScheduleTimeslotOverlapping() {
+			
+			Date date = new Date(2021, 11, 11);
+			Time start = new Time(10, 0, 0);
+			Time end = new Time(20, 0, 0);
+			Timeslot timeslot = null;
+			Library library = new Library();
+			Librarian librarian = (Librarian) library.getUser(LIBRARIAN_KEY);
+			String error = "";
+
+			try {
+				timeslot = service.createStaffScheduleTimeslot(start, end, date, library, librarian);
+				timeslot = service.createStaffScheduleTimeslot(start, end, date, library, librarian);
+			}
+			
+			catch (IllegalArgumentException e) {
+				error = e.getMessage();
+			}
+			
+			assertNull(timeslot);
+			assertEquals("Staff Schedule time slot cannot overlap for the same librarian", error);
+			
+		}
 	
 	
 	

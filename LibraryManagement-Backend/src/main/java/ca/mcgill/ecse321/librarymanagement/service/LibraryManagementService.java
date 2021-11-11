@@ -130,7 +130,8 @@ public class LibraryManagementService {
 		return librarian;
 	}
 
-	public Timeslot createTimeslot(Time startTime, Time endTime, Date date, Schedule librarySchedule, Library library) {
+	
+	public Timeslot createLibraryTimeslot(Time startTime, Time endTime, Date date, Schedule librarySchedule, Library library) {
 		Timeslot timeslot = new Timeslot(startTime, endTime, date);
 		librarySchedule.addTimeslot(timeslot);
 		timeslotRepository.save(timeslot);
