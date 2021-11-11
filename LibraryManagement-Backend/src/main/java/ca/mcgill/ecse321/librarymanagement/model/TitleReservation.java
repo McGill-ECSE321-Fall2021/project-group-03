@@ -66,6 +66,9 @@ public class TitleReservation
   public int getTitleReservationId() {
 	  return this.titleReservationId;
   }
+  public void setTitleReservationId(int titleReservationId) {
+	  this.titleReservationId= titleReservationId;
+  }
 
   public boolean setReturnDate(Date aReturnDate)
   {
