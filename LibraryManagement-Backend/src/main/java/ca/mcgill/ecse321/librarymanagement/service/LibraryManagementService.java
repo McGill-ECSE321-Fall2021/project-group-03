@@ -290,6 +290,29 @@ public class LibraryManagementService {
 
 		return timeslot;
 	}
+	
+	@Transactional
+	public void removeLibraryScheduleTimeslot(int timeslotId) {
+		Library library = getLibrary();
+		Schedule librarySchedule = library.getLibrarySchedule();
+		Timeslot timeslot = null;
+
+		// find time slot
+		for (Timeslot t : library.getLibrarySchedule().getTimeslots()) {
+			if (t.getTimeSlotId() == timeslotId) {
+				timeslot = t;
+			}
+		}
+		
+		if (timeslot == null) {
+			throw new IllegalArgumentException("Timeslot does not exist");
+		} 
+		
+		librarySchedule.removeTimeslot(timeslot);
+		timeslotRepository.delete(timeslot);
+		scheduleRepository.save(librarySchedule);
+		libraryRepository.save(library);
+	}
 
 	@Transactional
 	public List<Timeslot> getAllLibraryTimeslots() {

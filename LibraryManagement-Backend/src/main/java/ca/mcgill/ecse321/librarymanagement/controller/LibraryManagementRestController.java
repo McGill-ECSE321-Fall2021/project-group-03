@@ -271,6 +271,20 @@ public class LibraryManagementRestController {
 
 		return convertToDto(timeslot);
 	}
+	
+	@PostMapping(value = { "/librarySchedule/remove/{timeslotId}", "/librarySchedule/remove/{timeslotId}/" })
+	public void removeLibraryTimeslot(@PathVariable("timeslotId") String timeslotId)
+			throws IllegalArgumentException {
+
+		Library library = getLibrary();
+
+		// find timeslot
+		for (Timeslot timeslot : library.getLibrarySchedule().getTimeslots()) {
+			if (timeslot.getTimeSlotId() == Integer.parseInt(timeslotId)) {
+				service.removeLibraryScheduleTimeslot(Integer.parseInt(timeslotId));
+			}
+		}
+	}
 
 	/*
 	 * 
@@ -388,7 +402,7 @@ public class LibraryManagementRestController {
 
 	/*
 	 * 
-	 * staffSchedules
+	 * Staff Schedules
 	 * 
 	 */
 
