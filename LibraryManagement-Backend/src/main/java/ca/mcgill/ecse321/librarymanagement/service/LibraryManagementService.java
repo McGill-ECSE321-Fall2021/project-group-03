@@ -139,7 +139,14 @@ public class LibraryManagementService {
 		return timeslot;
 	}
 
-	public List<Timeslot> getAllLibraryTimeslots(int librarianId) {
+	public List<Timeslot> getAllLibraryTimeslots() {
+				
+		Library library = getLibrary();
+		
+		return library.getLibrarySchedule().getTimeslots();
+	}
+	
+	public List<Timeslot> getAllLibrarianTimeslots(int librarianId) {
 		List<Timeslot> timeslots = toList(timeslotRepository.findAll());
 		
 		// filter through only the library timeslots
@@ -181,19 +188,28 @@ public class LibraryManagementService {
 		roomReservationRepository.save(roomReservation);
 		return null;
 	}
-	
-	public TitleReservation createTitleReservation(Date returnDate,  boolean aBoolean, Title title, Client client, Library library ) {
-		
-		TitleReservation titleReservation = new TitleReservation(returnDate, aBoolean, title, client);
-		library.addTitleReservation(titleReservation);
-		title.setIsAvailable(false);
-		
+	public Timeslot createStaffScheduleTimeslot(Time startTime, Time endTime, Date date, Library library, Librarian librarian) {
+		Timeslot timeslot = new Timeslot(startTime, endTime, date);
+		librarian.getStaffSchedule().addTimeslot(timeslot);
+		timeslotRepository.save(timeslot);
+		scheduleRepository.save(librarian.getStaffSchedule());
 		libraryRepository.save(library);
-		titleRepository.save(title);
-		titleReservationRepository.save(titleReservation);
 		
-		
-		return titleReservation;
+		return timeslot;
+	}
+
+	public void deleteLibrarian(Library library, Librarian librarian) {
+		librarianRepository.delete(librarian);
+		library.removeUser(librarian);
+		libraryRepository.save(library);
+	}
+
+	public void removeStaffScheduleTimeslot(Timeslot timeslot, Librarian librarian) {
+		Schedule staffSchedule = librarian.getStaffSchedule();
+		staffSchedule.removeTimeslot(timeslot);
+		timeslotRepository.delete(timeslot);
+		scheduleRepository.save(staffSchedule);
+		librarianRepository.save(librarian);
 	}
 
 }
