@@ -13,13 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 import ca.mcgill.ecse321.librarymanagement.dao.ClientRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.LibrarianRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.LibraryRepository;
+import ca.mcgill.ecse321.librarymanagement.dao.RoomRepository;
+import ca.mcgill.ecse321.librarymanagement.dao.RoomReservationRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.ScheduleRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TimeslotRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TitleRepository;
-import ca.mcgill.ecse321.librarymanagement.dto.TitleDto;
 import ca.mcgill.ecse321.librarymanagement.model.Client;
 import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
+import ca.mcgill.ecse321.librarymanagement.model.Room;
+import ca.mcgill.ecse321.librarymanagement.model.Room.RoomType;
+import ca.mcgill.ecse321.librarymanagement.model.RoomReservation;
 import ca.mcgill.ecse321.librarymanagement.model.Schedule;
 import ca.mcgill.ecse321.librarymanagement.model.Timeslot;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
@@ -45,6 +49,12 @@ public class LibraryManagementService {
 	
 	@Autowired
 	private ScheduleRepository scheduleRepository;
+	
+	@Autowired
+	private RoomRepository roomRepository;
+	
+	@Autowired
+	private RoomReservationRepository roomReservationRepository;
 	
 	@Transactional
 	public Title createTitle(String aName, String aDescription, String aGenre, boolean aIsAvailable,
@@ -140,6 +150,26 @@ public class LibraryManagementService {
 		}
 		
 		return timeslots;
+	}
+
+	public List<Room> getAllRooms() {
+		return toList(roomRepository.findAll());
+	}
+
+	public List<RoomReservation> getAllRoomReservations() {
+		return toList(roomReservationRepository.findAll());
+	}
+
+	public Room createRoom(int capacity, boolean isAvailable, RoomType roomType, Library library) {
+		Room room = new Room(capacity, isAvailable, roomType);
+		roomRepository.save(room);
+		libraryRepository.save(library);
+		return room;
+	}
+
+	public RoomReservation createRoomReservation(int roomId, int clientId, Time startTime, Time endTime, Date date) {
+		// get the room 
+		return null;
 	}
 
 }

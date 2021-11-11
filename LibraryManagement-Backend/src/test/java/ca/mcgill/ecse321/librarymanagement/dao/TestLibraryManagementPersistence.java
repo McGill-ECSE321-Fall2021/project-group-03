@@ -20,7 +20,7 @@ import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.Room;
 import ca.mcgill.ecse321.librarymanagement.model.Room.RoomType;
 import ca.mcgill.ecse321.librarymanagement.model.RoomReservation;
-import ca.mcgill.ecse321.librarymanagement.model.ScheduleDto;
+import ca.mcgill.ecse321.librarymanagement.model.Schedule;
 import ca.mcgill.ecse321.librarymanagement.model.Timeslot;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
@@ -350,11 +350,11 @@ public class TestLibraryManagementPersistence {
 
 		// create a schedule. Save it to persistence. Then make it null and retrieve it.
 		Library library = new Library();
-		ScheduleDto schedule = new ScheduleDto();
+		Schedule schedule = new Schedule();
 		library.setLibrarySchedule(schedule);
 
 		libraryRepository.save(library);
-		ScheduleDto savedSchedule = scheduleRepository.save(schedule);
+		Schedule savedSchedule = scheduleRepository.save(schedule);
 
 		int savedScheduleId = savedSchedule.getScheduleId();
 
