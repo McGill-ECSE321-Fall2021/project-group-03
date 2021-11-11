@@ -20,19 +20,17 @@ import ca.mcgill.ecse321.librarymanagement.dto.RoomDto;
 import ca.mcgill.ecse321.librarymanagement.dto.RoomReservationDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TimeslotDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TitleDto;
-import ca.mcgill.ecse321.librarymanagement.dto.UserDto;
+import ca.mcgill.ecse321.librarymanagement.dto.TitleReservationDto;
 import ca.mcgill.ecse321.librarymanagement.model.Client;
 import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.Room;
+import ca.mcgill.ecse321.librarymanagement.model.Room.RoomType;
 import ca.mcgill.ecse321.librarymanagement.model.RoomReservation;
-import ca.mcgill.ecse321.librarymanagement.model.Schedule;
 import ca.mcgill.ecse321.librarymanagement.model.Timeslot;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
-import ca.mcgill.ecse321.librarymanagement.model.Room.RoomType;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
 import ca.mcgill.ecse321.librarymanagement.model.TitleReservation;
-import ca.mcgill.ecse321.librarymanagement.model.User;
 import ca.mcgill.ecse321.librarymanagement.service.LibraryManagementService;
 
 //Should imports be the same as example??
