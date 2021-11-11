@@ -62,18 +62,42 @@ public class LibraryManagementService {
 	private TitleReservationRepository titleReservationRepository;
 	
 	@Transactional
-	public Title createTitle(String aName, String aDescription, String aGenre, boolean aIsAvailable,
-			TitleType aTitleType, Library aLibrary) {
-		Title title = new Title(aName, aDescription, aGenre, aIsAvailable, aTitleType);
-		aLibrary.addTitle(title);
+	public Title createTitle(String name, String description, String genre, boolean isAvailable,
+			TitleType titleType, Library library) {
+		
+		if (name == null || name.trim().length() == 0) {
+			throw new IllegalArgumentException("Title name cannot be empty!");
+		}
+		
+		if (description == null || description.trim().length() == 0) {
+			throw new IllegalArgumentException("Title description cannot be empty!");
+		}
+		
+		if (genre == null || description.trim().length() == 0) {
+			throw new IllegalArgumentException("Title genre cannot be empty!");
+		}
+		
+		if (isAvailable == false) {
+			throw new IllegalArgumentException("Title availability cannot be false when first created!");
+		}
+		
+		if (titleType == null) {
+			throw new IllegalArgumentException("Title type cannot be empty!");
+		}
+		
+		Title title = new Title(name, description, genre, isAvailable, titleType);
+		library.addTitle(title);
 		titleRepository.save(title);
-		libraryRepository.save(aLibrary);
+		libraryRepository.save(library);
 		return title;
 	}
 
 	@Transactional
 	public Title getTitle(int titleId) {
 		Title title = titleRepository.findTitleByTitleId(titleId);
+		if (title == null) {
+			throw new IllegalArgumentException("title does not exist");
+		}
 		return title;
 	}
 

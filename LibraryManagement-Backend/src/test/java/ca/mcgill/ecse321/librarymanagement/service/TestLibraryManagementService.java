@@ -198,6 +198,20 @@ public class TestLibraryManagementService {
 		
 	}
 	
+	// valid input
+	
+	@Test
+	public void getExistingTitle() {
+		assertEquals(TITLE_KEY, service.getTitle(TITLE_KEY).getTitleId());
+	}
+	
+	// invalid input
+	
+	@Test
+	public void getNonExistingTitle() {
+		assertNull(service.getTitle(2000));
+	}
+	
 	// client tests
 	
 	// valid input
@@ -529,38 +543,6 @@ public class TestLibraryManagementService {
 	
 	
 	
-	
-//	@Transactional
-//	public Title createTitle(String name, String description, String genre, boolean isAvailable, TitleType titleType) {
-//		
-//		if (name == null || name.trim().length() == 0) {
-//			throw new IllegalArgumentException("Title name cannot be empty!");
-//		}
-//		
-//		if (description == null || description.trim().length() == 0) {
-//			throw new IllegalArgumentException("Title description cannot be empty!");
-//		}
-//		
-//		if (genre == null || description.trim().length() == 0) {
-//			throw new IllegalArgumentException("Title genre cannot be empty!");
-//		}
-//		
-//		if (isAvailable == false) {
-//			throw new IllegalArgumentException("Title availability cannot be false when first created!");
-//		}
-//		
-//		if (titleType == null) {
-//			throw new IllegalArgumentException("Title type cannot be null!");
-//		}
-//		
-//		Title title = new Title(name, description, genre, true, titleType);
-//		
-//		titleRepository.save(title);
-//		
-//		return title;
-//		
-//	}
-//	
 //	@Transactional
 //	public Title getTitle(String name, String description, String genre, boolean isAvailable, TitleType titleType) {
 //		

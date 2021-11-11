@@ -126,29 +126,28 @@ public class LibraryManagementRestController {
 
 		return convertToDto(librarian);
 	}
-	
+
 	@PostMapping(value = { "/removeLibrarians/{userId}", "/removeLibrarians/{userId}/" })
-	public void removeLibrarian(@PathVariable("userId") String userId) throws IllegalArgumentException {		
+	public void removeLibrarian(@PathVariable("userId") String userId) throws IllegalArgumentException {
 
 		Library library = getLibrary();
 		Librarian librarian = null;
-		
+
 		// find librarian
 		for (User user : library.getUsers()) {
 			if (user.getUserId() == Integer.parseInt(userId) && user instanceof Librarian) {
 				librarian = (Librarian) user;
 			}
 		}
-		
+
 		if (librarian == null) {
-			throw new IllegalArgumentException ("librarian does not exist");
+			throw new IllegalArgumentException("librarian does not exist");
+		} else if (librarian.getIsHeadLibrarian()) {
+			throw new IllegalArgumentException("cannot fire head librarian");
 		}
-		else if (librarian.getIsHeadLibrarian()) {
-			throw new IllegalArgumentException ("cannot fire head librarian");
-		}
-		
+
 		service.deleteLibrarian(library, librarian);
-		
+
 	}
 
 	public LibrarianDto convertToDto(Librarian librarian) {
@@ -243,8 +242,7 @@ public class LibraryManagementRestController {
 	public RoomType parseRoomType(String roomType) {
 		if (roomType.equals("Study")) {
 			return RoomType.Study;
-		}
-		else {
+		} else {
 			return RoomType.Event;
 		}
 	}
@@ -311,7 +309,7 @@ public class LibraryManagementRestController {
 	}
 
 	// room reservation for a room
-	
+
 	@GetMapping(value = { "/roomReservations/{roomId}", "/roomReservations/{roomId}" })
 	public List<RoomReservationDto> getRoomReservations(@PathVariable String roomId) {
 		return service.getAllRoomReservations(Integer.parseInt(roomId)).stream().map(b -> convertToDto(b))
@@ -386,20 +384,20 @@ public class LibraryManagementRestController {
 	}
 
 	@PostMapping(value = { "/staffSchedule/{librarianId}", "/staffSchedule/{librarianId}/" })
-	public TimeslotDto createStaffScheduleTimeslot(@PathVariable String librarianId, @RequestParam String startHour, String startMin,
-			@RequestParam String endHour, @RequestParam String endMin, @RequestParam String year,
+	public TimeslotDto createStaffScheduleTimeslot(@PathVariable String librarianId, @RequestParam String startHour,
+			String startMin, @RequestParam String endHour, @RequestParam String endMin, @RequestParam String year,
 			@RequestParam String month, @RequestParam String day) throws IllegalArgumentException {
 
 		Library library = getLibrary();
 		Librarian librarian = null;
 
 		// find user
-		for (User user : library.getUsers()){
+		for (User user : library.getUsers()) {
 			if (user.getUserId() == Integer.parseInt(librarianId) && user instanceof Librarian) {
 				librarian = (Librarian) user;
 			}
 		}
-		
+
 		if (librarian == null) {
 			throw new IllegalArgumentException("librarian does not exist");
 		}
@@ -409,7 +407,7 @@ public class LibraryManagementRestController {
 		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
 
 		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
-		
+
 		for (Timeslot t : librarian.getStaffSchedule().getTimeslots()) {
 			if (isOverlapping(t, date, endTime, startTime)) {
 				throw new IllegalArgumentException("overlapping timeslot in current staff schedule");
@@ -420,10 +418,10 @@ public class LibraryManagementRestController {
 
 		return convertToDto(timeslot);
 	}
-	
+
 	@PostMapping(value = { "/staffSchedule/remove/{librarianId}", "/staffSchedule/remove/{librarianId}/" })
-	public TimeslotDto removeStaffScheduleTimeslot(@PathVariable String librarianId, @RequestParam String startHour, String startMin,
-			@RequestParam String endHour, @RequestParam String endMin, @RequestParam String year,
+	public TimeslotDto removeStaffScheduleTimeslot(@PathVariable String librarianId, @RequestParam String startHour,
+			String startMin, @RequestParam String endHour, @RequestParam String endMin, @RequestParam String year,
 			@RequestParam String month, @RequestParam String day) throws IllegalArgumentException {
 
 		Library library = getLibrary();
@@ -431,12 +429,12 @@ public class LibraryManagementRestController {
 		Timeslot timeslot = null;
 
 		// find user
-		for (User user : library.getUsers()){
+		for (User user : library.getUsers()) {
 			if (user.getUserId() == Integer.parseInt(librarianId) && user instanceof Librarian) {
 				librarian = (Librarian) user;
 			}
 		}
-		
+
 		if (librarian == null) {
 			throw new IllegalArgumentException("librarian does not exist");
 		}
@@ -446,15 +444,14 @@ public class LibraryManagementRestController {
 		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
 
 		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
-		
-		
+
 		// find timeslot
 		for (Timeslot t : librarian.getStaffSchedule().getTimeslots()) {
 			if (t.getDate().equals(date) && t.getStartTime().equals(startTime) && t.getEndTime().equals(endTime)) {
 				timeslot = t;
 			}
 		}
-		
+
 		if (timeslot == null) {
 			throw new IllegalArgumentException("time slot does not exist");
 		}
@@ -469,107 +466,106 @@ public class LibraryManagementRestController {
 	 * Adam
 	 * 
 	 */
-	
+
 	@PostMapping(value = { "/titles/reserve/{name}", "/titles/reserve/{name}/" })
 	public TitleDto reserveTitle(@PathVariable("name") String titleName, @RequestParam String clientUsername)
 			throws IllegalArgumentException {
 
 		Library library = getLibrary();
-		
+
 		User user = null;
 		Title title = null;
-		
+
 		for (Title titleA : library.getTitles()) {
-			if (titleA.getName().equals(titleName) && titleA.getIsAvailable() == true) {		
+			if (titleA.getName().equals(titleName) && titleA.getIsAvailable() == true) {
 				title = titleA;
 			}
 		}
-		
+
 		for (User userA : library.getUsers()) {
 			if (userA.getUsername().equals(clientUsername)) {
 				user = userA;
 			}
 		}
-		
+
 		if (user != null && title != null) {
-			//get todays date and add two weeks to it
+			// get todays date and add two weeks to it
 			Date date = new Date(Calendar.getInstance().getTime().getTime());
-			Date returnDate = sqlDatePlusDays(date);	
-			
+			Date returnDate = sqlDatePlusDays(date);
 
 			service.createTitleReservation(returnDate, false, title, (Client) user, library);
-			
+
 			return convertToDto(title);
 		}
-		
+
 		throw new IllegalArgumentException("This title is not available to reserve");
 	}
-	
+
 	private Date sqlDatePlusDays(Date date) {
-	    return Date.valueOf(date.toLocalDate().plusDays(14));
+		return Date.valueOf(date.toLocalDate().plusDays(14));
 	}
-	
+
 	@PostMapping(value = { "/titles/checkout/{name}", "/titles/checkout/{name}/" })
 	public TitleDto checkoutTitle(@PathVariable("name") String titleName, @RequestParam String clientUsername)
 			throws IllegalArgumentException {
 		Library library = getLibrary();
-		
+
 		User user = null;
 		Title title = null;
-		
+
 		for (Title titleA : library.getTitles()) {
-			if (titleA.getName().equals(titleName)) {		
+			if (titleA.getName().equals(titleName)) {
 				title = titleA;
 			}
 		}
-		
+
 		for (User userA : library.getUsers()) {
 			if (userA.getUsername().equals(clientUsername)) {
 				user = userA;
 			}
 		}
-		
+
 		if (title == null) {
 			throw new IllegalArgumentException("This title does not exist");
 		}
-		
+
 		if (user == null) {
 			throw new IllegalArgumentException("This user does not exist");
 		}
-		
+
 		// !! WHAT IS THERE ARE TWO OF THE SAME BOOKS AND THEY ARE BOTH RESERVED
-		//if the user and title were found
+		// if the user and title were found
 		if (user != null && title != null) {
 			System.out.println("==============a");
-			
-			//if title is available
+
+			// if title is available
 			if (title.getIsAvailable() == true) {
 				System.out.println("==============b");
 				title.setIsAvailable(false);
-				
+
 				Date date = new Date(Calendar.getInstance().getTime().getTime());
-				Date returnDate = sqlDatePlusDays(date);	
-				
+				Date returnDate = sqlDatePlusDays(date);
+
 				service.createTitleReservation(returnDate, true, title, (Client) user, library);
-				
+
 				return convertToDto(title);
-				
-			//if title was not available
+
+				// if title was not available
 			} else {
 				System.out.println("==============c");
 				for (TitleReservation titleReservation : library.getTitleReservations()) {
-					
-					//if there is a titleReservation for the title
+
+					// if there is a titleReservation for the title
 					if (titleReservation.getTitle().equals(title)) {
 						System.out.println("==============d");
-						
-						//if the titleReservation was created by the user
+
+						// if the titleReservation was created by the user
 						if (titleReservation.getClient().getUsername().equals(user.getUsername())) {
-							System.out.println("==============e");							
+							System.out.println("==============e");
 							service.updateTitleReservation(titleReservation, library);
 							return convertToDto(title);
-							
-						//if the titleReservation was not created by the user
+
+							// if the titleReservation was not created by the user
 						} else {
 							System.out.println("==============f");
 							throw new IllegalArgumentException("This title is reserved by someone else");
@@ -578,28 +574,28 @@ public class LibraryManagementRestController {
 				}
 			}
 		}
-		
+
 		throw new IllegalArgumentException("adawdwadw");
 	}
-	
+
 	@PostMapping(value = { "/titles/remove/{titleId}", "/titles/remove/{titleId}/" })
 	public void removeTitle(@PathVariable("name") String titleId) throws IllegalArgumentException {
-		
+
 		Library library = getLibrary();
 		Title title = null;
-		
+
 		for (Title titleA : library.getTitles()) {
 			if (titleA.getTitleId() == Integer.parseInt(titleId)) {
 				title = titleA;
 			}
 		}
-		
+
 		if (title == null) {
 			throw new IllegalArgumentException("This title does not exist");
 		} else if (title.getIsAvailable() == false) {
 			throw new IllegalArgumentException("This title is not available to be deleted right now");
 		}
-		
+
 		service.deleteTitle(library, title);
 	}
 
