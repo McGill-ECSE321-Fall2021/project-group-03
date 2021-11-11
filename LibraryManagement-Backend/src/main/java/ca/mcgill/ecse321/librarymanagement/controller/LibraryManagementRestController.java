@@ -32,6 +32,7 @@ import ca.mcgill.ecse321.librarymanagement.model.Timeslot;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
 import ca.mcgill.ecse321.librarymanagement.model.TitleReservation;
+import ca.mcgill.ecse321.librarymanagement.model.User;
 import ca.mcgill.ecse321.librarymanagement.service.LibraryManagementService;
 
 //Should imports be the same as example??
