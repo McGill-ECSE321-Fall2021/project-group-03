@@ -638,12 +638,13 @@ public class TestLibraryManagementService {
 		Date date = new Date(Calendar.getInstance().getTime().getTime());
 		Date returnDate = sqlDatePlusDays(date);
 		boolean isCheckedOut = false;
+		Library library = service.getLibrary();
 
 		String name = "moby dick";
 		String description = "whale eats guy";
 		String genre = "adventure";
 		TitleType titleType = TitleType.Book;
-		Title title = new Title(name, description, genre, true, titleType);
+		Title title = service.createTitle(name, description, genre, true, titleType, library);
 
 		String residentialAddress = "514 marwan road";
 		String email = "email@123.com";
@@ -652,9 +653,9 @@ public class TestLibraryManagementService {
 		String username = "big shot";
 		String password = "spaghetti_noodles";
 		String fullName = "John Doe";
-		Client client = new Client(username, password, fullName, residentialAddress, email, isResident, isOnline);
+		Client client = service.createClient(username, password, fullName, residentialAddress, email, isResident, isOnline, library);
 		TitleReservation titleReservation = null;
-		Library library = new Library();
+		
 
 		try {
 			titleReservation = service.createTitleReservation(returnDate, isCheckedOut, title.getName(), client.getUsername(), library);
@@ -750,11 +751,13 @@ public class TestLibraryManagementService {
 		Time startTime = new Time(5, 0, 0);
 		Time endTime = new Time(7, 0, 0);
 		Date date = new Date(2021, 7, 12);
+		
+		Library library = service.getLibrary();
 
 		int capacity = 10;
 		boolean isAvailable = true;
 		RoomType roomtype = RoomType.Study;
-		Room room = new Room(capacity, isAvailable, roomtype);
+		Room room = service.createRoom(capacity, isAvailable, roomtype, library);
 
 		String residentialAddress = "514 marwan road";
 		String email = "email@123.com";
@@ -763,9 +766,8 @@ public class TestLibraryManagementService {
 		String username = "big shot";
 		String password = "spaghetti_noodles";
 		String fullName = "John Doe";
-		Client client = new Client(username, password, fullName, residentialAddress, email, isResident, isOnline);
+		Client client = service.createClient(username, password, fullName, residentialAddress, email, isResident, isOnline, library);
 
-		Library library = new Library();
 		RoomReservation roomReservation = null;
 
 		try {

@@ -463,55 +463,6 @@ public class LibraryManagementRestController {
 		return type;
 	}
 
-	public boolean isOverlapping(Timeslot existingTimeslot, Date newDate, Time newStart, Time newEnd) {
-		Date date = existingTimeslot.getDate();
-
-		// is it on the same day?
-		if (date.getYear() == newDate.getYear() && date.getMonth() == newDate.getMonth()
-				&& date.getDay() == newDate.getDate()) {
-			Time startTime = existingTimeslot.getStartTime();
-			Time endTime = existingTimeslot.getEndTime();
-
-			if (newStart.before(startTime) && newEnd.after(startTime)) {
-				return true;
-			}
-
-			if (newStart.after(startTime) && newEnd.after(endTime)) {
-				return true;
-			}
-
-			if (newStart.before(startTime) && newEnd.after(endTime)) {
-				return true;
-			}
-
-			if (newStart.after(startTime) && newEnd.before(endTime)) {
-				return true;
-			}
-
-			if (newStart.equals(startTime) && newEnd.equals(endTime)) {
-				return true;
-			}
-
-			if (newStart.equals(startTime) && newEnd.after(endTime)) {
-				return true;
-			}
-
-			if (newStart.equals(startTime) && newEnd.before(endTime)) {
-				return true;
-			}
-
-			if (newStart.after(startTime) && newEnd.equals(endTime)) {
-				return true;
-			}
-
-			if (newStart.before(startTime) && newEnd.equals(endTime)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 	public RoomType parseRoomType(String roomType) {
 		if (roomType.equals("Study")) {
 			return RoomType.Study;
