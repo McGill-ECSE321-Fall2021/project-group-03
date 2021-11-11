@@ -139,18 +139,6 @@ public class LibraryManagementRestController {
 		Library library = getLibrary();
 		Title title = null;
 
-		for (Title titleA : library.getTitles()) {
-			if (titleA.getTitleId() == Integer.parseInt(titleId)) {
-				title = titleA;
-			}
-		}
-
-		if (title == null) {
-			throw new IllegalArgumentException("This title does not exist");
-		} else if (title.getIsAvailable() == false) {
-			throw new IllegalArgumentException("This title is not available to be deleted right now");
-		}
-
 		service.deleteTitle(library, title);
 	}
 
@@ -443,35 +431,11 @@ public class LibraryManagementRestController {
 			@RequestParam String year, @RequestParam String month, @RequestParam String day)
 			throws IllegalArgumentException {
 
-		Library library = getLibrary();
-		Librarian librarian = null;
-		Timeslot timeslot = null;
-
-		// find user
-		for (User user : library.getUsers()) {
-			if (user.getUserId() == Integer.parseInt(librarianId) && user instanceof Librarian) {
-				librarian = (Librarian) user;
-			}
-		}
-
-		if (librarian == null) {
-			throw new IllegalArgumentException("librarian does not exist");
-		}
 
 		Time startTime = new Time(Integer.parseInt(startHour), Integer.parseInt(startMin), 0);
 		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
 		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
 
-		// find timeslot
-		for (Timeslot t : librarian.getStaffSchedule().getTimeslots()) {
-			if (t.getDate().equals(date) && t.getStartTime().equals(startTime) && t.getEndTime().equals(endTime)) {
-				timeslot = t;
-			}
-		}
-
-		if (timeslot == null) {
-			throw new IllegalArgumentException("time slot does not exist");
-		}
 
 		service.removeStaffScheduleTimeslot(startTime, endTime, date, Integer.parseInt(librarianId));
 	}

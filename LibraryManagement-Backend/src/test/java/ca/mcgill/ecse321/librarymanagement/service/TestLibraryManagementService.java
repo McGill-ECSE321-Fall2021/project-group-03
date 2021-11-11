@@ -246,7 +246,7 @@ public class TestLibraryManagementService {
 		}
 
 		assertNull(title);
-		assertEquals("Title cannot be empty", error);
+		assertEquals("Title cannot be empty!", error);
 
 	}
 
@@ -327,7 +327,7 @@ public class TestLibraryManagementService {
 		}
 
 		assertNull(client);
-		assertEquals("Client cannot be empty", error);
+		assertEquals("Client information cannot be empty!", error);
 
 	}
 	
@@ -848,7 +848,7 @@ public class TestLibraryManagementService {
 
 		assertNull(roomReservation);
 		// check error
-		assertEquals("Client does not exist! Room does not exist!", error);		
+		assertEquals("room reservations must include a valid client and room", error);		
 	}
 	
 //	@Test
