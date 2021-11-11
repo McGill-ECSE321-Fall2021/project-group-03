@@ -74,7 +74,7 @@ public class LibraryManagementRestController {
 	}
 
 	@PostMapping(value = { "/titles/reserve/{titleName}", "/titles/reserve/{titleName}/" })
-	public TitleDto reserveTitle(@PathVariable("titleName") String titleName, @RequestParam String clientUsername)
+	public TitleReservationDto reserveTitle(@PathVariable("titleName") String titleName, @RequestParam String clientUsername)
 			throws IllegalArgumentException {
 
 		Library library = getLibrary();
