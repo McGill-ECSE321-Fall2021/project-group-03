@@ -552,6 +552,18 @@ public class LibraryManagementService {
 
 		return titleReservation;
 	}
+	
+	public List<TitleReservation> getAllTitleReservations(int titleId) {
+		List<TitleReservation> titleReservations = toList(titleReservationRepository.findAll());
+		List<TitleReservation> thisTitleReservation = null;
+		for (TitleReservation tr : titleReservations) {
+			if (tr.getTitle().getTitleId() == titleId) {
+				thisTitleReservation.add(tr);
+			}
+		}
+
+		return thisTitleReservation;
+	}
 
 	@Transactional
 	public void deleteTitle(Library library, Title title) {
