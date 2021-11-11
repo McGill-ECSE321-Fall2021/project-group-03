@@ -177,6 +177,7 @@ public class LibraryManagementService {
 
 	public Room createRoom(int capacity, boolean isAvailable, RoomType roomType, Library library) {
 		Room room = new Room(capacity, isAvailable, roomType);
+		library.addRoom(room);
 		roomRepository.save(room);
 		libraryRepository.save(library);
 		return room;
