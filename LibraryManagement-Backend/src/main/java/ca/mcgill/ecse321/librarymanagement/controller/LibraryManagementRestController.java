@@ -103,6 +103,19 @@ public class LibraryManagementRestController {
 		return convertToDto(titleReservation);
 	}
 	
+	@PostMapping(value = { "/titles/return/{titleName}", "/titles/return/{titleName}/" })
+	public void returnTitle(@PathVariable("titleName") String titleName, @RequestParam String clientUsername)
+			throws IllegalArgumentException {
+		Library library = getLibrary();
+
+		
+		for (TitleReservation titleReservation : library.getTitleReservations()) {
+			if (titleReservation.getTitle().getName().equals(titleName) && titleReservation.getClient().getUsername().equals(clientUsername)) {
+				service.removeTitleReservation(titleReservation, library);
+			}
+		}
+	}
+	
 	public TitleReservationDto convertToDto(TitleReservation tr) {
 		return new TitleReservationDto(tr.getReturnDate(), tr.getIsCheckedOut(), convertToDto(tr.getTitle()), convertToDto(tr.getClient()), tr.getTitleReservationId());
 	}
@@ -293,6 +306,20 @@ public class LibraryManagementRestController {
 
 		return convertToDto(timeslot);
 	}
+	
+	@PostMapping(value = { "/librarySchedule/remove/{timeslotId}", "/librarySchedule/remove/{timeslotId}/" })
+	public void removeLibraryTimeslot(@PathVariable("timeslotId") String timeslotId)
+			throws IllegalArgumentException {
+
+		Library library = getLibrary();
+
+		// find timeslot
+		for (Timeslot timeslot : library.getLibrarySchedule().getTimeslots()) {
+			if (timeslot.getTimeSlotId() == Integer.parseInt(timeslotId)) {
+				service.removeLibraryScheduleTimeslot(Integer.parseInt(timeslotId));
+			}
+		}
+	}
 
 	/*
 	 * 
@@ -381,7 +408,7 @@ public class LibraryManagementRestController {
 
 	/*
 	 * 
-	 * staffSchedules
+	 * Staff Schedules
 	 * 
 	 */
 

@@ -333,6 +333,29 @@ public class LibraryManagementService {
 
 		return timeslot;
 	}
+	
+	@Transactional
+	public void removeLibraryScheduleTimeslot(int timeslotId) {
+		Library library = getLibrary();
+		Schedule librarySchedule = library.getLibrarySchedule();
+		Timeslot timeslot = null;
+
+		// find time slot
+		for (Timeslot t : library.getLibrarySchedule().getTimeslots()) {
+			if (t.getTimeSlotId() == timeslotId) {
+				timeslot = t;
+			}
+		}
+		
+		if (timeslot == null) {
+			throw new IllegalArgumentException("Timeslot does not exist");
+		} 
+		
+		librarySchedule.removeTimeslot(timeslot);
+		timeslotRepository.delete(timeslot);
+		scheduleRepository.save(librarySchedule);
+		libraryRepository.save(library);
+	}
 
 	@Transactional
 	public List<Timeslot> getAllLibraryTimeslots() {
@@ -606,6 +629,17 @@ public class LibraryManagementService {
 		}
 
 		return thisTitleReservation;
+	}
+	
+	@Transactional
+	public void removeTitleReservation(TitleReservation titleReservation, Library library) {
+		library.getTitleReservations().remove(titleReservation);
+		
+		titleReservation.getTitle().setIsAvailable(true);
+		titleRepository.save(titleReservation.getTitle());
+		titleReservationRepository.delete(titleReservation);
+//		titleReservationRepository.save();
+		libraryRepository.save(library);
 	}
 
 	@Transactional
