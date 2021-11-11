@@ -218,17 +218,29 @@ public class LibraryManagementService {
 		TitleReservation titleReservation = new TitleReservation(returnDate, aBoolean, title, client);
 		library.addTitleReservation(titleReservation);
 		title.setIsAvailable(false);
-		
-		
+			
 		titleRepository.save(title);
 		titleReservationRepository.save(titleReservation);
 		libraryRepository.save(library);
 		
-//		library.addUser(client);
-//		clientRepository.save(client);
-//		libraryRepository.save(library);
-		
 		return titleReservation;
 	}
+	
+	//sets titleReservation IsCheckedOut=true
+	public TitleReservation updateTitleReservation(TitleReservation titleReservation, Library library) {
+		titleReservation.setIsCheckedOut(true);
+		
+		titleReservationRepository.save(titleReservation);
+		libraryRepository.save(library);
+		
+		return titleReservation;	
+	}
+	
+	public void deleteTitle(Library library, Title title) {
+		titleRepository.delete(title);
+		library.removeTitle(title);
+		libraryRepository.save(library);
+	}
+	
 
 }

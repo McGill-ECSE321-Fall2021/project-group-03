@@ -127,8 +127,8 @@ public class LibraryManagementRestController {
 		return convertToDto(librarian);
 	}
 	
-	@PostMapping(value = { "/fireLibrarians/{userId}", "/fireLibrarians/{userId}/" })
-	public void createLibrarian(@PathVariable("userId") String userId) throws IllegalArgumentException {		
+	@PostMapping(value = { "/removeLibrarians/{userId}", "/removeLibrarians/{userId}/" })
+	public void removeLibrarian(@PathVariable("userId") String userId) throws IllegalArgumentException {		
 
 		Library library = getLibrary();
 		Librarian librarian = null;
@@ -165,9 +165,7 @@ public class LibraryManagementRestController {
 
 	@GetMapping(value = { "/library", "/library/" })
 	public Library getLibrary() {
-
 		return service.getLibrary();
-
 	}
 
 	/*
@@ -246,7 +244,6 @@ public class LibraryManagementRestController {
 		if (roomType.equals("Study")) {
 			return RoomType.Study;
 		}
-
 		else {
 			return RoomType.Event;
 		}
@@ -297,7 +294,7 @@ public class LibraryManagementRestController {
 		return service.getAllRooms().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
 	}
 
-	@PostMapping(value = { "/rooms", "/rooms/" })
+	@PostMapping(value = { "/rooms/", "/rooms" })
 	public RoomDto createRoom(@RequestParam int capacity, @RequestParam boolean isAvailable,
 			@RequestParam String roomType) throws IllegalArgumentException {
 
@@ -382,7 +379,7 @@ public class LibraryManagementRestController {
 
 	// view/ edit staff schedule
 
-	@GetMapping(value = { "/staffSchedule/{librarianId}", "/librarianTimeslots/{librarianId}/" })
+	@GetMapping(value = { "/staffSchedule/{librarianId}", "/staffSchedule/{librarianId}/" })
 	public List<TimeslotDto> getAllTimeSlotsInStaffSchedule(@PathVariable String librarianId) {
 		return service.getAllLibrarianTimeslots(Integer.parseInt(librarianId)).stream().map(b -> convertToDto(b))
 				.collect(Collectors.toList());
@@ -473,7 +470,7 @@ public class LibraryManagementRestController {
 	 * 
 	 */
 	
-	@PostMapping(value = { "/titleReserve/{name}", "/titleReserve/{name}/" })
+	@PostMapping(value = { "/titles/reserve/{name}", "/titles/reserve/{name}/" })
 	public TitleDto reserveTitle(@PathVariable("name") String titleName, @RequestParam String clientUsername)
 			throws IllegalArgumentException {
 
@@ -512,10 +509,9 @@ public class LibraryManagementRestController {
 	    return Date.valueOf(date.toLocalDate().plusDays(14));
 	}
 	
-	@PostMapping(value = { "/titleCheckout/{name}", "/titleCheckout/{name}/" })
+	@PostMapping(value = { "/titles/checkout/{name}", "/titles/checkout/{name}/" })
 	public TitleDto checkoutTitle(@PathVariable("name") String titleName, @RequestParam String clientUsername)
 			throws IllegalArgumentException {
-
 		Library library = getLibrary();
 		
 		User user = null;
@@ -533,12 +529,20 @@ public class LibraryManagementRestController {
 			}
 		}
 		
-		System.out.println("==============YAYYAYAY==");
-		System.out.println(title);
-		System.out.println(user);
+		if (title == null) {
+			throw new IllegalArgumentException("This title does not exist");
+		}
 		
+		if (user == null) {
+			throw new IllegalArgumentException("This user does not exist");
+		}
+		
+		// !! WHAT IS THERE ARE TWO OF THE SAME BOOKS AND THEY ARE BOTH RESERVED
+		//if the user and title were found
 		if (user != null && title != null) {
 			System.out.println("==============a");
+			
+			//if title is available
 			if (title.getIsAvailable() == true) {
 				System.out.println("==============b");
 				title.setIsAvailable(false);
@@ -549,15 +553,23 @@ public class LibraryManagementRestController {
 				service.createTitleReservation(returnDate, true, title, (Client) user, library);
 				
 				return convertToDto(title);
+				
+			//if title was not available
 			} else {
 				System.out.println("==============c");
 				for (TitleReservation titleReservation : library.getTitleReservations()) {
+					
+					//if there is a titleReservation for the title
 					if (titleReservation.getTitle().equals(title)) {
 						System.out.println("==============d");
+						
+						//if the titleReservation was created by the user
 						if (titleReservation.getClient().getUsername().equals(user.getUsername())) {
-							System.out.println("==============e");
-							titleReservation.setIsCheckedOut(true);
+							System.out.println("==============e");							
+							service.updateTitleReservation(titleReservation, library);
 							return convertToDto(title);
+							
+						//if the titleReservation was not created by the user
 						} else {
 							System.out.println("==============f");
 							throw new IllegalArgumentException("This title is reserved by someone else");
@@ -568,6 +580,27 @@ public class LibraryManagementRestController {
 		}
 		
 		throw new IllegalArgumentException("adawdwadw");
+	}
+	
+	@PostMapping(value = { "/titles/remove/{titleId}", "/titles/remove/{titleId}/" })
+	public void removeTitle(@PathVariable("name") String titleId) throws IllegalArgumentException {
+		
+		Library library = getLibrary();
+		Title title = null;
+		
+		for (Title titleA : library.getTitles()) {
+			if (titleA.getTitleId() == Integer.parseInt(titleId)) {
+				title = titleA;
+			}
+		}
+		
+		if (title == null) {
+			throw new IllegalArgumentException("This title does not exist");
+		} else if (title.getIsAvailable() == false) {
+			throw new IllegalArgumentException("This title is not available to be deleted right now");
+		}
+		
+		service.deleteTitle(library, title);
 	}
 
 	/*
