@@ -89,6 +89,49 @@ public class LibraryManagementService {
 		libraryRepository.save(library);
 		return title;
 	}
+	
+	@Transactional
+	public Title updateTitle(String name, String description, String genre, TitleType titleType,
+			Library library) {
+
+		if (name == null || name.trim().length() == 0) {
+			throw new IllegalArgumentException("Title cannot be empty!");
+		}
+
+		if (description == null || description.trim().length() == 0) {
+			throw new IllegalArgumentException("Title cannot be empty!");
+		}
+
+		if (genre == null || description.trim().length() == 0) {
+			throw new IllegalArgumentException("Title cannot be empty!");
+		}
+
+		if (titleType == null) {
+			throw new IllegalArgumentException("Title cannot be empty!");
+		}
+
+		Title title = null;
+		
+		//update all copies of a title being updated
+		for (Title t : library.getTitles()) {
+			if (t.getName().equals(name)) {
+				t.setDescription(description);
+				t.setGenre(genre);
+				t.setName(name);
+				t.setTitleType(titleType);
+				title = t;
+				titleRepository.save(t);
+			}
+		}
+		
+		if (title == null) {
+			throw new IllegalArgumentException("title does not exist");
+		}
+		
+		
+		libraryRepository.save(library);
+		return title;
+	}
 
 	@Transactional
 	public Title getTitle(int titleId) {
@@ -98,7 +141,7 @@ public class LibraryManagementService {
 		}
 		return title;
 	}
-
+	@Transactional
 	public List<Title> getAllTitles() {
 		return toList(titleRepository.findAll());
 	}
@@ -131,6 +174,11 @@ public class LibraryManagementService {
 
 		return toList(libraryRepository.findAll()).get(0);
 
+	}
+	
+	public void removeLibrary(Library library) {
+		library.delete();
+		libraryRepository.save(library);
 	}
 
 	@Transactional
@@ -172,32 +220,6 @@ public class LibraryManagementService {
 		return client;
 	}
 	
-//	@Transactional
-//	public Title createTitle(String name, String description, String genre, boolean isAvailable, TitleType titleType,
-//			Library library) {
-//
-//		if (name == null || name.trim().length() == 0) {
-//			throw new IllegalArgumentException("Title cannot be empty!");
-//		}
-//
-//		if (description == null || description.trim().length() == 0) {
-//			throw new IllegalArgumentException("Title cannot be empty!");
-//		}
-//
-//		if (genre == null || description.trim().length() == 0) {
-//			throw new IllegalArgumentException("Title cannot be empty!");
-//		}
-//
-//		if (titleType == null) {
-//			throw new IllegalArgumentException("Title cannot be empty!");
-//		}
-//
-//		Title title = new Title(name, description, genre, isAvailable, titleType);
-//		library.addTitle(title);
-//		titleRepository.save(title);
-//		libraryRepository.save(library);
-//		return title;
-//	}
 
 	@Transactional
 	public List<Client> getAllClients() {
@@ -290,6 +312,29 @@ public class LibraryManagementService {
 
 		return timeslot;
 	}
+	
+	@Transactional
+	public void removeLibraryScheduleTimeslot(int timeslotId) {
+		Library library = getLibrary();
+		Schedule librarySchedule = library.getLibrarySchedule();
+		Timeslot timeslot = null;
+
+		// find time slot
+		for (Timeslot t : library.getLibrarySchedule().getTimeslots()) {
+			if (t.getTimeSlotId() == timeslotId) {
+				timeslot = t;
+			}
+		}
+		
+		if (timeslot == null) {
+			throw new IllegalArgumentException("Timeslot does not exist");
+		} 
+		
+		librarySchedule.removeTimeslot(timeslot);
+		timeslotRepository.delete(timeslot);
+		scheduleRepository.save(librarySchedule);
+		libraryRepository.save(library);
+	}
 
 	@Transactional
 	public List<Timeslot> getAllLibraryTimeslots() {
@@ -353,6 +398,34 @@ public class LibraryManagementService {
 		libraryRepository.save(library);
 		return room;
 	}
+	@Transactional
+	public Room updateRoom(int capacity, boolean isAvailable, RoomType roomType, Library library) {
+		
+		if (capacity <= 0) {
+			throw new IllegalArgumentException("capacity must be greater than 0");
+		}
+		
+		if (roomType == null) {
+			throw new IllegalArgumentException("invalid room type");
+		}
+		
+		Room room = new Room(capacity, isAvailable, roomType);
+		library.addRoom(room);
+		roomRepository.save(room);
+		libraryRepository.save(library);
+		return room;
+	
+	}
+	
+	@Transactional
+	public void removeRoom(int roomId, Library library) {
+		if (roomRepository.findRoomByRoomId(roomId) == null) {
+			throw new IllegalArgumentException("room does not exist.");
+		}
+		Room room = roomRepository.findRoomByRoomId(roomId);
+		library.removeRoom(room);
+		libraryRepository.save(library);		
+	}
 
 	@Transactional
 	public RoomReservation createRoomReservation(Time startTime, Time endTime, Date date, int roomId, int clientId,
@@ -390,6 +463,20 @@ public class LibraryManagementService {
 		roomReservationRepository.save(roomReservation);
 		return null;
 	}
+	
+	@Transactional
+	public void removeRoomReservation(int roomId, int userId, Library library) {
+		for (RoomReservation roomReservation : library.getRoomReservations()) {
+			if (roomReservation.getClient().getUsername().equals(userId) && roomReservation.getRoom().getRoomId() == roomId) {
+				library.getRoomReservations().remove(roomReservation);
+				roomReservationRepository.delete(roomReservation);
+				libraryRepository.save(library);
+			}
+		}
+		
+		throw new IllegalArgumentException("Cannot find Room Reservation");
+	}
+
 
 	@Transactional
 	public Timeslot createStaffScheduleTimeslot(Time startTime, Time endTime, Date date, Library library,
@@ -501,6 +588,38 @@ public class LibraryManagementService {
 		}
 		return librarian;
 	}
+	
+	public Librarian updateLibrarian(String aUsername, String aPassword, String aFullname, String aResidentialAddress,
+			String aEmail, boolean isResident, boolean isOnline, Library library) {
+
+		Librarian librarian = null;
+
+		if (aUsername == null || aUsername.trim().length() == 0) {
+			throw new IllegalArgumentException("Librarian information cannot be empty!");
+		}
+
+		if (aPassword == null || aPassword.trim().length() == 0) {
+			throw new IllegalArgumentException("Librarian information cannot be empty!");
+		}
+
+		if (aFullname == null || aFullname.trim().length() == 0) {
+			throw new IllegalArgumentException("Librarian information cannot be empty!");
+		}
+		
+		for (User u : library.getUsers()) {
+			if (u.getUsername().equals(aUsername)) {
+				librarian = (Librarian) u;
+			}
+		}
+
+		librarian.setFullname(aFullname);
+		librarian.setPassword(aPassword);
+		
+		librarianRepository.save(librarian);
+		libraryRepository.save(library);
+
+		return librarian;
+	}
 
 	@Transactional
 	public TitleReservation createTitleReservation(Date returnDate, boolean isCheckedOut, String titleName, String username,
@@ -552,18 +671,78 @@ public class LibraryManagementService {
 
 		return titleReservation;
 	}
-	
-	public List<TitleReservation> getAllTitleReservations(int titleId) {
+	@Transactional
+	public TitleReservation updateTitleReservationParameters(Date returnDate, boolean isCheckedOut, String titleName, String username,
+			Library library) {
+		Client client = null;
+		Title title = null;
+		
+		for (User u : library.getUsers()) {
+			if (u instanceof Client && u.getUsername().equals(username)) {
+				client = (Client) u;
+			}
+		}
+		
+		for (Title t : library.getTitles()) {
+			if (t.getIsAvailable() && t.getName().equals(titleName)) {
+				title = t;
+			}
+		}
+		
+		
+		if (client == null) {
+			throw new IllegalArgumentException("Client does not exist!");
+		}
+		
+		if (title == null) {
+			throw new IllegalArgumentException("Title is not available!");
+		}
+		
+		TitleReservation titleReservation = new TitleReservation(returnDate, isCheckedOut, title, client);
+		library.addTitleReservation(titleReservation);
+		title.setIsAvailable(false);
+
+		titleRepository.save(title);
+		titleReservationRepository.save(titleReservation);
+		libraryRepository.save(library);
+		
+		return titleReservation;
+
+	}
+	@Transactional
+	public TitleReservation getTitleReservationByTitleId(int titleId) {
 		List<TitleReservation> titleReservations = toList(titleReservationRepository.findAll());
-		List<TitleReservation> thisTitleReservation = null;
+		TitleReservation thisTitleReservation =null;
 		for (TitleReservation tr : titleReservations) {
 			if (tr.getTitle().getTitleId() == titleId) {
-				thisTitleReservation.add(tr);
+				thisTitleReservation = tr;
 			}
 		}
 
 		return thisTitleReservation;
 	}
+	
+	@Transactional
+	public List<TitleReservation> getAllTitleReservations() {
+		List<TitleReservation> titleReservations = toList(titleReservationRepository.findAll());
+		return titleReservations;	
+	}
+	
+	@Transactional
+	public void removeTitleReservation(int titleReservationId, Library library) {
+		
+		List<TitleReservation> titleReservations = toList(titleReservationRepository.findAll());
+		TitleReservation thisTitleReservation =null;
+		for (TitleReservation tr : titleReservations) {
+			if (tr.getTitle().getTitleId() == titleReservationId) {
+				thisTitleReservation = tr;
+			}	
+		}
+		library.removeTitleReservation(thisTitleReservation);
+		
+	}
+
+	
 
 	@Transactional
 	public void deleteTitle(Library library, Title title) {
@@ -622,6 +801,7 @@ public class LibraryManagementService {
 		return false;
 	}
 
+	@Transactional
 	public Client loginClient(String username, String password) {
 		
 		Library library = getLibrary();
@@ -639,7 +819,7 @@ public class LibraryManagementService {
 		
 		return client;
 	}
-	
+	@Transactional
 	public Librarian loginLibrarian(String username, String password) {
 		
 		Library library = getLibrary();
@@ -657,7 +837,7 @@ public class LibraryManagementService {
 		
 		return librarian;
 	}
-	
+	@Transactional
 	public Timeslot getTimeslot(int timeslotId) {
 		Timeslot timeSlot = timeslotRepository.findTimeslotByTimeslotId(timeslotId);
 		
@@ -666,5 +846,69 @@ public class LibraryManagementService {
 		}
 		return timeSlot;
 	}
+
+	@Transactional
+	public Client updateClient(String aUsername, String aPassword, String aFullname, String aResidentialAddress,
+			String aEmail, boolean isResident, boolean isOnline, Library library) {
+
+		Client client = null;
+
+		if (aUsername == null || aUsername.trim().length() == 0) {
+			throw new IllegalArgumentException("Client information cannot be empty!");
+		}
+
+		if (aPassword == null || aPassword.trim().length() == 0) {
+			throw new IllegalArgumentException("Client information cannot be empty!");
+		}
+
+		if (aFullname == null || aFullname.trim().length() == 0) {
+			throw new IllegalArgumentException("Client information cannot be empty!");
+		}
+		
+		for (User u : library.getUsers()) {
+			if (u.getUsername().equals(aUsername)) {
+				client = (Client) u;
+			}
+		}
+
+		client.setEmail(aEmail);
+		client.setFullname(aFullname);
+		client.setPassword(aPassword);
+		client.setResidentialAddress(aResidentialAddress);
+		
+		clientRepository.save(client);
+		libraryRepository.save(library);
+
+		return client;
+	}
+
+	@Transactional
+	public void removeClient(String username, Library library) {
+		
+		Client client = null;
+		
+		for (User u : library.getUsers()) {
+			if (u.getUsername().equals(username)) {
+				client = (Client) u;
+			}
+		}
+		
+		if (client == null) {
+			throw new IllegalArgumentException("Client does not exist!");
+		}
+		
+		library.removeUser(client);
+		clientRepository.delete(client);
+		libraryRepository.save(library);
+
+	}
+	
+	@Transactional
+	public RoomReservation getRoomReservation(int id) {
+		RoomReservation rr = roomReservationRepository.findRoomReservationByTimeslotId(id);
+		return rr;
+	}
+	
+	
 
 }

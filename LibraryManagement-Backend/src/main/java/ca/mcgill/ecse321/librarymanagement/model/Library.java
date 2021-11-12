@@ -71,6 +71,10 @@ public class Library {
 		return titleReservations;
 	}
 	
+	public void removeTitleReservation(TitleReservation aTitleReservation) {
+		titleReservations.remove(aTitleReservation);
+	}
+	
 	public void setLibrarySchedule(Schedule librarySchedule) {
 		this.librarySchedule = librarySchedule;
 	}
@@ -383,6 +387,18 @@ public class Library {
 			Room aRoom = rooms.get(rooms.size() - 1);
 			rooms.remove(aRoom);
 		}
+		
+		while (roomReservations.size() > 0) {
+			RoomReservation aRoomReservation = roomReservations.get(roomReservations.size() - 1);
+			roomReservations.remove(aRoomReservation);
+		}
+		
+		while (titleReservations.size() > 0) {
+			TitleReservation aTitleReservation = titleReservations.get(titleReservations.size() - 1);
+			titleReservations.remove(aTitleReservation);
+		}
+		
+		this.librarySchedule = null;
 
 	}
 
