@@ -111,7 +111,7 @@ public class LibraryManagementRestController {
 		
 		for (TitleReservation titleReservation : library.getTitleReservations()) {
 			if (titleReservation.getTitle().getName().equals(titleName) && titleReservation.getClient().getUsername().equals(clientUsername)) {
-				service.removeTitleReservation(titleReservation, library);
+				service.removeTitleReservation(titleReservation.getTitleReservationId(), library);
 			}
 		}
 	}
