@@ -236,6 +236,18 @@ public class LibraryManagementService {
 	@Transactional
 	public Librarian createLibrarian(String username, String password, String fullName, boolean isHeadLibrarian,
 			Library library) {
+		
+		if (username == null || username.trim().length() == 0) {
+			throw new IllegalArgumentException("Librarian information cannot be empty!");
+		}
+
+		if (password == null || password.trim().length() == 0) {
+			throw new IllegalArgumentException("Librarian information cannot be empty!");
+		}
+
+		if (fullName == null || fullName.trim().length() == 0) {
+			throw new IllegalArgumentException("Librarian information cannot be empty!");
+		}
 
 		Librarian headLibrarian = null;
 
