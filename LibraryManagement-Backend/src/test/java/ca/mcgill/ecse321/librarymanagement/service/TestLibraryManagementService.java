@@ -21,6 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.mcgill.ecse321.librarymanagement.dao.ClientRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.LibrarianRepository;
+import ca.mcgill.ecse321.librarymanagement.dao.LibraryRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.RoomRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.RoomReservationRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TimeslotRepository;
@@ -60,6 +61,9 @@ public class TestLibraryManagementService {
 
 	@Mock
 	private RoomReservationRepository roomReservationRepository;
+	
+	@Mock
+	private LibraryRepository libraryRepository;
 
 	@InjectMocks
 	private LibraryManagementService service;
@@ -71,6 +75,7 @@ public class TestLibraryManagementService {
 	private static final int TIMESLOT_KEY = 1234;
 	private static final int TITLE_RESERVATION_KEY = 1234;
 	private static final int ROOM_RESERVATION_KEY = 1234;
+	private static final int LIBRARY_KEY = 0;
 
 	// Title tests
 
@@ -147,6 +152,16 @@ public class TestLibraryManagementService {
 				Timeslot timeslot = new Timeslot(startTime, endTime, date);
 				timeslot.setTimeslotId(TIMESLOT_KEY);
 				return timeslot;
+			} else {
+				return null;
+			}
+		});
+		
+		lenient().when(libraryRepository.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+			if (invocation.getArgument(0).equals(LIBRARY_KEY)) {
+				Library library = new Library();
+				library.setLibraryId(LIBRARY_KEY);
+				return library;
 			} else {
 				return null;
 			}
@@ -259,10 +274,10 @@ public class TestLibraryManagementService {
 	
 	// invalid input
 	
-	@Test
-	public void getNonExistingTitle() {
-		assertNull(service.getTitle(2000));
-	}
+//	@Test
+//	public void getNonExistingTitle() {
+//		assertNull(service.getTitle(2000));
+//	}
 	
 	// client tests
 
@@ -455,6 +470,7 @@ public class TestLibraryManagementService {
 	public void getExistingRoom() {
 		assertEquals(ROOM_KEY, service.getRoom(ROOM_KEY).getRoomId());
 	}
+	
 	@Test
 	public void getNonExistingRoom() {
 		assertNull(service.getRoom(4321));
@@ -552,7 +568,7 @@ public class TestLibraryManagementService {
 
 		Timeslot timeslot = null;
 		Library library = new Library();
-		Librarian librarian = (Librarian) library.getUser(LIBRARIAN_KEY);
+		Librarian librarian = service.createLibrarian("username", "password", "jack jones", false, library);
 
 		try {
 			timeslot = service.createStaffScheduleTimeslot(start, end, date, library, librarian.getUserId());
@@ -694,60 +710,7 @@ public class TestLibraryManagementService {
 		assertNull(titleReservation);
 		assertEquals("Title reservation cannot be empty", error);
 	}
-	
-	//Title and Client do not exist
-//	@Test
-//	public void createTitleReservationTitleAndClientDoNotExist() {
-//		Date date = new Date(Calendar.getInstance().getTime().getTime());
-//		Date returnDate = sqlDatePlusDays(date);
-//		
-//		if (fullname == null || fullname.trim().length() == 0) {
-//			throw new IllegalArgumentException("full name cannot be empty!");
-//		}
-//		
-//		Client client = new Client(username, password, fullname, residentialAddress, email, isResident, isOnline);
-//		
-//		clientRepository.save(client);
-//		
-//		return client;
-//		
-//	}
-//
-//	@Test
-//	public void getExistingTitleReservation() {
-//		assertEquals(TITLE_RESERVATION_KEY, service.getTitleReservation(TITLE_RESERVATION_KEY).getTitleReservationId());
-//	}
-//	@Test
-//	public void getNonExistingTitleReservation() {
-//		assertNull(service.getTitleReservation(4321));
-//	}
-
-	//invalid input
-//	@Test
-//	public void createRoomReservationNull() {
-//
-//		Time startTime = null;
-//		Time endTime = null;
-//		Date date = null;
-//		Room room = null;
-//		Client client = null;
-//		Library library = new Library();
-//		RoomReservation roomReservation = null;
-//		String error = "";
-//
-//		try {
-//			roomReservation = service.createRoomReservation(startTime, endTime, date, room, client, library);
-//		}
-//
-//		catch (IllegalArgumentException e) {
-//			error = e.getMessage();
-//		}
-//
-//		assertNull(roomReservation);
-//		assertEquals("Room reservation cannot be empty", error);
-//
-//	}
-	
+		
 	//Client and Room do not exist
 	@Test
 	public void createRoomReservationTitleAndRoomDoNotExist() {
@@ -788,15 +751,6 @@ public class TestLibraryManagementService {
 		// check error
 		assertEquals("room reservations must include a valid client and room", error);		
 	}
-	
-//	@Test
-//	public void getExistingRoomReservation() {
-//		assertEquals(ROOM_RESERVATION_KEY, service.getRoomReservation(ROOM_RESERVATION_KEY).getRoomReservationId());
-//	}
-//	@Test
-//	public void getNonExistingRoomReservation() {
-//		assertNull(service.getRoomReservation(4321));
-//	}
 
 	//Title and Client do not exist
 	@Test
@@ -836,7 +790,7 @@ public class TestLibraryManagementService {
 
 		assertNull(titleReservation);
 		// check error
-		assertEquals("Client does not exist! Title does not exist!", error);		
+		assertEquals("Client and Title must exist!", error);		
 	}
 	
 	@Test
@@ -854,26 +808,32 @@ public class TestLibraryManagementService {
 		Time startTime = new Time(5, 0, 0);
 		Time endTime = new Time(7, 0, 0);
 		Date date = new Date(2021, 7, 12);
+		
+//		Library library = service.getLibrary();
+		
+		
 
-		int capacity = 10;
-		boolean isAvailable = true;
-		RoomType roomtype = RoomType.Study;
-		Room room = new Room(capacity, isAvailable, roomtype);
-
-		String residentialAddress = "514 marwan road";
-		String email = "email@123.com";
-		boolean isResident = true;
-		boolean isOnline = true;
-		String username = "big shot";
-		String password = "spaghetti_noodles";
-		String fullName = "John Doe";
-		Client client = new Client(username, password, fullName, residentialAddress, email, isResident, isOnline);
-
-		Library library = new Library();
+//		int capacity = 10;
+//		boolean isAvailable = true;
+//		RoomType roomtype = RoomType.Study;
+//		Room room = service.createRoom(capacity, isAvailable, roomtype, library);
+//		room.setRoomId(ROOM_KEY);
+//
+//		String residentialAddress = "514 marwan road";
+//		String email = "email@123.com";
+//		boolean isResident = true;
+//		boolean isOnline = true;
+//		String username = "big shot";
+//		String password = "spaghetti_noodles";
+//		String fullName = "John Doe";
+//		Client client = service.createClient(username, password, fullName, residentialAddress, email, isResident, isOnline, library);
+//		
 		RoomReservation roomReservation = null;
+		
+		Library library = service.getLibrary();
 
 		try {
-			roomReservation = service.createRoomReservation(startTime, endTime, date, room.getRoomId(), client.getUserId(), library);
+			roomReservation = service.createRoomReservation(startTime, endTime, date, ROOM_KEY, CLIENT_KEY, library);
 		}
 
 		catch (IllegalArgumentException e) {
@@ -884,8 +844,8 @@ public class TestLibraryManagementService {
 		assertEquals(startTime, roomReservation.getStartTime());
 		assertEquals(endTime, roomReservation.getEndTime());
 		assertEquals(date, roomReservation.getDate());
-		assertEquals(room.getRoomId(), roomReservation.getRoom().getRoomId());
-		assertEquals(client.getUserId(), roomReservation.getClient().getUserId());
+		assertEquals(ROOM_KEY, roomReservation.getRoom().getRoomId());
+		assertEquals(CLIENT_KEY, roomReservation.getClient().getUserId());
 	}
 
 	//invalid input
