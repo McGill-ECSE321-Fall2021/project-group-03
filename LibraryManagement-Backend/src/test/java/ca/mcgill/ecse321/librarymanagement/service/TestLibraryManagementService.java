@@ -722,47 +722,6 @@ public class TestLibraryManagementService {
 //		assertNull(service.getTitleReservation(4321));
 //	}
 
-	// Valid input
-	@Test
-	public void createRoomReservation() {
-		Time startTime = new Time(5, 0, 0);
-		Time endTime = new Time(7, 0, 0);
-		Date date = new Date(2021, 7, 12);
-		
-		Library library = service.getLibrary();
-
-		int capacity = 10;
-		boolean isAvailable = true;
-		RoomType roomtype = RoomType.Study;
-		Room room = service.createRoom(capacity, isAvailable, roomtype, library);
-
-		String residentialAddress = "514 marwan road";
-		String email = "email@123.com";
-		boolean isResident = true;
-		boolean isOnline = true;
-		String username = "big shot";
-		String password = "spaghetti_noodles";
-		String fullName = "John Doe";
-		Client client = service.createClient(username, password, fullName, residentialAddress, email, isResident, isOnline, library);
-
-		RoomReservation roomReservation = null;
-
-		try {
-			roomReservation = service.createRoomReservation(startTime, endTime, date, room.getRoomId(), client.getUserId(), library);
-		}
-
-		catch (IllegalArgumentException e) {
-			fail();
-		}
-
-		assertNotNull(roomReservation);
-		assertEquals(startTime, roomReservation.getStartTime());
-		assertEquals(endTime, roomReservation.getEndTime());
-		assertEquals(date, roomReservation.getDate());
-		assertEquals(room.getRoomId(), roomReservation.getRoom().getRoomId());
-		assertEquals(client.getUserId(), roomReservation.getClient().getUserId());
-	}
-
 	//invalid input
 //	@Test
 //	public void createRoomReservationNull() {
@@ -839,69 +798,6 @@ public class TestLibraryManagementService {
 //		assertNull(service.getRoomReservation(4321));
 //	}
 
-	// TARA
-	// valid input
-	@Test
-	public void createTitleReservation() {
-		Date date = new Date(Calendar.getInstance().getTime().getTime());
-		Date returnDate = sqlDatePlusDays(date);
-		boolean isCheckedOut = false;
-
-		String name = "moby dick";
-		String description = "whale eats guy";
-		String genre = "adventure";
-		TitleType titleType = TitleType.Book;
-		Title title = new Title(name, description, genre, true, titleType);
-
-		String residentialAddress = "514 marwan road";
-		String email = "email@123.com";
-		boolean isResident = true;
-		boolean isOnline = true;
-		String username = "big shot";
-		String password = "spaghetti_noodles";
-		String fullName = "John Doe";
-		Client client = new Client(username, password, fullName, residentialAddress, email, isResident, isOnline);
-		TitleReservation titleReservation = null;
-		Library library = new Library();
-
-		try {
-			titleReservation = service.createTitleReservation(returnDate, isCheckedOut, title, client, library);
-		}
-
-		catch (IllegalArgumentException e) {
-			fail();
-		}
-		assertNotNull(titleReservation);
-		assertEquals(returnDate, titleReservation.getReturnDate());
-		assertEquals(isCheckedOut, titleReservation.getIsCheckedOut());
-		assertEquals(title.getTitleId(), titleReservation.getTitle().getTitleId());
-		assertEquals(client.getUserId(), titleReservation.getClient().getUserId());
-
-	}
-
-	// invalid input
-	@Test
-	public void createTitleReservationNull() {
-		Date returnDate = null;
-		boolean isCheckedOut = false;
-		Title title = null;
-		Client client = null;
-		TitleReservation titleReservation = null;
-		Library library = new Library();
-		String error = "";
-
-		try {
-			titleReservation = service.createTitleReservation(returnDate, isCheckedOut, title, client, library);
-		}
-
-		catch (IllegalArgumentException e) {
-			error = e.getMessage();
-		}
-
-		assertNull(titleReservation);
-		assertEquals("Title reservation cannot be empty", error);
-	}
-	
 	//Title and Client do not exist
 	@Test
 	public void createTitleReservationTitleAndClientDoNotExist() {
@@ -933,7 +829,7 @@ public class TestLibraryManagementService {
 		TitleReservation titleReservation = null;
 		Library library = new Library();
 		try {
-			titleReservation = service.createTitleReservation(returnDate,isCheckedOut,title,client,library);
+			titleReservation = service.createTitleReservation(returnDate,isCheckedOut,title.getName(),client.getUsername(),library);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -945,11 +841,11 @@ public class TestLibraryManagementService {
 	
 	@Test
 	public void getExistingTitleReservation() {
-		assertEquals(TITLE_RESERVATION_KEY, service.getTitleReservation(TITLE_RESERVATION_KEY).getTitleReservationId());
+		assertEquals(TITLE_RESERVATION_KEY, service.getTitleReservationByTitleId(TITLE_KEY).getTitleReservationId());
 	}
 	@Test
 	public void getNonExistingTitleReservation() {
-		assertNull(service.getTitleReservation(4321));
+		assertNull(service.getTitleReservationByTitleId(4321));
 	}
 
 	// Valid input
@@ -977,7 +873,7 @@ public class TestLibraryManagementService {
 		RoomReservation roomReservation = null;
 
 		try {
-			roomReservation = service.createRoomReservation(startTime, endTime, date, room, client, library);
+			roomReservation = service.createRoomReservation(startTime, endTime, date, room.getRoomId(), client.getUserId(), library);
 		}
 
 		catch (IllegalArgumentException e) {
@@ -1006,7 +902,7 @@ public class TestLibraryManagementService {
 		String error = "";
 
 		try {
-			roomReservation = service.createRoomReservation(startTime, endTime, date, room, client, library);
+			roomReservation = service.createRoomReservation(startTime, endTime, date, room.getRoomId(), client.getUserId(), library);
 		}
 
 		catch (IllegalArgumentException e) {
@@ -1018,50 +914,9 @@ public class TestLibraryManagementService {
 
 	}
 	
-	//Client and Room do not exist
-	@Test
-	public void createRoomReservationTitleAndRoomDoNotExist() {
-		Date date = new Date(2021,5,2);
-		Time startTime = new Time(6,0,0);
-		Time endTime = new Time(9,0,0);
-
-		
-		String residentialAddress = "514 marwan street";
-		String email = "email@gmail.com";
-		boolean isResident = true;
-		boolean isOnline = true;
-		String username = "tara";
-		String password = "spaghetti";
-		String fullName = "Tara Doe";
-		Client client = new Client(username, password, fullName, residentialAddress, email, isResident, isOnline);
-	
-		assertEquals(0, service.getAllClients().size());
-		
-		int capacity = 1;
-		boolean isAvailable = true;
-		RoomType roomType = RoomType.Event;
-		Room room = new Room(capacity,isAvailable,roomType);
-		assertEquals(0,service.getAllRooms().size());
-		
-		Library library = new Library();
-		
-		String error = null;
-		RoomReservation roomReservation = null;
-		
-		try {
-			roomReservation = service.createRoomReservation(startTime, endTime,date,room, client, library);
-		} catch (IllegalArgumentException e) {
-			error = e.getMessage();
-		}
-
-		assertNull(roomReservation);
-		// check error
-		assertEquals("Client does not exist! Room does not exist!", error);		
-	}
-	
 	@Test
 	public void getExistingRoomReservation() {
-		assertEquals(ROOM_RESERVATION_KEY, service.getRoomReservation(ROOM_RESERVATION_KEY).getRoomReservationId());
+		assertEquals(ROOM_RESERVATION_KEY, service.getRoomReservation(ROOM_RESERVATION_KEY).getTimeSlotId());
 	}
 	@Test
 	public void getNonExistingRoomReservation() {

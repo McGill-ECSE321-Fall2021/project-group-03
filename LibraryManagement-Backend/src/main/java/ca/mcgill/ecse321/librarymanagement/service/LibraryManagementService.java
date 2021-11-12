@@ -801,6 +801,7 @@ public class LibraryManagementService {
 		return false;
 	}
 
+	@Transactional
 	public Client loginClient(String username, String password) {
 		
 		Library library = getLibrary();
@@ -846,6 +847,7 @@ public class LibraryManagementService {
 		return timeSlot;
 	}
 
+	@Transactional
 	public Client updateClient(String aUsername, String aPassword, String aFullname, String aResidentialAddress,
 			String aEmail, boolean isResident, boolean isOnline, Library library) {
 
@@ -880,6 +882,7 @@ public class LibraryManagementService {
 		return client;
 	}
 
+	@Transactional
 	public void removeClient(String username, Library library) {
 		
 		Client client = null;
@@ -899,5 +902,13 @@ public class LibraryManagementService {
 		libraryRepository.save(library);
 
 	}
+	
+	@Transactional
+	public RoomReservation getRoomReservation(int id) {
+		RoomReservation rr = roomReservationRepository.findRoomReservationByTimeslotId(id);
+		return rr;
+	}
+	
+	
 
 }
