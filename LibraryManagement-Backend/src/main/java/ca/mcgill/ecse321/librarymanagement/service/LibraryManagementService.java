@@ -293,6 +293,10 @@ public class LibraryManagementService {
 	@Transactional
 	public Timeslot createLibraryTimeslot(Time startTime, Time endTime, Date date, Schedule librarySchedule,
 			Library library) {
+		
+		if (startTime == null || endTime == null || date == null || librarySchedule == null) {
+			throw new IllegalArgumentException("Library time slot cannot be empty");
+		}
 
 		for (Timeslot t : library.getLibrarySchedule().getTimeslots()) {
 
@@ -789,7 +793,7 @@ public class LibraryManagementService {
 
 		// is it on the same day?
 		if (date.getYear() == newDate.getYear() && date.getMonth() == newDate.getMonth()
-				&& date.getDay() == newDate.getDate()) {
+				&& date.getDay() == newDate.getDay()) {
 			Time startTime = existingTimeslot.getStartTime();
 			Time endTime = existingTimeslot.getEndTime();
 
