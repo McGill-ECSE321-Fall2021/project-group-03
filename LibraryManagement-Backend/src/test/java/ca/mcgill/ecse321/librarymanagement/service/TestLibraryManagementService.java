@@ -446,7 +446,7 @@ public class TestLibraryManagementService {
 		}
 
 		assertNull(librarian);
-		assertEquals("Librarian information cannot be empty!", error);
+		assertEquals("Librarian username cannot be empty!", error);
 
 	}
 //	@Test
