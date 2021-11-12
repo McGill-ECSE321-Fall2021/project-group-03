@@ -588,6 +588,38 @@ public class LibraryManagementService {
 		}
 		return librarian;
 	}
+	
+	public Librarian updateLibrarian(String aUsername, String aPassword, String aFullname, String aResidentialAddress,
+			String aEmail, boolean isResident, boolean isOnline, Library library) {
+
+		Librarian librarian = null;
+
+		if (aUsername == null || aUsername.trim().length() == 0) {
+			throw new IllegalArgumentException("Librarian information cannot be empty!");
+		}
+
+		if (aPassword == null || aPassword.trim().length() == 0) {
+			throw new IllegalArgumentException("Librarian information cannot be empty!");
+		}
+
+		if (aFullname == null || aFullname.trim().length() == 0) {
+			throw new IllegalArgumentException("Librarian information cannot be empty!");
+		}
+		
+		for (User u : library.getUsers()) {
+			if (u.getUsername().equals(aUsername)) {
+				librarian = (Librarian) u;
+			}
+		}
+
+		librarian.setFullname(aFullname);
+		librarian.setPassword(aPassword);
+		
+		librarianRepository.save(librarian);
+		libraryRepository.save(library);
+
+		return librarian;
+	}
 
 	@Transactional
 	public TitleReservation createTitleReservation(Date returnDate, boolean isCheckedOut, String titleName, String username,
