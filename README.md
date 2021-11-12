@@ -18,14 +18,15 @@ and room schedules). Finally, the most important parts of the system should be a
 
 | Team member (name)     | Role                  |  Effort for Deliverable 1 (hours) |  Effort for Deliverable 2 (hours) | 
 | ---------------------- | --------------------- | --------------------------------  | --------------------------------  |
-| Adam Geenen            | Software Engineer     | 30                                | 55                                |
-| Tara Ginsberg          | Software Team Leader  | 30                                | 55                                |
-| Abraham Somech         | Testing Team Leader   | 30                                | 55                                |
-| Liam Serour            | Documentation Manager | 30                                | 55                                |
-| Samuel-Ryan Vasserman  | Project Manager       | 30                                | 55                                |
+| Adam Geenen            | Communications Manager| 30                                | 55                                |
+| Tara Ginsberg          | Project Manager       | 30                                | 55                                |
+| Abraham Somech         | Testing Architect     | 30                                | 55                                |
+| Liam Serour            | Project Designer      | 30                                | 55                                |
+| Samuel-Ryan Vasserman  | PSoftware Architect   | 30                                | 55                                |
 
 
-Roles and Responsibilities
+# Roles and Responsibilities
+
 Liam - Project Designer
 Responsible for checking in with the original specifications, feedback from deliverable 1 during the development and testing phase. Additionally, look over the model and ensuring the appropriate changes are made to fit criteria for this deliverable. Finally, will assign tasks in the project Kan ban and create meaningful milestones and user stories.
 
