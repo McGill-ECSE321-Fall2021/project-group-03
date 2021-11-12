@@ -739,7 +739,19 @@ public class LibraryManagementService {
 	}
 
 	@Transactional
-	public void deleteTitle(Library library, Title title) {
+	public void removeTitle(Library library, int titleId) {
+		Title title = null;
+		
+		for (Title titleA : library.getTitles()) {
+			if (titleA.getTitleId() == titleId) {
+				title = titleA;
+			}
+		}
+		
+		if (title == null) {
+			throw new IllegalArgumentException("This title does not exist");
+		}
+		
 		titleRepository.delete(title);
 		library.removeTitle(title);
 		libraryRepository.save(library);

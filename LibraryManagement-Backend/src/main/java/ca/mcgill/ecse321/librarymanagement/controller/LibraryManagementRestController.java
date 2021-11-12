@@ -137,9 +137,8 @@ public class LibraryManagementRestController {
 	public void removeTitle(@PathVariable("titleId") String titleId) throws IllegalArgumentException {
 
 		Library library = getLibrary();
-		Title title = null;
 
-		service.deleteTitle(library, title);
+		service.removeTitle(library, Integer.parseInt(titleId));
 	}
 
 	public TitleDto convertToDto(Title title) {
