@@ -2,8 +2,6 @@ package ca.mcgill.ecse321.librarymanagement.dto;
 
 import java.util.List;
 
-import ca.mcgill.ecse321.librarymanagement.model.Timeslot;
-
 public class ScheduleDto {
 
 	private int scheduleId;

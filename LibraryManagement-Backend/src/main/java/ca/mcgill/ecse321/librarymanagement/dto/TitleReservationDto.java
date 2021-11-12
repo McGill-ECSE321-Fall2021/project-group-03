@@ -2,9 +2,6 @@ package ca.mcgill.ecse321.librarymanagement.dto;
 
 import java.sql.Date;
 
-import ca.mcgill.ecse321.librarymanagement.model.Client;
-import ca.mcgill.ecse321.librarymanagement.model.Title;
-
 public class TitleReservationDto {
 
 	private Date returnDate;

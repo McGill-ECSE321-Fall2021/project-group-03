@@ -1,10 +1,5 @@
 package ca.mcgill.ecse321.librarymanagement.dto;
 
-import java.sql.Date;
-
-import javax.persistence.ManyToOne;
-
-import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
 
 public class TitleDto {
