@@ -496,15 +496,21 @@ public class LibraryManagementService {
 
 	@Transactional
 	public void removeRoomReservation(int roomId, int userId, Library library) {
-		for (RoomReservation roomReservation : library.getRoomReservations()) {
-			if (roomReservation.getClient().getUserId() == userId && roomReservation.getRoom().getRoomId() == roomId) {
-				library.getRoomReservations().remove(roomReservation);
-				roomReservationRepository.delete(roomReservation);
-				libraryRepository.save(library);
+		RoomReservation roomReservation = null;
+		
+		for (RoomReservation roomReservationA : library.getRoomReservations()) {
+			if (roomReservationA.getClient().getUserId() == userId && roomReservationA.getRoom().getRoomId() == roomId) {
+				roomReservation = roomReservationA;
 			}
 		}
-
-		throw new IllegalArgumentException("Cannot find Room Reservation");
+		
+		if (roomReservation == null) {
+			throw new IllegalArgumentException("Cannot find Room Reservation");
+		}
+		
+		library.getRoomReservations().remove(roomReservation);
+		roomReservationRepository.delete(roomReservation);
+		libraryRepository.save(library);
 	}
 
 	@Transactional
