@@ -360,6 +360,24 @@ public class LibraryManagementService {
 		}
 		return room;
 	}
+	
+	@Transactional
+	public Room updateRoom(int roomId, Boolean isAvailable, Library library) {
+
+		Room room = null;
+		
+		room = roomRepository.findRoomByRoomId(roomId);
+		
+		if (room == null) {
+			throw new IllegalArgumentException("Room does not exist");
+		}
+		
+		room.setIsAvailable(isAvailable);
+
+		roomRepository.save(room);
+		libraryRepository.save(library);
+		return room;
+	}
 
 	@Transactional
 	public List<RoomReservation> getAllRoomReservations(int roomId) {
