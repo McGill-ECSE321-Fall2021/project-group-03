@@ -163,11 +163,9 @@ public class LibraryManagementService {
 			Library library = new Library();
 			libraryRepository.save(library);
 			return library;
-
 		}
 
 		return toList(libraryRepository.findAll()).get(0);
-
 	}
 
 	public void removeLibrary(Library library) {
@@ -366,7 +364,6 @@ public class LibraryManagementService {
 	@Transactional
 	public Room getRoom(int roomId) {
 		Room room = roomRepository.findRoomByRoomId(roomId);
-
 		if (room == null) {
 			throw new IllegalArgumentException("Room does not exist!");
 		}
@@ -558,17 +555,13 @@ public class LibraryManagementService {
 	}
 
 	@Transactional
-	public void deleteLibrarian(Library library, int librarianId) {
+	public void removeLibrarian(Library library, int librarianId) {
 
 		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
 
 		if (librarian == null) {
-
 			throw new IllegalArgumentException("librarian does not exist");
-		}
-
-		else if (librarian.getIsHeadLibrarian()) {
-
+		}	else if (librarian.getIsHeadLibrarian()) {
 			throw new IllegalArgumentException("cannot fire head librarian");
 		}
 
