@@ -391,14 +391,19 @@ public class LibraryManagementService {
 	@Transactional
 	public List<RoomReservation> getAllRoomReservations(int roomId) {
 		List<RoomReservation> roomReservations = toList(roomReservationRepository.findAll());
-		List<RoomReservation> thisRoomReservations = null;
+		ArrayList<RoomReservation> curRoomReservations = new ArrayList<RoomReservation>();
+		
 		for (RoomReservation rr : roomReservations) {
 			if (rr.getRoom().getRoomId() == roomId) {
-				thisRoomReservations.add(rr);
+				curRoomReservations.add(rr);
 			}
 		}
+		
+		if (curRoomReservations.size() == 0) {
+			throw new IllegalArgumentException("This Room Reservation does not exist");
+		}
 
-		return thisRoomReservations;
+		return curRoomReservations;
 	}
 
 	@Transactional
