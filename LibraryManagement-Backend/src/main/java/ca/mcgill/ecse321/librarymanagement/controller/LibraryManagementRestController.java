@@ -246,7 +246,7 @@ public class LibraryManagementRestController {
 	public void removeLibrarian(@PathVariable("userId") String userId) throws IllegalArgumentException {
 		Library library = getLibrary();
 
-		service.deleteLibrarian(library, Integer.parseInt(userId));
+		service.removeLibrarian(library, Integer.parseInt(userId));
 	}
 
 	public LibrarianDto convertToDto(Librarian librarian) {
@@ -360,6 +360,12 @@ public class LibraryManagementRestController {
 	@GetMapping(value = { "/rooms/get", "/rooms/get/" })
 	public List<RoomDto> getRooms() {
 		return service.getAllRooms().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+	}
+	
+	@GetMapping(value = { "/rooms/get/{roomId}", "/rooms/get/{roomId}/" })
+	public RoomDto getRoom(@PathVariable("roomId") String roomId) {
+		Room room = service.getRoom(Integer.parseInt(roomId));
+		return convertToDto(room);
 	}
 	
 	@PostMapping(value = { "/rooms/update/{roomId}", "/rooms/update/{roomId}/" })
