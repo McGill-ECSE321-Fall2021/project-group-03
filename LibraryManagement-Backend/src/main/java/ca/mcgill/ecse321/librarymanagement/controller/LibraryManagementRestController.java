@@ -204,8 +204,8 @@ public class LibraryManagementRestController {
 	 */
 
 	@GetMapping(value = { "/librarians/get", "/librarians/get/" })
-	public List<TitleDto> getAllLibrarians() {
-		return service.getAllTitles().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+	public List<LibrarianDto> getAllLibrarians() {
+		return service.getAllLibrarians().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
 	}
 
 	@PostMapping(value = { "/librarians/create/{username}", "/librarians/create/{username}/" })
@@ -447,19 +447,13 @@ public class LibraryManagementRestController {
 		return convertToDto(timeslot);
 	}
 
-	@PostMapping(value = { "/staffSchedules/remove/{librarianId}", "/staffSchedules/remove/{librarianId}/" })
-	public void removeStaffScheduleTimeslot(@PathVariable("librarianId") String librarianId,
-			@RequestParam String startHour, String startMin, @RequestParam String endHour, @RequestParam String endMin,
-			@RequestParam String year, @RequestParam String month, @RequestParam String day)
+	@PostMapping(value = { "/staffSchedules/remove/{timeslotId}", "/staffSchedules/remove/{timeslotId}/" })
+	public void removeStaffScheduleTimeslot(@PathVariable("timeslotId") String timeslotId, String headLibrarianId)
 			throws IllegalArgumentException {
+		
+		Library library = getLibrary();
 
-
-		Time startTime = new Time(Integer.parseInt(startHour), Integer.parseInt(startMin), 0);
-		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
-		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
-
-
-		service.removeStaffScheduleTimeslot(startTime, endTime, date, Integer.parseInt(librarianId));
+		service.removeStaffScheduleTimeslot(Integer.parseInt(timeslotId), Integer.parseInt(headLibrarianId), library);
 	}
 
 	/*
