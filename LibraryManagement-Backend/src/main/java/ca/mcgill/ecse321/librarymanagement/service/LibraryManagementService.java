@@ -72,15 +72,15 @@ public class LibraryManagementService {
 		}
 
 		if (description == null || description.trim().length() == 0) {
-			throw new IllegalArgumentException("Title cannot be empty!");
+			throw new IllegalArgumentException("Description cannot be empty!");
 		}
 
 		if (genre == null || description.trim().length() == 0) {
-			throw new IllegalArgumentException("Title cannot be empty!");
+			throw new IllegalArgumentException("Genre cannot be empty!");
 		}
 
 		if (titleType == null) {
-			throw new IllegalArgumentException("Title cannot be empty!");
+			throw new IllegalArgumentException("TitleType cannot be empty!");
 		}
 
 		Title title = new Title(name, description, genre, isAvailable, titleType);
@@ -145,11 +145,6 @@ public class LibraryManagementService {
 		return toList(titleRepository.findAll());
 	}
 
-//	public List<Title> getTitle(int titleId) {
-//		return titleRepository.findById(titleId);
-//	}
-
-	// Method to convert to a list
 	private <T> List<T> toList(Iterable<T> iterable) {
 		List<T> resultList = new ArrayList<T>();
 		for (T t : iterable) {
@@ -276,6 +271,11 @@ public class LibraryManagementService {
 		librarianRepository.save(librarian);
 		libraryRepository.save(library);
 		return librarian;
+	}
+	
+	@Transactional
+	public List<Librarian> getAllLibrarians() {
+		return toList(librarianRepository.findAll());
 	}
 
 	@Transactional
@@ -548,32 +548,28 @@ public class LibraryManagementService {
 	}
 
 	@Transactional
-	public void removeStaffScheduleTimeslot(Time startTime, Time endTime, Date date, int librarianId) {
-
-		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
+	public void removeStaffScheduleTimeslot(int timeslotId, int headLibrarianId, Library library) {
+		
 		Timeslot timeslot = null;
-
-		if (librarian == null) {
-
-			throw new IllegalArgumentException("librarian does not exist");
-		}
-
-		// find time slot
-		for (Timeslot t : librarian.getStaffSchedule().getTimeslots()) {
-			if (t.getDate().equals(date) && t.getStartTime().equals(startTime) && t.getEndTime().equals(endTime)) {
-				timeslot = t;
-			}
+		
+		timeslot = timeslotRepository.findTimeslotByTimeslotId(timeslotId);
+		
+		Librarian headLibrarian = librarianRepository.findLibrarianByUserId(headLibrarianId);
+		
+		if (headLibrarian.getIsHeadLibrarian() == false) {
+			throw new IllegalArgumentException("Librarian that is not a Head Librarian cannot remove timeslot");
 		}
 
 		if (timeslot == null) {
 			throw new IllegalArgumentException("timeslot does not exist");
 		}
 
-		Schedule staffSchedule = librarian.getStaffSchedule();
+
+		Schedule staffSchedule = headLibrarian.getStaffSchedule();
 		staffSchedule.removeTimeslot(timeslot);
 		timeslotRepository.delete(timeslot);
 		scheduleRepository.save(staffSchedule);
-		librarianRepository.save(librarian);
+		librarianRepository.save(headLibrarian);
 	}
 
 	@Transactional
