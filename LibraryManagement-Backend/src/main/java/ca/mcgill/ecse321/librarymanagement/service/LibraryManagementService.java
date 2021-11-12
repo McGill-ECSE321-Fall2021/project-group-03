@@ -163,11 +163,9 @@ public class LibraryManagementService {
 			Library library = new Library();
 			libraryRepository.save(library);
 			return library;
-
 		}
 
 		return toList(libraryRepository.findAll()).get(0);
-
 	}
 
 	public void removeLibrary(Library library) {
@@ -233,22 +231,22 @@ public class LibraryManagementService {
 			Library library) {
 		
 		if (username == null || username.trim().length() == 0) {
-			throw new IllegalArgumentException("Librarian information cannot be empty!");
+			throw new IllegalArgumentException("Librarian username cannot be empty!");
 		}
 
 		if (password == null || password.trim().length() == 0) {
-			throw new IllegalArgumentException("Librarian information cannot be empty!");
+			throw new IllegalArgumentException("Librarian password cannot be empty!");
 		}
 
 		if (fullName == null || fullName.trim().length() == 0) {
-			throw new IllegalArgumentException("Librarian information cannot be empty!");
+			throw new IllegalArgumentException("Librarian full name cannot be empty!");
 		}
 
 		Librarian headLibrarian = null;
 
 		for (User u : library.getUsers()) {
 			if (u.getUsername() == username) {
-				throw new IllegalArgumentException("username already exists");
+				throw new IllegalArgumentException("Username already exists");
 			}
 		}
 
@@ -370,7 +368,6 @@ public class LibraryManagementService {
 	@Transactional
 	public Room getRoom(int roomId) {
 		Room room = roomRepository.findRoomByRoomId(roomId);
-
 		if (room == null) {
 			throw new IllegalArgumentException("Room does not exist!");
 		}
@@ -495,8 +492,7 @@ public class LibraryManagementService {
 	@Transactional
 	public void removeRoomReservation(int roomId, int userId, Library library) {
 		for (RoomReservation roomReservation : library.getRoomReservations()) {
-			if (roomReservation.getClient().getUsername().equals(userId)
-					&& roomReservation.getRoom().getRoomId() == roomId) {
+			if (roomReservation.getClient().getUserId() == userId && roomReservation.getRoom().getRoomId() == roomId) {
 				library.getRoomReservations().remove(roomReservation);
 				roomReservationRepository.delete(roomReservation);
 				libraryRepository.save(library);
@@ -562,17 +558,13 @@ public class LibraryManagementService {
 	}
 
 	@Transactional
-	public void deleteLibrarian(Library library, int librarianId) {
+	public void removeLibrarian(Library library, int librarianId) {
 
 		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
 
 		if (librarian == null) {
-
 			throw new IllegalArgumentException("librarian does not exist");
-		}
-
-		else if (librarian.getIsHeadLibrarian()) {
-
+		}	else if (librarian.getIsHeadLibrarian()) {
 			throw new IllegalArgumentException("cannot fire head librarian");
 		}
 

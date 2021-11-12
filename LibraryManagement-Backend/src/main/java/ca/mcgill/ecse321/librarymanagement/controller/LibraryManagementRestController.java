@@ -157,6 +157,12 @@ public class LibraryManagementRestController {
 	public List<ClientDto> getAllClients() {
 		return service.getAllClients().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
 	}
+	
+	@GetMapping(value = { "/clients/get/{clientId}", "/clients/get/{clientId}/" })
+	public ClientDto getClient(@PathVariable("clientId") String clientId) {
+		Client client = service.getClient(Integer.parseInt(clientId));
+		return convertToDto(client);
+	}
 
 	@PostMapping(value = { "/clients/create/{username}", "/clients/create/{username}/" })
 	public ClientDto createClient(@PathVariable("username") String username, @RequestParam String password,
@@ -207,11 +213,16 @@ public class LibraryManagementRestController {
 	public List<LibrarianDto> getAllLibrarians() {
 		return service.getAllLibrarians().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
 	}
+	
+	@GetMapping(value = { "/librarians/get/{librarianId}", "/librarians/get/{librarianId}/" })
+	public LibrarianDto getLibrarian(@PathVariable("librarianId") String librarianId) {
+		Librarian librarian = service.getLibrarian(Integer.parseInt(librarianId));
+		return convertToDto(librarian);
+	}
 
 	@PostMapping(value = { "/librarians/create/{username}", "/librarians/create/{username}/" })
 	public LibrarianDto createLibrarian(@PathVariable("username") String username, @RequestParam String password,
 			@RequestParam String fullName, @RequestParam boolean isHeadLibrarian) throws IllegalArgumentException {
-
 		Library library = getLibrary();
 
 		Librarian librarian = service.createLibrarian(username, password, fullName, isHeadLibrarian, library);
@@ -233,10 +244,9 @@ public class LibraryManagementRestController {
 
 	@PostMapping(value = { "/librarians/remove/{userId}", "/librarians/remove/{userId}/" })
 	public void removeLibrarian(@PathVariable("userId") String userId) throws IllegalArgumentException {
-
 		Library library = getLibrary();
 
-		service.deleteLibrarian(library, Integer.parseInt(userId));
+		service.removeLibrarian(library, Integer.parseInt(userId));
 	}
 
 	public LibrarianDto convertToDto(Librarian librarian) {
@@ -350,6 +360,12 @@ public class LibraryManagementRestController {
 	@GetMapping(value = { "/rooms/get", "/rooms/get/" })
 	public List<RoomDto> getRooms() {
 		return service.getAllRooms().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+	}
+	
+	@GetMapping(value = { "/rooms/get/{roomId}", "/rooms/get/{roomId}/" })
+	public RoomDto getRoom(@PathVariable("roomId") String roomId) {
+		Room room = service.getRoom(Integer.parseInt(roomId));
+		return convertToDto(room);
 	}
 	
 	@PostMapping(value = { "/rooms/update/{roomId}", "/rooms/update/{roomId}/" })
