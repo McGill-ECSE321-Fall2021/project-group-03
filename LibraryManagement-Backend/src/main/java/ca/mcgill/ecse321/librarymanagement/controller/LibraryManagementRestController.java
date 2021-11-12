@@ -187,11 +187,9 @@ public class LibraryManagementRestController {
 	
 	@PostMapping(value = { "/clients/remove/{username}", "/clients/remove/{username}/" })
 	public void removeClient(@PathVariable("username") String username) throws IllegalArgumentException {
-
 		Library library = getLibrary();
 
 		service.removeClient(username, library);
-
 	}
 
 	public ClientDto convertToDto(Client client) {
@@ -218,6 +216,18 @@ public class LibraryManagementRestController {
 		Library library = getLibrary();
 
 		Librarian librarian = service.createLibrarian(username, password, fullName, isHeadLibrarian, library);
+
+		return convertToDto(librarian);
+	}
+	
+	@PostMapping(value = { "/librarians/update/{username}", "/librarians/update/{username}/" })
+	public LibrarianDto updateLibrarian(@PathVariable("username") String username, @RequestParam String password,
+			@RequestParam String fullName, @RequestParam String residentialAddress, @RequestParam String email,
+			@RequestParam String isResident, @RequestParam String isOnline) throws IllegalArgumentException {
+		Library library = getLibrary();
+
+		Librarian librarian = service.updateLibrarian(username, password, fullName, residentialAddress, email,
+				Boolean.parseBoolean(isResident), Boolean.parseBoolean(isOnline), library);
 
 		return convertToDto(librarian);
 	}
