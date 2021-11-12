@@ -24,6 +24,7 @@ import ca.mcgill.ecse321.librarymanagement.dao.LibrarianRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.LibraryRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.RoomRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.RoomReservationRepository;
+import ca.mcgill.ecse321.librarymanagement.dao.ScheduleRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TimeslotRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TitleRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TitleReservationRepository;
@@ -33,6 +34,7 @@ import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.Room;
 import ca.mcgill.ecse321.librarymanagement.model.Room.RoomType;
 import ca.mcgill.ecse321.librarymanagement.model.RoomReservation;
+import ca.mcgill.ecse321.librarymanagement.model.Schedule;
 import ca.mcgill.ecse321.librarymanagement.model.Timeslot;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
@@ -64,6 +66,9 @@ public class TestLibraryManagementService {
 	
 	@Mock
 	private LibraryRepository libraryRepository;
+	
+	@Mock
+	private ScheduleRepository scheduleRepository;
 
 	@InjectMocks
 	private LibraryManagementService service;
@@ -76,6 +81,8 @@ public class TestLibraryManagementService {
 	private static final int TITLE_RESERVATION_KEY = 1234;
 	private static final int ROOM_RESERVATION_KEY = 1234;
 	private static final int LIBRARY_KEY = 0;
+	private static final int SCHEDULE_KEY = 3030;
+
 
 	// Title tests
 
@@ -122,10 +129,10 @@ public class TestLibraryManagementService {
 				String username = "big shot";
 				String password = "spaghetti_noodles";
 				String fullName = "John Doe";
-				Client client = new Client(username, password, fullName, residentialAddress, email, isResident,
-						isOnline);
-				client.setUserId(LIBRARIAN_KEY);
-				return client;
+				Librarian librarian = new Librarian(username, password, fullName, false);
+				librarian.setUserId(LIBRARIAN_KEY);
+				librarianRepository.save(librarian);
+				return librarian;
 			} else {
 				return null;
 			}
@@ -166,6 +173,16 @@ public class TestLibraryManagementService {
 				return null;
 			}
 		});
+		
+		lenient().when(scheduleRepository.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+			if (invocation.getArgument(0).equals(LIBRARY_KEY)) {
+				Schedule schedule = new Schedule();
+				schedule.setScheduleId(SCHEDULE_KEY);
+				return schedule;
+			} else {
+				return null;
+			}
+		});
 
 		lenient().when(titleReservationRepository.findTitleReservationByTitleReservationId(anyInt()))
 				.thenAnswer((InvocationOnMock invocation) -> {
@@ -179,6 +196,7 @@ public class TestLibraryManagementService {
 						String genre = "adventure";
 						TitleType titleType = TitleType.Book;
 						Title title = new Title(name, description, genre, true, titleType);
+						title.setTitleId(TITLE_KEY);
 
 						String residentialAddress = "514 marwan road";
 						String email = "email@123.com";
@@ -189,6 +207,7 @@ public class TestLibraryManagementService {
 						String fullName = "John Doe";
 						Client client = new Client(username, password, fullName, residentialAddress, email, isResident,
 								isOnline);
+						client.setUserId(CLIENT_KEY);
 
 						TitleReservation titleReservation = new TitleReservation(returnDate, isCheckedOut, title,
 								client);
@@ -384,29 +403,29 @@ public class TestLibraryManagementService {
 
 	// invalid input
 
-	@Test
-	public void createLibrarianNull() {
-
-		String username = null;
-		String password = null;
-		String fullname = null;
-		boolean isHeadLibrarian = true;
-		Library library = null;
-		Librarian librarian = null;
-		String error = "";
-
-		try {
-			librarian = service.createLibrarian(username, password, fullname, isHeadLibrarian, library);
-		}
-
-		catch (IllegalArgumentException e) {
-			error = e.getMessage();
-		}
-
-		assertNull(librarian);
-		assertEquals("Librarian cannot be empty", error);
-
-	}
+//	@Test
+//	public void createLibrarianNull() {
+//
+//		String username = null;
+//		String password = null;
+//		String fullname = null;
+//		boolean isHeadLibrarian = true;
+//		Library library = service.getLibrary();
+//		Librarian librarian = null;
+//		String error = "";
+//
+//		try {
+//			librarian = service.createLibrarian(username, password, fullname, isHeadLibrarian, library);
+//		}
+//
+//		catch (IllegalArgumentException e) {
+//			error = e.getMessage();
+//		}
+//
+//		assertNull(librarian);
+//		assertEquals("Librarian information cannot be empty!", error);
+//
+//	}
 	@Test
 	public void getExistingLibrarian() {
 		assertEquals(LIBRARIAN_KEY, service.getLibrarian(LIBRARIAN_KEY).getUserId());
@@ -567,7 +586,7 @@ public class TestLibraryManagementService {
 		Time end = new Time(20, 0, 0);
 
 		Timeslot timeslot = null;
-		Library library = new Library();
+		Library library = service.getLibrary();
 		Librarian librarian = service.createLibrarian("username", "password", "jack jones", false, library);
 
 		try {
@@ -620,8 +639,10 @@ public class TestLibraryManagementService {
 		Time start = new Time(10, 0, 0);
 		Time end = new Time(20, 0, 0);
 		Timeslot timeslot = null;
-		Library library = new Library();
-		Librarian librarian = (Librarian) library.getUser(LIBRARIAN_KEY);
+		Library library = service.getLibrary();
+		Librarian librarian = service.createLibrarian("username", "password", "full name", false, library);
+		lenient().when(libraryRepository.existsById(anyInt())).thenReturn(true);
+		lenient().when(librarianRepository.existsById(anyInt())).thenReturn(true);
 		String error = "";
 
 		try {
@@ -656,12 +677,6 @@ public class TestLibraryManagementService {
 		boolean isCheckedOut = false;
 		Library library = service.getLibrary();
 
-		String name = "moby dick";
-		String description = "whale eats guy";
-		String genre = "adventure";
-		TitleType titleType = TitleType.Book;
-		Title title = service.createTitle(name, description, genre, true, titleType, library);
-
 		String residentialAddress = "514 marwan road";
 		String email = "email@123.com";
 		boolean isResident = true;
@@ -669,12 +684,11 @@ public class TestLibraryManagementService {
 		String username = "big shot";
 		String password = "spaghetti_noodles";
 		String fullName = "John Doe";
-		Client client = service.createClient(username, password, fullName, residentialAddress, email, isResident, isOnline, library);
 		TitleReservation titleReservation = null;
 		
 
 		try {
-			titleReservation = service.createTitleReservation(returnDate, isCheckedOut, title.getName(), client.getUsername(), library);
+			titleReservation = service.createTitleReservation(returnDate, isCheckedOut, "moby dick", "big shot", library);
 		}
 
 		catch (IllegalArgumentException e) {
@@ -683,9 +697,8 @@ public class TestLibraryManagementService {
 		assertNotNull(titleReservation);
 		assertEquals(returnDate, titleReservation.getReturnDate());
 		assertEquals(isCheckedOut, titleReservation.getIsCheckedOut());
-		assertEquals(title.getTitleId(), titleReservation.getTitle().getTitleId());
-		assertEquals(client.getUserId(), titleReservation.getClient().getUserId());
-
+		assertEquals(TITLE_KEY, titleReservation.getTitle().getTitleId());
+		assertEquals(CLIENT_KEY, titleReservation.getClient().getUserId());
 	}
 
 	// invalid input
@@ -809,29 +822,33 @@ public class TestLibraryManagementService {
 		Time endTime = new Time(7, 0, 0);
 		Date date = new Date(2021, 7, 12);
 		
-//		Library library = service.getLibrary();
-		
-		
-
-//		int capacity = 10;
-//		boolean isAvailable = true;
-//		RoomType roomtype = RoomType.Study;
-//		Room room = service.createRoom(capacity, isAvailable, roomtype, library);
-//		room.setRoomId(ROOM_KEY);
-//
-//		String residentialAddress = "514 marwan road";
-//		String email = "email@123.com";
-//		boolean isResident = true;
-//		boolean isOnline = true;
-//		String username = "big shot";
-//		String password = "spaghetti_noodles";
-//		String fullName = "John Doe";
-//		Client client = service.createClient(username, password, fullName, residentialAddress, email, isResident, isOnline, library);
-//		
-		RoomReservation roomReservation = null;
-		
 		Library library = service.getLibrary();
+		
+		
 
+		int capacity = 10;
+		boolean isAvailable = true;
+		RoomType roomtype = RoomType.Study;
+		Room room = service.createRoom(capacity, isAvailable, roomtype, library);
+		room.setRoomId(ROOM_KEY);
+
+		String residentialAddress = "514 marwan road";
+		String email = "email@123.com";
+		boolean isResident = true;
+		boolean isOnline = true;
+		String username = "big shot";
+		String password = "spaghetti_noodles";
+		String fullName = "John Doe";
+		Client client = service.createClient(username, password, fullName, residentialAddress, email, isResident, isOnline, library);
+		
+		
+		//Library library = service.getLibrary();
+		lenient().when(libraryRepository.existsById(anyInt())).thenReturn(true);
+		lenient().when(clientRepository.existsById(anyInt())).thenReturn(true);
+		lenient().when(roomRepository.existsById(anyInt())).thenReturn(true);
+
+		
+		RoomReservation roomReservation = null;
 		try {
 			roomReservation = service.createRoomReservation(startTime, endTime, date, ROOM_KEY, CLIENT_KEY, library);
 		}
