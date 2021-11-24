@@ -1,32 +1,41 @@
 <template>
 <div>
-    <div class="header">Weclome to the Library Management System!</div>
+    <div class="header">Stdio Library</div>
     <div class="menu-bar">
-        <a class="" href="">Home</a>
-        <a href="">Browse Titles</a>
-        <a href="">Library Information</a>
-        <a href="">Account Settings</a>
+        <a class="home" href="">Home</a>
+        <a class="browse" href="">Browse Titles</a>
+        <a class="room-booking" href="">Book a Room</a>
+        <a class="account" href="">Account Settings</a>
     </div>
 </div>
 </template>
 <script>
-</script>
-<style>
+    // var url = window.location.href
+    // var host = window.location.host
 
+    // console.log(url.split(host)[1])
+    // path = url.split(host)[1]
+
+    // if (path == "/#/"){
+    //     document.querySelector(".home").className += "active"
+    // }
+</script>
+<style scoped>
   .header {
-    color: white;
-    background-color: cornflowerblue;
-    font: 17px;
-    padding: 20px;
+    background-color: aliceblue; 
+    color: darkslategray;
+    font-size: 35px;
+    font-weight: 700;
+    padding: 10px;
   }
 
     .menu-bar {
-        background-color:dimgrey;
         overflow: hidden;
+        background-color: darkslategray;
     }
 
     .menu-bar a{
-        color: white;
+        color: aliceblue;
         float: left;
         text-align: center;
         font-size: 17px;
@@ -35,11 +44,12 @@
     }
 
     .menu-bar a:hover {
-        background-color: cornflowerblue;
+        background-color: aliceblue;
+        color: darkslategray;
     }
 
     .menu-bar a.active {
-        background-color: cornflowerblue;
-        color: white;
+        background-color: aliceblue;
+        color: darkslategray;
     }
 </style>

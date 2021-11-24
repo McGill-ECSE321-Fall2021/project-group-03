@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home'
-import MenuBar from '@/components/MenuBar'
 import Login from '@/views/Login'
+import Browse from '@/views/Browse'
+import Account from '@/views/Account'
 
 Vue.use(Router)
 
@@ -17,6 +18,16 @@ export default new Router({
 		path: '/login',
 		name: 'Login',
 		component: Login
+	},
+	{
+		path: '/browse',
+		name: 'Browse',
+		component: Browse
+	},
+	{
+		path: '/account',
+		name: 'Account',
+		component: Account
 	}
   ]
 })
