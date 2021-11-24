@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
+import Home from '@/views/Home'
+import MenuBar from '@/components/MenuBar'
 
 Vue.use(Router)
 
@@ -8,8 +9,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
-    }
+      name: 'Home',
+      component: Home
+    },
+    {
+		path: '/menuBar',
+		name: 'LibraryManagement',
+		component: MenuBar
+	}
   ]
 })
