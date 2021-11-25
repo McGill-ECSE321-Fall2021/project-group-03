@@ -9,13 +9,6 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-function TitleDto (name, description, genre, isAvailable, titleType){
-    this.name = name
-    this.description = description
-    this.genre = genre
-    this.isAvailable = isAvailable
-    this.titleType = titleType
-}
 
     export default{
 
