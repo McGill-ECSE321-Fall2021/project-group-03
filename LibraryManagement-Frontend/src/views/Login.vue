@@ -10,6 +10,9 @@
                 <label class="header2" for="password">Password</label>
                 <input type="password" placeholder="$weetP@ncake$123">
                 <br>
+                <label for="librarianCheck" class="header2">Librarian Account</label>
+                <input type="checkbox">
+                <br>
                 <input class="login-btn" type="submit" value="Login">
             </form>
         </div>

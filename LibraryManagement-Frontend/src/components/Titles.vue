@@ -10,7 +10,7 @@
                 <th>Description</th>
             </tr>
             <tr>
-                <td><a href="/#/browse/Moby%20Dick">Reserve</a></td>
+                <td><a href="/#/browse/Moby%20Dick">View</a></td>
                 <td>Moby Dick</td>
                 <td>Book</td>
                 <td>Adventure</td>
@@ -18,7 +18,7 @@
                 <td>guy with whale</td>
             </tr>
             <tr>
-                <td><a href="/#/browse/Moby%20Dick">Reserve</a></td>
+                <td><a href="/#/browse/Moby%20Dick">View</a></td>
                 <td>Moby Dick</td>
                 <td>Book</td>
                 <td>Adventure</td>
@@ -26,7 +26,7 @@
                 <td>guy with whale</td>
             </tr>
             <tr>
-                <td><a href="/#/browse/Moby%20Dick">Reserve</a></td>
+                <td><a href="/#/browse/Moby%20Dick">View</a></td>
                 <td>Moby Dick</td>
                 <td>Book</td>
                 <td>Adventure</td>

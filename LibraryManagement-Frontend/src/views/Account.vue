@@ -110,7 +110,7 @@ export default {
             document.querySelector(".edit-email").hidden = true;
             document.querySelector(".edit-address").hidden = true;
 
-            // must actually update db afterwards
+            document.querySelector(".save").hidden = true
         }
     }
 }

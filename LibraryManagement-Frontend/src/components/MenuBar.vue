@@ -9,6 +9,7 @@
         <a class="browse" href="/#/browse">Browse Titles</a>
         <a class="room-booking" href="/#/rooms">Book a Room</a>
         <a class="account" href="/#/account">Account Settings</a>
+        <a class="tools" href="/#/tools">Library Tools</a>
     </div>
 </div>
 </template>
@@ -38,8 +39,13 @@ export default {
         }
 
         if (path == "/#/rooms"){
-            document.querySelector(".home").className += " active"
+            document.querySelector(".room-booking").className += " active"
         }
+
+        if (path == "/#/tools"){
+            document.querySelector(".tools").className += " active"
+        }
+
     }
 
 }
