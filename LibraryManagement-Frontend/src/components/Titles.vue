@@ -1,65 +1,66 @@
 <template>
-    <div>
-        <table>
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Genre</th>
-                <th>Is Available</th>
-                <th>Description</th>
-            </tr>
-            <tr>
-                <td><a href="/#/browse/Moby%20Dick">View</a></td>
-                <td>Moby Dick</td>
-                <td>Book</td>
-                <td>Adventure</td>
-                <td>Yes</td>
-                <td>guy with whale</td>
-            </tr>
-            <tr>
-                <td><a href="/#/browse/Moby%20Dick">View</a></td>
-                <td>Moby Dick</td>
-                <td>Book</td>
-                <td>Adventure</td>
-                <td>Yes</td>
-                <td>guy with whale</td>
-            </tr>
-            <tr>
-                <td><a href="/#/browse/Moby%20Dick">View</a></td>
-                <td>Moby Dick</td>
-                <td>Book</td>
-                <td>Adventure</td>
-                <td>Yes</td>
-                <td>guy with whale</td>
-            </tr>
+  <div>
+    <table>
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Genre</th>
+        <th>Is Available</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td><a href="/#/browse/Moby%20Dick">View</a></td>
+        <td>Moby Dick</td>
+        <td>Book</td>
+        <td>Adventure</td>
+        <td>Yes</td>
+        <td>guy with whale</td>
+      </tr>
+      <tr>
+        <td><a href="/#/browse/Moby%20Dick">View</a></td>
+        <td>Moby Dick</td>
+        <td>Book</td>
+        <td>Adventure</td>
+        <td>Yes</td>
+        <td>guy with whale</td>
+      </tr>
+      <tr>
+        <td><a href="/#/browse/Moby%20Dick">View</a></td>
+        <td>Moby Dick</td>
+        <td>Book</td>
+        <td>Adventure</td>
+        <td>Yes</td>
+        <td>guy with whale</td>
+      </tr>
 
-            <tr v-for="title in titles" :key="title">
-                <td><a href="">Reserve</a></td>
-                <td>{{title.name}}</td>
-                <td>{{title.type}}</td>
-                <td>{{title.genre}}</td>
-                <td>{{title.isAvailable}}</td>
-                <td>{{title.description}}</td>
-            </tr>
-        </table>
-    </div>
+      <tr v-for="title in titles" :key="title">
+        <td><a href="">Reserve</a></td>
+        <td>{{ title.name }}</td>
+        <td>{{ title.type }}</td>
+        <td>{{ title.genre }}</td>
+        <td>{{ title.isAvailable }}</td>
+        <td>{{ title.description }}</td>
+      </tr>
+    </table>
+  </div>
 </template>
 <script src="./titles.js">
 </script>
 <style>
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
 
-    td, th {
-        border: 1px solid aliceblue;
-        text-align: left;
-        padding: 8px;
-    }
+td,
+th {
+  border: 1px solid aliceblue;
+  text-align: left;
+  padding: 8px;
+}
 
-    tr:nth-child(even){
-        background-color: aliceblue;
-    }
+tr:nth-child(even) {
+  background-color: aliceblue;
+}
 </style>
