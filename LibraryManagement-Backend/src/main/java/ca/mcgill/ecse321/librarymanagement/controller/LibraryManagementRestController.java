@@ -141,7 +141,7 @@ public class LibraryManagementRestController {
 	}
 
 	public TitleDto convertToDto(Title title) {
-		TitleDto titleDto = new TitleDto(title.getTitleId(), title.getDescription(), title.getGenre(),
+		TitleDto titleDto = new TitleDto(title.getName(), title.getTitleId(), title.getDescription(), title.getGenre(),
 				title.getIsAvailable(), title.getTitleType());
 		return titleDto;
 	}

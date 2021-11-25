@@ -32,17 +32,21 @@
             </form>
         </div>
         <div class="header">Titles</div>
-        <div class="content titles"></div>
+        <div class="content titles">
+            <Titles />
+        </div>
     </div>
 </div>
 </template>
 
 <script>
 import MenuBar from '../components/MenuBar.vue'
+import Titles from '../components/Titles.vue'
 export default {
     name: 'Home',
     components: {
-    MenuBar
+    MenuBar,
+    Titles
     },
     methods: {
         reveal(){

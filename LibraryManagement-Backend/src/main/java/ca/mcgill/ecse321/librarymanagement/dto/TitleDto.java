@@ -3,7 +3,8 @@ package ca.mcgill.ecse321.librarymanagement.dto;
 import ca.mcgill.ecse321.librarymanagement.model.Title.TitleType;
 
 public class TitleDto {
-
+		
+	  private String name;
 	  private int titleId;
 	  private String description;
 	  private String genre;
@@ -14,7 +15,8 @@ public class TitleDto {
 		
 	}
 
-	public TitleDto(int titleId, String description, String genre, boolean isAvailable, TitleType titleType) {
+	public TitleDto(String name, int titleId, String description, String genre, boolean isAvailable, TitleType titleType) {
+		this.name = name;
 		this.titleId = titleId;
 		this.description = description;
 		this.genre = genre;
@@ -44,6 +46,10 @@ public class TitleDto {
 
 	public TitleType getTitleType() {
 		return titleType;
+	}
+	
+	public String getName() {
+		return name;
 	}
 
 

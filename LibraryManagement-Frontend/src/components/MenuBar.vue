@@ -1,24 +1,32 @@
 <template>
-<div>
+<div @onload="currentPage()">
     <div class="header">Stdio Library</div>
     <div class="menu-bar">
-        <a class="home" href="">Home</a>
-        <a class="browse" href="">Browse Titles</a>
+        <a class="home" href="/#/">Home</a>
+        <a class="browse" href="/#/browse">Browse Titles</a>
         <a class="room-booking" href="">Book a Room</a>
-        <a class="account" href="">Account Settings</a>
+        <a class="account" href="/#/account">Account Settings</a>
     </div>
 </div>
 </template>
 <script>
-    // var url = window.location.href
-    // var host = window.location.host
+export default {
+    name: 'MenuBar',
+    methods: {
+        currentPage(){
+            console.log(123)
+            var url = window.location.href
+            var host = window.location.host
+            
+            path = url.split(host)[1]
+        
+            if (path == "/#/"){
+                document.querySelector(".home").className += "active"
+            }
+        }
+    }
 
-    // console.log(url.split(host)[1])
-    // path = url.split(host)[1]
-
-    // if (path == "/#/"){
-    //     document.querySelector(".home").className += "active"
-    // }
+}
 </script>
 <style scoped>
   .header {
