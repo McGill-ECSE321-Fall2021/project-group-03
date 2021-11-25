@@ -6,6 +6,7 @@ import Browse from '@/views/Browse'
 import Account from '@/views/Account'
 import TitleInformation from '@/views/TitleInformation'
 import Tools from '@/views/Tools'
+import Management from '@/views/Management'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
 		path: '/tools',
 		name: Tools,
 		component: Tools
+	},
+	{
+		path: '/management',
+		name: Management,
+		component: Management
 	}
   ]
 })

@@ -10,6 +10,7 @@
         <a class="room-booking" href="/#/rooms">Book a Room</a>
         <a class="account" href="/#/account">Account Settings</a>
         <a class="tools" href="/#/tools">Library Tools</a>
+        <a class="management" href="/#/management">Management</a>
     </div>
 </div>
 </template>
@@ -44,6 +45,10 @@ export default {
 
         if (path == "/#/tools"){
             document.querySelector(".tools").className += " active"
+        }
+
+        if (path == "/#/management"){
+            document.querySelector(".management").className += " active"
         }
 
     }
