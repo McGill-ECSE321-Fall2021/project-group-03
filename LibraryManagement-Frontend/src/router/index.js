@@ -4,6 +4,7 @@ import Home from '@/views/Home'
 import Login from '@/views/Login'
 import Browse from '@/views/Browse'
 import Account from '@/views/Account'
+import TitleInformation from '@/views/TitleInformation'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
 		path: '/account',
 		name: 'Account',
 		component: Account
+	},
+	{
+		path: '/browse/:name',
+		name: TitleInformation,
+		component: TitleInformation
 	}
   ]
 })

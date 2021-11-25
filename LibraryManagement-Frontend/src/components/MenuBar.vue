@@ -1,34 +1,58 @@
 <template>
-<div @onload="currentPage()">
-    <div class="header">Stdio Library</div>
+<div>
+    <div class="header top">
+        TASLA Library
+        <a class="login" href="/#/login">Login</a>
+    </div>
     <div class="menu-bar">
         <a class="home" href="/#/">Home</a>
         <a class="browse" href="/#/browse">Browse Titles</a>
-        <a class="room-booking" href="">Book a Room</a>
+        <a class="room-booking" href="/#/rooms">Book a Room</a>
         <a class="account" href="/#/account">Account Settings</a>
     </div>
 </div>
 </template>
 <script>
+import Login from '../views/Login.vue'
+
 export default {
     name: 'MenuBar',
-    methods: {
-        currentPage(){
-            console.log(123)
-            var url = window.location.href
-            var host = window.location.host
-            
-            path = url.split(host)[1]
-        
-            if (path == "/#/"){
-                document.querySelector(".home").className += "active"
-            }
+    components: {
+        Login
+    },
+    mounted: function currentPage(){
+        const url = window.location.href
+        const host = window.location.host
+        const path = url.split(host)[1]
+    
+        if (path == "/#/"){
+            document.querySelector(".home").className += " active"
+        }
+
+        if (path == "/#/browse"){
+            document.querySelector(".browse").className += " active"
+        }
+
+        if (path == "/#/account"){
+            document.querySelector(".account").className += " active"
+        }
+
+        if (path == "/#/rooms"){
+            document.querySelector(".home").className += " active"
         }
     }
 
 }
+
 </script>
 <style scoped>
+
+    .top{
+        vertical-align: middle;
+        text-align: center;
+        border-bottom: solid;
+    }
+
   .header {
     background-color: aliceblue; 
     color: darkslategray;
@@ -37,9 +61,33 @@ export default {
     padding: 10px;
   }
 
+  .login{
+      text-decoration: dashed;
+      background-color: darkslategrey;
+      color: aliceblue;
+      padding: 5px;
+      width: 100px;
+      border-radius: 10px;
+      font-size: 15px;
+      float: right;
+      margin-top: 1.75%;
+  }
+
+  .login:hover{
+      text-decoration: dashed;
+      background-color: aliceblue;
+      border-style: solid;
+      color: darkslategray;
+      padding: 5px;
+      width: 100px;
+      border-radius: 10px;
+      margin-top: 1.75%;
+  }
+
     .menu-bar {
         overflow: hidden;
         background-color: darkslategray;
+        border-bottom: solid;
     }
 
     .menu-bar a{

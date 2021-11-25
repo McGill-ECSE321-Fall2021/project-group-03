@@ -68,5 +68,4 @@ export default {
             padding-left: 10px;
             line-height: 1.6;
         }
-
 </style>
