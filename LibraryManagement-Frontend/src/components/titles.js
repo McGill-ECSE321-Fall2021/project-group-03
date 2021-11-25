@@ -30,7 +30,7 @@ function TitleDto (name, description, genre, isAvailable, titleType){
         created: function(){
 
             // Initializing persons from backend
-            AXIOS.get('/titles')
+            AXIOS.get('/titles/get')
             .then(response => {
             // JSON responses are automatically parsed.
             this.titles = response.data

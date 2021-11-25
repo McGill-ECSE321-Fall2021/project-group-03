@@ -35,7 +35,7 @@
             </tr>
 
             <tr v-for="title in titles" :key="title">
-                <td><a href="">Reserve</a></td>
+                <td><a href="">View</a></td>
                 <td>{{title.name}}</td>
                 <td>{{title.type}}</td>
                 <td>{{title.genre}}</td>
