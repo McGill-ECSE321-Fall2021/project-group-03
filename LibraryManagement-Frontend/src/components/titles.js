@@ -17,7 +17,7 @@ var AXIOS = axios.create({
                 titles: [],
                 newTitle: '',
                 errorTitle: '',
-                response: []
+                response: [],
             }
         },
         created: function(){
