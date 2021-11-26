@@ -35,7 +35,7 @@
       </tr>
 
       <tr v-for="title in titles" :key="title">
-        <td><a href="">View</a></td>
+        <td><router-link :to="/#/">View</router-link></td>
         <td>{{ title.name }}</td>
         <td>{{ title.type }}</td>
         <td>{{ title.genre }}</td>

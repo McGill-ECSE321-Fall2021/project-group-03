@@ -11,9 +11,10 @@
                 <input type="password" placeholder="$weetP@ncake$123">
                 <br>
                 <label for="librarianCheck" class="header2">Librarian Account</label>
-                <input type="checkbox">
+                <input type="checkbox" class="isLibrarian">
                 <br>
-                <input class="login-btn" type="submit" value="Login">
+                <input @click="loginUser()" class="login-btn" type="submit" value="Login">
+                <h1 v-for="user in users" :key="user">{{user.username}}</h1>
             </form>
         </div>
         <br>
@@ -39,20 +40,7 @@
         </div>
     </div>
 </template>
-<script>
-import MenuBar from '../components/MenuBar.vue'
-export default{
-    name: 'Login',
-    components: {
-        MenuBar
-    },
-    methods: {
-        fadeIn(){
-            document.querySelector(".register-form").hidden = false
-            document.querySelector(".register-form").className += " fade-in"
-        }
-    }
-}
+<script src="./login.js">
 </script>
 <style>
 
