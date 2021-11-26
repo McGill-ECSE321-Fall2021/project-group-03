@@ -34,16 +34,16 @@
         <td>guy with whale</td>
       </tr>
 
-            <tr v-for="title in titles" :key="title">
-                <td><a href="">View</a></td>
-                <td>{{title.name}}</td>
-                <td>{{title.type}}</td>
-                <td>{{title.genre}}</td>
-                <td>{{title.isAvailable}}</td>
-                <td>{{title.description}}</td>
-            </tr>
-        </table>
-    </div>
+      <tr v-for="title in titles" :key="title">
+        <td><router-link :to="/#/">View</router-link></td>
+        <td>{{ title.name }}</td>
+        <td>{{ title.titleType }}</td>
+        <td>{{ title.genre }}</td>
+        <td>{{ title.isAvailable }}</td>
+        <td>{{ title.description }}</td>
+      </tr>
+    </table>
+  </div>
 </template>
 <script src="./titles.js">
 </script>
