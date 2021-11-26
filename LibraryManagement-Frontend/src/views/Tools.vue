@@ -30,7 +30,6 @@
           <option value="Archive">Archive</option>
         </select>
       </form>
-      <br />
       <div>
         <input
           type="submit"
@@ -43,6 +42,68 @@
         >
         <span hidden="true" class="header2 error-msg">Error message</span>
       </div>
+    </div>
+    <div class="header">Update Title</div>
+    <div>
+      <input
+        class="title-info"
+        id="title-name-update"
+        type="text"
+        placeholder="Name"
+      />
+      <input
+        class="title-info"
+        id="title-description-update"
+        type="text"
+        placeholder="Description"
+      />
+      <input
+        class="title-info"
+        id="title-genre-update"
+        type="text"
+        placeholder="Genre"
+      />
+      <select class="title-info" id="title-type-update" name="type1">
+        <option value="Book">Book</option>
+        <option value="Movie">Movie</option>
+        <option value="MusicAlbum">Music Album</option>
+        <option value="Newspaper">Newspaper</option>
+        <option value="Archive">Archive</option>
+      </select>
+      <br />
+      <input
+        type="submit"
+        @click="updateTitle()"
+        class="create-title"
+        value="Update Title"
+      />
+    </div>
+    <div class="header">Reserve Title</div>
+    <div>
+      <input
+        class="title-info"
+        id="title-name-reserve"
+        type="text"
+        placeholder="Name"
+      />
+      <br />
+      <input
+        type="submit"
+        @click="updateTitle()"
+        class="create-title"
+        value="Reserve Title"
+      />
+    </div>
+    <div class="header">Remove Title</div>
+    <div>
+      <input class="title-info" id="title-id" type="text" placeholder="Id" />
+      <br />
+      <input
+        type="submit"
+        @click="deleteTitle()"
+        class="create-title"
+        value="Delete Title"
+      />
     </div>
     <div class="header">Staff Schedule</div>
     <div class="content">SCHEDULE HERE</div>

@@ -70,9 +70,44 @@ function TitleDto (name, description, genre, isAvailable, titleType){
                 //     }
                 // })
                 
+            },
+            deleteTitle() {
+                let titleId = document.getElementById("title-id").value
+                let goodUrl = "/titles/remove/" + titleId
+                
+                    console.log(goodUrl)
+                    AXIOS.post(goodUrl, {}, {}).then(response => {
+                    })
+                    .catch(e => {
+                        var errorMsg = e.response.data.message
+                        console.log(errorMsg)
+                        this.errorTitle = errorMsg
+                    })
+            },
+            updateTitle() {
+                let titleName = document.getElementById("title-name-update").value
+                console.log(titleName)
+                let titleDescription = document.getElementById("title-description-update").value
+                console.log(titleDescription)
+                let titleType = document.getElementById("title-type-update").value
+                console.log(titleType)
+                let titleGenre = document.getElementById("title-genre-update").value
+                console.log(titleGenre)
+
+                let goodUrl = "/titles/update/" + titleName + "/?description=" + titleDescription + "&genre=" + titleGenre + "&titleType=" + titleType
+                console.log(goodUrl)
+                AXIOS.post(goodUrl, {}, {}).then(response => {
+                })
+                .catch(e => {
+                    var errorMsg = e.response.data.message
+                    console.log(errorMsg)
+                    this.errorTitle = errorMsg
+                })
             }
+    
         },
 
+        
     components: {
         MenuBar,
     }
