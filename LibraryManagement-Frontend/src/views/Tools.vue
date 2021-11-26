@@ -4,9 +4,9 @@
         <div class="header">Create Title</div>
         <div class="content">
             <form action="">
-                <input class="title-info" type="text" placeholder="Name">
-                <input class="title-info" type="text" placeholder="Description">
-                <input class="title-info" type="text" placeholder="Genre">
+                <input class="title-info title-name" type="text" placeholder="Name">
+                <input class="title-info description" type="text" placeholder="Description">
+                <input class="title-info genre" type="text" placeholder="Genre">
                 <select class="title-info title-type" name="type">
                         <option value="book">Book</option>
                         <option value="movie">Movie</option>
@@ -26,38 +26,7 @@
         <div class="content">SCHEDULE HERE</div>
     </div>
 </template>
-<script>
-import MenuBar from '../components/MenuBar.vue'
-
-export default {
-    components: {
-        MenuBar,
-    },
-
-    methods: {
-        displaySuccess(){
-            const successMsg = document.querySelector(".success-msg")
-            const errorMsg = document.querySelector(".error-msg")
-            const error = true
-            if (error){
-                errorMsg.hidden = false
-                errorMsg.className += " fadeIn"
-            }
-            else {
-                successMsg.hidden = false
-                successMsg.className += " fadeIn"
-            }
-            const getinfo = document.getElementsByClassName("title-info")
-            console.log(getinfo)
-            Array.from(getinfo).forEach(element => {
-                if(element.tagName != 'SELECT' ){
-                    element.value = ""
-                }
-            });
-            
-        }
-    }
-}
+<script src="./tools.js">
 </script>
 
 <style scoped>

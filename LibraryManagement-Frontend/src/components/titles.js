@@ -9,13 +9,6 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-function TitleDto (name, description, genre, isAvailable, titleType){
-    this.name = name
-    this.description = description
-    this.genre = genre
-    this.isAvailable = isAvailable
-    this.titleType = titleType
-}
 
     export default{
 
@@ -30,7 +23,7 @@ function TitleDto (name, description, genre, isAvailable, titleType){
         created: function(){
 
             // Initializing persons from backend
-            AXIOS.get('/titles')
+            AXIOS.get('/titles/get')
             .then(response => {
             // JSON responses are automatically parsed.
             this.titles = response.data

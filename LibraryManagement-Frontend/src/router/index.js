@@ -4,9 +4,11 @@ import Home from '@/views/Home'
 import Login from '@/views/Login'
 import Browse from '@/views/Browse'
 import Account from '@/views/Account'
+import Room from '@/views/Room'
 import TitleInformation from '@/views/TitleInformation'
 import Tools from '@/views/Tools'
 import Management from '@/views/Management'
+import RoomInformation from '@/views/RoomInformation'
 
 Vue.use(Router)
 
@@ -33,7 +35,17 @@ export default new Router({
 		component: Account
 	},
 	{
-		path: '/browse/:name',
+		path: '/rooms/',
+		name: Room,
+		component: Room
+	},
+	{
+		path: '/browse/room/:name',
+		name: RoomInformation,
+		component: RoomInformation
+	},
+	{
+		path: '/browse/title/:name',
 		name: TitleInformation,
 		component: TitleInformation
 	},
