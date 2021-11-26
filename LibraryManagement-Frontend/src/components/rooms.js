@@ -23,12 +23,11 @@ var AXIOS = axios.create({
         created: function(){
             console.log("created")
             // Initializing persons from backend
+            console.log(AXIOS.get('/rooms/ge'))
             AXIOS.get('/rooms/get')
             .then(response => {
             // JSON responses are automatically parsed.
             this.rooms = response.data
-            console.log("hi")
-            console.log(this.rooms)
             })
             .catch(e => {
             this.errorTitle = e

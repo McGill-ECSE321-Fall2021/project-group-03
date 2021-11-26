@@ -35,11 +35,11 @@
       </tr>
 
       <tr v-for="title in titles" :key="title">
-        <td><router-link :to="/#/">View</router-link></td>
+        <td><router-link :to="routerlink(title.name)">View</router-link></td>
         <td>{{ title.name }}</td>
         <td>{{ title.titleType }}</td>
         <td>{{ title.genre }}</td>
-        <td>{{ title.isAvailable }}</td>
+        <td>{{ displayAvailability(title.available) }}</td>
         <td>{{ title.description }}</td>
       </tr>
     </table>

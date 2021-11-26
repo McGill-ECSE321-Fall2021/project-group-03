@@ -27,6 +27,7 @@ var AXIOS = axios.create({
             .then(response => {
             // JSON responses are automatically parsed.
             this.titles = response.data
+            // console.log(this.titles)
             })
             .catch(e => {
             this.errorTitle = e
@@ -35,17 +36,33 @@ var AXIOS = axios.create({
         },
         
         methods:  {
-            createTitle: function(name, description, genre, isAvailable, titleType){
-                AXIOS.post('/titles/create'.concat(name, description, genre, isAvailable, titleType), {}, {}).then(response => {
-                var t = new TitleDto(name, description, genre, isAvailable, titleType)
-                this.titles.push(t)
-                this.newTitle = ''
-                })
-                .catch(e => {
-                    var errorMsg = e.response.data.message
-                    console.log(errorMsg)
-                    this.errorTitle = errorMsg
-                  })
+            // createTitle: function(name, description, genre, isAvailable, titleType){
+                
+                
+            //     AXIOS.post('/titles/create/'.concat(name).concat("?description=").concat(description).concat("&genre=").concat(genre).concat("&isAvailable=").concat(isAvailable).concat("&titleType=").concat(titleType), {}, {}).then(response => {
+            //     var t = new TitleDto(name, description, genre, isAvailable, titleType)
+            //     this.titles.push(t)
+            //     this.newTitle = ''
+            //     })
+            //     .catch(e => {
+            //         var errorMsg = e.response.data.message
+            //         console.log(errorMsg)
+            //         this.errorTitle = errorMsg
+            //       })
+            // },
+
+            displayAvailability: function(isAvailable) {
+                if (isAvailable) {
+                    return "✓"
+                } else {
+                    return "✗"
+                }
+            },
+
+            routerlink: function (newUrl) {
+                let url = "browse/title/";
+                url += newUrl;
+                return url
             }
         }
     }
