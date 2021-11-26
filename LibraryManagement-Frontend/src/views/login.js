@@ -41,7 +41,7 @@ export default{
                     this.errorLogin = e
                 })
 
-                sessionStorage.setItem("sessionUser", user.stringify())
+                sessionStorage.setItem("sessionUser", users.stringify())
                 sessionStorage.setItem("librarian", true)
                 sessionStorage.setItem("client", false)
             }
@@ -55,7 +55,7 @@ export default{
                     this.errorLogin = e
                 })
 
-                sessionStorage.setItem("sessionUser", user.stringify())
+                sessionStorage.setItem("sessionUser", users.stringify())
                 sessionStorage.setItem("client", true)
                 sessionStorage.setItem("librarian", false)
 

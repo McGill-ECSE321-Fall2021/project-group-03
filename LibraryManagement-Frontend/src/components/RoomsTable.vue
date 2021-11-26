@@ -30,12 +30,6 @@
         <td>{{ room.roomType }}</td>
         <td>{{ room.capacity }}</td>
       </tr>
-
-      <!-- <tr class="click-appear" v-for="room in rooms" :key="room">
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-      </tr> -->
     </table>
   </div>
 </template>
