@@ -1,70 +1,17 @@
 <template>
   <div>
     <table>
-      <tr>
-        <th></th>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Genre</th>
-        <th>Is Available</th>
-        <th>Description</th>
+      <tr v-for="title in titles" :key="title">
+        <td><router-link :to="routerlink(title.name)">View</router-link></td>
+        <td>{{ title.name }}</td>
+        <td>{{ title.titleType }}</td>
+        <td>{{ title.genre }}</td>
+        <td>{{ displayAvailability(title.available) }}</td>
+        <td>{{ title.description }}</td>
+        <td>{{ title.titleId }}</td>
       </tr>
-      <tr>
-        <td><a href="/#/browse/Moby%20Dick">View</a></td>
-        <td>Moby Dick</td>
-        <td>Book</td>
-        <td>Adventure</td>
-        <td>Yes</td>
-        <td>guy with whale</td>
-      </tr>
-      <tr>
-        <td><a href="/#/browse/Moby%20Dick">View</a></td>
-        <td>Moby Dick</td>
-        <td>Book</td>
-        <td>Adventure</td>
-        <td>Yes</td>
-        <td>guy with whale</td>
-      </tr>
-      <tr>
-        <td><a href="/#/browse/Moby%20Dick">View</a></td>
-        <td>Moby Dick</td>
-        <td>Book</td>
-        <td>Adventure</td>
-        <td>Yes</td>
-        <td>guy with whale</td>
-      </tr>
-
-            <tr v-for="title in titles" :key="title">
-                <td><a href="">View</a></td>
-                <td>{{title.name}}</td>
-                <td>{{title.type}}</td>
-                <td>{{title.genre}}</td>
-                <td>{{title.isAvailable}}</td>
-                <td>{{title.description}}</td>
-            </tr>
-            <tr>
-          
-          <td>
-              <input type="text" v-model="titleGenre" placeholder="Title genre"> 
-          </td>
-          <td>
-              <input type="text" v-model="titleDescription" placeholder="Title description"> 
-          </td>
-          <td>
-              <input type="text" v-model="titleIsAvailable" placeholder="Title status"> 
-          </td>
-          <td>
-              <input type="text" v-model="titleType" placeholder="Title type"> 
-          </td>
-          <td>
-              <input type="text" v-model="titleName" placeholder="Title Name"> 
-          </td>
-          <td>
-              <button v-bind:disabled="!titleName" @click="createTitle(titleName)">Create</button>
-          </td>
-      </tr>
-        </table>
-    </div>
+    </table>
+  </div>
 </template>
 <script src="./titles.js">
 </script>
