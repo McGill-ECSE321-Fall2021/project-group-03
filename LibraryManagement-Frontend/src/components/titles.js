@@ -35,17 +35,25 @@ var AXIOS = axios.create({
         },
         
         methods:  {
-            createTitle: function(name, description, genre, isAvailable, titleType){
-                AXIOS.post('/titles/create'.concat(name, description, genre, isAvailable, titleType), {}, {}).then(response => {
-                var t = new TitleDto(name, description, genre, isAvailable, titleType)
-                this.titles.push(t)
-                this.newTitle = ''
-                })
-                .catch(e => {
+            
+
+            createTitle: function (titleName) {
+                AXIOS.post('/titles1/create'.concat(titleName), {}, {})
+                  .then(response => {
+                  // JSON responses are automatically parsed.
+                    this.titles.push(response.data)
+                    this.errorPerson = ''
+                  })
+                  .catch(e => {
                     var errorMsg = e.response.data.message
                     console.log(errorMsg)
-                    this.errorTitle = errorMsg
+                    this.errorPerson = errorMsg
                   })
-            }
+              }
+               // name: 'name',
+                    // description: 'description',
+                    // genre: 'genre',
+                    // isAvailable: 'isAvailable',
+                    // titleType: 'titleType'
         }
     }

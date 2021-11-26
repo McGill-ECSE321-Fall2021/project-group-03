@@ -42,6 +42,27 @@
                 <td>{{title.isAvailable}}</td>
                 <td>{{title.description}}</td>
             </tr>
+            <tr>
+          
+          <td>
+              <input type="text" v-model="titleGenre" placeholder="Title genre"> 
+          </td>
+          <td>
+              <input type="text" v-model="titleDescription" placeholder="Title description"> 
+          </td>
+          <td>
+              <input type="text" v-model="titleIsAvailable" placeholder="Title status"> 
+          </td>
+          <td>
+              <input type="text" v-model="titleType" placeholder="Title type"> 
+          </td>
+          <td>
+              <input type="text" v-model="titleName" placeholder="Title Name"> 
+          </td>
+          <td>
+              <button v-bind:disabled="!titleName" @click="createTitle(titleName)">Create</button>
+          </td>
+      </tr>
         </table>
     </div>
 </template>
