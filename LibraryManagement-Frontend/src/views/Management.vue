@@ -25,7 +25,7 @@
 
 <div class="header">Set Library Schedule</div>
 <div class="header2">Start Time</div>
-                <input id="ts" type="time"
+        <input id="ts" type="time"
        min="09:00" max="22:00" required>
 <div class="header2">End Time</div>
  <input id="te" type="time"
