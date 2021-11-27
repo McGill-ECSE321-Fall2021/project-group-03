@@ -22,11 +22,20 @@ function TitleDto (name, description, genre, isAvailable, titleType){
     export default{
      
         methods:  {
-            createTitle: function(name, description, genre, isAvailable, titleType){
-                let goodUrl = "/titles/create/" + name + "?description=" + description + "&genre=" + genre + "&isAvailable=true" + "&titleType=" + titleType
+            createTitle() {
+                let titleName = document.getElementById("title-name").value
+                console.log(titleName)
+                let description = document.getElementById("title-description").value
+                console.log(description)
+                let genre = document.getElementById("title-genre").value
+                console.log(genre)
+                let type = document.getElementById("title-type").value
+                console.log(type)
+
+                let goodUrl = "/titles/create/" + titleName + "?description=" + description + "&genre=" + genre + "&isAvailable=true" + "&titleType=" + type
                 console.log(goodUrl)
                 AXIOS.post(goodUrl, {}, {}).then(response => {
-                var t = new TitleDto(name, description, genre, true, titleType)
+                var t = new TitleDto(titleName, description, genre, true, type)
                 this.titles.push(t)
                 this.newTitle = ''
                 })
@@ -38,17 +47,6 @@ function TitleDto (name, description, genre, isAvailable, titleType){
             },
 
             displaySuccess(){
-                console.log("displaySuccess()")
-                let titleName = document.getElementById("title-name").value
-                console.log(titleName)
-                let description = document.getElementById("title-description").value
-                console.log(description)
-                let genre = document.getElementById("title-genre").value
-                console.log(genre)
-                let type = document.getElementById("title-type").value
-                console.log(type)
-
-                this.createTitle(titleName, description, genre, true, type)
                 
 
                 // const successMsg = document.querySelector(".success-msg")

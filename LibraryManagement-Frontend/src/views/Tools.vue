@@ -33,7 +33,7 @@
       <div>
         <input
           type="submit"
-          @click="displaySuccess()"
+          @click="createTitle()"
           class="create-title"
           value="Create Title"
         />
