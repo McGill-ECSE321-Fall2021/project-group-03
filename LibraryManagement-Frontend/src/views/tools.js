@@ -105,10 +105,8 @@ function TitleDto (name, description, genre, isAvailable, titleType){
                 })
             }
     
-        },
-
-        
-    components: {
-        MenuBar,
-    }
+        },   
+        components: {
+            MenuBar,
+        }
 }
