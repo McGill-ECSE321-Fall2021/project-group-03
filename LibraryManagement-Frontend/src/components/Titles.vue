@@ -1,8 +1,12 @@
 <template>
   <div>
     <table>
-      <tr v-for="title in titles" :key="title">
-        <td><router-link :to="routerlink(title.name)">View</router-link></td>
+      <tr
+        v-for="title in titles"
+        :key="title"
+        @click="clickRow(title.name)"
+        class="click-appear"
+      >
         <td>{{ title.name }}</td>
         <td>{{ title.titleType }}</td>
         <td>{{ title.genre }}</td>
@@ -30,5 +34,9 @@ th {
 
 tr:nth-child(even) {
   background-color: aliceblue;
+}
+
+.click-appear {
+  cursor: pointer;
 }
 </style>

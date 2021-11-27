@@ -6,7 +6,7 @@
         <th>Type</th>
         <th>Capacity</th>
       </tr>
-      <!-- @click="clickRow() -->
+
       <tr class="click-appear">
         <td>No Macs Allowed Room</td>
         <td>Party</td>
@@ -35,17 +35,6 @@
 </template>
 
 <script src="./rooms.js">
-// <script>
-// export default {
-//   methods: {
-//     clickRow() {
-//       console.log("hi");
-//       // UPDATE LINK
-//       window.location.href = "/#/browse/room/Liamos%20Private%20Room";
-//     },
-//   },
-// };
-//
 </script>
 
 <style scoped>

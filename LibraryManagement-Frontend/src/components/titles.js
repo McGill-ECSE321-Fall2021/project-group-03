@@ -63,6 +63,13 @@ var AXIOS = axios.create({
                 let url = "browse/title/";
                 url += newUrl;
                 return url
-            }
+            },
+
+            clickRow(titleName) {
+                console.log(titleName)
+                let goodUrl = "/#/browse/title/" + titleName;
+                console.log(goodUrl)
+                window.location.href = goodUrl;
+            },
         }
     }
