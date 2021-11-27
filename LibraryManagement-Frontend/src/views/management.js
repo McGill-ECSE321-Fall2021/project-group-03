@@ -41,6 +41,24 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                         console.log(errorMsg)
                         this.errorTitle = errorMsg
                       })
+            },
+
+            fireLibrarian() {
+                let librarianId = document.getElementById("librarian-fire-username").value
+                console.log(librarianId)
+
+                let goodUrl = "/librarians/remove/" + librarianId
+                console.log(goodUrl)
+
+                AXIOS.post(goodUrl, {}, {}).then(response => {
+                    var t = new LibrarianDto (librarianUsername, librarianPassword, librarianFullName, false)
+                    this.titles.push(t)
+                    })
+                    .catch(e => {
+                        var errorMsg = e.response.data.message
+                        console.log(errorMsg)
+                        this.errorTitle = errorMsg
+                      })
             }
         },   
         components: {

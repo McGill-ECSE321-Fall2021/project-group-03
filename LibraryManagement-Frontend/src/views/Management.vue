@@ -38,11 +38,16 @@
 
     <div class="header">Fire Librarian</div>
 
-    <input class="librarian-info" type="text" placeholder="Username" />
+    <input
+      class="librarian-info"
+      type="text"
+      placeholder="Librarian Id"
+      id="librarian-fire-username"
+    />
     <div>
       <input
         type="submit"
-        @click="displaySuccessF()"
+        @click="fireLibrarian()"
         class="delete-librarian"
         value="Fire"
       />
@@ -77,11 +82,6 @@
   </div>
 </template>
 <script src="./management.js">
-// export default {
-//   name: "Home",
-//   components: {
-//     MenuBar,
-//   },
 //   methods: {
 //     displaySuccessH() {
 //       const successMsg = document.querySelector(".success-msgH");
