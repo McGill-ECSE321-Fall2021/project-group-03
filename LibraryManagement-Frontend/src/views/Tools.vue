@@ -6,23 +6,24 @@
       <form action="">
         <input
           class="title-info"
-          id="title-name"
+          id="title-name-create"
           type="text"
           placeholder="Name"
         />
         <input
           class="title-info"
-          id="title-description"
+          id="title-description-create"
           type="text"
           placeholder="Description"
         />
-        <input
-          class="title-info"
-          id="title-genre"
-          type="text"
-          placeholder="Genre"
-        />
-        <select class="title-info" id="title-type" name="type">
+        <select class="title-info" id="title-genre-create" name="type">
+          <option value="None">None</option>
+          <option value="Adventure">Adventure</option>
+          <option value="Action">Action</option>
+          <option value="Comedy">Comedy</option>
+          <option value="Horror">Horror</option>
+        </select>
+        <select class="title-info" id="title-type-create" name="type">
           <option value="Book">Book</option>
           <option value="Movie">Movie</option>
           <option value="MusicAlbum">Music Album</option>
@@ -57,12 +58,13 @@
         type="text"
         placeholder="Description"
       />
-      <input
-        class="title-info"
-        id="title-genre-update"
-        type="text"
-        placeholder="Genre"
-      />
+      <select class="title-info" id="title-genre-update" name="type">
+        <option value="None">None</option>
+        <option value="Adventure">Adventure</option>
+        <option value="Action">Action</option>
+        <option value="Comedy">Comedy</option>
+        <option value="Horror">Horror</option>
+      </select>
       <select class="title-info" id="title-type-update" name="type1">
         <option value="Book">Book</option>
         <option value="Movie">Movie</option>
@@ -78,25 +80,14 @@
         value="Update Title"
       />
     </div>
-    <div class="header">Reserve Title</div>
+    <div class="header">Remove Title</div>
     <div>
       <input
         class="title-info"
-        id="title-name-reserve"
+        id="title-id-delete"
         type="text"
-        placeholder="Name"
+        placeholder="Id"
       />
-      <br />
-      <input
-        type="submit"
-        @click="updateTitle()"
-        class="create-title"
-        value="Reserve Title"
-      />
-    </div>
-    <div class="header">Remove Title</div>
-    <div>
-      <input class="title-info" id="title-id" type="text" placeholder="Id" />
       <br />
       <input
         type="submit"

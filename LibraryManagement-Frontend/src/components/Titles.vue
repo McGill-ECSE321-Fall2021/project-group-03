@@ -1,6 +1,14 @@
 <template>
   <div>
     <table>
+      <tr class="first-row">
+        <td>Name</td>
+        <td>Type</td>
+        <td>Genre</td>
+        <td>Available</td>
+        <td>Description</td>
+        <td>Title Id</td>
+      </tr>
       <tr
         v-for="title in titles"
         :key="title"
@@ -38,5 +46,11 @@ tr:nth-child(even) {
 
 .click-appear {
   cursor: pointer;
+}
+
+.first-row td {
+  font-size: 20px;
+  font-weight: 40px;
+  color: black;
 }
 </style>
