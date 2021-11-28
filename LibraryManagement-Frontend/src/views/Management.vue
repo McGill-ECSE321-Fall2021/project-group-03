@@ -58,15 +58,14 @@
     </div>
 
     <div class="header">Set Library Schedule</div>
-    <div class="header2">Start Time</div>
-    <input id="ts" type="time" min="09:00" max="22:00" required />
-    <div class="header2">End Time</div>
-    <input id="te" type="time" min="09:00" max="22:00" required />
+    <div class="lib-sched-inputs">
+      <input type="date" id="birthday" name="birthday" />
+      <div class="header2">Start Time</div>
+      <input id="ts" type="time" min="09:00" max="22:00" required />
+      <div class="header2">End Time</div>
+      <input id="te" type="time" min="09:00" max="22:00" required />
+    </div>
 
-    <div class="header2">Date</div>
-    <input class="librarian-info" type="text" placeholder="Year" />
-    <input class="librarian-info" type="text" placeholder="Month" />
-    <input class="librarian-info" type="text" placeholder="Day" />
     <div>
       <input
         type="submit"
@@ -264,6 +263,10 @@ input[type="time"] {
   background-color: aliceblue;
   color: darkslategray;
   width: 200px;
+}
+
+.lib-sched-inputs {
+  padding: 10px;
 }
 
 @keyframes fadeIn {

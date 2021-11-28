@@ -847,7 +847,7 @@ public class LibraryManagementService {
 		Client client = null;
 
 		for (User u : library.getUsers()) {
-			if (u instanceof Client && u.getUsername() == username && u.getPassword() == password) {
+			if (u instanceof Client && u.getUsername().equals(username) && u.getPassword().equals(password)) {
 				client = (Client) u;
 			}
 		}
@@ -866,7 +866,7 @@ public class LibraryManagementService {
 		Librarian librarian = null;
 
 		for (User u : library.getUsers()) {
-			if (u instanceof Librarian && u.getUsername() == username && u.getPassword() == password) {
+			if (u instanceof Librarian && u.getUsername().equals(username) && u.getPassword().equals(password)) {
 				librarian = (Librarian) u;
 			}
 		}
@@ -915,6 +915,75 @@ public class LibraryManagementService {
 		client.setEmail(aEmail);
 		client.setFullname(aFullname);
 		client.setPassword(aPassword);
+		client.setResidentialAddress(aResidentialAddress);
+
+		clientRepository.save(client);
+		libraryRepository.save(library);
+
+		return client;
+	}
+	
+	@Transactional
+	public Client updateClientPassword(String aUsername, String aPassword, Library library) {
+
+		Client client = null;
+
+		if (aPassword == null || aPassword.trim().length() == 0) {
+			throw new IllegalArgumentException("Client information cannot be empty!");
+		}
+
+		for (User u : library.getUsers()) {
+			if (u.getUsername().equals(aUsername)) {
+				client = (Client) u;
+			}
+		}
+
+		client.setPassword(aPassword);
+
+		clientRepository.save(client);
+		libraryRepository.save(library);
+
+		return client;
+	}
+	
+	@Transactional
+	public Client updateClientEmail(String aUsername, String aEmail, Library library) {
+
+		Client client = null;
+
+		if (aEmail == null || aEmail.trim().length() == 0) {
+			throw new IllegalArgumentException("Client information cannot be empty!");
+		}
+
+		for (User u : library.getUsers()) {
+			if (u.getUsername().equals(aUsername)) {
+				client = (Client) u;
+			}
+		}
+
+		client.setEmail(aEmail);
+
+		clientRepository.save(client);
+		libraryRepository.save(library);
+
+		return client;
+	}
+	
+	@Transactional
+	public Client updateClientResAddress(String aUsername, String aResidentialAddress, Library library) {
+
+		Client client = null;
+
+		if (aResidentialAddress == null || aResidentialAddress.trim().length() == 0) {
+			throw new IllegalArgumentException("Client information cannot be empty!");
+		}
+
+		for (User u : library.getUsers()) {
+			if (u.getUsername().equals(aUsername)) {
+				client = (Client) u;
+			}
+		}
+
 		client.setResidentialAddress(aResidentialAddress);
 
 		clientRepository.save(client);

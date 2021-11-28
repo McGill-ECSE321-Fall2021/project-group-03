@@ -6,10 +6,10 @@
     <div class="login-form">
       <form class="form" action="">
         <label class="header2" for="username">Username</label>
-        <input type="text" name="username" />
+        <input type="text" id="login-username" name="username" />
         <br />
         <label class="header2" for="password">Password</label>
-        <input type="password" />
+        <input type="password" id="login-password" />
         <br />
         <label for="librarianCheck" class="header2">Librarian Account</label>
         <input type="checkbox" class="isLibrarian" />
@@ -17,13 +17,14 @@
         <input
           @click="loginUser()"
           class="login-btn"
-          type="submit"
+          type="button"
           value="Login"
         />
-        <h1 v-for="user in users" :key="user">{{ user.username }}</h1>
       </form>
     </div>
+
     <br />
+
     <div class="register">
       <button @click="fadeIn()" class="no-account-btn">
         Don't Have an Account?

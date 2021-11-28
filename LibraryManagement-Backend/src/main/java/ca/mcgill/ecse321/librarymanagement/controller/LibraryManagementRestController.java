@@ -189,6 +189,36 @@ public class LibraryManagementRestController {
 		return convertToDto(client);
 	}
 	
+	@PostMapping(value = { "/clients/update/password/{username}", "/clients/update/{username}/" })
+	public ClientDto updateClientPassword(@PathVariable("username") String username, @RequestParam String password) throws IllegalArgumentException {
+
+		Library library = getLibrary();
+
+		Client client = service.updateClientPassword(username, password, library);
+
+		return convertToDto(client);
+	}
+	
+	@PostMapping(value = { "/clients/update/email/{username}", "/clients/update/{username}/" })
+	public ClientDto updateClientEmail(@PathVariable("username") String username, @RequestParam String email) throws IllegalArgumentException {
+
+		Library library = getLibrary();
+
+		Client client = service.updateClientEmail(username, email, library);
+
+		return convertToDto(client);
+	}
+	
+	@PostMapping(value = { "/clients/update/address/{username}", "/clients/update/{username}/" })
+	public ClientDto updateClientResAddress(@PathVariable("username") String username, @RequestParam String residentialAddress) throws IllegalArgumentException {
+
+		Library library = getLibrary();
+
+		Client client = service.updateClientResAddress(username, residentialAddress, library);
+
+		return convertToDto(client);
+	}
+	
 	@PostMapping(value = { "/clients/remove/{username}", "/clients/remove/{username}/" })
 	public void removeClient(@PathVariable("username") String username) throws IllegalArgumentException {
 		Library library = getLibrary();
