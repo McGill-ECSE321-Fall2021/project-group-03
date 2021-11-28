@@ -1,7 +1,7 @@
 <template>
 <div>
     <MenuBar />
-    <div class="header">{{$route.params.name}}</div>
+    <div class="header" id="title-name">{{$route.params.name}}</div>
     <div class="content">
         <div class="header2">Type <span class="info">Book</span></div>
         <div class="header2">Genre <span class="info">Adventure</span></div>
@@ -12,14 +12,7 @@
     </div>
 </div>
 </template>
-<script>
-    import MenuBar from '../components/MenuBar.vue'
-    export default {
-        name: 'Home',
-        components: {
-        MenuBar
-        }
-    }
+<script src="./titleInformation.js">
 </script>
 <style>
 .header {
