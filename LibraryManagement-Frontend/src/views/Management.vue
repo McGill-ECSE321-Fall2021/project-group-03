@@ -163,6 +163,7 @@
   font-weight: 700;
   padding: 10px;
 }
+
 input[type="time"] {
   color: darkslategray;
   font-size: 18px;

@@ -750,6 +750,20 @@ public class LibraryManagementService {
 
 		return thisTitleReservation;
 	}
+	
+	@Transactional
+	public List<TitleReservation> getAllTitleReservationsByUsername(String username) {
+		List<TitleReservation> allReservations = toList(titleReservationRepository.findAll());
+		List<TitleReservation> myReservations = new ArrayList<TitleReservation>();
+		for (TitleReservation tr : allReservations) {
+			if (tr.getClient().getUsername().equals(username)) {
+				myReservations.add(tr);
+			}
+		}
+		
+
+		return allReservations;
+	}
 
 	@Transactional
 	public List<TitleReservation> getAllTitleReservations() {
