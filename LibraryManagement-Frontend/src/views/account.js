@@ -30,6 +30,18 @@ export default{
     components: {
         MenuBar
     },
+
+    mounted: function displayClientTitleReservations(){
+        // AXIOS.get('/titles/get')
+        //     .then(response => {
+        //     // JSON responses are automatically parsed.
+        //     this.titles = response.data
+        //     // console.log(this.titles)
+        //     })
+        //     .catch(e => {
+        //     this.errorTitle = e
+        //     })
+    },
     methods: {
             updateUserEmail() {     
                   

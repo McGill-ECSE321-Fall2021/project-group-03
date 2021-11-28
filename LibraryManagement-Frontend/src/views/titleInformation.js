@@ -1,5 +1,4 @@
 import MenuBar from '../components/MenuBar.vue'
-import TitleDto from './tools'
 import axios from 'axios'
 
 var config = require('../../config')
@@ -22,9 +21,12 @@ export default {
         reserveTitle(){
 
             // create title reservation
-            const titleName = document.getElementById("title-name")
-            let goodUrl = '/titles/reserve/'+ titleName
+            const titleName = document.getElementById("title-name").innerHTML
+            const userLoggedIn = localStorage.getItem("Username")
+
+            let goodUrl = '/titles/reserve/'+ titleName + "?clientUsername=" + userLoggedIn
             AXIOS.post(goodUrl, {}, {}).then(response => {
+                    
                 })
                 .catch(e => {
                     var errorMsg = e.response.data.message

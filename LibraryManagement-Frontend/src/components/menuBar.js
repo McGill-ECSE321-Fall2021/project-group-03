@@ -5,6 +5,18 @@ export default {
   components: {
     Login,
   },
+
+  methods: {
+    logoutUser: function(){
+
+        // logout user by removing localstorage information
+        localStorage.removeItem("Username")
+        localStorage.removeItem("Email")
+        localStorage.removeItem("Password")
+        localStorage.removeItem("isLibrarian")
+        localStorage.removeItem("Address")
+    }
+  },
   mounted: function currentPage() {
 
     let username = localStorage.getItem("Username")
@@ -24,6 +36,7 @@ export default {
         document.querySelector(".room-booking").hidden = false
         document.querySelector(".account").hidden = false
         document.querySelector(".browse").hidden = false
+        document.getElementById("logout-btn").hidden = false
 
         if (isLibrarian){
             document.querySelector(".tools").hidden = false

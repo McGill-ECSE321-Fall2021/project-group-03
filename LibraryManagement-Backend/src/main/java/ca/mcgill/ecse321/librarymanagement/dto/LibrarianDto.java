@@ -16,7 +16,6 @@ public class LibrarianDto extends UserDto {
 		this.fullName = fullName;
 		this.isHeadLibrarian = isHeadLibrarian;
 		
-		
 	}
 	
 	public String getUsername() {
