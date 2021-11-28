@@ -32,6 +32,7 @@ export default {
     else {
         isLibrarian = localStorage.getItem("isLibrarian")
 
+        document.getElementById("login-btn").hidden = true
         document.querySelector(".home").hidden = false
         document.querySelector(".room-booking").hidden = false
         document.querySelector(".account").hidden = false
