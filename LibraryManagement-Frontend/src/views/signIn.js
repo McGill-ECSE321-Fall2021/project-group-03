@@ -22,7 +22,7 @@ export default{
         }
     },
 
-    name: 'Login',
+    name: 'SignIn',
     components: {
         MenuBar
     },

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @load="getClientTitleReservations()">
     <MenuBar />
     <div class="header">Account Info</div>
     <div class="content">
@@ -79,11 +79,9 @@
         <td>Checked Out</td>
       </tr>
       <tr
-        v-for="reservation in getClientReservations()"
+        v-for="reservation in this.reservations"
         :key="reservation"
-        @click="clickRow(title.name)"
         class="click-appear">
-
         <td>{{ reservation.title.name }}</td>
         <td>{{ reservation.returnDate }}</td>
         <td>{{ reservation.checkedOut }}</td>

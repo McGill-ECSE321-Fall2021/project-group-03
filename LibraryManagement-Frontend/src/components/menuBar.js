@@ -1,20 +1,15 @@
-import Login from "../views/Login.vue";
-
 export default {
   name: "MenuBar",
-  components: {
-    Login,
-  },
 
   methods: {
     logoutUser: function(){
-
         // logout user by removing localstorage information
         localStorage.removeItem("Username")
         localStorage.removeItem("Email")
         localStorage.removeItem("Password")
         localStorage.removeItem("isLibrarian")
         localStorage.removeItem("Address")
+        location.reload()
     }
   },
   mounted: function currentPage() {

@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home'
-import Login from '@/views/Login'
+import SignIn from '@/views/SignIn'
 import Browse from '@/views/Browse'
 import Account from '@/views/Account'
 import Room from '@/views/Room'
 import TitleInformation from '@/views/TitleInformation'
-import Tools from '@/views/Tools'
 import Management from '@/views/Management'
 import RoomInformation from '@/views/RoomInformation'
+import Inventory from '@/views/Inventory'
 
 Vue.use(Router)
 
@@ -20,9 +20,9 @@ export default new Router({
       component: Home
     },
     {
-		path: '/login',
-		name: 'Login',
-		component: Login
+		path: '/signin',
+		name: 'SignIn',
+		component: SignIn
 	},
 	{
 		path: '/browse',
@@ -50,9 +50,9 @@ export default new Router({
 		component: TitleInformation
 	},
 	{
-		path: '/tools',
-		name: Tools,
-		component: Tools
+		path: '/inventory',
+		name: Inventory,
+		component: Inventory
 	},
 	{
 		path: '/management',

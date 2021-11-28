@@ -235,7 +235,7 @@ public class LibraryManagementRestController {
 	}
 
 	public ClientDto convertToDto(Client client) {
-		ClientDto clientDto = new ClientDto(client.getUserId(), client.getUsername(), client.getPassword(),
+		ClientDto clientDto = new ClientDto(client.getUsername(), client.getFullname(), client.getPassword(),
 				client.getResidentialAddress(), client.getEmail(), client.getIsResident(), client.getIsOnline());
 		return clientDto;
 	}

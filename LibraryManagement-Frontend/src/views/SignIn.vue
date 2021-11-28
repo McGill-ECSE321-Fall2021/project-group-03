@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <MenuBar /> -->
+        <!-- <MenuBar /> -->
     <a class="home-btn" href="/#/">Home</a>
     <br />
     <div class="login-form">
@@ -63,7 +63,7 @@
     </div>
   </div>
 </template>
-<script src="./login.js">
+<script src="./signIn.js">
 </script>
 <style>
 .home-btn {

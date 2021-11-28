@@ -1,7 +1,7 @@
 <template>
-  <div>
+<div>
     <MenuBar />
-    <div class="header">Create Title</div>
+        <div class="header">Create Title</div>
     <div class="content">
       <form action="">
         <input
@@ -98,11 +98,11 @@
     </div>
     <div class="header">Staff Schedule</div>
     <div class="content">SCHEDULE HERE</div>
-  </div>
+</div> 
 </template>
-<script src="./tools.js">
-</script>
+<script src="./inventory.js">
 
+</script>
 <style scoped>
 .header {
   color: darkslategray;
