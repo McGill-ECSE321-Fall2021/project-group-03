@@ -5,53 +5,17 @@
       <a class="login" href="/#/login">Login</a>
     </div>
     <div class="menu-bar">
-      <a class="home" href="/#/">Home</a>
-      <a class="browse" href="/#/browse">Browse Titles</a>
-      <a class="room-booking" href="/#/rooms">Book a Room</a>
-      <a class="account" href="/#/account">Account Settings</a>
-      <a class="tools" href="/#/tools">Library Tools</a>
-      <a class="management" href="/#/management">Management</a>
+      <a hidden=true class="home" href="/#/">Home</a>
+      <a hidden=true class="browse" href="/#/browse">Browse Titles</a>
+      <a hidden=true class="room-booking" href="/#/rooms">Book a Room</a>
+      <a hidden=true class="account" href="/#/account">Account Settings</a>
+      <a hidden=true class="tools" href="/#/tools">Library Tools</a>
+      <a hidden=true class="management" href="/#/management">Management</a>
     </div>
   </div>
 </template>
-<script>
-import Login from "../views/Login.vue";
+<script src="./menuBar.js">
 
-export default {
-  name: "MenuBar",
-  components: {
-    Login,
-  },
-  mounted: function currentPage() {
-    const url = window.location.href;
-    const host = window.location.host;
-    const path = url.split(host)[1];
-
-    if (path == "/#/") {
-      document.querySelector(".home").className += " active";
-    }
-
-    if (path == "/#/rooms") {
-      document.querySelector(".room-booking").className += " active";
-    }
-
-    if (path == "/#/tools") {
-      document.querySelector(".tools").className += " active";
-    }
-
-    if (path == "/#/management") {
-      document.querySelector(".management").className += " active";
-    }
-
-    if (path == "/#/account") {
-      document.querySelector(".account").className += " active";
-    }
-
-    if (path == "/#/room") {
-      document.querySelector(".room-booking").className += " active";
-    }
-  },
-};
 </script>
 <style scoped>
 .top {
