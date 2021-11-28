@@ -115,6 +115,7 @@ public class LibraryManagementRestController {
 		}
 	}
 	
+	
 	public TitleReservationDto convertToDto(TitleReservation tr) {
 		return new TitleReservationDto(tr.getReturnDate(), tr.getIsCheckedOut(), convertToDto(tr.getTitle()), convertToDto(tr.getClient()), tr.getTitleReservationId());
 	}
@@ -224,6 +225,13 @@ public class LibraryManagementRestController {
 		Library library = getLibrary();
 
 		service.removeClient(username, library);
+	}
+	
+	@GetMapping(value = { "/clients/get/reservations/{username}", "/clients/get/reservations/{username}/" })
+	public List<TitleReservationDto> getTitleReservations(@PathVariable("username") String username) {
+		List<TitleReservation> reservations = service.getAllTitleReservationsByUsername(username);
+		return reservations.stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+
 	}
 
 	public ClientDto convertToDto(Client client) {

@@ -11,6 +11,8 @@ let password = localStorage.getItem("Password")
 let email = localStorage.getItem("Email")
 let address = localStorage.getItem("Address")
 
+let titleReservations = []
+
 var AXIOS = axios.create({
   baseURL: backendUrl,
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
@@ -31,18 +33,33 @@ export default{
         MenuBar
     },
 
-    mounted: function displayClientTitleReservations(){
-        // AXIOS.get('/titles/get')
-        //     .then(response => {
-        //     // JSON responses are automatically parsed.
-        //     this.titles = response.data
-        //     // console.log(this.titles)
-        //     })
-        //     .catch(e => {
-        //     this.errorTitle = e
-        //     })
+    mounted: function getClientTitleReservations(){
+        let username = localStorage.getItem("Username")
+        let url = "/clients/get/reservations/" + username
+        AXIOS.get(url)
+            .then(response => {
+            // JSON responses are automatically parsed.
+            this.titleReservations = response.data
+            console.log(this.titleReservations)
+            })
+            .catch(e => {
+            this.errorTitle = e
+            })
     },
     methods: {
+
+            getClientReservations(){
+                return this.titleReservations
+            },
+
+            displayAvailability: function(isAvailable) {
+                if (isAvailable) {
+                    return "✓"
+                } else {
+                    return "✗"
+                }
+            },
+
             updateUserEmail() {     
                   
                 console.log(username)      

@@ -71,9 +71,24 @@
       type="submit"
       value="Save"
     />
-    <div class="header">Current Holdings</div>
-    <div class="content"></div>
     <div class="header">Current Reservations</div>
+      <table>
+      <tr class="first-row">
+        <td>Title</td>
+        <td>Return Date</td>
+        <td>Checked Out</td>
+      </tr>
+      <tr
+        v-for="reservation in getClientReservations()"
+        :key="reservation"
+        @click="clickRow(title.name)"
+        class="click-appear">
+
+        <td>{{ reservation.title.name }}</td>
+        <td>{{ reservation.returnDate }}</td>
+        <td>{{ reservation.checkedOut }}</td>
+      </tr>
+    </table>
     <div class="content"></div>
   </div>
 </template>
@@ -82,8 +97,34 @@
 <script src="./account.js">
 </script>
 
-
 <style scoped>
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid aliceblue;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: aliceblue;
+}
+
+.click-appear {
+  cursor: pointer;
+}
+
+.first-row td {
+  font-size: 20px;
+  font-weight: 40px;
+  color: black;
+}
+
 .save {
   width: 300px;
   background-color: darkslategray;

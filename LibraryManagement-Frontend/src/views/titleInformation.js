@@ -23,15 +23,20 @@ export default {
             // create title reservation
             const titleName = document.getElementById("title-name").innerHTML
             const userLoggedIn = localStorage.getItem("Username")
+            let msg = document.getElementById("msg")
 
             let goodUrl = '/titles/reserve/'+ titleName + "?clientUsername=" + userLoggedIn
             AXIOS.post(goodUrl, {}, {}).then(response => {
-                    
+                    msg.style.color = "green"
+                    msg.hidden = false
+                    msg.innerHTML = "Successfully reserved the title"
                 })
                 .catch(e => {
                     var errorMsg = e.response.data.message
-                    console.log(errorMsg)
                     this.errorReservation = errorMsg
+                    msg.style.color = "red"
+                    msg.hidden = false
+                    msg.innerHTML = "Cannot reserve title"
                   })
         }
     }
