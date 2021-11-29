@@ -36,12 +36,12 @@ export default new Router({
 	{
 		path: '/rooms/',
 		name: Room,
-		component: Room
+		component: require('../views/Room.vue').default
 	},
 	{
 		path: '/browse/room/:name',
 		name: RoomInformation,
-		component: RoomInformation
+		component: require('../views/RoomInformation.vue').default
 	},
 	{
 		path: '/browse/title/:name',

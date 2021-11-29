@@ -127,10 +127,10 @@ public class LibraryManagementRestController {
 			throws IllegalArgumentException {
 		Library library = getLibrary();
 
-		Date date = new Date(Calendar.getInstance().getTime().getTime());
-		Date returnDate = sqlDatePlusDays(date);
 
-		TitleReservation titleReservation = service.createTitleReservation(returnDate, true, titleName, clientUsername, library);
+		TitleReservation titleReservation = service.getTitleReservationByTitleNameAndClient(titleName, clientUsername);
+
+		service.updateTitleReservation(titleReservation, library);
 
 		return convertToDto(titleReservation.getTitle());
 	}

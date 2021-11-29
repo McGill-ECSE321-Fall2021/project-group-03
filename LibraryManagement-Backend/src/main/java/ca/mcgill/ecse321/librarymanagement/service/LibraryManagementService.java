@@ -880,6 +880,18 @@ public class LibraryManagementService {
 	}
 	
 	@Transactional
+	public TitleReservation getTitleReservationByTitleNameAndClient(String titleName, String username) {
+		List<TitleReservation> titleReservations = toList(titleReservationRepository.findAll());
+		TitleReservation thisTitleReservation = null;
+		for(TitleReservation tr : titleReservations) {
+			if(tr.getTitle().getName() == titleName && tr.getClient().getUsername() == username) {
+				thisTitleReservation = tr;
+			}
+		}
+		return thisTitleReservation;
+	}
+	
+	@Transactional
 	public List<TitleReservation> getAllTitleReservationsByUsername(String username) {
 		List<TitleReservation> allReservations = toList(titleReservationRepository.findAll());
 		List<TitleReservation> myReservations = new ArrayList<TitleReservation>();
