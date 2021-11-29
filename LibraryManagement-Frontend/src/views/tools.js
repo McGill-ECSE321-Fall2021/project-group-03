@@ -46,6 +46,39 @@ function TitleDto (name, description, genre, isAvailable, titleType){
                   })
             },
 
+            expandInventory(){
+                const content = document.getElementById("inventory")
+                if (content.style.display == "none"){
+                    content.style.display = "block"
+                }
+
+                else {
+                    content.style.display = "none"
+                }
+            },
+
+            expandStaffSchedule(){
+                const content = document.getElementById("staff-schedule")
+                if (content.style.display == "none"){
+                    content.style.display = "block"
+                }
+
+                else {
+                    content.style.display = "none"
+                }
+            },
+
+            expandCheckout(){
+                const content = document.getElementById("checkout-title")
+                if (content.style.display == "none"){
+                    content.style.display = "block"
+                }
+
+                else {
+                    content.style.display = "none"
+                }
+            },
+
             displaySuccess(){
                 
 

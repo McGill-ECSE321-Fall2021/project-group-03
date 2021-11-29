@@ -1,8 +1,9 @@
 <template>
 <div>
     <MenuBar />
-        <div class="header">Create Title</div>
-    <div class="content">
+    <button @click="expandInventory()" class="collapsible">Inventory Management</button>
+    <div id="inventory" class="content">
+    <div class="header">Create Title</div>
       <form action="">
         <input
           class="title-info"
@@ -43,7 +44,6 @@
         >
         <span hidden="true" class="header2 error-msg">Error message</span>
       </div>
-    </div>
     <div class="header">Update Title</div>
     <div>
       <input
@@ -96,8 +96,42 @@
         value="Delete Title"
       />
     </div>
-    <div class="header">Staff Schedule</div>
-    <div class="content">SCHEDULE HERE</div>
+    </div>
+    <button @click="expandStaffSchedule()" class="collapsible">Staff Schedule</button>
+    <div id="staff-schedule" class="content">
+      <div class="header">Staff Schedule</div>
+      Schedule will be here!!!
+    </div>
+    <button @click="expandCheckout()" class="collapsible">Checkout Title</button>
+    <div id="checkout-title" class="content">
+      <div class="header">Checkout Title</div>
+      <span class="header2">Client</span>
+      <input
+        class="title-info"
+        id="title-id-delete"
+        type="text"
+        placeholder="First Name"
+      />
+      <input
+        class="title-info"
+        type="text"
+        placeholder="Last Name"
+      />
+      <br>
+      <span class="header2">Title</span>
+      <input
+        class="title-info"
+        type="text"
+        placeholder="Title Name"
+      />
+      <br>
+      <input
+          type="submit"
+          @click="createTitle()"
+          class="create-title"
+          value="Create Title"
+        />
+    </div>
 </div> 
 </template>
 <script src="./tools.js">
@@ -170,4 +204,35 @@
   padding-bottom: 10px;
   padding: 10px;
 }
+
+.collapsible{
+  margin-top: 10px;
+  background-color: cadetblue;
+  color:aliceblue;
+  border: none;
+  text-align: left;
+  outline: none;
+  width: 100%; 
+  padding: 10px;
+}
+
+.collapsible:hover{
+  margin-top: 10px;
+  background-color: rgb(63, 102, 105);
+  color:aliceblue;
+  border: none;
+  text-align: left;
+  outline: none;
+  width: 100%; 
+  padding: 10px;
+}
+
+.content{
+  overflow: hidden;
+  padding: 0 10px;
+  display: none;
+  background-color: rgb(227, 243, 243);
+
+}
+
 </style>

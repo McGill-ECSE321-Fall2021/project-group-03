@@ -161,7 +161,13 @@ public class LibraryManagementService {
 
 		catch (Exception e) {
 			Library library = new Library();
+			
+			// create head librarian
+			Librarian head = new Librarian("headLibrarian", "head", "Head Librarian", true);
+			library.addUser(head);
+			
 			libraryRepository.save(library);
+			librarianRepository.save(head);
 			return library;
 		}
 
