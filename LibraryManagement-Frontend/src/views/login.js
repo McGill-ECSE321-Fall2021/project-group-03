@@ -1,5 +1,6 @@
 import MenuBar from '../components/MenuBar.vue'
 import axios from 'axios'
+import { BIconPause } from 'bootstrap-vue'
 
 var config = require('../../config')
 
@@ -10,6 +11,8 @@ var AXIOS = axios.create({
   baseURL: backendUrl,
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
+
+let errorMsg = "";
 
 export default{
     data(){
@@ -155,13 +158,14 @@ export default{
             console.log(goodUrl)
 
             AXIOS.post(goodUrl, {}, {}).then(response => {
-            var t = new ClientDto(username, fullName, password, address, email, isResident, true)
-            this.users.push(t)
+                var t = new ClientDto(username, fullName, password, address, email, isResident, true)
+                this.users.push(t)
+
+
             })
             .catch(e => {
-                var errorMsg = e.response.data.message
-                console.log(errorMsg)
-                this.errorTitle = errorMsg
+                this.setErrorMsg2("Username is already taken");
+                return
             })
 
             // console.log("here")
@@ -171,6 +175,9 @@ export default{
             password2 = ""
             username = ""
             fullName = ""
+
+            setTimeout(1000)
+            this.loginNewUser()
             
         },
 
@@ -180,6 +187,41 @@ export default{
 
         setErrorMsg2(msg) {
             document.getElementById("error-msg2").innerHTML = msg
-        }
+        },
+
+        loginNewUser(){
+            let username = document.getElementById("create-username").value
+            let password = document.getElementById("create-password").value
+            
+            let goodUrl = "/clients/login/" + username + "?password=" + password
+            console.log(goodUrl)
+            AXIOS.get(goodUrl, {}).then(response => {
+                console.log(response.data)
+
+                let responseUser = response.data.username;
+                let responseEmail = response.data.email;
+                let responsePassword = response.data.password;
+                let responseAddress = response.data.residentialAddress;
+
+                window.location.href = "/#/"
+
+                localStorage.setItem("Username", responseUser);
+                localStorage.setItem("Email", responseEmail);
+                localStorage.setItem("Password", responsePassword);
+                localStorage.setItem("Address", responseAddress);
+                localStorage.setItem("isLibrarian", false);
+
+            })
+            .catch(e => {
+                console.log(e)
+                this.errorLogin = e
+            })
+            
+            
+            username = ""
+            password = ""
+        },
+
+        
     }
 }

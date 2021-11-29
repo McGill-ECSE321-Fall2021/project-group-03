@@ -5,7 +5,7 @@
     <div class="content">
       <div class="header2">
         Username:
-        <span class="info username">
+        <span class="info username" id="user-username">
           {{ displayUsername() }}
         </span>
       </div>
@@ -64,6 +64,7 @@
       </div>
     </div>
     <br />
+    <div id="account-updating"></div>
     <input
       @click="saveInfo()"
       hidden="true"
@@ -72,7 +73,7 @@
       value="Save"
     />
     <div class="header">Current Reservations</div>
-      <table>
+    <table>
       <tr class="first-row">
         <td>Title</td>
         <td>Return Date</td>
@@ -81,7 +82,8 @@
       <tr
         v-for="reservation in this.reservations"
         :key="reservation"
-        class="click-appear">
+        class="click-appear"
+      >
         <td>{{ reservation.title.name }}</td>
         <td>{{ reservation.returnDate }}</td>
         <td>{{ reservation.checkedOut }}</td>
@@ -96,7 +98,6 @@
 </script>
 
 <style scoped>
-
 table {
   border-collapse: collapse;
   width: 100%;
@@ -174,6 +175,7 @@ tr:nth-child(even) {
   font-size: 35px;
   font-weight: 700;
   padding: 10px;
+  text-align: center;
 }
 
 .header2 {
@@ -225,14 +227,15 @@ body {
   border-radius: 10px;
 }
 
-.title-name {
-  border-radius: 6px;
-  width: 500px;
-}
-
 .filter-input {
   border-radius: 6px;
   width: 200px;
+  margin-left: 10px;
+}
+
+#account-updating {
+  font-size: 20px;
+  color: green;
   margin-left: 10px;
 }
 </style>

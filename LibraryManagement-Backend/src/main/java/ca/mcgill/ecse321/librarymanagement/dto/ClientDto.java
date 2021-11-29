@@ -24,7 +24,7 @@ public class ClientDto extends UserDto {
 	public String getResidentialAddress() {
 		return residentialAddress;
 	}
-	
+	  
 	public String getfullName() {
 		return fullName;
 	}

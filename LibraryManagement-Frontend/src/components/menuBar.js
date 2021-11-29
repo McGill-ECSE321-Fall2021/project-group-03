@@ -4,11 +4,12 @@ export default {
   methods: {
     logoutUser: function(){
         // logout user by removing localstorage information
-        localStorage.removeItem("Username")
-        localStorage.removeItem("Email")
-        localStorage.removeItem("Password")
-        localStorage.removeItem("isLibrarian")
-        localStorage.removeItem("Address")
+        // localStorage.removeItem("Username")
+        // localStorage.removeItem("Email")
+        // localStorage.removeItem("Password")
+        // localStorage.removeItem("isLibrarian")
+        // localStorage.removeItem("Address")
+        localStorage.clear()
         location.reload()
     }
   },
@@ -26,8 +27,6 @@ export default {
     else {
         const isLibrarian = localStorage.getItem("isLibrarian")
 
-        console.log(isLibrarian)
-
         document.getElementById("login-btn").hidden = true
         document.querySelector(".home").hidden = false
         document.querySelector(".room-booking").hidden = false
@@ -36,7 +35,6 @@ export default {
         document.getElementById("logout-btn").hidden = false
 
         if (isLibrarian == "true"){
-          console.log(123)
           document.querySelector(".tools").hidden = false
 
             // if (isHeadLibrarian){

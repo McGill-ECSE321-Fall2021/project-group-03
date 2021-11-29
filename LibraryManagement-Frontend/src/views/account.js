@@ -1,5 +1,6 @@
 import MenuBar from '../components/MenuBar.vue'
 import axios from 'axios'
+import { timers } from 'jquery'
 
 var config = require('../../config')
 
@@ -93,17 +94,6 @@ export default{
                 }
               },
           
-            editUsername() {
-                const save = document.querySelector(".save");
-          
-                if (save.hidden) {
-                  document.querySelector(".save").hidden = false;
-                  document.querySelector(".save").className += " fadeIn";
-                }
-                document.querySelector(".edit-username").hidden = false;
-                document.querySelector(".edit-username").className += " fadeIn";
-            },
-          
             editPassword() {
                 const save = document.querySelector(".save");
           
@@ -138,17 +128,14 @@ export default{
             },
           
             saveInfo() {
-                // document.querySelector(".edit-username").hidden = true;
-                // document.querySelector(".edit-password").hidden = true;
-                // document.querySelector(".edit-email").hidden = true;
-                // document.querySelector(".edit-address").hidden = true;
-                // document.querySelector(".save").hidden = true;
-
                 let newPassword = document.getElementById("update-password").value
                 let newEmail = document.getElementById("update-email").value
                 let newAddress = document.getElementById("update-address").value
+                
+                this.updateInfo("Updating account information")
+                
 
-                if (newPassword != "") {
+                setTimeout(() => {if (newPassword != "") {
                     let goodUrl = "/clients/update/password/" + username + "?password=" + newPassword
                     console.log(goodUrl)
 
@@ -160,9 +147,12 @@ export default{
                             console.log(errorMsg)
                             this.errorTitle = errorMsg
                         })
-                }
 
-                if (newEmail != "" && newEmail != null ) {
+                    localStorage.setItem("Password", newPassword);
+                    console.log("hello1")
+                }}, 500);
+
+                setTimeout(() => {if (newEmail != "" && newEmail != null ) {
                     let goodUrl = "/clients/update/email/" + username + "?email=" + newEmail
                     console.log(goodUrl)
 
@@ -174,9 +164,11 @@ export default{
                             console.log(errorMsg)
                             this.errorTitle = errorMsg
                         })
-                }
 
-                if (newAddress != "") {
+                    localStorage.setItem("Email", newEmail);
+                }}, 1500);
+
+                setTimeout(() => {if (newAddress != "") {
                     let goodUrl = "/clients/update/address/" + username + "?residentialAddress=" + newAddress
                     console.log(goodUrl)
 
@@ -188,18 +180,21 @@ export default{
                             console.log(errorMsg)
                             this.errorTitle = errorMsg
                         })
-                }
 
-                newPassword = "";
-                newEmail = "";
-                newAddress = "";
+                    localStorage.setItem("Address", newAddress);
+                    console.log("hello3")
+                }}, 2000);
+
+
+                setTimeout(() => {location.reload()}, 4000);
+                
             },
 
             displayUsername() {
                 return username;
             },
 
-              displayPassword() {
+            displayPassword() {
                 return password;
             },
 
@@ -209,6 +204,10 @@ export default{
 
             displayAddress() {
                 return address;
+            },
+
+            updateInfo(msg) {
+                document.getElementById("account-updating").innerHTML = msg;
             }
     }
 };
