@@ -48,35 +48,64 @@ function TitleDto (name, description, genre, isAvailable, titleType){
 
             expandInventory(){
                 const content = document.getElementById("inventory")
+                const icon = document.getElementById("arrow-inventory")
+
                 if (content.style.display == "none"){
                     content.style.display = "block"
+                    icon.innerHTML = "-"
                 }
 
                 else {
                     content.style.display = "none"
+                    icon.innerHTML = "+"
                 }
             },
 
             expandStaffSchedule(){
-                const content = document.getElementById("staff-schedule")
+                const content = document.getElementById
+                ("staff-schedule")
+                const icon = document.getElementById("arrow-staff")
                 if (content.style.display == "none"){
                     content.style.display = "block"
+                    icon.innerHTML = "-"
                 }
 
                 else {
                     content.style.display = "none"
+                    icon.innerHTML = "+"
                 }
             },
 
             expandCheckout(){
                 const content = document.getElementById("checkout-title")
+                const icon = document.getElementById("arrow-checkout")
                 if (content.style.display == "none"){
                     content.style.display = "block"
+                    icon.innerHTML = "-"
                 }
 
                 else {
                     content.style.display = "none"
+                    icon.innerHTML = "+"
                 }
+            },
+
+            checkoutTitle(){
+
+                const titleName = document.getElementById("title-name").value
+
+                const clientUsername = document.getElementById("client-username").value
+                
+                let goodUrl = "/titles/checkout/" + titleName + "?clientUsername=" + clientUsername
+                
+                AXIOS.post(goodUrl, {}, {}).then(response => {
+                    console.log(response)
+                })
+                .catch(e => {
+                    var errorMsg = e.response.data.message
+                    console.log(errorMsg)
+                    this.errorTitle = errorMsg
+                })
             },
 
             displaySuccess(){
