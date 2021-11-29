@@ -44,3 +44,12 @@ Ensure that all meetings, design decisions and other major events of the design 
 
 
 [Click this link to see our Project Report](https://github.com/McGill-ECSE321-Fall2021/project-group-03/wiki/Project-Report)
+
+## Deploying the Front End
+In order to deploy the front-end, run npm run dev. This will deploy a session of the front end to the designated host configured in the config files of the project. By default it will be deployed on a local server with port 8087 (differs from port 8080 which is used for back-end calls)
+
+## Deploying the Back End
+In order to run our application, follow these steps:
+
+run the libraryManagementApplication.java file as a spring boot application. This can be found in the ca.mcgill.ecse321.librarymanagement package.
+Once running, sign into postman. This application can be accessed using the server port 8080.
