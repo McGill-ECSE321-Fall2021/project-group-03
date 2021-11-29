@@ -1,7 +1,7 @@
 <template>
 <div>
     <MenuBar />
-    <button @click="expandInventory()" class="collapsible"><span id="arrow-inventory">+</span> Inventory Management</button>
+    <button @click="expandInventory()" class="collapsible">Inventory Management</button>
     <div id="inventory" class="content">
     <div class="header">Create Title</div>
       <form action="">
@@ -97,33 +97,39 @@
       />
     </div>
     </div>
-    <button @click="expandStaffSchedule()" class="collapsible"><span id="arrow-staff">+</span> Staff Schedule</button>
+    <button @click="expandStaffSchedule()" class="collapsible">Staff Schedule</button>
     <div id="staff-schedule" class="content">
       <div class="header">Staff Schedule</div>
       Schedule will be here!!!
     </div>
-    <button @click="expandCheckout()" class="collapsible"><span id="arrow-checkout">+</span> Checkout Title</button>
+    <button @click="expandCheckout()" class="collapsible">Checkout Title</button>
     <div id="checkout-title" class="content">
       <div class="header">Checkout Title</div>
+      <span class="header2">Client</span>
       <input
         class="title-info"
-        id="client-username"
+        id="title-id-delete"
         type="text"
-        placeholder="Client Username"
+        placeholder="First Name"
+      />
+      <input
+        class="title-info"
+        type="text"
+        placeholder="Last Name"
       />
       <br>
+      <span class="header2">Title</span>
       <input
         class="title-info"
-        id="title-name"
         type="text"
         placeholder="Title Name"
       />
       <br>
       <input
           type="submit"
-          @click="checkoutTitle()"
+          @click="createTitle()"
           class="create-title"
-          value="Checkout"
+          value="Create Title"
         />
     </div>
 </div> 
