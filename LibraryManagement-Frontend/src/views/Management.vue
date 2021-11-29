@@ -1,7 +1,9 @@
 <template>
   <div>
     <MenuBar />
+    <button @click="expandLibrarianManagement()" class="collapsible"><span id="arrow-librarian-management">+</span> Librarian Management</button>
 
+    <div class="content" id="librarian-management">
     <div class="header">Hire Librarian</div>
 
     <input
@@ -56,7 +58,10 @@
       >
       <span hidden="true" class="header2 error-msgF">Error message</span>
     </div>
+  </div>
+  <button @click="expandLibraryScheduling()" class="collapsible"><span id="arrow-library-scheduling">+</span> Library Scheduling</button>
 
+  <div class="content" id="library-schedule">
     <div class="header">Set Library Schedule</div>
     <div class="lib-sched-inputs">
       <input type="date" id="birthday" name="birthday" />
@@ -77,6 +82,7 @@
         >Library Schedule Successfully Set.</span
       >
       <span hidden="true" class="header2 error-msgSET">Error message</span>
+    </div>
     </div>
   </div>
 </template>
@@ -278,4 +284,33 @@ input[type="time"] {
     opacity: 1;
   }
 }
+
+.collapsible{
+  margin-top: 10px;
+  background-color: cadetblue;
+  color:aliceblue;
+  border: none;
+  text-align: left;
+  outline: none;
+  width: 100%; 
+  padding: 10px;
+}
+.collapsible:hover{
+  margin-top: 10px;
+  background-color: rgb(63, 102, 105);
+  color:aliceblue;
+  border: none;
+  text-align: left;
+  outline: none;
+  width: 100%; 
+  padding: 10px;
+}
+
+.content{
+  overflow: hidden;
+  padding: 0 10px;
+  display: none;
+  background-color: rgb(227, 243, 243);
+}
+
 </style>

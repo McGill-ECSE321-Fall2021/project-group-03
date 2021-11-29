@@ -16,7 +16,7 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: require('../views/Home.vue').default
     },
     {
 		path: '/login',
@@ -26,7 +26,7 @@ export default new Router({
 	{
 		path: '/browse',
 		name: 'Browse',
-		component: Browse
+		component: require('../views/Browse.vue').default
 	},
 	{
 		path: '/account',
@@ -56,7 +56,7 @@ export default new Router({
 	{
 		path: '/management',
 		name: Management,
-		component: Management
+		component: require('../views/Management.vue').default
 	}
   ]
 })

@@ -56,7 +56,7 @@ export default {
   name: "Home",
   components: {
     MenuBar,
-  },
+  }
 };
 </script>
 <style scoped>

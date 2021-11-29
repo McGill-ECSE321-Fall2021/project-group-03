@@ -37,9 +37,9 @@ export default {
         if (isLibrarian == "true"){
           document.querySelector(".tools").hidden = false
 
-            // if (isHeadLibrarian){
-            //     document.querySelector(".management").hidden = false
-            // }
+            if (username == "headLibrarian"){
+               document.querySelector(".management").hidden = false
+            }
         }
     }
 

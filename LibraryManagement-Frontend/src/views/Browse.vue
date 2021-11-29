@@ -6,12 +6,12 @@
         <div class="content">
             <form action="">
                 <input type="text" class="title-name" placeholder="Search title...">
-                <input class="submit-btn" type="submit" value="Search">
+                <input @click="filterSearch()" class="submit-btn" type="submit" value="Search">
                 <br>
-                <button @click="reveal" class="more-filters-btn">More Filters</button>
+                <button @click="reveal()" class="more-filters-btn">More Filters</button>
                 <div class="more-filters" hidden=true>                    
                     <label for="title-type">Type</label>
-                    <select name="title-type" class="filter-input">
+                    <select name="title-type" class="filter-input" id="type">
                         <option value="all">All</option>
                         <option value="book">Book</option>
                         <option value="movie">Movie</option>
@@ -21,7 +21,7 @@
                     </select>
                     <br>
                     <label for="genre">Genre</label>
-                    <select name="genre" class="filter-input">
+                    <select name="genre" class="filter-input" id="genre">
                         <option value="all">All</option>
                         <option value="adventure">Adventure</option>
                         <option value="action">Action</option>
@@ -33,30 +33,64 @@
         </div>
         <div class="header">Titles</div>
         <div class="content titles">
-            <Titles />
+            <table>
+      <tr class="first-row">
+        <td>Name</td>
+        <td>Type</td>
+        <td>Genre</td>
+        <td>Available</td>
+        <td>Description</td>
+        <td>Title Id</td>
+      </tr>
+      <tr
+        v-for="title in titles"
+        :key="title"
+        @click="clickRow(title.name)"
+        class="click-appear">
+
+        <td>{{ title.name }}</td>
+        <td>{{ title.titleType }}</td>
+        <td>{{ title.genre }}</td>
+        <td>{{ displayAvailability(title.available) }}</td>
+        <td>{{ title.description }}</td>
+        <td>{{ title.titleId }}</td>
+      </tr>
+    </table>
         </div>
     </div>
 </div>
 </template>
 
-<script>
-import MenuBar from '../components/MenuBar.vue'
-import Titles from '../components/Titles.vue'
-export default {
-    name: 'Home',
-    components: {
-    MenuBar,
-    Titles
-    },
-    methods: {
-        reveal(){
-            document.querySelector(".more-filters").hidden = (document.querySelector(".more-filters").hidden) ? false : true
-        }
-    }
-}
-
+<script src="../components/titles.js">
 </script>
+
 <style scoped>
+
+    table {
+    border-collapse: collapse;
+    width: 100%;
+    }
+
+    td,th {
+    border: 1px solid aliceblue;
+    text-align: left;
+    padding: 8px;
+    }
+
+    tr:nth-child(even) {
+    background-color: aliceblue;
+    }
+
+    .click-appear {
+    cursor: pointer;
+    }
+
+    .first-row td {
+    font-size: 20px;
+    font-weight: 40px;
+    color: black;
+    }
+
     .header {
         color: darkslategray;
         font-size: 35px;

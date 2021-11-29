@@ -21,6 +21,35 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
     export default{
      
         methods:  {
+
+            expandLibraryScheduling(){
+                const content = document.getElementById("library-schedule")
+                const icon = document.getElementById("arrow-library-scheduling")
+
+                if (content.style.display == "none"){
+                    content.style.display = "block"
+                    icon.innerHTML = "-"
+                }
+
+                else {
+                    content.style.display = "none"
+                    icon.innerHTML = "+"
+                }
+            },
+            expandLibrarianManagement(){
+                const content = document.getElementById("librarian-management")
+                const icon = document.getElementById("arrow-librarian-management")
+
+                if (content.style.display == "none"){
+                    content.style.display = "block"
+                    icon.innerHTML = "-"
+                }
+
+                else {
+                    content.style.display = "none"
+                    icon.innerHTML = "+"
+                }
+            },
             hireLibrarian() {
                 let librarianUsername = document.getElementById("librarian-hire-username").value
                 console.log(librarianUsername)

@@ -28,28 +28,6 @@
 <script src="./titles.js">
 </script>
 <style>
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-td,
-th {
-  border: 1px solid aliceblue;
-  text-align: left;
-  padding: 8px;
-}
 
-tr:nth-child(even) {
-  background-color: aliceblue;
-}
 
-.click-appear {
-  cursor: pointer;
-}
-
-.first-row td {
-  font-size: 20px;
-  font-weight: 40px;
-  color: black;
-}
 </style>
