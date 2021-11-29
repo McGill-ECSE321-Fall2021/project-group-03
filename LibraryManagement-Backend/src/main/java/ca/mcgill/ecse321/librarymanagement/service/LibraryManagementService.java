@@ -811,7 +811,19 @@ public class LibraryManagementService {
 	// sets titleReservation IsCheckedOut=true
 	@Transactional
 	public TitleReservation updateTitleReservation(TitleReservation titleReservation, Library library) {
+		if(titleReservation.getIsCheckedOut() == true) {
+			throw new IllegalArgumentException("Title is already checked out!");
+		}
+		
+		if(titleReservation.getClient() == null) {
+			throw new IllegalArgumentException("Client is null!");
+		}
+		if(titleReservation.getTitle() == null) {
+			throw new IllegalArgumentException("Title is null!");
+		}
+		
 		titleReservation.setIsCheckedOut(true);
+		
 
 		titleReservationRepository.save(titleReservation);
 		libraryRepository.save(library);
