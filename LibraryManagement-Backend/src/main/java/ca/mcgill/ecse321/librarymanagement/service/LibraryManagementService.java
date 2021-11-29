@@ -157,11 +157,23 @@ public class LibraryManagementService {
 	public Library getLibrary() {
 		try {
 			Library library = toList(libraryRepository.findAll()).get(0);
+			if (library.getLibrarySchedule() == null) {
+				Schedule librarySchedule = new Schedule();
+				library.setLibrarySchedule(librarySchedule);
+				return library;
+			}
+			
 		}
 
 		catch (Exception e) {
 			Library library = new Library();
+			
+			// create head librarian
+			Librarian head = new Librarian("headLibrarian", "head", "Head Librarian", true);
+			library.addUser(head);
+			
 			libraryRepository.save(library);
+			librarianRepository.save(head);
 			return library;
 		}
 
@@ -292,7 +304,7 @@ public class LibraryManagementService {
 	public Timeslot createLibraryTimeslot(Time startTime, Time endTime, Date date, Schedule librarySchedule,
 			Library library) {
 		
-		if (startTime == null || endTime == null || date == null || librarySchedule == null) {
+		if (startTime == null || endTime == null || date == null) {
 			throw new IllegalArgumentException("Library time slot cannot be empty");
 		}
 
@@ -317,6 +329,21 @@ public class LibraryManagementService {
 		timeslotRepository.save(timeslot);
 		scheduleRepository.save(librarySchedule);
 		libraryRepository.save(library);
+		
+		//now we need to add all of this to each room
+		System.out.println("worked until here");
+
+		if (library.getRooms().size() != 0 ) {
+			System.out.println("there is a room");
+			
+			for (int i = 0; i<library.getRooms().size(); i++) {
+				Room room = library.getRoom(i);
+				addRoomReservations(timeslot, room, library);
+
+			}
+		}
+		System.out.println("is it return issue");
+
 
 		return timeslot;
 	}
@@ -422,10 +449,38 @@ public class LibraryManagementService {
 		}
 
 		Room room = new Room(capacity, isAvailable, roomType);
-		library.addRoom(room);
 		roomRepository.save(room);
-		libraryRepository.save(library);
+		library.addRoom(room);
+		
+		
+		if (library.getLibrarySchedule().getTimeslots() != null) {
+			
+
+			for (Timeslot timeslot : library.getLibrarySchedule().getTimeslots()) {
+
+				addRoomReservations(timeslot, room, library);
+			}
+		}
+		
+		roomRepository.save(room);
+
+		
 		return room;
+	}
+
+	public void addRoomReservations(Timeslot libraryTimeslot, Room room, Library library) {
+		Date date = libraryTimeslot.getDate();
+		Time startHour = libraryTimeslot.getStartTime();
+		Time endHour = libraryTimeslot.getEndTime();
+		
+		for (int i = startHour.getHours(); i<endHour.getHours(); i++) { 
+			Client client = new Client("null", "pass", "lee", "shalom avenue", "hihi", true, true);
+			clientRepository.save(client);
+			RoomReservation roomReservation = new RoomReservation(new Time(i, 0, 0), new Time(i+1, 0, 0), date, room, client);
+			library.addRoomReservation(roomReservation);
+			roomReservationRepository.save(roomReservation);
+			libraryRepository.save(library);
+		}
 	}
 
 	@Transactional
@@ -463,6 +518,10 @@ public class LibraryManagementService {
 
 		Room room = roomRepository.findRoomByRoomId(roomId);
 		Client client = clientRepository.findClientByUserId(clientId);
+		
+		//for all library hours, we made new reservations that are available, indicated by client being null
+		//if the client is not null, that means its already booked so you cannot add a reservation
+		
 
 		if (room == null && client == null) {
 			throw new IllegalArgumentException("room reservations must include a valid client and room");
@@ -493,6 +552,21 @@ public class LibraryManagementService {
 		roomReservationRepository.save(roomReservation);
 		return roomReservation;
 	}
+	
+	@Transactional
+	public RoomReservation updateRoomReservation(int roomReservationId, int userId, Library library) {
+		Client client = clientRepository.findClientByUserId(userId);
+		RoomReservation roomReservation = roomReservationRepository.findRoomReservationByTimeslotId(roomReservationId);
+
+		if ( !roomReservation.getClient().getUsername().equals("null")) {
+			throw new IllegalArgumentException("This room reservation is already booked");
+		} else {
+			roomReservation.setClient(client);
+			return roomReservation;
+
+		}
+
+	}
 
 	@Transactional
 	public void removeRoomReservation(int roomId, int userId, Library library) {
@@ -512,6 +586,20 @@ public class LibraryManagementService {
 		roomReservationRepository.delete(roomReservation);
 		libraryRepository.save(library);
 	}
+	
+	@Transactional
+	public ArrayList<RoomReservation> getRoomReservationsByRoom(int roomId){
+		ArrayList<RoomReservation> roomReservations = new ArrayList<RoomReservation>();
+		Library library = getLibrary();
+		for (RoomReservation roomReservation : library.getRoomReservations()) {
+			if (roomReservation.getRoom().getRoomId() == roomId && roomReservation.getClient().getUsername().equals("null")) {
+				roomReservations.add(roomReservation);
+			}
+		}
+		return roomReservations;
+		
+	}
+	
 
 	@Transactional
 	public Timeslot createStaffScheduleTimeslot(Time startTime, Time endTime, Date date, Library library,
@@ -669,6 +757,14 @@ public class LibraryManagementService {
 				title = t;
 			}
 		}
+		for (Title t : library.getTitles()) {
+			if(t.getName().equals(titleName) && t.getTitleType() == TitleType.Newspaper){
+				throw new IllegalArgumentException("Cannot reserve a newspaper!");
+			}
+			if(t.getName().equals(titleName) && t.getTitleType() == TitleType.Archives){
+				throw new IllegalArgumentException("Cannot reserve an archive!");
+			}
+		}
 
 		if (client == null) {
 			throw new IllegalArgumentException("Client and Title must exist!");
@@ -715,6 +811,15 @@ public class LibraryManagementService {
 		for (Title t : library.getTitles()) {
 			if (t.getIsAvailable() && t.getName().equals(titleName)) {
 				title = t;
+			}
+		}
+		
+		for (Title t : library.getTitles()) {
+			if(t.getIsAvailable() && t.getName().equals(titleName) && t.getTitleType() == TitleType.Newspaper){
+				throw new IllegalArgumentException("Cannot reserve a newspaper!");
+			}
+			if(t.getIsAvailable() && t.getName().equals(titleName) && t.getTitleType() == TitleType.Archives){
+				throw new IllegalArgumentException("Cannot reserve an archive!");
 			}
 		}
 
