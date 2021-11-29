@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.librarymanagement.controller;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -72,6 +73,7 @@ public class LibraryManagementRestController {
 
 		return convertToDto(title);
 	}
+	
 	
 	@PostMapping(value = { "/titles/update/{name}", "/titles/update/{name}/" })
 	public TitleDto updateTitle(@PathVariable("name") String name, @RequestParam String description,
@@ -430,6 +432,27 @@ public class LibraryManagementRestController {
 		RoomDto roomDto = new RoomDto(r.getRoomId(), r.getCapacity(), r.getIsAvailable(), r.getRoomType());
 		return roomDto;
 	}
+	
+	@GetMapping(value = { "/rooms/getRoomReservationByRoom/{roomId}", "/rooms/getRoomReservationByRoom/{roomId}/" })
+	public List<RoomReservationDto> getRoomReservationsByRoom(@PathVariable("roomId") String roomId) {
+		ArrayList<RoomReservation> roomReservations = service.getRoomReservationsByRoom(Integer.parseInt(roomId));
+		return convertToDto(roomReservations);
+	}
+	
+	ArrayList<RoomReservationDto> convertToDto(ArrayList<RoomReservation> roomReservations){
+		ArrayList<RoomReservationDto> roomReservationDtos = new ArrayList<RoomReservationDto>();
+		for (RoomReservation roomReservation : roomReservations) {
+			RoomDto roomDto = convertToDto(roomReservation.getRoom());
+			ClientDto clientDto = convertToDto(roomReservation.getClient());
+			RoomReservationDto roomReservationDto = new RoomReservationDto(roomDto, clientDto, roomReservation.getTimeSlotId());
+			roomReservationDtos.add(roomReservationDto);
+		}
+		return roomReservationDtos;
+	}
+	
+	
+	
+	
 
 	/*
 	 * 
@@ -454,9 +477,24 @@ public class LibraryManagementRestController {
 		Time startTime = new Time(Integer.parseInt(startHour), Integer.parseInt(startMin), 0);
 		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
 		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
+		
+		System.out.println("hey there");
 
 		RoomReservation roomReservation = service.createRoomReservation(startTime, endTime, date,
 				Integer.parseInt(roomId), Integer.parseInt(userId), library);
+
+		return convertToDto(roomReservation);
+	}
+	
+	@PostMapping(value = { "/roomReservations/update/{roomReservationId}" })
+	public RoomReservationDto updateRoomReservation(@PathVariable("roomReservationId") int roomReservationId, @RequestParam  int userId)
+			throws IllegalArgumentException {
+
+		Library library = getLibrary();
+		
+		System.out.println("hey there");
+
+		RoomReservation roomReservation = service.updateRoomReservation(roomReservationId, userId, library);
 
 		return convertToDto(roomReservation);
 	}
@@ -474,7 +512,7 @@ public class LibraryManagementRestController {
 		RoomDto roomDto = convertToDto(rr.getRoom());
 		ClientDto clientDto = convertToDto(rr.getClient());
 
-		RoomReservationDto roomReservationDto = new RoomReservationDto(roomDto, clientDto);
+		RoomReservationDto roomReservationDto = new RoomReservationDto(roomDto, clientDto, rr.getTimeSlotId());
 		return roomReservationDto;
 	}
 

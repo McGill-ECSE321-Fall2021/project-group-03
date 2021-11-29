@@ -29,6 +29,7 @@ public class RoomReservation extends Timeslot
   
   @ManyToOne(targetEntity = Client.class)
   private Client client;
+  
 
   //------------------------
   // CONSTRUCTOR
