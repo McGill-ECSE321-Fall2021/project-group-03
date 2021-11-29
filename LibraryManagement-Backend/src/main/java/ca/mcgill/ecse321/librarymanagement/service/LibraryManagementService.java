@@ -669,6 +669,14 @@ public class LibraryManagementService {
 				title = t;
 			}
 		}
+		for (Title t : library.getTitles()) {
+			if(t.getName().equals(titleName) && t.getTitleType() == TitleType.Newspaper){
+				throw new IllegalArgumentException("Cannot reserve a newspaper!");
+			}
+			if(t.getName().equals(titleName) && t.getTitleType() == TitleType.Archives){
+				throw new IllegalArgumentException("Cannot reserve an archive!");
+			}
+		}
 
 		if (client == null) {
 			throw new IllegalArgumentException("Client and Title must exist!");
@@ -715,6 +723,15 @@ public class LibraryManagementService {
 		for (Title t : library.getTitles()) {
 			if (t.getIsAvailable() && t.getName().equals(titleName)) {
 				title = t;
+			}
+		}
+		
+		for (Title t : library.getTitles()) {
+			if(t.getIsAvailable() && t.getName().equals(titleName) && t.getTitleType() == TitleType.Newspaper){
+				throw new IllegalArgumentException("Cannot reserve a newspaper!");
+			}
+			if(t.getIsAvailable() && t.getName().equals(titleName) && t.getTitleType() == TitleType.Archives){
+				throw new IllegalArgumentException("Cannot reserve an archive!");
 			}
 		}
 
