@@ -156,8 +156,23 @@ public class LibraryManagementService {
 	@Transactional
 	public Library getLibrary() {
 		try {
+			
 			Library library = toList(libraryRepository.findAll()).get(0);
+			// We never delete the library, we just clear it. SO if the schedule is null it means it was "deleted".
 			if (library.getLibrarySchedule() == null) {
+				
+				Librarian head = new Librarian("headLibrarian", "head", "Head Librarian", true);
+				library.addUser(head);
+				
+				//The client told us the library has 3 rooms 
+				
+				createRoom(10, true, Room.RoomType.Study, library);
+				createRoom(5, true, Room.RoomType.Study, library);
+				createRoom(50, true, Room.RoomType.Event, library);
+				
+				libraryRepository.save(library);
+				librarianRepository.save(head);
+				
 				Schedule librarySchedule = new Schedule();
 				library.setLibrarySchedule(librarySchedule);
 				return library;
@@ -166,11 +181,18 @@ public class LibraryManagementService {
 		}
 
 		catch (Exception e) {
+			// This case will only happen if database is deleted. 
 			Library library = new Library();
-			
+			System.out.println("gooood");
 			// create head librarian
 			Librarian head = new Librarian("headLibrarian", "head", "Head Librarian", true);
 			library.addUser(head);
+			
+			//The client told us the library has 3 rooms 
+			
+			createRoom(10, true, Room.RoomType.Study, library);
+			createRoom(5, true, Room.RoomType.Study, library);
+			createRoom(50, true, Room.RoomType.Event, library);
 			
 			libraryRepository.save(library);
 			librarianRepository.save(head);
@@ -464,6 +486,7 @@ public class LibraryManagementService {
 		
 		roomRepository.save(room);
 
+		libraryRepository.save(library);
 		
 		return room;
 	}
