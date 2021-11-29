@@ -1,7 +1,7 @@
 <template>
 <div>
     <MenuBar />
-    <button @click="expandInventory()" class="collapsible">Inventory Management</button>
+    <button @click="expandInventory()" class="collapsible"><span id="arrow-inventory">+</span> Inventory Management</button>
     <div id="inventory" class="content">
     <div class="header">Create Title</div>
       <form action="">
@@ -97,45 +97,38 @@
       />
     </div>
     </div>
-    <button @click="expandStaffSchedule()" class="collapsible">Staff Schedule</button>
+    <button @click="expandStaffSchedule()" class="collapsible"><span id="arrow-staff">+</span> Staff Schedule</button>
     <div id="staff-schedule" class="content">
       <div class="header">Staff Schedule</div>
       Schedule will be here!!!
     </div>
-    <button @click="expandCheckout()" class="collapsible">Checkout Title</button>
+    <button @click="expandCheckout()" class="collapsible"><span id="arrow-checkout">+</span> Checkout Title</button>
     <div id="checkout-title" class="content">
       <div class="header">Checkout Title</div>
-      <span class="header2">Client</span>
       <input
         class="title-info"
-        id="title-id-delete"
+        id="client-username"
         type="text"
-        placeholder="First Name"
-      />
-      <input
-        class="title-info"
-        type="text"
-        placeholder="Last Name"
+        placeholder="Client Username"
       />
       <br>
-      <span class="header2">Title</span>
       <input
         class="title-info"
+        id="title-name"
         type="text"
         placeholder="Title Name"
       />
       <br>
       <input
           type="submit"
-          @click="createTitle()"
+          @click="checkoutTitle()"
           class="create-title"
-          value="Create Title"
+          value="Checkout"
         />
     </div>
 </div> 
 </template>
 <script src="./tools.js">
-
 </script>
 <style scoped>
 .header {
@@ -144,7 +137,6 @@
   font-weight: 700;
   padding: 10px;
 }
-
 .create-title {
   padding: 10px;
   margin: 10px;
@@ -153,22 +145,18 @@
   color: aliceblue;
   width: 200px;
 }
-
 .fadeIn {
   animation-name: fadeIn;
   animation-duration: 0.5s;
 }
-
 .error-msg.header2 {
   color: crimson;
   padding-left: 15px;
 }
-
 .success-msg.header2 {
   padding-left: 15px;
   color: forestgreen;
 }
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -177,7 +165,6 @@
     opacity: 1;
   }
 }
-
 .create-title:hover {
   padding: 10px;
   margin: 10px;
@@ -186,25 +173,21 @@
   color: darkslategray;
   width: 200px;
 }
-
 .title-info {
   padding: 10px;
   margin: 10px;
   border-radius: 10px;
 }
-
 .title-type {
   width: 200px;
   padding: 13px;
 }
-
 .header2 {
   color: darkslategray;
   font-weight: 700;
   padding-bottom: 10px;
   padding: 10px;
 }
-
 .collapsible{
   margin-top: 10px;
   background-color: cadetblue;
@@ -215,7 +198,6 @@
   width: 100%; 
   padding: 10px;
 }
-
 .collapsible:hover{
   margin-top: 10px;
   background-color: rgb(63, 102, 105);
@@ -226,13 +208,10 @@
   width: 100%; 
   padding: 10px;
 }
-
 .content{
   overflow: hidden;
   padding: 0 10px;
   display: none;
   background-color: rgb(227, 243, 243);
-
 }
-
 </style>
