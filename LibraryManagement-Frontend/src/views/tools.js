@@ -99,12 +99,15 @@ function TitleDto (name, description, genre, isAvailable, titleType){
                 let goodUrl = "/titles/checkout/" + titleName + "?clientUsername=" + clientUsername
                 
                 AXIOS.post(goodUrl, {}, {}).then(response => {
-                    console.log(response)
+                    console.log(response.data)
+                    document.getElementById("msg-checkout").innerHTML = "Title Checkout Successful!"
+                    document.getElementById("msg-checkout").style.color = "green"
                 })
                 .catch(e => {
                     var errorMsg = e.response.data.message
                     console.log(errorMsg)
                     this.errorTitle = errorMsg
+                    document.getElementById("msg-checkout").innerHTML = "hello"
                 })
             },
 

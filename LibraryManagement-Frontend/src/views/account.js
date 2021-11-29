@@ -128,6 +128,8 @@ export default{
             },
           
             saveInfo() {
+
+                document.getElementById("save-info").hidden = true
                 let newPassword = document.getElementById("update-password").value
                 let newEmail = document.getElementById("update-email").value
                 let newAddress = document.getElementById("update-address").value
@@ -149,7 +151,6 @@ export default{
                         })
 
                     localStorage.setItem("Password", newPassword);
-                    console.log("hello1")
                 }}, 500);
 
                 setTimeout(() => {if (newEmail != "" && newEmail != null ) {
@@ -182,7 +183,6 @@ export default{
                         })
 
                     localStorage.setItem("Address", newAddress);
-                    console.log("hello3")
                 }}, 2000);
 
 
@@ -207,6 +207,7 @@ export default{
             },
 
             updateInfo(msg) {
+                document.getElementById("loader").hidden = false
                 document.getElementById("account-updating").innerHTML = msg;
             }
     }

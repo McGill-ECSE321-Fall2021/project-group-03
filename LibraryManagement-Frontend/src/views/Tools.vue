@@ -125,6 +125,7 @@
           class="create-title"
           value="Checkout"
         />
+    <div id="msg-checkout"></div>
     </div>
 </div> 
 </template>
@@ -214,4 +215,9 @@
   display: none;
   background-color: rgb(227, 243, 243);
 }
+
+#msg-checkout{
+  padding: 10px;
+}
+
 </style>

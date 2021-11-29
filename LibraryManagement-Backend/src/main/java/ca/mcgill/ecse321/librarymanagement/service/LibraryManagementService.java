@@ -884,8 +884,8 @@ public class LibraryManagementService {
 		List<TitleReservation> titleReservations = toList(titleReservationRepository.findAll());
 		TitleReservation thisTitleReservation = null;
 		for(TitleReservation tr : titleReservations) {
-			if(tr.getTitle().getName() == titleName && tr.getClient().getUsername() == username) {
-				thisTitleReservation = tr;
+			if(tr.getTitle().getName().equals(titleName) && tr.getClient().getUsername().equals(username)) {
+				return tr;
 			}
 		}
 		return thisTitleReservation;
@@ -902,7 +902,7 @@ public class LibraryManagementService {
 		}
 		
 
-		return allReservations;
+		return myReservations;
 	}
 
 	@Transactional

@@ -64,14 +64,20 @@
       </div>
     </div>
     <br />
-    <div id="account-updating"></div>
+    <div>
+    <span id="account-updating">
+    
+    </span>
+    <img hidden=true id="loader" src="../images/loading-buffering.gif" alt="">
     <input
       @click="saveInfo()"
       hidden="true"
       class="save"
+      id="save-info"
       type="submit"
       value="Save"
     />
+    </div>
     <div class="header">Current Reservations</div>
     <table>
       <tr class="first-row">
@@ -175,7 +181,6 @@ tr:nth-child(even) {
   font-size: 35px;
   font-weight: 700;
   padding: 10px;
-  text-align: center;
 }
 
 .header2 {
@@ -238,4 +243,10 @@ body {
   color: green;
   margin-left: 10px;
 }
+
+#loader {
+  width: 4%;
+  display: inline;
+}
+
 </style>
