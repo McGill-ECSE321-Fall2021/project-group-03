@@ -2,7 +2,7 @@
   <div>
     <div class="header top">
       TASLA Library
-      <a class="login" href="/#/signIn" id="login-btn">Login</a>
+      <a class="login" href="/#/login" id="login-btn">Login</a>
       <a
         class="login"
         id="logout-btn"
@@ -17,7 +17,7 @@
       <a hidden="true" class="browse" href="/#/browse">Browse Titles</a>
       <a hidden="true" class="room-booking" href="/#/rooms">Book a Room</a>
       <a hidden="true" class="account" href="/#/account">Account Settings</a>
-      <a hidden="true" class="inventory" href="/#/inventory">Library Inventory</a>
+      <a hidden="true" class="tools" href="/#/tools">Library Tools</a>
       <a hidden="true" class="management" href="/#/management">Management</a>
     </div>
   </div>

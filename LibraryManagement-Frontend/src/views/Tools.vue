@@ -100,7 +100,7 @@
     <div class="content">SCHEDULE HERE</div>
 </div> 
 </template>
-<script src="./inventory.js">
+<script src="./tools.js">
 
 </script>
 <style scoped>

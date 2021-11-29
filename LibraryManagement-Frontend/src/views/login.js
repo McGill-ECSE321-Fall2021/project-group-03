@@ -11,8 +11,6 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-let errorMsg = "aw";
-
 export default{
     data(){
         return {
@@ -22,10 +20,6 @@ export default{
         }
     },
 
-    name: 'SignIn',
-    components: {
-        MenuBar
-    },
     methods: {
         fadeIn(){
             document.querySelector(".register-form").hidden = false

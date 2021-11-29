@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/views/Home'
-import SignIn from '@/views/SignIn'
+import Login from '@/views/Login'
 import Browse from '@/views/Browse'
-import Account from '@/views/Account'
 import Room from '@/views/Room'
 import TitleInformation from '@/views/TitleInformation'
 import Management from '@/views/Management'
 import RoomInformation from '@/views/RoomInformation'
-import Inventory from '@/views/Inventory'
+import Tools from '@/views/Tools.vue'
 
 Vue.use(Router)
 
@@ -20,9 +19,9 @@ export default new Router({
       component: Home
     },
     {
-		path: '/signin',
-		name: 'SignIn',
-		component: SignIn
+		path: '/login',
+		name: 'Login',
+		component: require('../views/Login.vue').default
 	},
 	{
 		path: '/browse',
@@ -32,7 +31,7 @@ export default new Router({
 	{
 		path: '/account',
 		name: 'Account',
-		component: Account
+		component: require('../views/Account.vue').default
 	},
 	{
 		path: '/rooms/',
@@ -47,12 +46,12 @@ export default new Router({
 	{
 		path: '/browse/title/:name',
 		name: TitleInformation,
-		component: TitleInformation
+		component: require('../views/TitleInformation.vue').default
 	},
 	{
-		path: '/inventory',
-		name: Inventory,
-		component: Inventory
+		path: '/tools',
+		name: Tools,
+		component: require('../views/Tools.vue').default
 	},
 	{
 		path: '/management',

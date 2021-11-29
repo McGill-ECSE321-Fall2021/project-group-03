@@ -63,7 +63,7 @@
     </div>
   </div>
 </template>
-<script src="./signIn.js">
+<script src="./login.js">
 </script>
 <style>
 .home-btn {

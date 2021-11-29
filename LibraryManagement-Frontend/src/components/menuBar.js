@@ -15,17 +15,18 @@ export default {
   mounted: function currentPage() {
 
     let username = localStorage.getItem("Username")
-    let isLibrarian = false
-
+    
     if (username == null){
-        // nobody is logged in
-        //only display the home page
-
-        document.querySelector(".home").hidden = false
+      // nobody is logged in
+      //only display the home page
+      
+      document.querySelector(".home").hidden = false
     }
-
+    
     else {
-        isLibrarian = localStorage.getItem("isLibrarian")
+        const isLibrarian = localStorage.getItem("isLibrarian")
+
+        console.log(isLibrarian)
 
         document.getElementById("login-btn").hidden = true
         document.querySelector(".home").hidden = false
@@ -34,8 +35,9 @@ export default {
         document.querySelector(".browse").hidden = false
         document.getElementById("logout-btn").hidden = false
 
-        if (isLibrarian){
-            document.querySelector(".tools").hidden = false
+        if (isLibrarian == "true"){
+          console.log(123)
+          document.querySelector(".tools").hidden = false
 
             // if (isHeadLibrarian){
             //     document.querySelector(".management").hidden = false
