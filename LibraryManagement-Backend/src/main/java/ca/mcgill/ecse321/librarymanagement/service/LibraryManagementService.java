@@ -616,6 +616,7 @@ public class LibraryManagementService {
 		Library library = getLibrary();
 		for (RoomReservation roomReservation : library.getRoomReservations()) {
 			if (roomReservation.getRoom().getRoomId() == roomId && roomReservation.getClient().getUsername().equals("null")) {
+				//this will only get room reservations that are available (client username is "null"
 				roomReservations.add(roomReservation);
 			}
 		}

@@ -442,10 +442,7 @@ public class LibraryManagementRestController {
 	ArrayList<RoomReservationDto> convertToDto(ArrayList<RoomReservation> roomReservations){
 		ArrayList<RoomReservationDto> roomReservationDtos = new ArrayList<RoomReservationDto>();
 		for (RoomReservation roomReservation : roomReservations) {
-			RoomDto roomDto = convertToDto(roomReservation.getRoom());
-			ClientDto clientDto = convertToDto(roomReservation.getClient());
-			RoomReservationDto roomReservationDto = new RoomReservationDto(roomDto, clientDto, roomReservation.getTimeSlotId());
-			roomReservationDtos.add(roomReservationDto);
+			roomReservationDtos.add(convertToDto(roomReservation));
 		}
 		return roomReservationDtos;
 	}
@@ -512,7 +509,7 @@ public class LibraryManagementRestController {
 		RoomDto roomDto = convertToDto(rr.getRoom());
 		ClientDto clientDto = convertToDto(rr.getClient());
 
-		RoomReservationDto roomReservationDto = new RoomReservationDto(roomDto, clientDto, rr.getTimeSlotId());
+		RoomReservationDto roomReservationDto = new RoomReservationDto(roomDto, clientDto, rr.getTimeSlotId(), rr.getStartTime(), rr.getEndTime(), rr.getDate());
 		return roomReservationDto;
 	}
 
