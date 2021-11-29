@@ -34,18 +34,18 @@ var AXIOS = axios.create({
         },
         
         methods:  {
-            createRoom: function(capacity, isAvailable, roomType){
-                AXIOS.post('/rooms/create'.concat(capacity, isAvailable, roomType), {}, {}).then(response => {
-                var roomDto = new RoomDto(capacity, isAvailable, roomType)
-                this.rooms.push(roomDto)
-                this.newRoom = ''
-                })
-                .catch(e => {
-                    var errorMsg = e.response.data.message
-                    console.log(errorMsg)
-                    this.errorTitle = errorMsg
-                  })
-            }
+            // createRoom: function(capacity, isAvailable, roomType){
+            //     AXIOS.post('/rooms/create'.concat(capacity, isAvailable, roomType), {}, {}).then(response => {
+            //     var roomDto = new RoomDto(capacity, isAvailable, roomType)
+            //     this.rooms.push(roomDto)
+            //     this.newRoom = ''
+            //     })
+            //     .catch(e => {
+            //         var errorMsg = e.response.data.message
+            //         console.log(errorMsg)
+            //         this.errorTitle = errorMsg
+            //       })
+            // }
         },
         
         

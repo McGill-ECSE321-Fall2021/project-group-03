@@ -117,6 +117,7 @@ public class LibraryManagementRestController {
 		}
 	}
 	
+	
 	public TitleReservationDto convertToDto(TitleReservation tr) {
 		return new TitleReservationDto(tr.getReturnDate(), tr.getIsCheckedOut(), convertToDto(tr.getTitle()), convertToDto(tr.getClient()), tr.getTitleReservationId());
 	}
@@ -191,15 +192,52 @@ public class LibraryManagementRestController {
 		return convertToDto(client);
 	}
 	
+	@PostMapping(value = { "/clients/update/password/{username}", "/clients/update/{username}/" })
+	public ClientDto updateClientPassword(@PathVariable("username") String username, @RequestParam String password) throws IllegalArgumentException {
+
+		Library library = getLibrary();
+
+		Client client = service.updateClientPassword(username, password, library);
+
+		return convertToDto(client);
+	}
+	
+	@PostMapping(value = { "/clients/update/email/{username}", "/clients/update/{username}/" })
+	public ClientDto updateClientEmail(@PathVariable("username") String username, @RequestParam String email) throws IllegalArgumentException {
+
+		Library library = getLibrary();
+
+		Client client = service.updateClientEmail(username, email, library);
+
+		return convertToDto(client);
+	}
+	
+	@PostMapping(value = { "/clients/update/address/{username}", "/clients/update/{username}/" })
+	public ClientDto updateClientResAddress(@PathVariable("username") String username, @RequestParam String residentialAddress) throws IllegalArgumentException {
+
+		Library library = getLibrary();
+
+		Client client = service.updateClientResAddress(username, residentialAddress, library);
+
+		return convertToDto(client);
+	}
+	
 	@PostMapping(value = { "/clients/remove/{username}", "/clients/remove/{username}/" })
 	public void removeClient(@PathVariable("username") String username) throws IllegalArgumentException {
 		Library library = getLibrary();
 
 		service.removeClient(username, library);
 	}
+	
+	@GetMapping(value = { "/clients/get/reservations/{username}", "/clients/get/reservations/{username}/" })
+	public List<TitleReservationDto> getTitleReservations(@PathVariable("username") String username) {
+		List<TitleReservation> reservations = service.getAllTitleReservationsByUsername(username);
+		return reservations.stream().map(b -> convertToDto(b)).collect(Collectors.toList());
+
+	}
 
 	public ClientDto convertToDto(Client client) {
-		ClientDto clientDto = new ClientDto(client.getUserId(), client.getUsername(), client.getPassword(),
+		ClientDto clientDto = new ClientDto(client.getUsername(), client.getFullname(), client.getPassword(),
 				client.getResidentialAddress(), client.getEmail(), client.getIsResident(), client.getIsOnline());
 		return clientDto;
 	}

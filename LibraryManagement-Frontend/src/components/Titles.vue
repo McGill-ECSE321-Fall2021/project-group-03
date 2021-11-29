@@ -1,8 +1,20 @@
 <template>
   <div>
     <table>
-      <tr v-for="title in titles" :key="title">
-        <td><router-link :to="routerlink(title.name)">View</router-link></td>
+      <tr class="first-row">
+        <td>Name</td>
+        <td>Type</td>
+        <td>Genre</td>
+        <td>Available</td>
+        <td>Description</td>
+        <td>Title Id</td>
+      </tr>
+      <tr
+        v-for="title in titles"
+        :key="title"
+        @click="clickRow(title.name)"
+        class="click-appear"
+      >
         <td>{{ title.name }}</td>
         <td>{{ title.titleType }}</td>
         <td>{{ title.genre }}</td>
@@ -20,7 +32,6 @@ table {
   border-collapse: collapse;
   width: 100%;
 }
-
 td,
 th {
   border: 1px solid aliceblue;
@@ -30,5 +41,15 @@ th {
 
 tr:nth-child(even) {
   background-color: aliceblue;
+}
+
+.click-appear {
+  cursor: pointer;
+}
+
+.first-row td {
+  font-size: 20px;
+  font-weight: 40px;
+  color: black;
 }
 </style>

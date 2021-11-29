@@ -3,12 +3,11 @@ import Router from 'vue-router'
 import Home from '@/views/Home'
 import Login from '@/views/Login'
 import Browse from '@/views/Browse'
-import Account from '@/views/Account'
 import Room from '@/views/Room'
 import TitleInformation from '@/views/TitleInformation'
-import Tools from '@/views/Tools'
 import Management from '@/views/Management'
 import RoomInformation from '@/views/RoomInformation'
+import Tools from '@/views/Tools.vue'
 
 Vue.use(Router)
 
@@ -22,7 +21,7 @@ export default new Router({
     {
 		path: '/login',
 		name: 'Login',
-		component: Login
+		component: require('../views/Login.vue').default
 	},
 	{
 		path: '/browse',
@@ -32,7 +31,7 @@ export default new Router({
 	{
 		path: '/account',
 		name: 'Account',
-		component: Account
+		component: require('../views/Account.vue').default
 	},
 	{
 		path: '/rooms/',
@@ -47,12 +46,12 @@ export default new Router({
 	{
 		path: '/browse/title/:name',
 		name: TitleInformation,
-		component: TitleInformation
+		component: require('../views/TitleInformation.vue').default
 	},
 	{
 		path: '/tools',
 		name: Tools,
-		component: Tools
+		component: require('../views/Tools.vue').default
 	},
 	{
 		path: '/management',

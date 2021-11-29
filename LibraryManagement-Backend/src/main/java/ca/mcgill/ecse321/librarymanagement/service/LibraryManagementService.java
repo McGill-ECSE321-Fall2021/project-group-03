@@ -167,11 +167,13 @@ public class LibraryManagementService {
 
 		catch (Exception e) {
 			Library library = new Library();
-			if (library.getLibrarySchedule() == null) {
-				
-			}
-			scheduleRepository.save(library.getLibrarySchedule());
+			
+			// create head librarian
+			Librarian head = new Librarian("headLibrarian", "head", "Head Librarian", true);
+			library.addUser(head);
+			
 			libraryRepository.save(library);
+			librarianRepository.save(head);
 			return library;
 		}
 
@@ -755,6 +757,14 @@ public class LibraryManagementService {
 				title = t;
 			}
 		}
+		for (Title t : library.getTitles()) {
+			if(t.getName().equals(titleName) && t.getTitleType() == TitleType.Newspaper){
+				throw new IllegalArgumentException("Cannot reserve a newspaper!");
+			}
+			if(t.getName().equals(titleName) && t.getTitleType() == TitleType.Archives){
+				throw new IllegalArgumentException("Cannot reserve an archive!");
+			}
+		}
 
 		if (client == null) {
 			throw new IllegalArgumentException("Client and Title must exist!");
@@ -803,6 +813,15 @@ public class LibraryManagementService {
 				title = t;
 			}
 		}
+		
+		for (Title t : library.getTitles()) {
+			if(t.getIsAvailable() && t.getName().equals(titleName) && t.getTitleType() == TitleType.Newspaper){
+				throw new IllegalArgumentException("Cannot reserve a newspaper!");
+			}
+			if(t.getIsAvailable() && t.getName().equals(titleName) && t.getTitleType() == TitleType.Archives){
+				throw new IllegalArgumentException("Cannot reserve an archive!");
+			}
+		}
 
 		if (client == null) {
 			throw new IllegalArgumentException("Client does not exist!");
@@ -835,6 +854,20 @@ public class LibraryManagementService {
 		}
 
 		return thisTitleReservation;
+	}
+	
+	@Transactional
+	public List<TitleReservation> getAllTitleReservationsByUsername(String username) {
+		List<TitleReservation> allReservations = toList(titleReservationRepository.findAll());
+		List<TitleReservation> myReservations = new ArrayList<TitleReservation>();
+		for (TitleReservation tr : allReservations) {
+			if (tr.getClient().getUsername().equals(username)) {
+				myReservations.add(tr);
+			}
+		}
+		
+
+		return allReservations;
 	}
 
 	@Transactional
@@ -933,7 +966,7 @@ public class LibraryManagementService {
 		Client client = null;
 
 		for (User u : library.getUsers()) {
-			if (u instanceof Client && u.getUsername() == username && u.getPassword() == password) {
+			if (u instanceof Client && u.getUsername().equals(username) && u.getPassword().equals(password)) {
 				client = (Client) u;
 			}
 		}
@@ -952,7 +985,7 @@ public class LibraryManagementService {
 		Librarian librarian = null;
 
 		for (User u : library.getUsers()) {
-			if (u instanceof Librarian && u.getUsername() == username && u.getPassword() == password) {
+			if (u instanceof Librarian && u.getUsername().equals(username) && u.getPassword().equals(password)) {
 				librarian = (Librarian) u;
 			}
 		}
@@ -1001,6 +1034,75 @@ public class LibraryManagementService {
 		client.setEmail(aEmail);
 		client.setFullname(aFullname);
 		client.setPassword(aPassword);
+		client.setResidentialAddress(aResidentialAddress);
+
+		clientRepository.save(client);
+		libraryRepository.save(library);
+
+		return client;
+	}
+	
+	@Transactional
+	public Client updateClientPassword(String aUsername, String aPassword, Library library) {
+
+		Client client = null;
+
+		if (aPassword == null || aPassword.trim().length() == 0) {
+			throw new IllegalArgumentException("Client information cannot be empty!");
+		}
+
+		for (User u : library.getUsers()) {
+			if (u.getUsername().equals(aUsername)) {
+				client = (Client) u;
+			}
+		}
+
+		client.setPassword(aPassword);
+
+		clientRepository.save(client);
+		libraryRepository.save(library);
+
+		return client;
+	}
+	
+	@Transactional
+	public Client updateClientEmail(String aUsername, String aEmail, Library library) {
+
+		Client client = null;
+
+		if (aEmail == null || aEmail.trim().length() == 0) {
+			throw new IllegalArgumentException("Client information cannot be empty!");
+		}
+
+		for (User u : library.getUsers()) {
+			if (u.getUsername().equals(aUsername)) {
+				client = (Client) u;
+			}
+		}
+
+		client.setEmail(aEmail);
+
+		clientRepository.save(client);
+		libraryRepository.save(library);
+
+		return client;
+	}
+	
+	@Transactional
+	public Client updateClientResAddress(String aUsername, String aResidentialAddress, Library library) {
+
+		Client client = null;
+
+		if (aResidentialAddress == null || aResidentialAddress.trim().length() == 0) {
+			throw new IllegalArgumentException("Client information cannot be empty!");
+		}
+
+		for (User u : library.getUsers()) {
+			if (u.getUsername().equals(aUsername)) {
+				client = (Client) u;
+			}
+		}
+
 		client.setResidentialAddress(aResidentialAddress);
 
 		clientRepository.save(client);

@@ -17,25 +17,7 @@
       <div class="header">Library Hours</div>
       <div class="content">
         <div class="monday header2">
-          Monday: <span class="monday-hours info">Closed</span>
-        </div>
-        <div class="tuesday header2">
-          Tuesday: <span class="tuesday-hours info">Closed</span>
-        </div>
-        <div class="wednesday header2">
-          Wednesday: <span class="wednesday-hours info">Closed</span>
-        </div>
-        <div class="thursday header2">
-          Thursday: <span class="thursday-hours info">Closed</span>
-        </div>
-        <div class="friday header2">
-          Friday: <span class="friday-hours info">Closed</span>
-        </div>
-        <div class="saturday header2">
-          Saturday: <span class="saturday-hours info">Closed</span>
-        </div>
-        <div class="sunday header2">
-          Sunday: <span class="sunday-hours info">Closed</span>
+          Today's Hours: <span class="monday-hours info">Closed</span>
         </div>
       </div>
     </div>

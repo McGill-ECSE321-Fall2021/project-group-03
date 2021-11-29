@@ -22,11 +22,20 @@ function TitleDto (name, description, genre, isAvailable, titleType){
     export default{
      
         methods:  {
-            createTitle: function(name, description, genre, isAvailable, titleType){
-                let goodUrl = "/titles/create/" + name + "?description=" + description + "&genre=" + genre + "&isAvailable=true" + "&titleType=" + titleType
+            createTitle() {
+                let titleName = document.getElementById("title-name-create").value
+                console.log(titleName)
+                let description = document.getElementById("title-description-create").value
+                console.log(description)
+                let genre = document.getElementById("title-genre-create").value
+                console.log(genre)
+                let type = document.getElementById("title-type-create").value
+                console.log(type)
+
+                let goodUrl = "/titles/create/" + titleName + "?description=" + description + "&genre=" + genre + "&isAvailable=true" + "&titleType=" + type
                 console.log(goodUrl)
                 AXIOS.post(goodUrl, {}, {}).then(response => {
-                var t = new TitleDto(name, description, genre, true, titleType)
+                var t = new TitleDto(titleName, description, genre, true, type)
                 this.titles.push(t)
                 this.newTitle = ''
                 })
@@ -37,18 +46,40 @@ function TitleDto (name, description, genre, isAvailable, titleType){
                   })
             },
 
-            displaySuccess(){
-                console.log("displaySuccess()")
-                let titleName = document.getElementById("title-name").value
-                console.log(titleName)
-                let description = document.getElementById("title-description").value
-                console.log(description)
-                let genre = document.getElementById("title-genre").value
-                console.log(genre)
-                let type = document.getElementById("title-type").value
-                console.log(type)
+            expandInventory(){
+                const content = document.getElementById("inventory")
+                if (content.style.display == "none"){
+                    content.style.display = "block"
+                }
 
-                this.createTitle(titleName, description, genre, true, type)
+                else {
+                    content.style.display = "none"
+                }
+            },
+
+            expandStaffSchedule(){
+                const content = document.getElementById("staff-schedule")
+                if (content.style.display == "none"){
+                    content.style.display = "block"
+                }
+
+                else {
+                    content.style.display = "none"
+                }
+            },
+
+            expandCheckout(){
+                const content = document.getElementById("checkout-title")
+                if (content.style.display == "none"){
+                    content.style.display = "block"
+                }
+
+                else {
+                    content.style.display = "none"
+                }
+            },
+
+            displaySuccess(){
                 
 
                 // const successMsg = document.querySelector(".success-msg")
@@ -72,7 +103,7 @@ function TitleDto (name, description, genre, isAvailable, titleType){
                 
             },
             deleteTitle() {
-                let titleId = document.getElementById("title-id").value
+                let titleId = document.getElementById("title-id-delete").value
                 let goodUrl = "/titles/remove/" + titleId
                 
                     console.log(goodUrl)
@@ -105,10 +136,8 @@ function TitleDto (name, description, genre, isAvailable, titleType){
                 })
             }
     
-        },
-
-        
-    components: {
-        MenuBar,
-    }
+        },   
+        components: {
+            MenuBar,
+        }
 }

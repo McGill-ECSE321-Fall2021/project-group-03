@@ -1,29 +1,30 @@
 <template>
   <div>
-    <!-- <MenuBar /> -->
+        <!-- <MenuBar /> -->
     <a class="home-btn" href="/#/">Home</a>
     <br />
     <div class="login-form">
       <form class="form" action="">
         <label class="header2" for="username">Username</label>
-        <input type="text" name="username" />
+        <input type="text" id="login-username" name="username" />
         <br />
         <label class="header2" for="password">Password</label>
-        <input type="password" />
+        <input type="password" id="login-password" />
         <br />
         <label for="librarianCheck" class="header2">Librarian Account</label>
         <input type="checkbox" class="isLibrarian" />
-        <br />
+        <div id="error-msg"></div>
         <input
           @click="loginUser()"
           class="login-btn"
-          type="submit"
+          type="button"
           value="Login"
         />
-        <h1 v-for="user in users" :key="user">{{ user.username }}</h1>
       </form>
     </div>
+
     <br />
+
     <div class="register">
       <button @click="fadeIn()" class="no-account-btn">
         Don't Have an Account?
@@ -31,19 +32,33 @@
     </div>
     <div class="register-form" hidden="true">
       <form class="form" action="">
+        <label class="header2" for="fullname">Full Name</label>
+        <input type="text" name="fullname" id="create-fullName" />
+        <br />
         <label class="header2" for="username">Username</label>
-        <input type="text" name="username" />
+        <input type="text" name="username" id="create-username" />
         <br />
         <label class="header2" for="password">Password</label>
-        <input type="password" />
+        <input type="password" id="create-password" />
+        <br />
+        <label class="header2" for="password">Re-Type Password</label>
+        <input type="password" id="create-password2" />
         <br />
         <label class="header2" for="email">Email</label>
-        <input type="password" placeholder="youremail@library.com" />
+        <input type="text" id="create-email" />
         <br />
         <label class="header2" for="address">Address</label>
-        <input type="password" placeholder="514 BeAgile road" />
+        <input type="text" id="create-address" />
         <br />
-        <input class="login-btn" type="submit" value="Sign Up" />
+        <label for="residentCheck" class="header2">Are you a resident</label>
+        <input type="checkbox" class="isLibrarian" id="create-isResident" />
+        <div id="error-msg2"></div>
+        <input
+          class="login-btn"
+          type="button"
+          value="Sign Up"
+          @click="createUser()"
+        />
       </form>
     </div>
   </div>
@@ -144,5 +159,19 @@
   border-radius: 10px;
   font-size: 15px;
   margin-top: 1.75%;
+}
+
+#error-msg {
+  font-size: 20px;
+  color: red;
+  margin-bottom: 10px;
+  /* font-weight: 20px; */
+}
+
+#error-msg2 {
+  font-size: 20px;
+  color: red;
+  margin-bottom: 10px;
+  /* font-weight: 20px; */
 }
 </style>

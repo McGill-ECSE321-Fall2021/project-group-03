@@ -1,28 +1,30 @@
 <template>
-  <div>
+<div>
     <MenuBar />
+    <button @click="expandInventory()" class="collapsible">Inventory Management</button>
+    <div id="inventory" class="content">
     <div class="header">Create Title</div>
-    <div class="content">
       <form action="">
         <input
           class="title-info"
-          id="title-name"
+          id="title-name-create"
           type="text"
           placeholder="Name"
         />
         <input
           class="title-info"
-          id="title-description"
+          id="title-description-create"
           type="text"
           placeholder="Description"
         />
-        <input
-          class="title-info"
-          id="title-genre"
-          type="text"
-          placeholder="Genre"
-        />
-        <select class="title-info" id="title-type" name="type">
+        <select class="title-info" id="title-genre-create" name="type">
+          <option value="None">None</option>
+          <option value="Adventure">Adventure</option>
+          <option value="Action">Action</option>
+          <option value="Comedy">Comedy</option>
+          <option value="Horror">Horror</option>
+        </select>
+        <select class="title-info" id="title-type-create" name="type">
           <option value="Book">Book</option>
           <option value="Movie">Movie</option>
           <option value="MusicAlbum">Music Album</option>
@@ -33,7 +35,7 @@
       <div>
         <input
           type="submit"
-          @click="displaySuccess()"
+          @click="createTitle()"
           class="create-title"
           value="Create Title"
         />
@@ -42,7 +44,6 @@
         >
         <span hidden="true" class="header2 error-msg">Error message</span>
       </div>
-    </div>
     <div class="header">Update Title</div>
     <div>
       <input
@@ -57,12 +58,13 @@
         type="text"
         placeholder="Description"
       />
-      <input
-        class="title-info"
-        id="title-genre-update"
-        type="text"
-        placeholder="Genre"
-      />
+      <select class="title-info" id="title-genre-update" name="type">
+        <option value="None">None</option>
+        <option value="Adventure">Adventure</option>
+        <option value="Action">Action</option>
+        <option value="Comedy">Comedy</option>
+        <option value="Horror">Horror</option>
+      </select>
       <select class="title-info" id="title-type-update" name="type1">
         <option value="Book">Book</option>
         <option value="Movie">Movie</option>
@@ -78,25 +80,14 @@
         value="Update Title"
       />
     </div>
-    <div class="header">Reserve Title</div>
+    <div class="header">Remove Title</div>
     <div>
       <input
         class="title-info"
-        id="title-name-reserve"
+        id="title-id-delete"
         type="text"
-        placeholder="Name"
+        placeholder="Id"
       />
-      <br />
-      <input
-        type="submit"
-        @click="updateTitle()"
-        class="create-title"
-        value="Reserve Title"
-      />
-    </div>
-    <div class="header">Remove Title</div>
-    <div>
-      <input class="title-info" id="title-id" type="text" placeholder="Id" />
       <br />
       <input
         type="submit"
@@ -105,13 +96,47 @@
         value="Delete Title"
       />
     </div>
-    <div class="header">Staff Schedule</div>
-    <div class="content">SCHEDULE HERE</div>
-  </div>
+    </div>
+    <button @click="expandStaffSchedule()" class="collapsible">Staff Schedule</button>
+    <div id="staff-schedule" class="content">
+      <div class="header">Staff Schedule</div>
+      Schedule will be here!!!
+    </div>
+    <button @click="expandCheckout()" class="collapsible">Checkout Title</button>
+    <div id="checkout-title" class="content">
+      <div class="header">Checkout Title</div>
+      <span class="header2">Client</span>
+      <input
+        class="title-info"
+        id="title-id-delete"
+        type="text"
+        placeholder="First Name"
+      />
+      <input
+        class="title-info"
+        type="text"
+        placeholder="Last Name"
+      />
+      <br>
+      <span class="header2">Title</span>
+      <input
+        class="title-info"
+        type="text"
+        placeholder="Title Name"
+      />
+      <br>
+      <input
+          type="submit"
+          @click="createTitle()"
+          class="create-title"
+          value="Create Title"
+        />
+    </div>
+</div> 
 </template>
 <script src="./tools.js">
-</script>
 
+</script>
 <style scoped>
 .header {
   color: darkslategray;
@@ -179,4 +204,35 @@
   padding-bottom: 10px;
   padding: 10px;
 }
+
+.collapsible{
+  margin-top: 10px;
+  background-color: cadetblue;
+  color:aliceblue;
+  border: none;
+  text-align: left;
+  outline: none;
+  width: 100%; 
+  padding: 10px;
+}
+
+.collapsible:hover{
+  margin-top: 10px;
+  background-color: rgb(63, 102, 105);
+  color:aliceblue;
+  border: none;
+  text-align: left;
+  outline: none;
+  width: 100%; 
+  padding: 10px;
+}
+
+.content{
+  overflow: hidden;
+  padding: 0 10px;
+  display: none;
+  background-color: rgb(227, 243, 243);
+
+}
+
 </style>
