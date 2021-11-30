@@ -1,11 +1,17 @@
 <template>
   <div>
     <MenuBar />
+
+    <!-- ********** LIBRARIAN MANAGEMENT SECTION **********-->
+
     <button @click="expandLibrarianManagement()" class="collapsible"><span id="arrow-librarian-management">+</span> Librarian Management</button>
 
     <div class="content" id="librarian-management">
-    <div class="header">Hire Librarian</div>
 
+    <!-- ********** hire librarian section **********-->
+
+    <div class="header">Hire Librarian</div>
+    <div>
     <input
       class="librarian-info"
       id="librarian-hire-username"
@@ -35,8 +41,12 @@
       <span hidden="true" class="header2 success-msgH"
         >Librarian Successfully Hired!</span
       >
+      <span class="header2 success-msg" id="msg-create-librarian"></span>
       <span hidden="true" class="header2 error-msgH">Error message</span>
     </div>
+    </div>
+
+    <!-- ********** fire librarian section **********-->
 
     <div class="header">Fire Librarian</div>
 
@@ -56,9 +66,14 @@
       <span hidden="true" class="header2 success-msgF"
         >Librarian Successfully Fired.</span
       >
+      <span class="header2 success-msg" id="msg-fire-librarian"></span>
       <span hidden="true" class="header2 error-msgF">Error message</span>
     </div>
   </div>
+
+
+
+
   <button @click="expandLibraryScheduling()" class="collapsible"><span id="arrow-library-scheduling">+</span> Library Scheduling</button>
 
   <div class="content" id="library-schedule">

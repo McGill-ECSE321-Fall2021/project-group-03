@@ -60,15 +60,41 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
 
                 let goodUrl = "/librarians/create/" + librarianUsername + "?password=" + librarianPassword + "&fullName=" + librarianFullName + "&isHeadLibrarian=false"
                 console.log(goodUrl)
+                
+                const hireLibrarianMsg = document.getElementById("msg-create-librarian");
+
+                if (librarianUsername === "") {
+                    hireLibrarianMsg.innerHTML = "Librarian username cannot be empty!";
+                    hireLibrarianMsg.style.color = "red";
+                    return
+                  }
+            
+                  if (librarianPassword === "") {
+                    hireLibrarianMsg.innerHTML = "Librarian password cannot be empty!";
+                    hireLibrarianMsg.style.color = "red";
+                    return
+                  }
+            
+                  if (librarianFullName === "") {
+                    hireLibrarianMsg.innerHTML = "Librarian Full Name cannot be empty!";
+                    hireLibrarianMsg.style.color = "red";
+                    return
+                  }
+
+                
 
                 AXIOS.post(goodUrl, {}, {}).then(response => {
-                    var t = new LibrarianDto (librarianUsername, librarianPassword, librarianFullName, false)
-                    this.titles.push(t)
+                    //var t = new LibrarianDto (librarianUsername, librarianPassword, librarianFullName, false)
+                    //this.titles.push(t)
+
+                    hireLibrarianMsg.innerHTML = "Librarian hired succesfully";
+                    hireLibrarianMsg.style.color = "green";
+
+                    
                     })
                     .catch(e => {
-                        var errorMsg = e.response.data.message
-                        console.log(errorMsg)
-                        this.errorTitle = errorMsg
+                        hireLibrarianMsg.innerHTML = "Username already exists";
+                        hireLibrarianMsg.style.color = "red";
                       })
             },
 
@@ -79,14 +105,23 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                 let goodUrl = "/librarians/remove/" + librarianId
                 console.log(goodUrl)
 
+                const fireLibrarianMsg = document.getElementById("msg-fire-librarian");
+
+                if (librarianId === "") {
+                    fireLibrarianMsg.innerHTML = "Librarian does not exist!";
+                    fireLibrarianMsg.style.color = "red";
+                    return
+                  }
+
                 AXIOS.post(goodUrl, {}, {}).then(response => {
-                    var t = new LibrarianDto (librarianUsername, librarianPassword, librarianFullName, false)
-                    this.titles.push(t)
+                    //var t = new LibrarianDto (librarianUsername, librarianPassword, librarianFullName, false)
+                    //this.titles.push(t)
+                    fireLibrarianMsg.innerHTML = "Librarian fired succesfully";
+                    fireLibrarianMsg.style.color = "green";
                     })
                     .catch(e => {
-                        var errorMsg = e.response.data.message
-                        console.log(errorMsg)
-                        this.errorTitle = errorMsg
+                        fireLibrarianMsg.innerHTML = "Cannot fire head librarian";
+                        fireLibrarianMsg.style.color = "red";
                       })
             }
         },   

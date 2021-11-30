@@ -5,7 +5,9 @@
       <span id="arrow-inventory">+</span> Inventory Management
     </button>
     <div id="inventory" class="content">
+      <!-- ********** CREATE TITLE SECTION **********-->
       <div class="header">Create Title</div>
+      <div>
       <form action="">
         <input
           class="title-info"
@@ -45,6 +47,9 @@
         <span class="header2 success-msg" id="msg-create-title"></span>
         <span hidden="true" class="header2 error-msg"></span>
       </div>
+      </div>
+
+      <!-- ********** UPDATE TITLE SECTION **********-->
       <div class="header">Update Title</div>
       <div>
         <input
@@ -84,6 +89,7 @@
         <span class="header2 success-msg" id="msg-update-title"></span>
         <span hidden="true" class="header2 error-msg">Error message</span>
       </div>
+      <!-- ********** REMOVE TITLE SECTION **********-->
       <div class="header">Remove Title</div>
       <div>
         <input

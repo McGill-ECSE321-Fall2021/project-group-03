@@ -258,13 +258,13 @@ public class LibraryManagementService {
 		}
 
 		if (fullName == null || fullName.trim().length() == 0) {
-			throw new IllegalArgumentException("Librarian full name cannot be empty!");
+			throw new IllegalArgumentException("Librarian Full Name cannot be empty!");
 		}
 
 		Librarian headLibrarian = null;
 
 		for (User u : library.getUsers()) {
-			if (u.getUsername() == username) {
+			if (u.getUsername().equals(username)) {
 				throw new IllegalArgumentException("Username already exists");
 			}
 		}
@@ -696,9 +696,9 @@ public class LibraryManagementService {
 		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
 
 		if (librarian == null) {
-			throw new IllegalArgumentException("librarian does not exist");
+			throw new IllegalArgumentException("Librarian does not exist");
 		}	else if (librarian.getIsHeadLibrarian()) {
-			throw new IllegalArgumentException("cannot fire head librarian");
+			throw new IllegalArgumentException("Cannot fire head librarian");
 		}
 
 		librarianRepository.delete(librarian);
@@ -959,7 +959,7 @@ public class LibraryManagementService {
 		}
 		
 		if (title == null) {
-			throw new IllegalArgumentException("This title does not exist. Please provide an existing title Id");
+			throw new IllegalArgumentException("Title does not exist! Please provide an existing title Id");
 		}
 		
 		titleRepository.delete(title);
