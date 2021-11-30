@@ -1,13 +1,11 @@
 <template>
-  <div @load="getClientTitleReservations()">
+  <div>
     <MenuBar />
     <div class="header">Account Info</div>
     <div class="content">
       <div class="header2">
         Username:
-        <span class="info username" id="user-username">
-          
-        </span>
+        <span class="info username" id="user-username"> </span>
       </div>
       <div class="header2">
         Password:
@@ -65,37 +63,21 @@
     </div>
     <br />
     <div>
-    <span id="account-updating">
-    
-    </span>
-    <img hidden=true id="loader" src="../images/loading-buffering.gif" alt="">
-    <input
-      @click="saveInfo()"
-      hidden="true"
-      class="save"
-      id="save-info"
-      type="submit"
-      value="Save"
-    />
-    </div>
-    <div id="reservation-section">
-    <div class="header">Current Reservations</div>
-    <table>
-      <tr class="first-row">
-        <td>Title</td>
-        <td>Return Date</td>
-        <td>Checked Out</td>
-      </tr>
-      <tr
-        v-for="reservation in this.reservations"
-        :key="reservation"
-        class="click-appear"
-      >
-        <td>{{ reservation.title.name }}</td>
-        <td>{{ reservation.returnDate }}</td>
-        <td>{{ reservation.checkedOut }}</td>
-      </tr>
-    </table>
+      <span id="account-updating"> </span>
+      <img
+        hidden="true"
+        id="loader"
+        src="../images/loading-buffering.gif"
+        alt=""
+      />
+      <input
+        @click="saveInfo()"
+        hidden="true"
+        class="save"
+        id="save-info"
+        type="submit"
+        value="Save"
+      />
     </div>
   </div>
 </template>
@@ -105,32 +87,6 @@
 </script>
 
 <style scoped>
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-td,
-th {
-  border: 1px solid aliceblue;
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {
-  background-color: aliceblue;
-}
-
-.click-appear {
-  cursor: pointer;
-}
-
-.first-row td {
-  font-size: 20px;
-  font-weight: 40px;
-  color: black;
-}
-
 .save {
   width: 300px;
   background-color: darkslategray;
@@ -249,5 +205,4 @@ body {
   width: 4%;
   display: inline;
 }
-
 </style>

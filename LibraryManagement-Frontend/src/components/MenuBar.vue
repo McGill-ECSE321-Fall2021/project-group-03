@@ -18,6 +18,7 @@
       <a hidden="true" class="room-booking" href="/#/rooms">Book a Room</a>
       <a hidden="true" class="account" href="/#/account">Account Settings</a>
       <a hidden="true" class="tools" href="/#/tools">Library Tools</a>
+      <a hidden="true" id="reservations" href="/#/reservations">Reservations</a>
       <a hidden="true" class="management" href="/#/management">Management</a>
     </div>
   </div>

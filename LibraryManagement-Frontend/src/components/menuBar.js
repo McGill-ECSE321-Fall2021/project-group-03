@@ -3,12 +3,6 @@ export default {
 
   methods: {
     logoutUser: function(){
-        // logout user by removing localstorage information
-        // localStorage.removeItem("Username")
-        // localStorage.removeItem("Email")
-        // localStorage.removeItem("Password")
-        // localStorage.removeItem("isLibrarian")
-        // localStorage.removeItem("Address")
         localStorage.clear()
         location.reload()
     }
@@ -33,6 +27,7 @@ export default {
         document.querySelector(".account").hidden = false
         document.querySelector(".browse").hidden = false
         document.getElementById("logout-btn").hidden = false
+        document.getElementById("reservations").hidden = false;
 
         if (isLibrarian == "true"){
           document.querySelector(".tools").hidden = false

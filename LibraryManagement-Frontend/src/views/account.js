@@ -18,7 +18,6 @@ export default{
             users: [],
             errorLogin: '',
             response: [],
-            reservations: []
         }
     },
 
@@ -44,49 +43,16 @@ export default{
             document.getElementById("address-section").hidden = true
             document.getElementById("reservation-section").hidden = true
         }
-
-        else {
-            let url = "/clients/get/reservations/" + username
-            AXIOS.get(url)
-            .then(response => {
-                // JSON responses are automatically parsed.
-                this.reservations = response.data
-                console.log(this.titleReservations)
-            })
-            .catch(e => {
-                this.errorTitle = e
-            })
-        }
         },
     methods: {
-
-            getClientReservations(){
-                return this.titleReservations
-            },
-
-            displayAvailability: function(isAvailable) {
-                if (isAvailable) {
-                    return "✓"
-                } else {
-                    return "✗"
-                }
-            },
-
-            updateUserEmail() {     
-                  
-                console.log(username)      
+            updateUserEmail() {       
                 let newEmail = document.getElementById("update-email").value
-                console.log(newEmail)
 
-                // HOW DO U GET USERNAME OF WHO IS LOGGED IN 
                 let goodUrl = "/clients/update/address/" + username + "?email=" + newEmail
-                console.log(goodUrl)
                 AXIOS.get(goodUrl, {}).then(response => {
                     window.location.href = "/#/"
                 })
                 .catch(e => {
-                    alert("Account with this username and password does not exist")
-                    console.log(e)
                     this.errorLogin = e
                 })
             },
@@ -148,17 +114,14 @@ export default{
                 
                 this.updateInfo("Updating account information")
                 
-
                 setTimeout(() => {if (newPassword != "") {
                     let goodUrl = "/clients/update/password/" + username + "?password=" + newPassword
-                    console.log(goodUrl)
 
                     AXIOS.post(goodUrl, {}, {}).then(response => {
                         
                         })
                         .catch(e => {
                             var errorMsg = e.response.data.message
-                            console.log(errorMsg)
                             this.errorTitle = errorMsg
                         })
 
@@ -167,16 +130,11 @@ export default{
 
                 setTimeout(() => {if (newEmail != "" && newEmail != null ) {
                     let goodUrl = "/clients/update/email/" + username + "?email=" + newEmail
-                    console.log(goodUrl)
 
-                    AXIOS.post(goodUrl, {}, {}).then(response => {
-                        
-                        })
-                        .catch(e => {
-                            var errorMsg = e.response.data.message
-                            console.log(errorMsg)
-                            this.errorTitle = errorMsg
-                        })
+                    AXIOS.post(goodUrl, {}, {}).then(response => {}).catch(e => {
+                        var errorMsg = e.response.data.message
+                        this.errorTitle = errorMsg
+                    })
 
                     localStorage.setItem("Email", newEmail);
                 }}, 1500);
@@ -185,15 +143,10 @@ export default{
                     let goodUrl = "/clients/update/address/" + username + "?residentialAddress=" + newAddress
                     console.log(goodUrl)
 
-                    AXIOS.post(goodUrl, {}, {}).then(response => {
-                        
-                        })
-                        .catch(e => {
+                    AXIOS.post(goodUrl, {}, {}).then(response => {}).catch(e => {
                             var errorMsg = e.response.data.message
-                            console.log(errorMsg)
                             this.errorTitle = errorMsg
                         })
-
                     localStorage.setItem("Address", newAddress);
                 }}, 2000);
 

@@ -1,13 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/views/Home'
-import Login from '@/views/Login'
-import Browse from '@/views/Browse'
 import Room from '@/views/Room'
 import TitleInformation from '@/views/TitleInformation'
 import Management from '@/views/Management'
 import RoomInformation from '@/views/RoomInformation'
 import Tools from '@/views/Tools.vue'
+import Reservations from '@/views/Reservations'
 
 Vue.use(Router)
 
@@ -57,6 +55,11 @@ export default new Router({
 		path: '/management',
 		name: Management,
 		component: require('../views/Management.vue').default
+	},
+	{
+		path: '/reservations',
+		name: Reservations,
+		component: require('../views/Reservations.vue').default
 	}
   ]
 })
