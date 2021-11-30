@@ -22,7 +22,7 @@ and room schedules). Finally, the most important parts of the system should be a
 | Tara Ginsberg          | Project Manager       | 30                                | 55                                | 40                                |
 | Abraham Somech         | Testing Architect     | 30                                | 55                                | 40                                |
 | Liam Serour            | Project Designer      | 30                                | 55                                | 40                                |
-| Samuel-Ryan Vasserman  | PSoftware Architect   | 30                                | 55                                | 40                                |
+| Samuel-Ryan Vasserman  | Software Architect   | 30                                | 55                                | 40                                |
 
 
 # Roles and Responsibilities
