@@ -22,7 +22,16 @@
     <div class="library-hours section">
       <div class="header">Library Hours</div>
       <div class="content" id="library-schedule">
-        
+      <table>
+        <tr>
+          <th>Time</th>
+          <th>Date</th>
+        </tr>
+        <tr v-for="timeslot in librarySchedule" :key="timeslot">
+          <td>{{ timeslot.startTime }} - {{ timeslot.endTime }}</td>
+          <td>{{ timeslot.date }}</td>
+        </tr>
+    </table>
       </div>
     </div>
     <div class="about-us section">
@@ -85,5 +94,24 @@
 
 #librarians {
   width: 50%;
+}
+
+table {
+  border-collapse: collapse;
+  width: 40%;
+  margin-top: 0px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+td,
+th {
+  border: 1px solid aliceblue;
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: aliceblue;
 }
 </style>
