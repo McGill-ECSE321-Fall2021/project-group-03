@@ -1,16 +1,10 @@
 import MenuBar from '../components/MenuBar.vue'
 import axios from 'axios'
-import { timers } from 'jquery'
 
 var config = require('../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
 var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
-
-let username = localStorage.getItem("Username")
-let password = localStorage.getItem("Password")
-let email = localStorage.getItem("Email")
-let address = localStorage.getItem("Address")
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
@@ -33,19 +27,37 @@ export default{
         MenuBar
     },
 
-    mounted: function getClientTitleReservations(){
-        let username = localStorage.getItem("Username")
-        let url = "/clients/get/reservations/" + username
-        AXIOS.get(url)
+    mounted: function loadPage(){
+        const username = localStorage.getItem("Username")
+        const password = localStorage.getItem("Password")
+        const email = localStorage.getItem("Email")
+        const address = localStorage.getItem("Address")
+        const isLibrarian = localStorage.getItem("isLibrarian") 
+        
+        document.getElementById("user-username").innerHTML = username
+        document.getElementById("user-password").innerHTML = password
+        document.getElementById("user-email").innerHTML = email
+        document.getElementById("user-address").innerHTML = address
+
+        if(isLibrarian){
+            document.getElementById("email-section").hidden = true
+            document.getElementById("address-section").hidden = true
+            document.getElementById("reservation-section").hidden = true
+        }
+
+        else {
+            let url = "/clients/get/reservations/" + username
+            AXIOS.get(url)
             .then(response => {
-            // JSON responses are automatically parsed.
-            this.reservations = response.data
-            console.log(this.titleReservations)
+                // JSON responses are automatically parsed.
+                this.reservations = response.data
+                console.log(this.titleReservations)
             })
             .catch(e => {
-            this.errorTitle = e
+                this.errorTitle = e
             })
-    },
+        }
+        },
     methods: {
 
             getClientReservations(){
@@ -188,22 +200,6 @@ export default{
 
                 setTimeout(() => {location.reload()}, 4000);
                 
-            },
-
-            displayUsername() {
-                return username;
-            },
-
-            displayPassword() {
-                return password;
-            },
-
-            displayEmail() {
-                return email;
-            },
-
-            displayAddress() {
-                return address;
             },
 
             updateInfo(msg) {

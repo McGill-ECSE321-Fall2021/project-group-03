@@ -1,5 +1,5 @@
 <template>
-  <div class="table">
+  <div>
     <table>
       <tr>
         <th>Name</th>
@@ -38,15 +38,34 @@
 </script>
 
 <style scoped>
-.table {
-  border-collapse: collapse;
-  width: 100%;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 20px;
-}
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    }
 
 .click-appear {
   cursor: pointer;
 }
+
+ td,th {
+    border: 1px solid aliceblue;
+    text-align: left;
+    padding: 8px;
+    }
+
+    tr:nth-child(even) {
+    background-color: aliceblue;
+    }
+
+    .click-appear {
+    cursor: pointer;
+    }
+
+    .first-row td {
+    font-size: 20px;
+    font-weight: 40px;
+    color: black;
+    }
+
 </style>
