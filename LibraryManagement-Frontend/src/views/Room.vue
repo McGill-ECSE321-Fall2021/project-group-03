@@ -2,15 +2,7 @@
   <div>
     <MenuBar />
     <div class="header-2">Available Rooms</div>
-    <!-- <div class="type-selector" @change="selectFilter()">
-      <label for="room-type">Room Type: </label>
-      <select name="room-type" id="type-selector">
-        <option value="all">All</option>
-        <option value="Study">Study</option>
-        <option value="Event">Event</option>
-      </select>
-    </div> -->
-    <div class="header-3">Click on room name to reserve</div>
+    <div class="header-3">Click on room to reserve</div>
 
     <div class="content titles">
       <table>
