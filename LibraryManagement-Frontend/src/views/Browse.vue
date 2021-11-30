@@ -31,8 +31,8 @@
                         <label for="title-type">Availability</label>
                         <select id="availability">
                             <option value="all">All</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
+                            <option value="Yes">✓</option>
+                            <option value="No">✗</option>
                         </select>
                 </div>
         </div>
