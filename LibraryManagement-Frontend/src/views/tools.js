@@ -43,11 +43,27 @@ export default {
         type;
       console.log(goodUrl);
       console.log("hello");
-
-       //err = await axios.post(goodUrl);
       
       if (titleName === "") {
-        msg.innerHTML = "Error: cannot cradamamamamaate title";
+        msg.innerHTML = "Title cannot be empty!";
+        msg.style.color = "red";
+        return
+      }
+
+      if (description === "") {
+        msg.innerHTML = "Description cannot be empty!";
+        msg.style.color = "red";
+        return
+      }
+
+      if (genre === "Genre") {
+        msg.innerHTML = "Genre cannot be empty!";
+        msg.style.color = "red";
+        return
+      }
+
+      if (type === "TitleType") {
+        msg.innerHTML = "TitleType cannot be empty!";
         msg.style.color = "red";
         return
       }
@@ -155,13 +171,15 @@ export default {
       let titleId = document.getElementById("title-id-delete").value;
       let goodUrl = "/titles/remove/" + titleId;
 
+      const removeTitleMessage = document.getElementById("msg-delete-title");
+
+
       console.log(goodUrl);
       AXIOS.post(goodUrl, {}, {})
         .then(response => {})
         .catch(e => {
-          var errorMsg = e.response.data.message;
-          console.log(errorMsg);
-          this.errorTitle = errorMsg;
+          removeTitleMessage.innerHTML = "Title does not exist! Please provide an existing title Id";
+          removeTitleMessage.style.color = "red";
         });
     },
     updateTitle() {
@@ -175,6 +193,9 @@ export default {
       let titleGenre = document.getElementById("title-genre-update").value;
       console.log(titleGenre);
 
+      const updateTitleMessage = document.getElementById("msg-update-title");
+
+
       let goodUrl =
         "/titles/update/" +
         titleName +
@@ -185,15 +206,43 @@ export default {
         "&titleType=" +
         titleType;
       console.log(goodUrl);
+
+
+      if (titleName === "") {
+        updateTitleMessage.innerHTML = "Title cannot be empty!";
+        updateTitleMessage.style.color = "red";
+        return
+      }
+
+      if (titleDescription === "") {
+        updateTitleMessage.innerHTML = "Description cannot be empty!";
+        updateTitleMessage.style.color = "red";
+        return
+      }
+
+      if (titleGenre === "Genre") {
+        updateTitleMessage.innerHTML = "Genre cannot be empty!";
+        updateTitleMessage.style.color = "red";
+        return
+      }
+
+      if (titleType === "TitleType") {
+        updateTitleMessage.innerHTML = "TitleType cannot be empty!";
+        updateTitleMessage.style.color = "red";
+        return
+      }
+
       AXIOS.post(goodUrl, {}, {})
         .then(response => {})
 
         //display success
 
         .catch(e => {
-          var errorMsg = e.response.data.message;
-          console.log(errorMsg);
-          this.errorTitle = errorMsg;
+          //we handled all errors above except the title not existing
+          //so if it enters the catch, that means the title is not in database
+          //you cannot update a title that is not in the database so there is an error
+          updateTitleMessage.innerHTML = "Title does not exist!";
+          updateTitleMessage.style.color = "red";
         });
     }
   },

@@ -97,15 +97,15 @@ public class LibraryManagementService {
 		}
 
 		if (description == null || description.trim().length() == 0) {
-			throw new IllegalArgumentException("Title cannot be empty!");
+			throw new IllegalArgumentException("Description cannot be empty!");
 		}
 
 		if (genre == null || description.trim().length() == 0) {
-			throw new IllegalArgumentException("Title cannot be empty!");
+			throw new IllegalArgumentException("Genre cannot be empty!");
 		}
 
 		if (titleType == null) {
-			throw new IllegalArgumentException("Title cannot be empty!");
+			throw new IllegalArgumentException("TitleType cannot be empty!");
 		}
 
 		Title title = null;
@@ -123,7 +123,7 @@ public class LibraryManagementService {
 		}
 
 		if (title == null) {
-			throw new IllegalArgumentException("title does not exist");
+			throw new IllegalArgumentException("Title does not exist!");
 		}
 
 		libraryRepository.save(library);
@@ -959,7 +959,7 @@ public class LibraryManagementService {
 		}
 		
 		if (title == null) {
-			throw new IllegalArgumentException("This title does not exist");
+			throw new IllegalArgumentException("This title does not exist. Please provide an existing title Id");
 		}
 		
 		titleRepository.delete(title);

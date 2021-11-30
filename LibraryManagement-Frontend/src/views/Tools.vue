@@ -20,13 +20,14 @@
           placeholder="Description"
         />
         <select class="title-info" id="title-genre-create" name="type">
-          <option value="None">None</option>
+          <option value="Genre">Genre</option>
           <option value="Adventure">Adventure</option>
           <option value="Action">Action</option>
           <option value="Comedy">Comedy</option>
           <option value="Horror">Horror</option>
         </select>
         <select class="title-info" id="title-type-create" name="type">
+          <option value="TitleType">TitleType</option>
           <option value="Book">Book</option>
           <option value="Movie">Movie</option>
           <option value="MusicAlbum">Music Album</option>
@@ -59,13 +60,14 @@
           placeholder="Description"
         />
         <select class="title-info" id="title-genre-update" name="type">
-          <option value="None">None</option>
+          <option value="Genre">Genre</option>
           <option value="Adventure">Adventure</option>
           <option value="Action">Action</option>
           <option value="Comedy">Comedy</option>
           <option value="Horror">Horror</option>
         </select>
         <select class="title-info" id="title-type-update" name="type1">
+          <option value="TitleType">TitleType</option>
           <option value="Book">Book</option>
           <option value="Movie">Movie</option>
           <option value="MusicAlbum">Music Album</option>
@@ -88,7 +90,7 @@
           class="title-info"
           id="title-id-delete"
           type="text"
-          placeholder="Id"
+          placeholder="Title Id"
         />
         <br />
         <input
