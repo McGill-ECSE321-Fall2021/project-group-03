@@ -21,10 +21,8 @@
     </div>
     <div class="library-hours section">
       <div class="header">Library Hours</div>
-      <div class="content">
-        <div class="monday header2">
-          Today's Hours: <span class="monday-hours info">Closed</span>
-        </div>
+      <div class="content" id="library-schedule">
+        
       </div>
     </div>
     <div class="about-us section">
@@ -57,14 +55,8 @@
   </div>
 </template>
 
-<script>
-import MenuBar from "../components/MenuBar.vue";
-export default {
-  name: "Home",
-  components: {
-    MenuBar
-  }
-};
+<script src="./home.js">
+
 </script>
 <style scoped>
 .header {
