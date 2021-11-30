@@ -19,18 +19,21 @@ export default {
     }
     
     else {
-        const isLibrarian = localStorage.getItem("isLibrarian")
-
-        document.getElementById("login-btn").hidden = true
-        document.querySelector(".home").hidden = false
-        document.querySelector(".room-booking").hidden = false
-        document.querySelector(".account").hidden = false
-        document.querySelector(".browse").hidden = false
-        document.getElementById("logout-btn").hidden = false
-        document.getElementById("reservations").hidden = false;
-
+      const isLibrarian = localStorage.getItem("isLibrarian")
+      
+      document.getElementById("login-btn").hidden = true
+      document.querySelector(".home").hidden = false
+      document.querySelector(".room-booking").hidden = false
+      document.querySelector(".account").hidden = false
+      document.querySelector(".browse").hidden = false
+      document.getElementById("logout-btn").hidden = false
+      document.getElementById("reservations").hidden = false;
+      
         if (isLibrarian == "true"){
+
+          document.querySelector(".room-booking").hidden = true
           document.querySelector(".tools").hidden = false
+          document.getElementById("reservations").hidden = true;
 
             if (username == "headLibrarian"){
                document.querySelector(".management").hidden = false

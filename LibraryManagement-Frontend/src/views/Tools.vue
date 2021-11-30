@@ -109,13 +109,25 @@
         <span hidden="true" class="header2 error-msg">Error message</span>
       </div>
     </div>
+    <!-- ********** Staff schedule SECTION **********-->
     <button @click="expandStaffSchedule()" class="collapsible">
       <span id="arrow-staff">+</span> Staff Schedule
     </button>
     <div id="staff-schedule" class="content">
       <div class="header">Staff Schedule</div>
-      Schedule will be here!!!
+        <table>
+        <tr>
+          <th>Time</th>
+          <th>Date</th>
+        </tr>
+        <tr v-for="timeslot in this.staffSchedule" :key="timeslot">
+          <td>{{ timeslot.startTime }} - {{ timeslot.endTime }}</td>
+          <td>{{ timeslot.date }}</td>
+        </tr>
+      </table>
     </div>
+
+    <!-- ********** Checkout title SECTION **********-->
     <button @click="expandCheckout()" class="collapsible">
       <span id="arrow-checkout">+</span> Checkout Title
     </button>
@@ -233,5 +245,24 @@
 
 #msg-checkout {
   padding: 10px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 40%;
+  margin-top: 0px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+td,
+th {
+  border: 1px solid aliceblue;
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: aliceblue;
 }
 </style>

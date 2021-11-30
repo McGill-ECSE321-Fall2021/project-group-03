@@ -22,9 +22,77 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
      
         methods:  {
 
+            createLibraryScheduleTimeslot(){
+                // get info from inputs
+                const startDate = document.getElementById("timeslot-date").value.split("-"),
+                startTime = document.getElementById("ts").value.split(":"),
+                endTime = document.getElementById("te").value.split(":"),
+                startHour = startTime[0],
+                startMin = startTime[1],
+                endHour = endTime[0],
+                endMin = endTime[1],
+                year = startDate[0],
+                month = startDate[1],
+                day = startDate[2]
+
+                // create url
+                const url = "/libraryTimeslots/create/" + startHour + "?startMin=" + startMin + "&endHour=" + endHour + "&endMin=" + endMin + "&year=" + year + "&month=" + month + "&day=" + day;
+
+                console.log(url)
+
+                AXIOS.post(url, {}, {}).then(response => {
+                    console.log(response.data)
+                })
+                .catch(e => {
+
+                });
+            },
+
+            createStaffScheduleTimeslot(){
+                // get info from inputs
+                const startDate = document.getElementById("staff-timeslot-date").value.split("-"),
+                startTime = document.getElementById("ts-staff").value.split(":"),
+                endTime = document.getElementById("te-staff").value.split(":"),
+                startHour = startTime[0],
+                startMin = startTime[1],
+                endHour = endTime[0],
+                endMin = endTime[1],
+                year = startDate[0],
+                month = startDate[1],
+                day = startDate[2],
+                librarianUsername = document.getElementById("lib-username").value
+
+                // create url
+                const url = "/staffSchedules/create/" + librarianUsername + "?startHour=" + startHour + "&startMin=" + startMin + "&endHour=" + endHour + "&endMin=" + endMin + "&year=" + year + "&month=" + month + "&day=" + day;
+
+                console.log(url)
+
+                AXIOS.post(url, {}, {}).then(response => {
+                    console.log(response.data)
+                })
+                .catch(e => {
+
+                });
+            },
+
             expandLibraryScheduling(){
                 const content = document.getElementById("library-schedule")
                 const icon = document.getElementById("arrow-library-scheduling")
+
+                if (content.style.display == "none"){
+                    content.style.display = "block"
+                    icon.innerHTML = "-"
+                }
+
+                else {
+                    content.style.display = "none"
+                    icon.innerHTML = "+"
+                }
+            },
+
+            expandStaffScheduling(){
+                const content = document.getElementById("staff-schedule")
+                const icon = document.getElementById("arrow-staff-scheduling")
 
                 if (content.style.display == "none"){
                     content.style.display = "block"

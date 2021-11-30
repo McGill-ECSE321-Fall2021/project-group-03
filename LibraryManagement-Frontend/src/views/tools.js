@@ -21,6 +21,28 @@ function TitleDto(name, description, genre, isAvailable, titleType) {
 }
 
 export default {
+  mounted: function loadStaffSchedule(){
+    const librarianUsername = localStorage.getItem("Username")
+    const url = "/staffSchedules/get/" + librarianUsername
+
+    // make the get request
+    AXIOS.get(url, {}, {})
+    .then(response => {
+      this.staffSchedule = response.data
+    })
+    .catch(e => {
+
+    });
+
+  },
+
+  data(){
+    return {
+        staffSchedule: [],
+        response: []
+    }
+  },
+
   methods: {
     createTitle() {
       let titleName = document.getElementById("title-name-create").value;

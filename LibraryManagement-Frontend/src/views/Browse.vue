@@ -78,23 +78,20 @@
 </script>
 
 <style scoped>
+
 table {
-  border-collapse: collapse;
-  width: 85%;
-  margin-left: auto;
-  margin-right: auto;
+border-collapse: collapse;
+width: 100%;
 }
 
-td,
-th {
-  border: 1px solid aliceblue;
-  text-align: left;
-  padding: 8px;
-  text-align: center;
+td,th {
+border: 1px solid aliceblue;
+text-align: left;
+padding: 8px;
 }
 
 tr:nth-child(even) {
-  background-color: aliceblue;
+background-color: aliceblue;
 }
 
 .click-appear {

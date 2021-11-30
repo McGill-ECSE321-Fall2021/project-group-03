@@ -110,18 +110,17 @@ var AXIOS = axios.create({
                     });
                 }
 
-                console.log(availability)
-
                 if (availability != "all") {
                     Array.from(tableData).forEach(entry => {
                         // check the content of title-type <td>
                         Array.from(entry.children).forEach(column => {
                             if(column.className == "title-isAvailable"){
                                 if (availability == "Yes"){
-                                    if (column.innerHTML != "✓"){
+                                    if (column.innerHTML == "✗"){
                                         entry.style.display = 'none'
                                     }
                                 }
+
                                 else {
                                     if (column.innerHTML == "✓"){
                                         entry.style.display = 'none'

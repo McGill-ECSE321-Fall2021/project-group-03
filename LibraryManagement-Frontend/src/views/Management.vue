@@ -72,14 +72,15 @@
   </div>
 
 
-
+  <!-- ********** set library schedule section **********-->
 
   <button @click="expandLibraryScheduling()" class="collapsible"><span id="arrow-library-scheduling">+</span> Library Scheduling</button>
 
   <div class="content" id="library-schedule">
     <div class="header">Set Library Schedule</div>
     <div class="lib-sched-inputs">
-      <input type="date" id="birthday" name="birthday" />
+      <div class="header2">Date</div>
+      <input type="date" class="date" id="timeslot-date" name="birthday" />
       <div class="header2">Start Time</div>
       <input id="ts" type="time" min="09:00" max="22:00" required />
       <div class="header2">End Time</div>
@@ -89,85 +90,48 @@
     <div>
       <input
         type="submit"
-        @click="displaySuccessSET()"
+        @click="createLibraryScheduleTimeslot()"
         class="set-schedule"
         value="Set"
       />
-      <span hidden="true" class="header2 success-msgSET"
-        >Library Schedule Successfully Set.</span
-      >
+      <span hidden="true" class="header2 success-msgSET">Library Schedule Successfully Set.</span>
+      <span hidden="true" class="header2 error-msgSET">Error message</span>
+    </div>
+    </div>
+
+  <!-- ********** set staff schedule section **********-->
+
+  <button @click="expandStaffScheduling()" class="collapsible"><span id="arrow-staff-scheduling">+</span> Staff Scheduling</button>
+
+  <div class="content" id="staff-schedule">
+    <div class="header">Set Staff Schedule</div>
+    <div class="lib-sched-inputs">
+      <div class="header2">Username</div>
+      <input type="text" id="lib-username" placeholder="librarian username">
+      <br>
+      <div class="header2">Date</div>
+      <input type="date" class="date" id="staff-timeslot-date" name="birthday" />
+      <div class="header2">Start Time</div>
+      <input id="ts-staff" type="time" min="09:00" max="22:00" required />
+      <div class="header2">End Time</div>
+      <input id="te-staff" type="time" min="09:00" max="22:00" required />
+    </div>
+
+    <div>
+      <input
+        type="submit"
+        @click="createStaffScheduleTimeslot()"
+        class="set-schedule"
+        value="Set"
+      />
+      <span hidden="true" class="header2 success-msgSET">Library Schedule Successfully Set.</span>
       <span hidden="true" class="header2 error-msgSET">Error message</span>
     </div>
     </div>
   </div>
 </template>
 <script src="./management.js">
-//   methods: {
-//     displaySuccessH() {
-//       const successMsg = document.querySelector(".success-msgH");
-//       const errorMsg = document.querySelector(".error-msgH");
-//       const error = false;
-//       if (error) {
-//         errorMsg.hidden = false;
-//         errorMsg.className += " fadeIn";
-//       } else {
-//         successMsg.hidden = false;
-//         successMsg.className += " fadeIn";
-//       }
-//       const getinfo = document.getElementsByClassName("librarian-info");
-//       console.log(getinfo);
-//       Array.from(getinfo).forEach((element) => {
-//         if (element.tagName != "SELECT") {
-//           element.value = "";
-//         }
-//       });
-//     },
 
-//     displaySuccessF() {
-//       const successMsg = document.querySelector(".success-msgF");
-//       const errorMsg = document.querySelector(".error-msgF");
-//       const error = false;
-//       if (error) {
-//         errorMsg.hidden = false;
-//         errorMsg.className += " fadeIn";
-//       } else {
-//         successMsg.hidden = false;
-//         successMsg.className += " fadeIn";
-//       }
-//       const getinfo = document.getElementsByClassName("librarian-info");
-//       console.log(getinfo);
-//       Array.from(getinfo).forEach((element) => {
-//         if (element.tagName != "SELECT") {
-//           element.value = "";
-//         }
-//       });
-//     },
-//     displaySuccessSET() {
-//       const successMsg = document.querySelector(".success-msgSET");
-//       const errorMsg = document.querySelector(".error-msgSET");
-//       const error = false;
-//       if (error) {
-//         errorMsg.hidden = false;
-//         errorMsg.className += " fadeIn";
-//       } else {
-//         successMsg.hidden = false;
-//         successMsg.className += " fadeIn";
-//       }
-
-//       document.getElementById("te").value =
-//         document.getElementById("te").defaultValue;
-//       document.getElementById("ts").value =
-//         document.getElementById("ts").defaultValue;
-//       const getinfo = document.getElementsByClassName("librarian-info");
-//       console.log(getinfo);
-//       Array.from(getinfo).forEach((element) => {
-//         if (element.tagName != "SELECT") {
-//           element.value = "";
-//         }
-//       });
-//     },
-//   },
-// };
 </script>
 
 <style>
@@ -300,6 +264,11 @@ input[type="time"] {
   }
 }
 
+.date {
+  border-radius: 10px;
+  padding: 10px;
+}
+
 .collapsible{
   margin-top: 10px;
   background-color: cadetblue;
@@ -326,6 +295,11 @@ input[type="time"] {
   padding: 0 10px;
   display: none;
   background-color: rgb(227, 243, 243);
+}
+
+#lib-username{
+  border-radius: 10px;
+  padding: 10px;
 }
 
 </style>
