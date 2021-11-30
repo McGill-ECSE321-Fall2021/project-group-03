@@ -148,7 +148,6 @@ var AXIOS = axios.create({
             },
 
             clickRow(titleName) {
-                console.log(titleName)
                 let goodUrl = "/#/browse/title/" + titleName;
                 window.location.href = goodUrl;
             },

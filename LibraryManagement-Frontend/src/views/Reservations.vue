@@ -10,31 +10,31 @@
           <td>Checked Out</td>
         </tr>
         <tr
-          v-for="titleReservation in this.titleReservations"
+          v-for="titleReservation in titleReservations"
           :key="titleReservation"
           class="click-appear"
         >
           <td>{{ titleReservation.title.name }}</td>
           <td>{{ titleReservation.returnDate }}</td>
-          <td>{{ titleReservation.checkedOut }}</td>
+          <td>{{ displayAvailability(titleReservation.checkedOut) }}</td>
         </tr>
       </table>
     </div>
     <div class="header">Current Room Reservations</div>
-    <!-- <table>
+    <table>
       <tr class="first-row">
         <td>Id</td>
         <td>Time</td>
       </tr>
       <tr
-        v-for="roomReservation in this.roomReservations"
+        v-for="roomReservation in roomReservations"
         :key="roomReservation"
         class="click-appear"
       >
-        <td>{{ reservation.roomId }}</td>
+        <td>{{ roomReservation.room.roomId }}</td>
         <td>{{ roomReservation.startTime }} - {{ roomReservation.endTime }}</td>
       </tr>
-    </table> -->
+    </table>
   </div>
 </template>
 
@@ -44,7 +44,10 @@
 <style scoped>
 table {
   border-collapse: collapse;
-  width: 100%;
+  width: 60%;
+  margin: 20px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 td,
@@ -52,6 +55,7 @@ th {
   border: 1px solid aliceblue;
   text-align: left;
   padding: 8px;
+  text-align: center;
 }
 
 tr:nth-child(even) {
@@ -73,5 +77,7 @@ tr:nth-child(even) {
   font-size: 35px;
   font-weight: 700;
   padding: 10px;
+  padding-bottom: 0px;
+  text-align: center;
 }
 </style>

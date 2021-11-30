@@ -38,20 +38,18 @@ export default{
             .then(response => {
                 // JSON responses are automatically parsed.
                 this.titleReservations = response.data
-                console.log(this.titleReservations)
             })
             .catch(e => {
                 this.errorTitle = e
             })
 
-            // let goodUrl = "/clients/get/reservations/" + username
-            // AXIOS.get(goodUrl).then(response => {
-            //     // JSON responses are automatically parsed.
-            //     this.roomReservations = response.data
-            //     console.log(this.titleReservations)
-            // }).catch(e => {
-            //     this.errorTitle = e
-            // })
+            let goodUrl = "/rooms/getRoomReservationByClient/" + username
+            AXIOS.get(goodUrl).then(response => {
+                // JSON responses are automatically parsed.
+                this.roomReservations = response.data
+            }).catch(e => {
+                this.errorTitle = e
+            })
         }
     },
     methods: {
