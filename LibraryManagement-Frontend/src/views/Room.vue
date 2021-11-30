@@ -1,70 +1,86 @@
 <template>
   <div>
     <MenuBar />
-    <div class="header">Room Finder</div>
     <div class="header-2">Available Rooms</div>
-    <div class="type-selector">
+    <!-- <div class="type-selector" @change="selectFilter()">
       <label for="room-type">Room Type: </label>
-      <select name="room-type">
+      <select name="room-type" id="type-selector">
         <option value="all">All</option>
-        <option value="study">Study</option>
-        <option value="party">Party</option>
+        <option value="Study">Study</option>
+        <option value="Event">Event</option>
       </select>
-    </div>
-    <input type="date" id="birthday" name="birthday" />
+    </div> -->
     <div class="header-3">Click on room name to reserve</div>
 
     <div class="content titles">
-      <RoomsTable />
+      <table>
+        <tr>
+          <td>Type</td>
+          <td>Capacity</td>
+        </tr>
+        <tr
+          class="click-appear"
+          v-for="room in displayRooms"
+          :key="room"
+          @click="clickRow(room.roomId)"
+        >
+          <td>{{ room.roomType }}</td>
+          <td>{{ room.capacity }}</td>
+        </tr>
+      </table>
     </div>
   </div>
 </template>
 
-<script>
-import MenuBar from "../components/MenuBar.vue";
-import RoomsTable from "../components/RoomsTable.vue";
-
-export default {
-  name: "Home",
-  components: {
-    MenuBar,
-    RoomsTable,
-  },
-};
-</script>
+<script src="./rooms.js"></script>
 
 <style scoped>
-.header {
+.header-2 {
+  padding-top: 10px;
   color: darkslategray;
-  font-size: 35px;
-  font-weight: 700;
-  padding: 10px;
+  font-size: 30px;
+  font-weight: 500;
   text-align: center;
 }
 
-.header-2 {
-  padding-top: 20px;
-  padding-left: 20px;
-  color: darkslategray;
-  font-size: 25px;
-  font-weight: 500;
-}
-
 .header-3 {
-  padding-left: 20px;
   color: darkslategray;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 350;
+  text-align: center;
 }
 
-/* FIX THIS */
 .type-selector {
-  display: inline;
   padding-left: 20px;
 }
 
-#birthday {
-  margin-left: 18px;
-  margin-bottom: 15px;
+table {
+  border-collapse: collapse;
+  width: 60%;
+  margin: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.click-appear {
+  cursor: pointer;
+}
+
+td,
+th {
+  border: 1px solid aliceblue;
+  text-align: left;
+  padding: 8px;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: aliceblue;
+}
+
+table :first-child {
+  font-size: 20px;
+  font-weight: 550;
+  color: black;
 }
 </style>

@@ -1,48 +1,54 @@
 <template>
   <div class="table">
+    <input type="date" id="birthday" name="birthday" />
     <table>
       <tr>
         <th>Time</th>
+        <th>Date</th>
       </tr>
-      <!-- ADD ID WHEN  -->
-      <tr class="click-appear" id="" ref="r1">
-        <td>7:00am-8:00am</td>
-      </tr>
-      <tr class="click-appear" id="2" @click="clickRow()">
-        <td>8:00am-9:00am</td>
-      </tr>
-      <tr class="click-appear" id="3" @click="clickRow(this.id)">
-        <td>9:00am-10:00am</td>
+      <tr
+        class="click-appear"
+        v-for="roomReservation in roomReservations"
+        :key="roomReservation"
+        @click="clickRow(roomReservation)"
+      >
+        <th>{{ roomReservation.startTime }} - {{ roomReservation.endTime }}</th>
+        <th>{{ roomReservation.date }}</th>
       </tr>
     </table>
   </div>
 </template>
 
-<script>
-export default {
-  methods: {
-    clickRow() {
-      console.log(this.$refs);
-      //   element.classList.add("selected");
-      //   document.querySelector(element).className += " selected";
-    },
-  },
-};
-</script>
+<script src="./timeslots.js"></script>
 
 <style scoped>
-.table {
+table {
   border-collapse: collapse;
-  padding-left: 80px;
-  padding-right: 80px;
-  padding-bottom: 10px;
+  width: 40%;
+  margin-top: 0px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+td,
+th {
+  border: 1px solid aliceblue;
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: aliceblue;
 }
 
 .click-appear {
   cursor: pointer;
 }
 
-.selected {
-  background-color: blue;
+#birthday {
+  margin: auto;
+  display: block;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 </style>

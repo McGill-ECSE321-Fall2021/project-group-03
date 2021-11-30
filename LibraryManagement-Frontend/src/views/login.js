@@ -87,6 +87,7 @@ export default{
                     let responseEmail = response.data.email;
                     let responsePassword = response.data.password;
                     let responseAddress = response.data.residentialAddress;
+                    let responseUserId = response.data.userId;
 
                     window.location.href = "/#/"
 
@@ -95,6 +96,7 @@ export default{
                     localStorage.setItem("Password", responsePassword);
                     localStorage.setItem("Address", responseAddress);
                     localStorage.setItem("isLibrarian", false);
+                    localStorage.setItem("userId", responseUserId);
 
                 })
                 .catch(e => {
@@ -202,6 +204,7 @@ export default{
                 let responseEmail = response.data.email;
                 let responsePassword = response.data.password;
                 let responseAddress = response.data.residentialAddress;
+                let responseUserId = response.data.userId;
 
                 window.location.href = "/#/"
 
@@ -210,6 +213,7 @@ export default{
                 localStorage.setItem("Password", responsePassword);
                 localStorage.setItem("Address", responseAddress);
                 localStorage.setItem("isLibrarian", false);
+                localStorage.setItem("userId", responseUserId);
 
             })
             .catch(e => {
