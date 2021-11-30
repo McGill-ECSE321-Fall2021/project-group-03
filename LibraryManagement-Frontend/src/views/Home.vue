@@ -31,6 +31,10 @@
         velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
         occaecat cupidatat non proident, sunt in culpa qui officia deserunt
         mollit anim id est laborum.
+        <br>
+        <br>
+        <div class="header2">Meet Our Librarians</div>
+        <img id="librarians" src="../images/librarians.jpg" alt="">
       </div>
     </div>
     <div class="contact-information section">
@@ -58,6 +62,7 @@ export default {
     MenuBar,
   }
 };
+
 </script>
 <style scoped>
 .header {
@@ -82,5 +87,9 @@ export default {
   color: teal;
   padding-left: 10px;
   line-height: 1.6;
+}
+
+#librarians{
+  width: 50%;
 }
 </style>

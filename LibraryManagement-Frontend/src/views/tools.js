@@ -24,13 +24,11 @@ function TitleDto (name, description, genre, isAvailable, titleType){
         methods:  {
             createTitle() {
                 let titleName = document.getElementById("title-name-create").value
-                console.log(titleName)
                 let description = document.getElementById("title-description-create").value
-                console.log(description)
                 let genre = document.getElementById("title-genre-create").value
-                console.log(genre)
                 let type = document.getElementById("title-type-create").value
-                console.log(type)
+
+                const msg = document.getElementById("msg-create-title")
 
                 let goodUrl = "/titles/create/" + titleName + "?description=" + description + "&genre=" + genre + "&isAvailable=true" + "&titleType=" + type
                 console.log(goodUrl)
@@ -38,11 +36,20 @@ function TitleDto (name, description, genre, isAvailable, titleType){
                 var t = new TitleDto(titleName, description, genre, true, type)
                 this.titles.push(t)
                 this.newTitle = ''
+
+                // display success
+                msg.innerHTML = "Title created successfully!"
+
                 })
                 .catch(e => {
                     var errorMsg = e.response.data.message
                     console.log(errorMsg)
                     this.errorTitle = errorMsg
+
+                    // display error
+                    msg.innerHTML = errorMsg
+                    msg.style.color = "red"
+
                   })
             },
 
