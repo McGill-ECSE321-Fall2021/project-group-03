@@ -39,7 +39,7 @@ export default new Router({
 		component: require('../views/Room.vue').default
 	},
 	{
-		path: '/browse/room/:name',
+		path: '/browse/room/:id',
 		name: RoomInformation,
 		component: require('../views/RoomInformation.vue').default
 	},

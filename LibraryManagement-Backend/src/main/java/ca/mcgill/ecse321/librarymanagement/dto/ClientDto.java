@@ -11,7 +11,7 @@ public class ClientDto extends UserDto {
 	private String password;
 	private String fullName;
 	
-	public ClientDto(String username, String fullName, String password, String residentialAddress, String email, boolean isResident, boolean isOnline) {
+	public ClientDto(int aUserId, String username, String fullName, String password, String residentialAddress, String email, boolean isResident, boolean isOnline) {
 		this.username = username;
 		this.password = password;
 		this.fullName = fullName;
@@ -19,6 +19,7 @@ public class ClientDto extends UserDto {
 		this.email = email;
 		this.isResident = isResident;
 		this.isOnline = isOnline;
+		this.userId = aUserId;
 	}
 
 	public String getResidentialAddress() {
