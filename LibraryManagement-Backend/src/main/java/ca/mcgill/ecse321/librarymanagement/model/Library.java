@@ -376,30 +376,42 @@ public class Library {
 	}
 
 	public void delete() {
-		while (users.size() > 0) {
-			User aUser = users.get(users.size() - 1);
-			users.remove(aUser);
-		}
-
-		while (titles.size() > 0) {
-			Title aTitle = titles.get(titles.size() - 1);
-			titles.remove(aTitle);
-		}
-
-		while (rooms.size() > 0) {
-			Room aRoom = rooms.get(rooms.size() - 1);
-			rooms.remove(aRoom);
-		}
+//		while (users.size() > 0) {
+//			User aUser = users.get(users.size() - 1);
+//			users.remove(aUser);
+//		}
+//
+//		while (titles.size() > 0) {
+//			Title aTitle = titles.get(titles.size() - 1);
+//			titles.remove(aTitle);
+//		}
+//
+//		while (rooms.size() > 0) {
+//			Room aRoom = rooms.get(rooms.size() - 1);
+//			rooms.remove(aRoom);
+//		}
+//		
+//		while (roomReservations.size() > 0) {
+//			RoomReservation aRoomReservation = roomReservations.get(roomReservations.size() - 1);
+//			roomReservations.remove(aRoomReservation);
+//		}
+//		
+//		while (titleReservations.size() > 0) {
+//			TitleReservation aTitleReservation = titleReservations.get(titleReservations.size() - 1);
+//			titleReservations.remove(aTitleReservation);
+//		}
 		
-		while (roomReservations.size() > 0) {
-			RoomReservation aRoomReservation = roomReservations.get(roomReservations.size() - 1);
-			roomReservations.remove(aRoomReservation);
-		}
-		
-		while (titleReservations.size() > 0) {
-			TitleReservation aTitleReservation = titleReservations.get(titleReservations.size() - 1);
-			titleReservations.remove(aTitleReservation);
-		}
+		librarySchedule = null;
+
+		users= null;
+
+		titles = null;
+
+		rooms = null;
+
+		roomReservations = null;
+
+		titleReservations = null;
 		
 		this.librarySchedule = null;
 

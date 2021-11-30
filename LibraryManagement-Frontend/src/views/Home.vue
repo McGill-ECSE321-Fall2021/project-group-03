@@ -28,6 +28,10 @@
         provide an enriching environment for entertainment and education. Our
         team of incredible librarians are highly equipped to help clients
         fulfull their grandest of needs.
+        <br />
+        <br />
+        <div class="header2">Meet Our Librarians</div>
+        <img id="librarians" src="../images/librarians.jpg" alt="" />
       </div>
     </div>
     <div class="contact-information section">
@@ -79,5 +83,9 @@ export default {
   color: teal;
   padding-left: 10px;
   line-height: 1.6;
+}
+
+#librarians {
+  width: 50%;
 }
 </style>

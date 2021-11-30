@@ -58,10 +58,7 @@ var AXIOS = axios.create({
                 // get filter values
                 const type = document.getElementById("type").value
                 const genre = document.getElementById("genre").value
-
-                const availability = document.getElementById("availability").checked
-
-                console.log(availability)
+                const availability = document.getElementById("availability").value
 
                 const name = document.getElementById("title-name").value
 
@@ -113,20 +110,27 @@ var AXIOS = axios.create({
                     });
                 }
 
-                if (availability) {
+                console.log(availability)
+
+                if (availability != "all") {
                     Array.from(tableData).forEach(entry => {
                         // check the content of title-type <td>
                         Array.from(entry.children).forEach(column => {
-                            if(column.className == "title-genre"){
-                                if (column.innerHTML != genre){
-                                    entry.style.display = 'none'
+                            if(column.className == "title-isAvailable"){
+                                if (availability == "Yes"){
+                                    if (column.innerHTML != "✓"){
+                                        entry.style.display = 'none'
+                                    }
+                                }
+                                else {
+                                    if (column.innerHTML == "✓"){
+                                        entry.style.display = 'none'
+                                    }
                                 }
                             }
                         });
                     });
                 }
-
-
             },
 
             displayAvailability: function(isAvailable) {
