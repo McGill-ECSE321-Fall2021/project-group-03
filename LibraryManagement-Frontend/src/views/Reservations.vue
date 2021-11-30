@@ -25,6 +25,7 @@
       <tr class="first-row">
         <td>Id</td>
         <td>Time</td>
+        <td>Date</td>
       </tr>
       <tr
         v-for="roomReservation in roomReservations"
@@ -33,6 +34,7 @@
       >
         <td>{{ roomReservation.room.roomId }}</td>
         <td>{{ roomReservation.startTime }} - {{ roomReservation.endTime }}</td>
+        <td>{{ roomReservation.date }}</td>
       </tr>
     </table>
   </div>
