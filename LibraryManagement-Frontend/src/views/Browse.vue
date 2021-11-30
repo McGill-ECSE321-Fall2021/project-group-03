@@ -28,8 +28,12 @@
                         <option value="Horror">Horror</option>
                     </select>
                     <br>
-                        <label for="title-type">Available</label>
-                        <input id="availability" type="checkbox">
+                        <label for="title-type">Availability</label>
+                        <select id="availability">
+                            <option value="all">All</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
                 </div>
         </div>
         <div class="header">Titles</div>
