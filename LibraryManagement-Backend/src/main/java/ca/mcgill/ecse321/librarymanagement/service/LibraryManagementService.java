@@ -333,7 +333,7 @@ public class LibraryManagementService {
 		}
 
 		int year = date.getYear() - 1900;
-	    int month = date.getMonth();
+	    int month = date.getMonth() -1;
 	    int day = date.getDate();
 	    Date date1 = new Date(year,month,day);
 		Timeslot timeslot = new Timeslot(startTime, endTime, date1);
@@ -664,7 +664,7 @@ public class LibraryManagementService {
 		}
 		
 		int year = date.getYear() - 1900;
-	    int month = date.getMonth();
+	    int month = date.getMonth()-1;
 	    int day = date.getDate();
 	    Date date1 = new Date(year,month,day);
 		Timeslot timeslot = new Timeslot(startTime, endTime, date1);
