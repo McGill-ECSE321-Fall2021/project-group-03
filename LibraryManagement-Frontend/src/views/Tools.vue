@@ -97,6 +97,8 @@
           class="create-title"
           value="Delete Title"
         />
+        <span class="header2 success-msg" id="msg-delete-title"></span>
+        <span hidden="true" class="header2 error-msg">Error message</span>
       </div>
     </div>
     <button @click="expandStaffSchedule()" class="collapsible">

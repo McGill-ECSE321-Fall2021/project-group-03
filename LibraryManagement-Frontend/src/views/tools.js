@@ -166,8 +166,6 @@ export default {
       let titleGenre = document.getElementById("title-genre-update").value;
       console.log(titleGenre);
 
-      const msg = document.getElementById("msg-update-title");
-
       let goodUrl =
         "/titles/update/" +
         titleName +
@@ -178,17 +176,16 @@ export default {
         "&titleType=" +
         titleType;
       console.log(goodUrl);
-      AXIOS.post(goodUrl, {}, {}).then(response => {});
+      AXIOS.post(goodUrl, {}, {})
+        .then(response => {})
 
-      //display success
-      msg.innerHTML = "Title updated successfully!".catch(e => {
-        var errorMsg = e.response.data.message;
-        console.log(errorMsg);
-        this.errorTitle = errorMsg;
+        //display success
 
-        msg.innerHTML = errorMsg;
-        msg.style.color = "red";
-      });
+        .catch(e => {
+          var errorMsg = e.response.data.message;
+          console.log(errorMsg);
+          this.errorTitle = errorMsg;
+        });
     }
   },
   components: {
