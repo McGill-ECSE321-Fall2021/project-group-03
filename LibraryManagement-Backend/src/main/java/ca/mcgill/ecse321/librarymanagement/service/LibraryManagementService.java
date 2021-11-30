@@ -393,12 +393,12 @@ public class LibraryManagementService {
 	}
 
 	@Transactional
-	public List<Timeslot> getAllLibrarianTimeslots(int librarianId) {
+	public List<Timeslot> getAllLibrarianTimeslots(String librarianUsername) {
 		// filter through only the library timeslots
-		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
-
+		Librarian librarian = librarianRepository.findLibrarianByUsername(librarianUsername);
 		return librarian.getStaffSchedule().getTimeslots();
 	}
+	
 
 	@Transactional
 	public List<Room> getAllRooms() {
@@ -633,9 +633,9 @@ public class LibraryManagementService {
 
 	@Transactional
 	public Timeslot createStaffScheduleTimeslot(Time startTime, Time endTime, Date date, Library library,
-			int librarianId) {
+			String username) {
 
-		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
+		Librarian librarian = librarianRepository.findLibrarianByUsername(username);
 
 		if (librarian == null) {
 			throw new IllegalArgumentException("librarian does not exist");

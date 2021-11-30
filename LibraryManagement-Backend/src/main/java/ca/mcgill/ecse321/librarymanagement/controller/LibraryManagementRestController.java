@@ -523,14 +523,14 @@ public class LibraryManagementRestController {
 	 * 
 	 */
 
-	@GetMapping(value = { "/staffSchedules/get/{librarianId}", "/staffSchedules/get/{librarianId}/" })
-	public List<TimeslotDto> getAllTimeSlotsInStaffSchedule(@PathVariable("librarianId") String librarianId) {
-		return service.getAllLibrarianTimeslots(Integer.parseInt(librarianId)).stream().map(b -> convertToDto(b))
+	@GetMapping(value = { "/staffSchedules/get/{librarianUsername}", "/staffSchedules/get/{librarianUsername}/" })
+	public List<TimeslotDto> getAllTimeSlotsInStaffSchedule(@PathVariable("librarianUsername") String librarianUsername) {
+		return service.getAllLibrarianTimeslots(librarianUsername).stream().map(b -> convertToDto(b))
 				.collect(Collectors.toList());
 	}
 
-	@PostMapping(value = { "/staffSchedules/create/{librarianId}", "/staffSchedules/create/{librarianId}/" })
-	public TimeslotDto createStaffScheduleTimeslot(@PathVariable("librarianId") String librarianId,
+	@PostMapping(value = { "/staffSchedules/create/{librarianUsername}", "/staffSchedules/create/{librarianUsername}/" })
+	public TimeslotDto createStaffScheduleTimeslot(@PathVariable("librarianUsername") String librarianUsername,
 			@RequestParam String startHour, String startMin, @RequestParam String endHour, @RequestParam String endMin,
 			@RequestParam String year, @RequestParam String month, @RequestParam String day)
 			throws IllegalArgumentException {
@@ -542,8 +542,7 @@ public class LibraryManagementRestController {
 		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
 		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
 
-		Timeslot timeslot = service.createStaffScheduleTimeslot(startTime, endTime, date, library,
-				Integer.parseInt(librarianId));
+		Timeslot timeslot = service.createStaffScheduleTimeslot(startTime, endTime, date, library, librarianUsername);
 
 		return convertToDto(timeslot);
 	}

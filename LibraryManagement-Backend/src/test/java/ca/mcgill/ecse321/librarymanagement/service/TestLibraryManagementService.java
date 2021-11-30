@@ -668,12 +668,13 @@ public class TestLibraryManagementService {
 		Time start = null;
 		Time end = null;
 		Timeslot timeslot = null;
+		String username = null;
 		Library library = new Library();
 
 		String error = "";
 
 		try {
-			timeslot = service.createStaffScheduleTimeslot(start, end, date, library, 0);
+			timeslot = service.createStaffScheduleTimeslot(start, end, date, library, username);
 		}
 
 		catch (IllegalArgumentException e) {
@@ -701,8 +702,8 @@ public class TestLibraryManagementService {
 		String error = "";
 
 		try {
-			timeslot = service.createStaffScheduleTimeslot(start, end, date, library, librarian.getUserId());
-			timeslot = service.createStaffScheduleTimeslot(start, end, date, library, librarian.getUserId());
+			timeslot = service.createStaffScheduleTimeslot(start, end, date, library, librarian.getUsername());
+			timeslot = service.createStaffScheduleTimeslot(start, end, date, library, librarian.getUsername());
 		}
 
 		catch (IllegalArgumentException e) {
