@@ -1,9 +1,11 @@
 <template>
-<div>
+  <div>
     <MenuBar />
-    <button @click="expandInventory()" class="collapsible"><span id="arrow-inventory">+</span> Inventory Management</button>
+    <button @click="expandInventory()" class="collapsible">
+      <span id="arrow-inventory">+</span> Inventory Management
+    </button>
     <div id="inventory" class="content">
-    <div class="header">Create Title</div>
+      <div class="header">Create Title</div>
       <form action="">
         <input
           class="title-info"
@@ -42,65 +44,71 @@
         <span class="header2 success-msg" id="msg-create-title"></span>
         <span hidden="true" class="header2 error-msg">Error message</span>
       </div>
-    <div class="header">Update Title</div>
-    <div>
-      <input
-        class="title-info"
-        id="title-name-update"
-        type="text"
-        placeholder="Name"
-      />
-      <input
-        class="title-info"
-        id="title-description-update"
-        type="text"
-        placeholder="Description"
-      />
-      <select class="title-info" id="title-genre-update" name="type">
-        <option value="None">None</option>
-        <option value="Adventure">Adventure</option>
-        <option value="Action">Action</option>
-        <option value="Comedy">Comedy</option>
-        <option value="Horror">Horror</option>
-      </select>
-      <select class="title-info" id="title-type-update" name="type1">
-        <option value="Book">Book</option>
-        <option value="Movie">Movie</option>
-        <option value="MusicAlbum">Music Album</option>
-        <option value="Newspaper">Newspaper</option>
-        <option value="Archive">Archive</option>
-      </select>
-      <br />
-      <input
-        type="submit"
-        @click="updateTitle()"
-        class="create-title"
-        value="Update Title"
-      />
+      <div class="header">Update Title</div>
+      <div>
+        <input
+          class="title-info"
+          id="title-name-update"
+          type="text"
+          placeholder="Name"
+        />
+        <input
+          class="title-info"
+          id="title-description-update"
+          type="text"
+          placeholder="Description"
+        />
+        <select class="title-info" id="title-genre-update" name="type">
+          <option value="None">None</option>
+          <option value="Adventure">Adventure</option>
+          <option value="Action">Action</option>
+          <option value="Comedy">Comedy</option>
+          <option value="Horror">Horror</option>
+        </select>
+        <select class="title-info" id="title-type-update" name="type1">
+          <option value="Book">Book</option>
+          <option value="Movie">Movie</option>
+          <option value="MusicAlbum">Music Album</option>
+          <option value="Newspaper">Newspaper</option>
+          <option value="Archive">Archive</option>
+        </select>
+        <br />
+        <input
+          type="submit"
+          @click="updateTitle()"
+          class="create-title"
+          value="Update Title"
+        />
+        <span class="header2 success-msg" id="msg-update-title"></span>
+        <span hidden="true" class="header2 error-msg">Error message</span>
+      </div>
+      <div class="header">Remove Title</div>
+      <div>
+        <input
+          class="title-info"
+          id="title-id-delete"
+          type="text"
+          placeholder="Id"
+        />
+        <br />
+        <input
+          type="submit"
+          @click="deleteTitle()"
+          class="create-title"
+          value="Delete Title"
+        />
+      </div>
     </div>
-    <div class="header">Remove Title</div>
-    <div>
-      <input
-        class="title-info"
-        id="title-id-delete"
-        type="text"
-        placeholder="Id"
-      />
-      <br />
-      <input
-        type="submit"
-        @click="deleteTitle()"
-        class="create-title"
-        value="Delete Title"
-      />
-    </div>
-    </div>
-    <button @click="expandStaffSchedule()" class="collapsible"><span id="arrow-staff">+</span> Staff Schedule</button>
+    <button @click="expandStaffSchedule()" class="collapsible">
+      <span id="arrow-staff">+</span> Staff Schedule
+    </button>
     <div id="staff-schedule" class="content">
       <div class="header">Staff Schedule</div>
       Schedule will be here!!!
     </div>
-    <button @click="expandCheckout()" class="collapsible"><span id="arrow-checkout">+</span> Checkout Title</button>
+    <button @click="expandCheckout()" class="collapsible">
+      <span id="arrow-checkout">+</span> Checkout Title
+    </button>
     <div id="checkout-title" class="content">
       <div class="header">Checkout Title</div>
       <input
@@ -109,26 +117,25 @@
         type="text"
         placeholder="Client Username"
       />
-      <br>
+      <br />
       <input
         class="title-info"
         id="title-name"
         type="text"
         placeholder="Title Name"
       />
-      <br>
+      <br />
       <input
-          type="submit"
-          @click="checkoutTitle()"
-          class="create-title"
-          value="Checkout"
-        />
-    <div id="msg-checkout"></div>
+        type="submit"
+        @click="checkoutTitle()"
+        class="create-title"
+        value="Checkout"
+      />
+      <div id="msg-checkout"></div>
     </div>
-</div> 
+  </div>
 </template>
-<script src="./tools.js">
-</script>
+<script src="./tools.js"></script>
 <style scoped>
 .header {
   color: darkslategray;
@@ -187,35 +194,34 @@
   padding-bottom: 10px;
   padding: 10px;
 }
-.collapsible{
+.collapsible {
   margin-top: 10px;
   background-color: cadetblue;
-  color:aliceblue;
+  color: aliceblue;
   border: none;
   text-align: left;
   outline: none;
-  width: 100%; 
+  width: 100%;
   padding: 10px;
 }
-.collapsible:hover{
+.collapsible:hover {
   margin-top: 10px;
   background-color: rgb(63, 102, 105);
-  color:aliceblue;
+  color: aliceblue;
   border: none;
   text-align: left;
   outline: none;
-  width: 100%; 
+  width: 100%;
   padding: 10px;
 }
-.content{
+.content {
   overflow: hidden;
   padding: 0 10px;
   display: none;
   background-color: rgb(227, 243, 243);
 }
 
-#msg-checkout{
+#msg-checkout {
   padding: 10px;
 }
-
 </style>

@@ -4,13 +4,19 @@
     <div class="whats-new section">
       <div class="header">What's New</div>
       <div class="content">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
+        IT'S HOLIDAY SEASON!
+        <br />
+        <br />
+        Celebrate with your loved ones by cozying up and watching your favourite
+        holiday movie (available here!).
+        <br />
+        <br />
+        Going on vacation for winter break? All your favourite beach reads are
+        available to reserve now!
+        <br />
+        <br />
+        Check out our newest music albums! Set the ambiance for your holiday
+        parties. Your guests' ears will be thanking you.
       </div>
     </div>
     <div class="library-hours section">

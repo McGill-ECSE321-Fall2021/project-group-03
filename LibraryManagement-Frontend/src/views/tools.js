@@ -1,182 +1,197 @@
-import axios from 'axios'
-import MenuBar from '../components/MenuBar.vue'
+import axios from "axios";
+import MenuBar from "../components/MenuBar.vue";
 
-var config = require('../../config')
+var config = require("../../config");
 
-var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+var frontendUrl = "http://" + config.dev.host + ":" + config.dev.port;
+var backendUrl =
+  "http://" + config.dev.backendHost + ":" + config.dev.backendPort;
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
-  headers: { 'Access-Control-Allow-Origin': frontendUrl }
-})
+  headers: { "Access-Control-Allow-Origin": frontendUrl }
+});
 
-function TitleDto (name, description, genre, isAvailable, titleType){
-    this.name = name
-    this.description = description
-    this.genre = genre
-    this.isAvailable = isAvailable
-    this.titleType = titleType
+function TitleDto(name, description, genre, isAvailable, titleType) {
+  this.name = name;
+  this.description = description;
+  this.genre = genre;
+  this.isAvailable = isAvailable;
+  this.titleType = titleType;
 }
 
-    export default{
-     
-        methods:  {
-            createTitle() {
-                let titleName = document.getElementById("title-name-create").value
-                let description = document.getElementById("title-description-create").value
-                let genre = document.getElementById("title-genre-create").value
-                let type = document.getElementById("title-type-create").value
+export default {
+  methods: {
+    createTitle() {
+      let titleName = document.getElementById("title-name-create").value;
+      let description = document.getElementById("title-description-create")
+        .value;
+      let genre = document.getElementById("title-genre-create").value;
+      let type = document.getElementById("title-type-create").value;
 
-                const msg = document.getElementById("msg-create-title")
+      const msg = document.getElementById("msg-create-title");
 
-                let goodUrl = "/titles/create/" + titleName + "?description=" + description + "&genre=" + genre + "&isAvailable=true" + "&titleType=" + type
-                console.log(goodUrl)
-                AXIOS.post(goodUrl, {}, {}).then(response => {
-                var t = new TitleDto(titleName, description, genre, true, type)
-                this.titles.push(t)
-                this.newTitle = ''
+      let goodUrl =
+        "/titles/create/" +
+        titleName +
+        "?description=" +
+        description +
+        "&genre=" +
+        genre +
+        "&isAvailable=true" +
+        "&titleType=" +
+        type;
+      console.log(goodUrl);
+      AXIOS.post(goodUrl, {}, {})
+        .then(response => {
+          var t = new TitleDto(titleName, description, genre, true, type);
+          this.titles.push(t);
+          this.newTitle = "";
 
-                // display success
-                msg.innerHTML = "Title created successfully!"
+          // display success
+          msg.innerHTML = "Title created successfully!";
+        })
+        .catch(e => {
+          var errorMsg = e.response.data.message;
+          console.log(errorMsg);
+          this.errorTitle = errorMsg;
 
-                })
-                .catch(e => {
-                    var errorMsg = e.response.data.message
-                    console.log(errorMsg)
-                    this.errorTitle = errorMsg
+          // display error
+          msg.innerHTML = errorMsg;
+          msg.style.color = "red";
+        });
+    },
 
-                    // display error
-                    msg.innerHTML = errorMsg
-                    msg.style.color = "red"
+    expandInventory() {
+      const content = document.getElementById("inventory");
+      const icon = document.getElementById("arrow-inventory");
 
-                  })
-            },
+      if (content.style.display == "none") {
+        content.style.display = "block";
+        icon.innerHTML = "-";
+      } else {
+        content.style.display = "none";
+        icon.innerHTML = "+";
+      }
+    },
 
-            expandInventory(){
-                const content = document.getElementById("inventory")
-                const icon = document.getElementById("arrow-inventory")
+    expandStaffSchedule() {
+      const content = document.getElementById("staff-schedule");
+      const icon = document.getElementById("arrow-staff");
+      if (content.style.display == "none") {
+        content.style.display = "block";
+        icon.innerHTML = "-";
+      } else {
+        content.style.display = "none";
+        icon.innerHTML = "+";
+      }
+    },
 
-                if (content.style.display == "none"){
-                    content.style.display = "block"
-                    icon.innerHTML = "-"
-                }
+    expandCheckout() {
+      const content = document.getElementById("checkout-title");
+      const icon = document.getElementById("arrow-checkout");
+      if (content.style.display == "none") {
+        content.style.display = "block";
+        icon.innerHTML = "-";
+      } else {
+        content.style.display = "none";
+        icon.innerHTML = "+";
+      }
+    },
 
-                else {
-                    content.style.display = "none"
-                    icon.innerHTML = "+"
-                }
-            },
+    checkoutTitle() {
+      const titleName = document.getElementById("title-name").value;
 
-            expandStaffSchedule(){
-                const content = document.getElementById
-                ("staff-schedule")
-                const icon = document.getElementById("arrow-staff")
-                if (content.style.display == "none"){
-                    content.style.display = "block"
-                    icon.innerHTML = "-"
-                }
+      const clientUsername = document.getElementById("client-username").value;
 
-                else {
-                    content.style.display = "none"
-                    icon.innerHTML = "+"
-                }
-            },
+      let goodUrl =
+        "/titles/checkout/" + titleName + "?clientUsername=" + clientUsername;
 
-            expandCheckout(){
-                const content = document.getElementById("checkout-title")
-                const icon = document.getElementById("arrow-checkout")
-                if (content.style.display == "none"){
-                    content.style.display = "block"
-                    icon.innerHTML = "-"
-                }
+      AXIOS.post(goodUrl, {}, {})
+        .then(response => {
+          console.log(response.data);
+          document.getElementById("msg-checkout").innerHTML =
+            "Title Checkout Successful!";
+          document.getElementById("msg-checkout").style.color = "green";
+        })
+        .catch(e => {
+          var errorMsg = e.response.data.message;
+          console.log(errorMsg);
+          this.errorTitle = errorMsg;
+          document.getElementById("msg-checkout").innerHTML = "hello";
+        });
+    },
 
-                else {
-                    content.style.display = "none"
-                    icon.innerHTML = "+"
-                }
-            },
+    displaySuccess() {
+      // const successMsg = document.querySelector(".success-msg")
+      // const errorMsg = document.querySelector(".error-msg")
+      // const error = false
+      // if (error){
+      //     errorMsg.hidden = false
+      //     errorMsg.className += " fadeIn"
+      // }
+      // else {
+      //     successMsg.hidden = false
+      //     successMsg.className += " fadeIn"
+      // }
+      // const getinfo = document.getElementsByClassName("title-info")
+      // console.log(getinfo)
+      // Array.from(getinfo).forEach(element => {
+      //     if(element.tagName != 'SELECT' ){
+      //         element.value = ""
+      //     }
+      // })
+    },
+    deleteTitle() {
+      let titleId = document.getElementById("title-id-delete").value;
+      let goodUrl = "/titles/remove/" + titleId;
 
-            checkoutTitle(){
+      console.log(goodUrl);
+      AXIOS.post(goodUrl, {}, {})
+        .then(response => {})
+        .catch(e => {
+          var errorMsg = e.response.data.message;
+          console.log(errorMsg);
+          this.errorTitle = errorMsg;
+        });
+    },
+    updateTitle() {
+      let titleName = document.getElementById("title-name-update").value;
+      console.log(titleName);
+      let titleDescription = document.getElementById("title-description-update")
+        .value;
+      console.log(titleDescription);
+      let titleType = document.getElementById("title-type-update").value;
+      console.log(titleType);
+      let titleGenre = document.getElementById("title-genre-update").value;
+      console.log(titleGenre);
 
-                const titleName = document.getElementById("title-name").value
+      const msg = document.getElementById("msg-update-title");
 
-                const clientUsername = document.getElementById("client-username").value
-                
-                let goodUrl = "/titles/checkout/" + titleName + "?clientUsername=" + clientUsername
-                
-                AXIOS.post(goodUrl, {}, {}).then(response => {
-                    console.log(response.data)
-                    document.getElementById("msg-checkout").innerHTML = "Title Checkout Successful!"
-                    document.getElementById("msg-checkout").style.color = "green"
-                })
-                .catch(e => {
-                    var errorMsg = e.response.data.message
-                    console.log(errorMsg)
-                    this.errorTitle = errorMsg
-                    document.getElementById("msg-checkout").innerHTML = "hello"
-                })
-            },
+      let goodUrl =
+        "/titles/update/" +
+        titleName +
+        "/?description=" +
+        titleDescription +
+        "&genre=" +
+        titleGenre +
+        "&titleType=" +
+        titleType;
+      console.log(goodUrl);
+      AXIOS.post(goodUrl, {}, {}).then(response => {});
 
-            displaySuccess(){
-                
+      //display success
+      msg.innerHTML = "Title updated successfully!".catch(e => {
+        var errorMsg = e.response.data.message;
+        console.log(errorMsg);
+        this.errorTitle = errorMsg;
 
-                // const successMsg = document.querySelector(".success-msg")
-                // const errorMsg = document.querySelector(".error-msg")
-                // const error = false
-                // if (error){
-                //     errorMsg.hidden = false
-                //     errorMsg.className += " fadeIn"
-                // }
-                // else {
-                //     successMsg.hidden = false
-                //     successMsg.className += " fadeIn"
-                // }
-                // const getinfo = document.getElementsByClassName("title-info")
-                // console.log(getinfo)
-                // Array.from(getinfo).forEach(element => {
-                //     if(element.tagName != 'SELECT' ){
-                //         element.value = ""
-                //     }
-                // })
-                
-            },
-            deleteTitle() {
-                let titleId = document.getElementById("title-id-delete").value
-                let goodUrl = "/titles/remove/" + titleId
-                
-                    console.log(goodUrl)
-                    AXIOS.post(goodUrl, {}, {}).then(response => {
-                    })
-                    .catch(e => {
-                        var errorMsg = e.response.data.message
-                        console.log(errorMsg)
-                        this.errorTitle = errorMsg
-                    })
-            },
-            updateTitle() {
-                let titleName = document.getElementById("title-name-update").value
-                console.log(titleName)
-                let titleDescription = document.getElementById("title-description-update").value
-                console.log(titleDescription)
-                let titleType = document.getElementById("title-type-update").value
-                console.log(titleType)
-                let titleGenre = document.getElementById("title-genre-update").value
-                console.log(titleGenre)
-
-                let goodUrl = "/titles/update/" + titleName + "/?description=" + titleDescription + "&genre=" + titleGenre + "&titleType=" + titleType
-                console.log(goodUrl)
-                AXIOS.post(goodUrl, {}, {}).then(response => {
-                })
-                .catch(e => {
-                    var errorMsg = e.response.data.message
-                    console.log(errorMsg)
-                    this.errorTitle = errorMsg
-                })
-            }
-    
-        },   
-        components: {
-            MenuBar,
-        }
-}
+        msg.innerHTML = errorMsg;
+        msg.style.color = "red";
+      });
+    }
+  },
+  components: {
+    MenuBar
+  }
+};
