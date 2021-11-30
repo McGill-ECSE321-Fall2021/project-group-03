@@ -24,13 +24,10 @@
     <div class="about-us section">
       <div class="header">About Us</div>
       <div class="content">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
+        The mission of the TASLA library is to bring people together and to
+        provide an enriching environment for entertainment and education. Our
+        team of incredible librarians are highly equipped to help clients
+        fulfull their grandest of needs.
       </div>
     </div>
     <div class="contact-information section">
@@ -55,7 +52,7 @@ import MenuBar from "../components/MenuBar.vue";
 export default {
   name: "Home",
   components: {
-    MenuBar,
+    MenuBar
   }
 };
 </script>
