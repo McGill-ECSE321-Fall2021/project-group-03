@@ -174,9 +174,13 @@ export default {
       const removeTitleMessage = document.getElementById("msg-delete-title");
 
 
+
       console.log(goodUrl);
       AXIOS.post(goodUrl, {}, {})
-        .then(response => {})
+        .then(response => {
+          removeTitleMessage.innerHTML = "Title removed succesfully";
+          removeTitleMessage.style.color = "green";
+        })
         .catch(e => {
           removeTitleMessage.innerHTML = "Title does not exist! Please provide an existing title Id";
           removeTitleMessage.style.color = "red";
@@ -233,7 +237,12 @@ export default {
       }
 
       AXIOS.post(goodUrl, {}, {})
-        .then(response => {})
+        .then(response => {
+          updateTitleMessage.innerHTML = "Title updated succesfully";
+        updateTitleMessage.style.color = "green";
+        })
+
+        
 
         //display success
 
