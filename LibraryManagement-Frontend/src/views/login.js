@@ -156,21 +156,23 @@ export default{
                 return
             }
 
+            let canLogin = true;
             let goodUrl = "/clients/create/" + username + "?password=" + password + "&fullName=" + fullName + "&residentialAddress=" + address + "&email=" + email + "&isResident=" + isResident + "&isOnline=true"
             console.log(goodUrl)
 
             AXIOS.post(goodUrl, {}, {}).then(response => {
-                var t = new ClientDto(username, fullName, password, address, email, isResident, true)
-                this.users.push(t)
+                
+                setTimeout(() => {
+                    let responseUserId = localStorage.getItem("userId");
+                    var t = new ClientDto(responseUserId, username, fullName, password, address, email, isResident, true)
+                    this.users.push(t)
+                }, 1000)
 
-
+            }).catch(e => {
+                this.setErrorMsg2("Username already taken")
+                canLogin = false;
             })
-            .catch(e => {
-                this.setErrorMsg2("Username is already taken");
-                return
-            })
 
-            // console.log("here")
             address = ''
             email = ""
             password = ""
@@ -178,9 +180,12 @@ export default{
             username = ""
             fullName = ""
 
-            setTimeout(1000)
-            this.loginNewUser()
-            
+                
+            setTimeout(() => {
+                if (canLogin) {
+                    this.loginNewUser()
+                }
+            }, 1000)
         },
 
         setErrorMsg(msg) {
