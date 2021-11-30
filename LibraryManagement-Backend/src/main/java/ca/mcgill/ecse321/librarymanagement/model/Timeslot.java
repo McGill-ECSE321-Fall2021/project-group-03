@@ -48,10 +48,8 @@ public class Timeslot
   {
     startTime = aStartTime;
     endTime = aEndTime;
-    int year = aDate.getYear() - 1900;
-    int month = aDate.getMonth();
-    int day = aDate.getDate();
-    date = new Date(year,month,day);
+    date = aDate;
+    
   }
 
   //------------------------

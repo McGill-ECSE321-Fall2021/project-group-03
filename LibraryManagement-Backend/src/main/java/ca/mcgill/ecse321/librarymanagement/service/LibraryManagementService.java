@@ -332,8 +332,14 @@ public class LibraryManagementService {
 			throw new IllegalArgumentException("Library time slot cannot be created in the past");
 		}
 
-		Timeslot timeslot = new Timeslot(startTime, endTime, date);
-		librarySchedule.addTimeslot(timeslot);
+		int year = date.getYear() - 1900;
+	    int month = date.getMonth();
+	    int day = date.getDate();
+	    Date date1 = new Date(year,month,day);
+		Timeslot timeslot = new Timeslot(startTime, endTime, date1);
+
+		
+	    librarySchedule.addTimeslot(timeslot);
 		timeslotRepository.save(timeslot);
 		scheduleRepository.save(librarySchedule);
 		libraryRepository.save(library);
@@ -656,8 +662,12 @@ public class LibraryManagementService {
 				throw new IllegalArgumentException("Librarian time slot must be within opening hours of the library");
 			}
 		}
-
-		Timeslot timeslot = new Timeslot(startTime, endTime, date);
+		
+		int year = date.getYear() - 1900;
+	    int month = date.getMonth();
+	    int day = date.getDate();
+	    Date date1 = new Date(year,month,day);
+		Timeslot timeslot = new Timeslot(startTime, endTime, date1);
 		librarian.getStaffSchedule().addTimeslot(timeslot);
 		timeslotRepository.save(timeslot);
 		scheduleRepository.save(librarian.getStaffSchedule());

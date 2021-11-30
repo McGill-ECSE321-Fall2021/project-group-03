@@ -13,8 +13,8 @@ public class TimeslotDto {
 	public TimeslotDto(Time startTime, Time endTime, Date date, int timeslotId) {
 		this.startTime = startTime;
 		this.endTime = endTime;
-		this.date = date;
 		this.timeslotId = timeslotId;
+		this.date = date;
 	}
 
 	public Time getStartTime() {
