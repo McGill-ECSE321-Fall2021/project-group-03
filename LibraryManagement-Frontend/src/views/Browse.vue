@@ -4,32 +4,33 @@
 <div class="Titles section">
         <div class="header">Filter</div>
         <div class="content">
-            <form action="">
-                <input type="text" class="title-name" placeholder="Search title...">
-                <input @click="filterSearch()" class="submit-btn" type="submit" value="Search">
+                <input type="text" id="title-name" placeholder="Search title...">
+                <button @click="filterSearch()" class="submit-btn">Search</button>
                 <br>
                 <button @click="reveal()" class="more-filters-btn">More Filters</button>
-                <div class="more-filters" hidden=true>                    
+                <div class="more-filters" hidden=true>                 
                     <label for="title-type">Type</label>
                     <select name="title-type" class="filter-input" id="type">
                         <option value="all">All</option>
-                        <option value="book">Book</option>
-                        <option value="movie">Movie</option>
-                        <option value="music-album">Music Album</option>
-                        <option value="newspaper">Newspaper</option>
-                        <option value="archive">Archive</option>
+                        <option value="Book">Book</option>
+                        <option value="Movie">Movie</option>
+                        <option value="Music-album">Music Album</option>
+                        <option value="Newspaper">Newspaper</option>
+                        <option value="Archive">Archive</option>
                     </select>
                     <br>
                     <label for="genre">Genre</label>
                     <select name="genre" class="filter-input" id="genre">
                         <option value="all">All</option>
-                        <option value="adventure">Adventure</option>
-                        <option value="action">Action</option>
-                        <option value="comedy">Comedy</option>
-                        <option value="horror">Horror</option>
+                        <option value="Adventure">Adventure</option>
+                        <option value="Action">Action</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Horror">Horror</option>
                     </select>
+                    <br>
+                        <label for="title-type">Available</label>
+                        <input id="availability" type="checkbox">
                 </div>
-            </form>
         </div>
         <div class="header">Titles</div>
         <div class="content titles">
@@ -42,6 +43,30 @@
         <td>Description</td>
         <td>Title Id</td>
       </tr>
+        <tr class="table-data">
+            <td class="title-name">Wizard of Oz</td>
+            <td class="title-type">Book</td>
+            <td class="title-genre">Adventure</td>
+            <td class="title-isAvailable">✓</td>
+            <td>description</td>
+            <td>titleId</td>
+        </tr>
+        <tr class="table-data">
+            <td class="title-name">Rush Hour</td>
+            <td class="title-type">Movie</td>
+            <td class="title-genre">Comedy</td>
+            <td class="title-isAvailable">✗</td>
+            <td>description</td>
+            <td>titleId</td>
+        </tr>
+        <tr class="table-data">
+            <td class="title-name">Gazette</td>
+            <td class="title-type">Newspaper</td>
+            <td class="title-genre">Action</td>
+            <td class="title-isAvailable">✓</td>
+            <td>description</td>
+            <td>titleId</td>
+        </tr>  
       <tr
         v-for="title in titles"
         :key="title"
@@ -61,7 +86,7 @@
 </div>
 </template>
 
-<script src="../components/titles.js">
+<script src="./titles.js">
 </script>
 
 <style scoped>
