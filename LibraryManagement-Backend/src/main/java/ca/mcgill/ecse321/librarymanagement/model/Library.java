@@ -189,7 +189,7 @@ public class Library {
 	/* Code from template association_AddManyToOne */
 
 	public boolean addUser(User aUser) {
-		boolean wasAdded = false;
+
 		if (users.contains(aUser)) {
 			return false;
 		} else {
@@ -255,7 +255,7 @@ public class Library {
 	}
 
 	public boolean addTitle(Title aTitle) {
-		boolean wasAdded = false;
+
 		if (titles.contains(aTitle)) {
 			return false;
 		} else {
@@ -331,7 +331,7 @@ public class Library {
 	}
 
 	public boolean removeRoom(Room aRoom) {
-		boolean wasRemoved = false;
+
 		if (rooms.contains(aRoom)) {
 			rooms.remove(aRoom);
 			return true;

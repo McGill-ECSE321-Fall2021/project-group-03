@@ -19,7 +19,6 @@ import ca.mcgill.ecse321.librarymanagement.dao.ScheduleRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TimeslotRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TitleRepository;
 import ca.mcgill.ecse321.librarymanagement.dao.TitleReservationRepository;
-import ca.mcgill.ecse321.librarymanagement.dto.ClientDto;
 import ca.mcgill.ecse321.librarymanagement.model.Client;
 import ca.mcgill.ecse321.librarymanagement.model.Librarian;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
