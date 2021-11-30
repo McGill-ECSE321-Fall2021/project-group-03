@@ -6,13 +6,13 @@
       <div class="header2">
         Username:
         <span class="info username" id="user-username">
-          {{ displayUsername() }}
+          
         </span>
       </div>
       <div class="header2">
         Password:
         <span class="info password-hidden">*******</span>
-        <span hidden="true" class="info password">{{ displayPassword() }}</span>
+        <span hidden="true" class="info password" id="user-password"></span>
         <input @click="showPass()" type="checkbox" class="show-pass" />
         <input
           @click="editPassword()"
@@ -28,9 +28,9 @@
           type="text"
         />
       </div>
-      <div class="header2">
+      <div class="header2" id="email-section">
         Email:
-        <span class="info email">{{ displayEmail() }} </span>
+        <span class="info email" id="user-email"></span>
         <input
           @click="editEmail()"
           class="edit-btn"
@@ -45,9 +45,9 @@
           type="text"
         />
       </div>
-      <div class="header2">
+      <div class="header2" id="address-section">
         Address:
-        <span class="info address">{{ displayAddress() }}</span>
+        <span class="info address" id="user-address"></span>
         <input
           @click="editAddress()"
           class="edit-btn"
@@ -78,6 +78,7 @@
       value="Save"
     />
     </div>
+    <div id="reservation-section">
     <div class="header">Current Reservations</div>
     <table>
       <tr class="first-row">
@@ -95,7 +96,7 @@
         <td>{{ reservation.checkedOut }}</td>
       </tr>
     </table>
-    <div class="content"></div>
+    </div>
   </div>
 </template>
 
