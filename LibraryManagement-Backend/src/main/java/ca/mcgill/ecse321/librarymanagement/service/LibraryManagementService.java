@@ -616,6 +616,21 @@ public class LibraryManagementService {
 		
 	}
 	
+	
+	@Transactional
+	public ArrayList<RoomReservation> 	getRoomReservationsByClient(String clientUsername){
+		ArrayList<RoomReservation> roomReservations = new ArrayList<RoomReservation>();
+		Library library = getLibrary();
+		for (RoomReservation roomReservation : library.getRoomReservations()) {
+			if (roomReservation.getClient().getUsername().equals(clientUsername)) {
+				//this will only get room reservations that are available (client username is "null"
+				roomReservations.add(roomReservation);
+			}
+		}
+		return roomReservations;
+		
+	}
+	
 
 	@Transactional
 	public Timeslot createStaffScheduleTimeslot(Time startTime, Time endTime, Date date, Library library,

@@ -42,23 +42,32 @@ export default {
         "&titleType=" +
         type;
       console.log(goodUrl);
-      AXIOS.post(goodUrl, {}, {})
-        .then(response => {
-          var t = new TitleDto(titleName, description, genre, true, type);
-          this.titles.push(t);
-          this.newTitle = "";
+      console.log("hello");
 
+       //err = await axios.post(goodUrl);
+      
+      if (titleName === "") {
+        msg.innerHTML = "Error: cannot cradamamamamaate title";
+        msg.style.color = "red";
+        return
+      }
+       
+
+       AXIOS.post(goodUrl, {}, {})
+        .then(response => {
+
+          console.log("yoyoyo");
           // display success
           msg.innerHTML = "Title created successfully!";
+          msg.style.color = "green";
+          //console.log(msg);
         })
         .catch(e => {
-          var errorMsg = e.response.data.message;
-          console.log(errorMsg);
-          this.errorTitle = errorMsg;
-
+          
+          
           // display error
-          msg.innerHTML = errorMsg;
-          msg.style.color = "red";
+          //console.log(e)
+          
         });
     },
 

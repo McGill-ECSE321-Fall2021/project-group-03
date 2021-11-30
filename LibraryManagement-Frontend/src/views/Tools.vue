@@ -41,8 +41,7 @@
           class="create-title"
           value="Create Title"
         />
-        <span class="header2 success-msg" id="msg-create-title"></span>
-        <span hidden="true" class="header2 error-msg">Error message</span>
+        <div class="header2 success-msg" id="msg-create-title"></div>
       </div>
       <div class="header">Update Title</div>
       <div>

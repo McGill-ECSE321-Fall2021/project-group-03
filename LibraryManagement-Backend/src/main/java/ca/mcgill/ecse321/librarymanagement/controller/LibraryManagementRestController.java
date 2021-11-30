@@ -439,6 +439,12 @@ public class LibraryManagementRestController {
 		return convertToDto(roomReservations);
 	}
 	
+	@GetMapping(value = { "/rooms/getRoomReservationByClient/{clientUsername}", "/rooms/getRoomReservationByRoom/{clientUsername}/" })
+	public List<RoomReservationDto> getRoomReservationsByClient(@PathVariable("clientUsername") String clientUsername) {
+		ArrayList<RoomReservation> roomReservations = service.getRoomReservationsByClient(clientUsername);
+		return convertToDto(roomReservations);
+	}
+	
 	ArrayList<RoomReservationDto> convertToDto(ArrayList<RoomReservation> roomReservations){
 		ArrayList<RoomReservationDto> roomReservationDtos = new ArrayList<RoomReservationDto>();
 		for (RoomReservation roomReservation : roomReservations) {
