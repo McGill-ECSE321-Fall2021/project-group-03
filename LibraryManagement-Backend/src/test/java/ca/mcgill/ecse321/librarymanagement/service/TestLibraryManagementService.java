@@ -79,7 +79,6 @@ public class TestLibraryManagementService {
 	private static final int ROOM_KEY = 1234;
 	private static final int TIMESLOT_KEY = 1234;
 	private static final int TITLE_RESERVATION_KEY = 1234;
-	private static final int ROOM_RESERVATION_KEY = 1234;
 	private static final int LIBRARY_KEY = 0;
 	private static final int SCHEDULE_KEY = 3030;
 
@@ -122,10 +121,7 @@ public class TestLibraryManagementService {
 
 		lenient().when(librarianRepository.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
 			if (invocation.getArgument(0).equals(LIBRARIAN_KEY)) {
-				String residentialAddress = "514 marwan road";
-				String email = "email@123.com";
-				boolean isResident = true;
-				boolean isOnline = true;
+
 				String username = "big shot";
 				String password = "spaghetti_noodles";
 				String fullName = "John Doe";
@@ -673,7 +669,7 @@ public class TestLibraryManagementService {
 		Time end = null;
 		Timeslot timeslot = null;
 		Library library = new Library();
-		Librarian librarian = null;
+
 		String error = "";
 
 		try {
@@ -780,8 +776,7 @@ public class TestLibraryManagementService {
 	public void createTitleReservationNull() {
 		Date returnDate = null;
 		boolean isCheckedOut = false;
-		Title title = null;
-		Client client = null;
+
 		TitleReservation titleReservation = null;
 		Library library = new Library();
 		String error = "";
@@ -945,8 +940,7 @@ public class TestLibraryManagementService {
 		Time startTime = null;
 		Time endTime = null;
 		Date date = null;
-		Room room = null;
-		Client client = null;
+
 		Library library = new Library();
 		RoomReservation roomReservation = null;
 		String error = "";

@@ -75,12 +75,11 @@
         v-for="title in titles"
         :key="title"
         @click="clickRow(title.name)"
-        class="click-appear">
-
-        <td>{{ title.name }}</td>
-        <td>{{ title.titleType }}</td>
-        <td>{{ title.genre }}</td>
-        <td>{{ displayAvailability(title.available) }}</td>
+        class="table-data click-appear">
+        <td class="title-name">{{ title.name }}</td>
+        <td class="title-type">{{ title.titleType }}</td>
+        <td class="title-genre">{{ title.genre }}</td>
+        <td class="title-isAvailable">{{ displayAvailability(title.available) }}</td>
         <td>{{ title.description }}</td>
         <td>{{ title.titleId }}</td>
       </tr>

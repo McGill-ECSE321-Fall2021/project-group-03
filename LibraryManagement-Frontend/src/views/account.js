@@ -39,7 +39,7 @@ export default{
         document.getElementById("user-email").innerHTML = email
         document.getElementById("user-address").innerHTML = address
 
-        if(isLibrarian){
+        if(isLibrarian == "true"){
             document.getElementById("email-section").hidden = true
             document.getElementById("address-section").hidden = true
             document.getElementById("reservation-section").hidden = true
