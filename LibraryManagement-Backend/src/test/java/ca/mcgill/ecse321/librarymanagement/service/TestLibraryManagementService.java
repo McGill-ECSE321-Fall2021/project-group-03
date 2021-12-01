@@ -570,7 +570,8 @@ public class TestLibraryManagementService {
 		}
 
 		assertNotNull(timeslot);
-		assertEquals(date, timeslot.getDate());
+		assertEquals(date.getYear()-1900, timeslot.getDate().getYear());
+		assertEquals(date.getMonth()-1, timeslot.getDate().getMonth());
 		assertEquals(start, timeslot.getStartTime());
 		assertEquals(end, timeslot.getEndTime());
 

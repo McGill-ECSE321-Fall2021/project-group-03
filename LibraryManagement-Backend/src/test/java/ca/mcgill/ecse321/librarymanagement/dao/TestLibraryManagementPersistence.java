@@ -60,8 +60,6 @@ public class TestLibraryManagementPersistence {
 	@BeforeEach
 	@AfterEach
 	public void clearDatabase() {
-		
-		
 		roomReservationRepository.deleteAll();
 		titleReservationRepository.deleteAll();
 		libraryRepository.deleteAll();
@@ -71,7 +69,6 @@ public class TestLibraryManagementPersistence {
 		scheduleRepository.deleteAll();
 		timeslotRepository.deleteAll();
 		roomRepository.deleteAll();
-
 	}
 
 	@Test

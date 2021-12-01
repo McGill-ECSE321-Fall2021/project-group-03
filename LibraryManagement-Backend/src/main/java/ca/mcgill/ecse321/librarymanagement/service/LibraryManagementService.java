@@ -972,8 +972,8 @@ public class LibraryManagementService {
 		Date date = existingTimeslot.getDate();
 
 		// is it on the same day?
-		if (date.getYear() == newDate.getYear() && date.getMonth() == newDate.getMonth()
-				&& date.getDay() == newDate.getDay()) {
+		if (date.getYear() == newDate.getYear()-1900 && date.getMonth() == newDate.getMonth()-1
+				&& date.getDate() == newDate.getDate()) {
 			Time startTime = existingTimeslot.getStartTime();
 			Time endTime = existingTimeslot.getEndTime();
 
