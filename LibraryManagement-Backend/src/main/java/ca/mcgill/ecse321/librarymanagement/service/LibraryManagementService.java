@@ -312,7 +312,7 @@ public class LibraryManagementService {
 			Library library) {
 		
 		if (startTime == null || endTime == null || date == null) {
-			throw new IllegalArgumentException("Library time slot cannot be empty");
+			throw new IllegalArgumentException("Library time slot cannot be empty. Please fill in the year, month and day");
 		}
 
 		for (Timeslot t : library.getLibrarySchedule().getTimeslots()) {
