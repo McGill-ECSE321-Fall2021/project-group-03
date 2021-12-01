@@ -46,8 +46,7 @@ export default {
   methods: {
     createTitle() {
       let titleName = document.getElementById("title-name-create").value;
-      let description = document.getElementById("title-description-create")
-        .value;
+      let description = document.getElementById("title-description-create").value;
       let genre = document.getElementById("title-genre-create").value;
       let type = document.getElementById("title-type-create").value;
 
