@@ -53,15 +53,7 @@ export default {
       const msg = document.getElementById("msg-create-title");
 
       let goodUrl =
-        "/titles/create/" +
-        titleName +
-        "?description=" +
-        description +
-        "&genre=" +
-        genre +
-        "&isAvailable=true" +
-        "&titleType=" +
-        type;
+        "/titles/create/" + titleName + "?description=" + description + "&genre=" + genre + "&isAvailable=true" + "&titleType=" + type;
 
       
       if (titleName === "") {
