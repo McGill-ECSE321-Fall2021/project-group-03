@@ -82,4 +82,8 @@ tr:nth-child(even) {
   padding-bottom: 0px;
   text-align: center;
 }
+
+table :first-child td {
+  background-color: lightblue;
+}
 </style>
