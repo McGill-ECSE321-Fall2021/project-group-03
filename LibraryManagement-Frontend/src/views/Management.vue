@@ -173,21 +173,80 @@
 
     <div class="content" id="staff-schedule">
       <div class="header">Set Staff Schedule</div>
-      <div class="lib-sched-inputs">
+      <div class="staff-sched-inputs">
         <div class="header2">Username</div>
-        <input type="text" id="lib-username" placeholder="Librarian Username" />
+        <input type="text" id="lib-username" placeholder="librarian username" />
+         <span
+          class="header2 success-msg"
+          id="msg-lib-username-staff-schedule"
+        ></span>
+
         <br />
+         <!-- ********** Date **********-->
         <div class="header2">Date</div>
-        <input
-          type="date"
-          class="date"
-          id="staff-timeslot-date"
-          name="birthday"
-        />
+        <input type="date" class="date" id="timeslot-date-staff" name="birthday" />
+        <span class="header2 success-msg" id="msg-date-staff-schedule"></span>
+
+        <!-- ********** Start Time **********-->
         <div class="header2">Start Time</div>
-        <input id="ts-staff" type="time" min="09:00" max="22:00" required />
+        <select class="title-info" id="staff-schedule-start-hour" name="type">
+          <option value="Start Time">Start Time</option>
+          <option value="1">1:00</option>
+          <option value="2">2:00</option>
+          <option value="3">3:00</option>
+          <option value="4">4:00</option>
+          <option value="5">5:00</option>
+          <option value="6">6:00</option>
+          <option value="7">7:00</option>
+          <option value="8">8:00</option>
+          <option value="9">9:00</option>
+          <option value="10">10:00</option>
+          <option value="11">11:00</option>
+          <option value="12">12:00</option>
+        </select>
+        <select
+          class="title-info"
+          id="staff-schedule-start-hour-am-pm"
+          name="type"
+        >
+          <option value="AM or PM">A.M or P.M</option>
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </select>
+        <span
+          class="header2 success-msg"
+          id="msg-start-time-staff-schedule"
+        ></span>
+        <!-- ********** End Time **********-->
         <div class="header2">End Time</div>
-        <input id="te-staff" type="time" min="09:00" max="22:00" required />
+        <select class="title-info" id="staff-schedule-end-hour" name="type">
+          <option value="End Time">End Time</option>
+          <option value="1">1:00</option>
+          <option value="2">2:00</option>
+          <option value="3">3:00</option>
+          <option value="4">4:00</option>
+          <option value="5">5:00</option>
+          <option value="6">6:00</option>
+          <option value="7">7:00</option>
+          <option value="8">8:00</option>
+          <option value="9">9:00</option>
+          <option value="10">10:00</option>
+          <option value="11">11:00</option>
+          <option value="12">12:00</option>
+        </select>
+        <select
+          class="title-info"
+          id="staff-schedule-end-hour-am-pm"
+          name="type"
+        >
+          <option value="AM or PM">A.M or P.M</option>
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </select>
+        <span
+          class="header2 success-msg"
+          id="msg-end-time-staff-schedule"
+        ></span>
       </div>
 
       <div>
@@ -197,7 +256,12 @@
           class="set-schedule"
           value="Set"
         />
-        <span hidden="true" class="header2 success-msgSET">Library Schedule Successfully Set.</span
+        <span
+          class="header2 success-msg"
+          id="msg-set-time-staff-schedule"
+        ></span>
+        <span hidden="true" class="header2 success-msgSET"
+          >Library Schedule Successfully Set.</span
         >
         <span hidden="true" class="header2 error-msgSET">Error message</span>
       </div>

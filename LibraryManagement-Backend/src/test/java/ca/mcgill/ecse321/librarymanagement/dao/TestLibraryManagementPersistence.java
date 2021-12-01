@@ -141,7 +141,7 @@ public class TestLibraryManagementPersistence {
 		assertEquals(titleType, newspaper.getTitleType());
 
 	}
-
+//
 	@Test
 	public void testPersistAndLoadMusicAlbum() {
 
@@ -364,7 +364,7 @@ public class TestLibraryManagementPersistence {
 
 		assertNotNull(schedule);
 	}
-
+//
 	@Test
 	public void testPersistAndLoadRoom() {
 
@@ -393,7 +393,7 @@ public class TestLibraryManagementPersistence {
 		assertEquals(isAvailable, room.getIsAvailable());
 		assertEquals(roomType, room.getRoomType());
 	}
-
+//
 	@Test
 	public void testPersistAndLoadLibrary() {
 		// make and save library and get the libraryID
@@ -408,7 +408,7 @@ public class TestLibraryManagementPersistence {
 		assertEquals(libraryId, savedLibrary.getLibraryId());
 
 	}
-
+//
 	@Test
 	public void testPersistAndLoadTimeSlot() {
 
@@ -430,7 +430,7 @@ public class TestLibraryManagementPersistence {
 		assertEquals(endTime, timeSlot.getEndTime());
 		assertEquals(date, timeSlot.getDate());
 	}
-
+//
 	@Test
 	public void testPersistAndLoadTitleReservation() {
 		Date returnDate = new Date(2021, 2, 4);
@@ -475,7 +475,7 @@ public class TestLibraryManagementPersistence {
 		assertEquals(client.getUserId(), titleReservation.getClient().getUserId());
 
 	}
-
+//
 	@Test
 	public void testPersistAndLoadRoomReservation() {
 
