@@ -285,7 +285,7 @@ public class LibraryManagementRestController {
 	public void removeLibrarian(@PathVariable("username") String username) throws IllegalArgumentException {
 		Library library = getLibrary();
 
-		service.removeLibrarian(library, Integer.parseInt(username));
+		service.removeLibrarian(library, username);
 	}
 
 	public LibrarianDto convertToDto(Librarian librarian) {
