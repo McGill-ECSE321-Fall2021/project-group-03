@@ -23,9 +23,6 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
         methods:  {
 
             createLibraryScheduleTimeslot(){
-
-
-
                 // get info from inputs
                 const startDate = document.getElementById("timeslot-date").value.split("-"),
                 //startTime = document.getElementById("ts").value.split(":"),
@@ -48,27 +45,21 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                 endTimeLibraryScheduleMsg.innerHTML=""
                 setLibraryScheduleMsg.innerHTML=""
                 
-
-
-              
                 console.log("shalom dudes")
 
                 let startHourNew = document.getElementById("library-schedule-start-hour").value
                 let startHourInt = parseInt(startHourNew)
                 let startHourAMorPM = document.getElementById("library-schedule-start-hour-am-pm").value
 
-
                 let endHourNew = document.getElementById("library-schedule-end-hour").value
                 let endHourInt = parseInt(endHourNew)
                 let endHourAMorPM = document.getElementById("library-schedule-end-hour-am-pm").value
 
                 if (startHourAMorPM === "PM"){
-                    console.log("in the if")
                     startHourInt = startHourInt + 12;
                 }
 
                 if (endHourAMorPM === "PM"){
-                    console.log("in the if")
                     endHourInt = endHourInt + 12;
                 }
 
@@ -85,9 +76,6 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                     startTimeLibraryScheduleMsg.style.color = "red";
                     return
                   }
-                  console.log("we are entered")
-                  console.log(endHourNew)
-
 
                   if (endHourNew === "End Time" | endHourAMorPM === "AM or PM" ) {
                       console.log("we are entered")
@@ -108,10 +96,6 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                 var inputDate = new Date(year, month-1, day, 0, 0, 0, 0)
                 //unclear why the month is off by 1....but this seems to work
                 //In postman, there is the right month so I guess this works
-                console.log("hiiiiiii")
-                console.log(currentDate)
-                console.log("hiiiiiii hhh")
-                console.log(inputDate)
 
                 if (currentDate > inputDate){
                     dateLibraryScheduleMsg.innerHTML = "Library time slot cannot be created in the past";
@@ -123,13 +107,8 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                 let startHourString = startHourInt.toString()
                 let endHourString = endHourInt.toString()
 
-                console.log("start hour string")
-                console.log(startHourString)
-
                 // create url
                 const url = "/libraryTimeslots/create/" + startHourString + "?startMin=" + "0" + "&endHour=" + endHourString + "&endMin=" + "0" + "&year=" + year + "&month=" + month + "&day=" + day;
-
-                console.log(url)
 
                 AXIOS.post(url, {}, {}).then(response => {
                     console.log(response.data)
@@ -145,29 +124,117 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
             },
 
             createStaffScheduleTimeslot(){
-                // get info from inputs
-                const startDate = document.getElementById("staff-timeslot-date").value.split("-"),
-                startTime = document.getElementById("ts-staff").value.split(":"),
-                endTime = document.getElementById("te-staff").value.split(":"),
-                startHour = startTime[0],
-                startMin = startTime[1],
-                endHour = endTime[0],
-                endMin = endTime[1],
-                year = startDate[0],
-                month = startDate[1],
-                day = startDate[2],
-                librarianUsername = document.getElementById("lib-username").value
+                
+
+                const libUsernameMsg = document.getElementById("msg-lib-username-staff-schedule");
+                const dateStaffScheduleMsg = document.getElementById("msg-date-staff-schedule");
+                const startTimeStaffScheduleMsg = document.getElementById("msg-start-time-staff-schedule");
+                const endTimeStaffScheduleMsg = document.getElementById("msg-end-time-staff-schedule");
+                const setStaffScheduleMsg = document.getElementById("msg-set-time-staff-schedule");
+
+                //notice: there are commas between the stuff when using the split method
+                const startDateStaff = document.getElementById("timeslot-date-staff").value.split("-"),
+                yearStaff = startDateStaff[0],
+                monthStaff = startDateStaff[1],
+                dayStaff = startDateStaff[2];
+
+
+                 libUsernameMsg.innerHTML=""
+                 dateStaffScheduleMsg.innerHTML=""
+                 startTimeStaffScheduleMsg.innerHTML=""
+                 endTimeStaffScheduleMsg.innerHTML=""
+                setStaffScheduleMsg.innerHTML=""
+
+
+                
+
+
+                let librarianUsername = document.getElementById("lib-username").value;
+                let startHour = document.getElementById("staff-schedule-start-hour").value;
+                let startHourInt = parseInt(startHour);
+                let startHourAMorPM = document.getElementById("staff-schedule-start-hour-am-pm").value;
+                let endHour = document.getElementById("staff-schedule-end-hour").value;
+                let endHourInt = parseInt(endHour);
+                let endHourAMorPM = document.getElementById("staff-schedule-end-hour-am-pm").value;
+
+                
+
+               
+
+
+                if (librarianUsername === ""){
+                    libUsernameMsg.innerHTML = "Librarian username cannot be empty"
+                    libUsernameMsg.style.color = "red"
+                    return
+                }
+
+                if (yearStaff === "" || monthStaff==="" || dayStaff==="" ) {
+                    dateStaffScheduleMsg.innerHTML = "Library time slot cannot be empty. Please fill in the year, month and day";
+                    dateStaffScheduleMsg.style.color = "red";
+                  return
+                }
+
+
+                if (startHour === "Start Time" || startHourAMorPM === "AM or PM" ) {
+                    startTimeStaffScheduleMsg.innerHTML = "Error. Please fill in the Start Time and AM/PM fields";
+                    startTimeStaffScheduleMsg.style.color = "red";
+                      return
+                }
+  
+                if (endHour === "End Time" | endHourAMorPM === "AM or PM" ) {
+                        console.log("we are entered")
+                        endTimeStaffScheduleMsg.innerHTML = "Error. Please fill in the End Time and AM/PM fields";
+                        endTimeStaffScheduleMsg.style.color = "red";
+                      return
+                }
+
+                if (startHourAMorPM === "PM"){
+                    console.log("in the if")
+                    startHourInt = startHourInt + 12;
+                }
+
+                if (endHourAMorPM === "PM"){
+                    console.log("in the if")
+                    endHourInt = endHourInt + 12;
+                }
+
+                if (endHourInt <= startHourInt ){
+                    startTimeStaffScheduleMsg.innerHTML = "Start time must be before end time";
+                    startTimeStaffScheduleMsg.style.color = "red";
+                    return
+                }
+
+
+                
+            
+                  var currentDate = new Date();
+                  var inputDate = new Date(yearStaff, monthStaff-1, dayStaff, 0, 0, 0, 0)
+                  //unclear why the month is off by 1....but this seems to work
+                  //In postman, there is the right month so I guess this works
+                  console.log("hiiiiiii")
+                  console.log(currentDate)
+                  console.log("hiiiiiii hhh")
+                  console.log(inputDate)
+  
+                  if (currentDate > inputDate){
+                     dateStaffScheduleMsg.innerHTML = "Library time slot cannot be created in the past";
+                     dateStaffScheduleMsg.style.color = "red";
+                      return
+                  }
+        
 
                 // create url
-                const url = "/staffSchedules/create/" + librarianUsername + "?startHour=" + startHour + "&startMin=" + startMin + "&endHour=" + endHour + "&endMin=" + endMin + "&year=" + year + "&month=" + month + "&day=" + day;
-
-                console.log(url)
+                const url = "/staffSchedules/create/" + librarianUsername + "?startHour=" + startHour + "&startMin=" + "0" + "&endHour=" + endHour + "&endMin=" + "0" + "&year=" + yearStaff + "&month=" + monthStaff + "&day=" + dayStaff;
 
                 AXIOS.post(url, {}, {}).then(response => {
                     console.log(response.data)
+                    setStaffScheduleMsg.innerHTML= "Succesfully added"
+                    setStaffScheduleMsg.style.color = "green"
                 })
                 .catch(e => {
 
+                    setStaffScheduleMsg.innerHTML="This operation did not work. Please make sure this time slot does not overlap with an existing time slot and that the time slot is within the opening hours of the library. "
+                    setStaffScheduleMsg.style.color = "red"
                 });
             },
 
@@ -223,7 +290,6 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                 console.log(librarianFullName)
 
                 let goodUrl = "/librarians/create/" + librarianUsername + "?password=" + librarianPassword + "&fullName=" + librarianFullName + "&isHeadLibrarian=false"
-                console.log(goodUrl)
                 
                 const hireLibrarianMsg = document.getElementById("msg-create-librarian");
 
@@ -245,15 +311,12 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                     return
                   }
 
-                
-
                 AXIOS.post(goodUrl, {}, {}).then(response => {
                     //var t = new LibrarianDto (librarianUsername, librarianPassword, librarianFullName, false)
                     //this.titles.push(t)
 
                     hireLibrarianMsg.innerHTML = "Librarian hired succesfully";
                     hireLibrarianMsg.style.color = "green";
-
                     
                     })
                     .catch(e => {
