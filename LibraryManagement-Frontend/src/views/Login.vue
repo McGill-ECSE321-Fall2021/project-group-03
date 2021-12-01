@@ -74,17 +74,14 @@
   border-radius: 10px;
   font-size: 15px;
   margin: 10px;
+  border-style: solid;
 }
 
 .home-btn:hover {
-  text-decoration: dashed;
   background-color: aliceblue;
   color: darkslategray;
-  padding: 5px;
-  width: 100px;
-  border-radius: 10px;
-  font-size: 15px;
   border-style: solid;
+  text-decoration: dashed;
 }
 
 @keyframes fadeIn {

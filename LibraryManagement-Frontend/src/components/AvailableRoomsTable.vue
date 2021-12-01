@@ -44,10 +44,7 @@ tr:nth-child(even) {
   cursor: pointer;
 }
 
-#birthday {
-  margin: auto;
-  display: block;
-  margin-bottom: 20px;
-  margin-top: 20px;
+table :first-child th {
+  background-color: lightblue;
 }
 </style>

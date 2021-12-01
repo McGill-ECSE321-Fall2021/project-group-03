@@ -75,4 +75,8 @@ table :first-child {
   font-weight: 550;
   color: black;
 }
+
+table :first-child td {
+  background-color: lightblue;
+}
 </style>
