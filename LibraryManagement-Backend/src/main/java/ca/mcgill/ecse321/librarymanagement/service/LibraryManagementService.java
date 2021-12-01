@@ -156,10 +156,10 @@ public class LibraryManagementService {
 	public Library getLibrary() {
 		try {
 			Library library = toList(libraryRepository.findAll()).get(0);
-			// We never delete the library, we just clear it. SO if the schedule is null it means it was "deleted".
 		}
 
 		catch (Exception e) {
+			
 			// This case will only happen if database is deleted. 
 			return initializeLibrary();
 		}
@@ -171,6 +171,7 @@ public class LibraryManagementService {
 		Library library = new Library();
 		Librarian head = new Librarian("headLibrarian", "head", "Head Librarian", true);
 		library.addUser(head);
+		librarianRepository.save(head);
 		
 		//The client told us the library has 3 rooms 
 		
@@ -181,7 +182,6 @@ public class LibraryManagementService {
 		Schedule librarySchedule = new Schedule();
 		library.setLibrarySchedule(librarySchedule);
 		
-		librarianRepository.save(head);
 		scheduleRepository.save(librarySchedule);
 		libraryRepository.save(library);
 		
@@ -189,7 +189,7 @@ public class LibraryManagementService {
 	}
 
 	public void removeLibrary(Library library) {
-		libraryRepository.delete(library);
+		libraryRepository.deleteAll();
 	}
 
 	@Transactional
@@ -381,7 +381,6 @@ public class LibraryManagementService {
 		librarySchedule.removeTimeslot(timeslot);
 		timeslotRepository.delete(timeslot);
 		scheduleRepository.save(librarySchedule);
-		libraryRepository.save(library);
 	}
 
 	@Transactional
@@ -462,7 +461,6 @@ public class LibraryManagementService {
 		}
 
 		Room room = new Room(capacity, isAvailable, roomType);
-		roomRepository.save(room);
 		library.addRoom(room);
 		
 		
@@ -476,7 +474,6 @@ public class LibraryManagementService {
 		}
 		
 		roomRepository.save(room);
-
 		libraryRepository.save(library);
 		
 		return room;
@@ -691,9 +688,15 @@ public class LibraryManagementService {
 	}
 
 	@Transactional
-	public void removeLibrarian(Library library, int librarianId) {
+	public void removeLibrarian(Library library, String username) {
 
-		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
+		Librarian librarian = null;
+		
+		for(Librarian l : librarianRepository.findAll()) {
+			if (l.getUsername().equals(username)) {
+				librarian = l;
+			}
+		}
 
 		if (librarian == null) {
 			throw new IllegalArgumentException("Librarian does not exist");
@@ -972,8 +975,8 @@ public class LibraryManagementService {
 		Date date = existingTimeslot.getDate();
 
 		// is it on the same day?
-		if (date.getYear() == newDate.getYear() && date.getMonth() == newDate.getMonth()
-				&& date.getDay() == newDate.getDay()) {
+		if (date.getYear() == newDate.getYear()-1900 && date.getMonth() == newDate.getMonth()-1
+				&& date.getDate() == newDate.getDate()) {
 			Time startTime = existingTimeslot.getStartTime();
 			Time endTime = existingTimeslot.getEndTime();
 

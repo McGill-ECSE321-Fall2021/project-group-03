@@ -29,7 +29,7 @@
             <option value="Horror">Horror</option>
           </select>
           <select class="title-info" id="title-type-create" name="type">
-            <option value="TitleType">TitleType</option>
+            <option value="Type">Type</option>
             <option value="Book">Book</option>
             <option value="Movie">Movie</option>
             <option value="MusicAlbum">Music Album</option>
@@ -72,7 +72,7 @@
           <option value="Horror">Horror</option>
         </select>
         <select class="title-info" id="title-type-update" name="type1">
-          <option value="TitleType">TitleType</option>
+          <option value="Type">Type</option>
           <option value="Book">Book</option>
           <option value="Movie">Movie</option>
           <option value="MusicAlbum">Music Album</option>

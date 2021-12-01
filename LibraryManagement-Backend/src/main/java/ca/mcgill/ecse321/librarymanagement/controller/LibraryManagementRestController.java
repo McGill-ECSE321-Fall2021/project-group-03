@@ -281,11 +281,11 @@ public class LibraryManagementRestController {
 		return convertToDto(librarian);
 	}
 
-	@PostMapping(value = { "/librarians/remove/{userId}", "/librarians/remove/{userId}/" })
-	public void removeLibrarian(@PathVariable("userId") String userId) throws IllegalArgumentException {
+	@PostMapping(value = { "/librarians/remove/{username}", "/librarians/remove/{username}/" })
+	public void removeLibrarian(@PathVariable("username") String username) throws IllegalArgumentException {
 		Library library = getLibrary();
 
-		service.removeLibrarian(library, Integer.parseInt(userId));
+		service.removeLibrarian(library, username);
 	}
 
 	public LibrarianDto convertToDto(Librarian librarian) {
