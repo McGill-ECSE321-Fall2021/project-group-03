@@ -64,5 +64,9 @@ export default {
         .catch(e => {
         this.errorLogin = e
         })
+
+        if (localStorage.getItem("isLibrarian") == "true") {
+            document.getElementById("reserve-title-btn").hidden = true;
+        }
     }
 }

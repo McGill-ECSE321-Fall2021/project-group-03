@@ -78,67 +78,52 @@
 </script>
 
 <style scoped>
-
 table {
-border-collapse: collapse;
-width: 100%;
+  border-collapse: collapse;
+  width: 100%;
 }
-
-td,th {
-border: 1px solid aliceblue;
-text-align: left;
-padding: 8px;
+td,
+th {
+  border: 1px solid aliceblue;
+  text-align: left;
+  padding: 8px;
 }
-
 tr:nth-child(even) {
-background-color: aliceblue;
+  background-color: aliceblue;
 }
-
 .click-appear {
   cursor: pointer;
 }
-
 .first-row td {
   font-size: 20px;
   font-weight: 40px;
   color: black;
 }
-
 .header {
   color: darkslategray;
   font-size: 35px;
   font-weight: 700;
   padding: 10px;
-  padding-bottom: 0px;
-  text-align: center;
 }
-
-.header-3 {
+.header2 {
   color: darkslategray;
-  font-size: 18px;
-  font-weight: 350;
-  text-align: center;
+  font-weight: 700;
+  padding: 10px;
+  font-size: 20px;
+  padding-bottom: 10px;
 }
-
 .info {
   font-weight: 400;
   color: teal;
 }
-
 .content {
   color: teal;
   padding-left: 10px;
   line-height: 1.6;
 }
-
-.filter {
-  margin-left: 50px;
-}
-
 body {
   background-color: aliceblue;
 }
-
 .submit-btn {
   background-color: darkslategrey;
   color: aliceblue;
@@ -147,7 +132,6 @@ body {
   border-radius: 10px;
   margin-left: 10px;
 }
-
 .submit-btn:hover {
   background-color: aliceblue;
   color: darkslategray;
@@ -156,22 +140,23 @@ body {
   border-radius: 10px;
   margin-left: 10px;
 }
-
 .more-filters-btn {
   color: darkslategray;
   margin-bottom: 10px;
   margin-top: 10px;
   border-radius: 10px;
 }
-
 .title-name {
   border-radius: 6px;
   width: 500px;
 }
-
 .filter-input {
   border-radius: 6px;
   width: 200px;
   margin-left: 10px;
+}
+
+table :first-child td {
+  background-color: lightblue;
 }
 </style>
