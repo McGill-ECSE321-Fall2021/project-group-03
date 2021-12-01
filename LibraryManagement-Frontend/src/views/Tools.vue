@@ -268,4 +268,5 @@ table {
 table :first-child th {
   background-color: lightblue;
 }
+
 </style>

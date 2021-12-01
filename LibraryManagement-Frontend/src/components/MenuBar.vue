@@ -4,13 +4,7 @@
       TASLA Library
       <a class="login" href="/#/login" id="login-btn">Login</a>
       <a
-        class="login"
-        id="logout-btn"
-        href="/#/"
-        @click="logoutUser()"
-        hidden="true"
-        >Logout</a
-      >
+        class="login" id="logout-btn" href="/#/" @click="logoutUser()" hidden="true">Logout</a>
     </div>
     <div class="menu-bar">
       <a hidden="true" class="home" href="/#/">Home</a>
