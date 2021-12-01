@@ -263,10 +263,10 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
             },
 
             fireLibrarian() {
-                let librarianId = document.getElementById("librarian-fire-username").value
+                let librarianUsername = document.getElementById("librarian-fire-username").value
                 console.log(librarianId)
 
-                let goodUrl = "/librarians/remove/" + librarianId
+                let goodUrl = "/librarians/remove/" + librarianUsername
                 console.log(goodUrl)
 
                 const fireLibrarianMsg = document.getElementById("msg-fire-librarian");

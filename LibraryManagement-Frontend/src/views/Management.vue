@@ -54,7 +54,7 @@
       <input
         class="librarian-info"
         type="text"
-        placeholder="Librarian Id"
+        placeholder="Librarian Username"
         id="librarian-fire-username"
       />
       <div>
@@ -108,7 +108,6 @@
           id="library-schedule-start-hour-am-pm"
           name="type"
         >
-          <option value="AM or PM">A.M or P.M</option>
           <option value="AM">AM</option>
           <option value="PM">PM</option>
         </select>
@@ -136,9 +135,7 @@
         <select
           class="title-info"
           id="library-schedule-end-hour-am-pm"
-          name="type"
-        >
-          <option value="AM or PM">A.M or P.M</option>
+          name="type">
           <option value="AM">AM</option>
           <option value="PM">PM</option>
         </select>
@@ -160,8 +157,7 @@
           id="msg-set-time-library-schedule"
         ></span>
         <span hidden="true" class="header2 success-msgSET"
-          >Library Schedule Successfully Set.</span
-        >
+          >Library Schedule Successfully Set.</span>
         <span hidden="true" class="header2 error-msgSET">Error message</span>
       </div>
     </div>
@@ -176,7 +172,7 @@
       <div class="header">Set Staff Schedule</div>
       <div class="lib-sched-inputs">
         <div class="header2">Username</div>
-        <input type="text" id="lib-username" placeholder="librarian username" />
+        <input type="text" id="lib-username" placeholder="Librarian Username" />
         <br />
         <div class="header2">Date</div>
         <input
@@ -216,6 +212,11 @@
   font-weight: 700;
   padding: 10px;
   padding-bottom: 0px;
+}
+
+.title-info{
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .header2 {
@@ -321,6 +322,16 @@ input[type="time"] {
 .lib-sched-inputs {
   padding: 10px;
 }
+
+#library-schedule-end-hour-am-pm{
+  margin-left: 10px;
+}
+
+
+#library-schedule-start-hour-am-pm{
+  margin-left: 10px;
+}
+
 
 @keyframes fadeIn {
   from {

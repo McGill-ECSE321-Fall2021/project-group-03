@@ -63,6 +63,7 @@ public class TestLibraryManagementPersistence {
 		roomReservationRepository.deleteAll();
 		titleReservationRepository.deleteAll();
 		libraryRepository.deleteAll();
+		roomReservationRepository.deleteAll();
 		clientRepository.deleteAll();
 		librarianRepository.deleteAll();
 		titleRepository.deleteAll();
