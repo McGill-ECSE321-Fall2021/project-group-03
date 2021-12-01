@@ -4,7 +4,7 @@ export default {
   methods: {
     logoutUser: function(){
         localStorage.clear()
-        location.reload()
+        location.href = "/#/"
     }
   },
   mounted: function currentPage() {

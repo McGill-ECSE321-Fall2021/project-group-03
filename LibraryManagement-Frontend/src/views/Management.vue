@@ -54,7 +54,7 @@
       <input
         class="librarian-info"
         type="text"
-        placeholder="Librarian Id"
+        placeholder="Librarian Username"
         id="librarian-fire-username"
       />
       <div>
@@ -216,6 +216,11 @@
   padding-bottom: 0px;
 }
 
+.title-info {
+  border-radius: 10px;
+  padding: 10px;
+}
+
 .header2 {
   color: darkslategray;
   font-size: 20px;
@@ -318,6 +323,14 @@ input[type="time"] {
 
 .lib-sched-inputs {
   padding: 10px;
+}
+
+#library-schedule-end-hour-am-pm {
+  margin-left: 10px;
+}
+
+#library-schedule-start-hour-am-pm {
+  margin-left: 10px;
 }
 
 @keyframes fadeIn {
