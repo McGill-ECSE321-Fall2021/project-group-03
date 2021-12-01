@@ -151,5 +151,15 @@ var AXIOS = axios.create({
                 let goodUrl = "/#/browse/title/" + titleName;
                 window.location.href = goodUrl;
             },
+
+            showTitleType(type) {
+                if (type == "MusicAlbum") {
+                    return "Music Album"
+                } else if (type == "Archives") {
+                    return "Archive"
+                } else {
+                    return type
+                }
+            }
         }
     }
