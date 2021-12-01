@@ -1,8 +1,7 @@
 <template>
   <div>
-        <!-- <MenuBar /> -->
-    <a class="home-btn" href="/#/">Home</a>
-    <br />
+    <!-- <MenuBar /> -->
+    <a id="home-button" class="home-btn" href="/#/">Home</a>
     <div class="login-form">
       <form class="form" action="">
         <label class="header2" for="username">Username</label>
@@ -173,5 +172,14 @@
   color: red;
   margin-bottom: 10px;
   /* font-weight: 20px; */
+}
+
+#home-button {
+  text-align: center;
+  display: block;
+  margin-top: 10px;
+  padding: 10px;
+  margin-right: auto;
+  margin-left: auto;
 }
 </style>

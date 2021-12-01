@@ -327,27 +327,32 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
 
             fireLibrarian() {
                 let librarianUsername = document.getElementById("librarian-fire-username").value
-                console.log(librarianId)
 
                 let goodUrl = "/librarians/remove/" + librarianUsername
                 console.log(goodUrl)
 
                 const fireLibrarianMsg = document.getElementById("msg-fire-librarian");
 
-                if (librarianId.trim() === "") {
+                if (librarianUsername.trim() === "") {
                     fireLibrarianMsg.innerHTML = "Librarian does not exist!";
                     fireLibrarianMsg.style.color = "red";
                     return
                   }
 
+                if (librarianUsername == localStorage.getItem("Username")){
+                    fireLibrarianMsg.innerHTML = "Cannot fire head librarian!";
+                    fireLibrarianMsg.style.color = "red";
+                    return
+                }
+
                 AXIOS.post(goodUrl, {}, {}).then(response => {
                     //var t = new LibrarianDto (librarianUsername, librarianPassword, librarianFullName, false)
                     //this.titles.push(t)
-                    fireLibrarianMsg.innerHTML = "Librarian fired succesfully";
+                    fireLibrarianMsg.innerHTML = "Librarian fired succesfully!";
                     fireLibrarianMsg.style.color = "green";
                     })
                     .catch(e => {
-                        fireLibrarianMsg.innerHTML = "Cannot fire head librarian";
+                        fireLibrarianMsg.innerHTML = "Librarian does not exist!";
                         fireLibrarianMsg.style.color = "red";
                       })
             }

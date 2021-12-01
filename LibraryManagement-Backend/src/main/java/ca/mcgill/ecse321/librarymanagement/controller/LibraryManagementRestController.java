@@ -567,7 +567,7 @@ public class LibraryManagementRestController {
 
 		if (titleType.equals("MusicAlbum")) {
 			type = TitleType.MusicAlbum;
-		} else if (titleType.equals("Archives")) {
+		} else if (titleType.equals("Archive")) {
 			type = TitleType.Archives;
 		} else if (titleType.equals("Book")) {
 			type = TitleType.Book;

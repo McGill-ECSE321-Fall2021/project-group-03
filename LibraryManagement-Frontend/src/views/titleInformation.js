@@ -50,19 +50,17 @@ export default {
     },
 
     mounted: function load(){
-        const titleName = location.href.split("/")[6]
-        console.log(titleName)
+        const titleName = document.getElementById("title-name").innerHTML
         let titles = []
         AXIOS.get('/titles/get/').then(response => {
             titles = response.data
-            titles.forEach(t => {
+            titles.forEach(t => {                
                 if (t.name == titleName){
-                    this.title.push(t)
+                    document.getElementById("title-type").innerHTML = t.titleType
+                    document.getElementById("title-description").innerHTML = t.description
+                    document.getElementById("title-genre").innerHTML = t.genre
                 }
             });
-            document.getElementById("title-type").innerHTML = this.title[0].titleType
-            document.getElementById("title-description").innerHTML = this.title[0].description
-            document.getElementById("title-genre").innerHTML = this.title[0].genre
 
         })
         .catch(e => {

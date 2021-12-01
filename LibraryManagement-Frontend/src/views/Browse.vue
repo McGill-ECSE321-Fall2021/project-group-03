@@ -60,7 +60,7 @@
             class="table-data click-appear"
           >
             <td class="title-name">{{ title.name }}</td>
-            <td class="title-type">{{ title.titleType }}</td>
+            <td class="title-type">{{ showTitleType(title.titleType) }}</td>
             <td class="title-genre">{{ title.genre }}</td>
             <td class="title-isAvailable">
               {{ displayAvailability(title.available) }}
