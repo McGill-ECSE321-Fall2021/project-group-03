@@ -153,6 +153,7 @@
           class="set-schedule"
           value="Set"
         />
+        <span hidden=true class="header2 sucess-msg" id="loading">Loading <img src="../images/loading-buffering.gif" alt=""></span>
         <span
           class="header2 success-msg"
           id="msg-set-time-library-schedule"
@@ -421,6 +422,11 @@ input[type="time"] {
   padding: 10px;
   margin-left: 20px;
   margin-right: 20px;
+}
+
+img {
+  width: 4%;
+  display: inline;
 }
 
 .collapsible:hover {

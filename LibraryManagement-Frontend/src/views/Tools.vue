@@ -15,12 +15,7 @@
             type="text"
             placeholder="Name"
           />
-          <input
-            class="title-info"
-            id="title-description-create"
-            type="text"
-            placeholder="Description"
-          />
+          <input class="title-info" type="text" placeholder="Description" />
           <select class="title-info" id="title-genre-create" name="type">
             <option value="Genre">Genre</option>
             <option value="Adventure">Adventure</option>

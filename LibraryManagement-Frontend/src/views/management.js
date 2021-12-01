@@ -45,6 +45,8 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                 endTimeLibraryScheduleMsg.innerHTML=""
                 setLibraryScheduleMsg.innerHTML=""
                 
+                console.log("shalom dudes")
+
                 let startHourNew = document.getElementById("library-schedule-start-hour").value
                 let startHourInt = parseInt(startHourNew)
                 let startHourAMorPM = document.getElementById("library-schedule-start-hour-am-pm").value
