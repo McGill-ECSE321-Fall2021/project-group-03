@@ -112,12 +112,19 @@ export default{
                 let newEmail = document.getElementById("update-email").value
                 let newAddress = document.getElementById("update-address").value
                 let goodUsername = localStorage.getItem("Username")
+                let goodFullName = localStorage.getItem("FullName") 
                 
                 this.updateInfo("Updating account information")
                 
                 setTimeout(() => {if (newPassword != "") {
+                    let goodUrl = ""
+                    console.log(localStorage.getItem("isLibrarian") )
+                    if (localStorage.getItem("isLibrarian")  == "true") {
+                        goodUrl = "/librarians/update/" + goodUsername + "?password=" + newPassword + "&fullName=" + goodFullName + "&residentialAddress="  + this.address + "&email=" + this.email + "&isResident=true&isOnline=true";
+                    } else {
+                        goodUrl = "/clients/update/password/" + goodUsername + "?password=" + newPassword
+                    }
                     
-                    let goodUrl = "/clients/update/password/" + goodUsername + "?password=" + newPassword
 
                     AXIOS.post(goodUrl, {}, {}).then(response => {
                         

@@ -1,11 +1,14 @@
 <template>
   <div>
     <MenuBar />
+
+    <!-- ********** INVENTORY MANAGEMENT SECTION **********-->
+
     <button @click="expandInventory()" class="collapsible">
       <span id="arrow-inventory">+</span> Inventory Management
     </button>
     <div id="inventory" class="content">
-      <!-- ********** CREATE TITLE SECTION **********-->
+      <!-- ********** create title section **********-->
       <div class="header">Create Title</div>
       <div>
         <form action="">
@@ -43,8 +46,7 @@
           <span hidden="true" class="header2 error-msg"></span>
         </div>
       </div>
-
-      <!-- ********** UPDATE TITLE SECTION **********-->
+      <!-- ********** update title section **********-->
       <div class="header">Update Title</div>
       <div>
         <input
@@ -84,7 +86,7 @@
         <span class="header2 success-msg" id="msg-update-title"></span>
         <span hidden="true" class="header2 error-msg">Error message</span>
       </div>
-      <!-- ********** REMOVE TITLE SECTION **********-->
+      <!-- ********** remove title section **********-->
       <div class="header">Remove Title</div>
       <div>
         <input
