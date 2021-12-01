@@ -118,33 +118,46 @@ export default{
                 const editAddressMessage = document.getElementById("account-edit-address");
                 const editAddressContent = document.getElementById("update-address").value;
 
+                const editSaveMessage = document.getElementById("account-edit-save");
+
+
                 editPasswordMessage.innerHTML="";
                 editEmailMessage.innerHTML=""
                 editAddressMessage.innerHTML="";
-                
+                editSaveMessage.innerHTML = ""
 
-                // if (editPasswordContent.trim() === ""){
-                //     console.log("les boys")
-                //     editPasswordMessage.innerHTML = "Password cannot be empty"
-                //     editPasswordMessage.style.color="red"
-                //     return
-                // }
+
+
+                if (editPasswordContent ===""  && editEmailContent ==="" && editAddressContent===""){
+                        editSaveMessage.innerHTML = "You must fill in at least one of the fields"
+                        editSaveMessage.style.color = "red"
+                        return
+                }
+                
+                //there are 8 cases
+                    
+                if (editPasswordContent.trim() === "" && editEmailContent ==="" && editAddressContent===""){
+                    console.log("les boys")
+                    editPasswordMessage.innerHTML = "Password cannot be empty"
+                    editPasswordMessage.style.color="red"
+                    return
+                }
 
             
-                // if (editEmailContent.trim() === ""){
-                //     console.log("les boys")
-                //     editEmailMessage.innerHTML = "Email cannot be empty"
-                //     editEmailMessage.style.color="red"
-                //     return
-                // }
+                if (editEmailContent.trim() === "" && editPasswordContent ===""  && editAddressContent===""){
+                    console.log("les boys")
+                    editEmailMessage.innerHTML = "Email cannot be empty"
+                    editEmailMessage.style.color="red"
+                    return
+                }
 
         
-                // if (editAddressContent.trim() === ""){
-                //     console.log("les boys")
-                //     editAddressMessage.innerHTML = "Address cannot be empty"
-                //     editAddressMessage.style.color="red"
-                //     return
-                // }
+                if (editAddressContent.trim() === "" && editPasswordContent ===""  && editEmailContent===""){
+                    console.log("les boys")
+                    editAddressMessage.innerHTML = "Address cannot be empty"
+                    editAddressMessage.style.color="red"
+                    return
+                }
 
 
 
@@ -168,9 +181,9 @@ export default{
                     
 
                     AXIOS.post(goodUrl, {}, {}).then(response => {
-                        const editSaveMessage = document.getElementById("account-edit-save");
-                        // editSaveMessage.innerHTML = "Succesfully updated"
-                        // editSaveMessage.style.color = "green"
+                        console.log("uigrjkhjkr")
+                        editSaveMessage.innerHTML = "Password successfully updated"
+                        editSaveMessage.style.color = "green"
 
                         })
                         .catch(e => {
@@ -184,9 +197,14 @@ export default{
                 setTimeout(() => {if (newEmail.trim() != "") {
                     let goodUrl = "/clients/update/email/" + goodUsername + "?email=" + newEmail
 
-                    AXIOS.post(goodUrl, {}, {}).then(response => {}).catch(e => {
-                        var errorMsg = e.response.data.message
-                        this.errorTitle = errorMsg
+                    AXIOS.post(goodUrl, {}, {}).then(response => {
+
+                        editSaveMessage.innerHTML = "Email succesfully updated"
+                        editSaveMessage.style.color = "green"
+                    }).catch(e => {
+                       
+                        //var errorMsg = e.response.data.message
+                        //this.errorTitle = errorMsg
                     })
 
                     localStorage.setItem("Email", newEmail);
@@ -196,7 +214,11 @@ export default{
                     let goodUrl = "/clients/update/address/" + goodUsername + "?residentialAddress=" + newAddress
                     console.log(goodUrl)
 
-                    AXIOS.post(goodUrl, {}, {}).then(response => {}).catch(e => {
+                    AXIOS.post(goodUrl, {}, {}).then(response => {
+                        editSaveMessage.innerHTML = "Residential Address succesfully updated"
+                        editSaveMessage.style.color = "green"
+                    }).catch(e => {
+                        
                             var errorMsg = e.response.data.message
                             this.errorTitle = errorMsg
                         })
