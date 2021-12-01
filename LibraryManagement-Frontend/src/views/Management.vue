@@ -108,7 +108,6 @@
           id="library-schedule-start-hour-am-pm"
           name="type"
         >
-          <option value="AM or PM">A.M or P.M</option>
           <option value="AM">AM</option>
           <option value="PM">PM</option>
         </select>
@@ -138,7 +137,6 @@
           id="library-schedule-end-hour-am-pm"
           name="type"
         >
-          <option value="AM or PM">A.M or P.M</option>
           <option value="AM">AM</option>
           <option value="PM">PM</option>
         </select>
@@ -176,7 +174,7 @@
       <div class="header">Set Staff Schedule</div>
       <div class="lib-sched-inputs">
         <div class="header2">Username</div>
-        <input type="text" id="lib-username" placeholder="librarian username" />
+        <input type="text" id="lib-username" placeholder="Librarian Username" />
         <br />
         <div class="header2">Date</div>
         <input
@@ -366,5 +364,39 @@ input[type="time"] {
 #lib-username {
   border-radius: 10px;
   padding: 10px;
+  margin-bottom: 15px;
+}
+
+#staff-timeslot-date {
+  margin-bottom: 15px;
+}
+
+#ts-staff {
+  margin-bottom: 15px;
+}
+
+#timeslot-date {
+  margin-bottom: 15px;
+}
+
+#library-schedule-start-hour {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#library-schedule-start-hour-am-pm {
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#library-schedule-end-hour {
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#library-schedule-end-hour-am-pm {
+  padding: 10px;
+  border-radius: 5px;
 }
 </style>

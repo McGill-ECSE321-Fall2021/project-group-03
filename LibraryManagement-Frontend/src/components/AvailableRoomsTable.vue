@@ -1,6 +1,5 @@
 <template>
   <div class="table">
-    <input type="date" id="birthday" name="birthday" />
     <table>
       <tr>
         <th>Time</th>
