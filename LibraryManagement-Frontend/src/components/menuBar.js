@@ -5,7 +5,6 @@ export default {
     logoutUser: function(){
         localStorage.clear()
         document.getElementById("logout-btn").hidden = true
-        location.reload()
     }
   },
   mounted: function currentPage() {
