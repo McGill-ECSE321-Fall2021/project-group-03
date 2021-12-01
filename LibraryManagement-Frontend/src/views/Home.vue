@@ -53,13 +53,13 @@
       <div class="header">Contact Information</div>
       <div class="footer">
         <span class="header2">
-          Address:<span class="info">1234 Python road</span>
+          Address: <span class="info">1234 Python road</span>
         </span>
         <span class="header2">
-          Telephone:<span class="info">(514)-123-4567</span>
+          Telephone: <span class="info">(514)-123-4567</span>
         </span>
         <span class="header2">
-          Email:<span class="info">library@gmail.com</span>
+          Email: <span class="info">library@gmail.com</span>
         </span>
       </div>
     </div>
@@ -79,11 +79,13 @@
 
 .header2 {
   text-align: center;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .info {
   font-weight: 400;
-  color: teal;
+  color: black;
 }
 
 #librarians {
@@ -133,5 +135,6 @@ table :first-child th {
   display: flex;
   justify-content: space-around;
   color: teal;
+  padding-bottom: 20px;
 }
 </style>

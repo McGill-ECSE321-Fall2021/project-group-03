@@ -337,25 +337,20 @@ input[type="time"] {
 }
 
 .collapsible {
-  margin-top: 10px;
+  margin-top: 20px;
   background-color: cadetblue;
   color: aliceblue;
   border: none;
   text-align: left;
   outline: none;
-  width: 100%;
+  width: 95%;
   padding: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .collapsible:hover {
-  margin-top: 10px;
   background-color: rgb(63, 102, 105);
-  color: aliceblue;
-  border: none;
-  text-align: left;
-  outline: none;
-  width: 100%;
-  padding: 10px;
 }
 
 .content {
@@ -363,6 +358,9 @@ input[type="time"] {
   padding: 0 10px;
   display: none;
   background-color: rgb(227, 243, 243);
+  width: 95%;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 #lib-username {
