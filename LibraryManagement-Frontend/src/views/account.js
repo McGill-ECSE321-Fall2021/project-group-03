@@ -169,8 +169,8 @@ export default{
 
                     AXIOS.post(goodUrl, {}, {}).then(response => {
                         const editSaveMessage = document.getElementById("account-edit-save");
-                        editSaveMessage.innerHTML = "Succesfully updated"
-                        editSaveMessage.style.color = "green"
+                        // editSaveMessage.innerHTML = "Succesfully updated"
+                        // editSaveMessage.style.color = "green"
 
                         })
                         .catch(e => {
