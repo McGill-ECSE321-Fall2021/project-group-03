@@ -102,7 +102,7 @@ var AXIOS = axios.create({
                         // check the content of title-type <td>
                         Array.from(entry.children).forEach(column => {
                             if(column.className == "title-name"){
-                                if (column.innerHTML != name){
+                                if (!column.innerHTML.includes(name)){
                                     entry.style.display = 'none'
                                 }
                             }
@@ -110,19 +110,20 @@ var AXIOS = axios.create({
                     });
                 }
 
+                console.log(availability)
+
                 if (availability != "all") {
                     Array.from(tableData).forEach(entry => {
                         // check the content of title-type <td>
                         Array.from(entry.children).forEach(column => {
                             if(column.className == "title-isAvailable"){
                                 if (availability == "Yes"){
-                                    if (column.innerHTML == "✗"){
+                                    if (!column.innerHTML.includes("✓")){
                                         entry.style.display = 'none'
                                     }
                                 }
-
                                 else {
-                                    if (column.innerHTML == "✓"){
+                                    if (column.innerHTML.includes("✓")){
                                         entry.style.display = 'none'
                                     }
                                 }
