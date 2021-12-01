@@ -135,7 +135,8 @@
         <select
           class="title-info"
           id="library-schedule-end-hour-am-pm"
-          name="type">
+          name="type"
+        >
           <option value="AM">AM</option>
           <option value="PM">PM</option>
         </select>
@@ -157,7 +158,8 @@
           id="msg-set-time-library-schedule"
         ></span>
         <span hidden="true" class="header2 success-msgSET"
-          >Library Schedule Successfully Set.</span>
+          >Library Schedule Successfully Set.</span
+        >
         <span hidden="true" class="header2 error-msgSET">Error message</span>
       </div>
     </div>
@@ -214,7 +216,7 @@
   padding-bottom: 0px;
 }
 
-.title-info{
+.title-info {
   border-radius: 10px;
   padding: 10px;
 }
@@ -323,15 +325,13 @@ input[type="time"] {
   padding: 10px;
 }
 
-#library-schedule-end-hour-am-pm{
+#library-schedule-end-hour-am-pm {
   margin-left: 10px;
 }
 
-
-#library-schedule-start-hour-am-pm{
+#library-schedule-start-hour-am-pm {
   margin-left: 10px;
 }
-
 
 @keyframes fadeIn {
   from {
@@ -377,5 +377,39 @@ input[type="time"] {
 #lib-username {
   border-radius: 10px;
   padding: 10px;
+  margin-bottom: 15px;
+}
+
+#staff-timeslot-date {
+  margin-bottom: 15px;
+}
+
+#ts-staff {
+  margin-bottom: 15px;
+}
+
+#timeslot-date {
+  margin-bottom: 15px;
+}
+
+#library-schedule-start-hour {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#library-schedule-start-hour-am-pm {
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#library-schedule-end-hour {
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#library-schedule-end-hour-am-pm {
+  padding: 10px;
+  border-radius: 5px;
 }
 </style>

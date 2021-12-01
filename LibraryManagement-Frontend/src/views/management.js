@@ -23,9 +23,6 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
         methods:  {
 
             createLibraryScheduleTimeslot(){
-
-
-
                 // get info from inputs
                 const startDate = document.getElementById("timeslot-date").value.split("-"),
                 //startTime = document.getElementById("ts").value.split(":"),
@@ -48,27 +45,19 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                 endTimeLibraryScheduleMsg.innerHTML=""
                 setLibraryScheduleMsg.innerHTML=""
                 
-
-
-              
-                console.log("shalom dudes")
-
                 let startHourNew = document.getElementById("library-schedule-start-hour").value
                 let startHourInt = parseInt(startHourNew)
                 let startHourAMorPM = document.getElementById("library-schedule-start-hour-am-pm").value
-
 
                 let endHourNew = document.getElementById("library-schedule-end-hour").value
                 let endHourInt = parseInt(endHourNew)
                 let endHourAMorPM = document.getElementById("library-schedule-end-hour-am-pm").value
 
                 if (startHourAMorPM === "PM"){
-                    console.log("in the if")
                     startHourInt = startHourInt + 12;
                 }
 
                 if (endHourAMorPM === "PM"){
-                    console.log("in the if")
                     endHourInt = endHourInt + 12;
                 }
 
@@ -85,9 +74,6 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                     startTimeLibraryScheduleMsg.style.color = "red";
                     return
                   }
-                  console.log("we are entered")
-                  console.log(endHourNew)
-
 
                   if (endHourNew === "End Time" | endHourAMorPM === "AM or PM" ) {
                       console.log("we are entered")
@@ -108,10 +94,6 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                 var inputDate = new Date(year, month-1, day, 0, 0, 0, 0)
                 //unclear why the month is off by 1....but this seems to work
                 //In postman, there is the right month so I guess this works
-                console.log("hiiiiiii")
-                console.log(currentDate)
-                console.log("hiiiiiii hhh")
-                console.log(inputDate)
 
                 if (currentDate > inputDate){
                     dateLibraryScheduleMsg.innerHTML = "Library time slot cannot be created in the past";
@@ -123,13 +105,8 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                 let startHourString = startHourInt.toString()
                 let endHourString = endHourInt.toString()
 
-                console.log("start hour string")
-                console.log(startHourString)
-
                 // create url
                 const url = "/libraryTimeslots/create/" + startHourString + "?startMin=" + "0" + "&endHour=" + endHourString + "&endMin=" + "0" + "&year=" + year + "&month=" + month + "&day=" + day;
-
-                console.log(url)
 
                 AXIOS.post(url, {}, {}).then(response => {
                     console.log(response.data)
@@ -160,8 +137,6 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
 
                 // create url
                 const url = "/staffSchedules/create/" + librarianUsername + "?startHour=" + startHour + "&startMin=" + startMin + "&endHour=" + endHour + "&endMin=" + endMin + "&year=" + year + "&month=" + month + "&day=" + day;
-
-                console.log(url)
 
                 AXIOS.post(url, {}, {}).then(response => {
                     console.log(response.data)
@@ -223,7 +198,6 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                 console.log(librarianFullName)
 
                 let goodUrl = "/librarians/create/" + librarianUsername + "?password=" + librarianPassword + "&fullName=" + librarianFullName + "&isHeadLibrarian=false"
-                console.log(goodUrl)
                 
                 const hireLibrarianMsg = document.getElementById("msg-create-librarian");
 
@@ -245,15 +219,12 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                     return
                   }
 
-                
-
                 AXIOS.post(goodUrl, {}, {}).then(response => {
                     //var t = new LibrarianDto (librarianUsername, librarianPassword, librarianFullName, false)
                     //this.titles.push(t)
 
                     hireLibrarianMsg.innerHTML = "Librarian hired succesfully";
                     hireLibrarianMsg.style.color = "green";
-
                     
                     })
                     .catch(e => {
