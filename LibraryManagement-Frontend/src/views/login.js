@@ -36,13 +36,13 @@ export default{
             let password = document.getElementById("login-password").value
 
 
-            if (username == "") {
+            if (username.trim() == "") {
                 errorMsg = "Can't have an empty username"
                 this.setErrorMsg(errorMsg)
                 return
             }
 
-            if (password == "") {
+            if (password.trim() == "") {
                 errorMsg = "Can't have an empty password"
                 this.setErrorMsg(errorMsg)
                 return
@@ -122,19 +122,19 @@ export default{
             let address = document.getElementById("create-address").value
             let isResident = document.getElementById("create-isResident").value
 
-            if (fullName == "") {
+            if (fullName.trim() == "") {
                 errorMsg = "Can't have an empty name"
                 this.setErrorMsg2(errorMsg)
                 return
             }
 
-            if (username == "") {
+            if (username.trim() == "") {
                 errorMsg = "Can't have an empty username"
                 this.setErrorMsg2(errorMsg)
                 return
             }
 
-            if (password == "") {
+            if (password.trim() == "") {
                 errorMsg = "Can't have an empty password"
                 this.setErrorMsg2(errorMsg)
                 return
@@ -146,13 +146,13 @@ export default{
                 return
             }
 
-            if (email == "") {
+            if (email.trim() == "") {
                 errorMsg = "Can't have an empty email"
                 this.setErrorMsg2(errorMsg)
                 return
             }
 
-            if (address == "") {
+            if (address.trim() == "") {
                 errorMsg = "Can't have an empty address"
                 this.setErrorMsg2(errorMsg)
                 return
