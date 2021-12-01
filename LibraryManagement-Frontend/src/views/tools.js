@@ -50,6 +50,8 @@ export default {
       let genre = document.getElementById("title-genre-create").value;
       let type = document.getElementById("title-type-create").value;
 
+      console.log(genre)
+
       const msg = document.getElementById("msg-create-title");
 
       let goodUrl =
@@ -68,13 +70,16 @@ export default {
         return
       }
 
-      if (genre.trim() === "Genre") {
+      if (genre === "Genre") {
+        console.log("shalom gabbyggggg")
+
         msg.innerHTML = "Genre cannot be empty!";
         msg.style.color = "red";
         return
       }
 
-      if (type.trim() === "TitleType") {
+      if (type === "Type") {
+        console.log("shalom gabbay again")
         msg.innerHTML = "TitleType cannot be empty!";
         msg.style.color = "red";
         return
@@ -138,8 +143,28 @@ export default {
 
     checkoutTitle() {
       const titleName = document.getElementById("title-name").value;
-
+      const titleNameMsg = document.getElementById("title-name-msg");
+      
+      const clientUsernameMsg = document.getElementById("client-username-msg")
       const clientUsername = document.getElementById("client-username").value;
+      
+      const checkOutTitlemsg = document.getElementById("title-checkout-msg")
+      
+      clientUsernameMsg.innerHTML=""
+      titleNameMsg.innerHTML=""
+      checkOutTitlemsg.innerHTML=""
+
+      if (clientUsername.trim() === ""){
+        clientUsernameMsg.innerHTML = "Client username cannot be empty"
+        clientUsernameMsg.style.color = "red";
+        return
+      }
+
+      if (titleName.trim() === ""){
+        titleNameMsg.innerHTML = "Title name cannot be empty"
+        titleNameMsg.style.color = "red";
+        return
+      }
 
       let goodUrl =
         "/titles/checkout/" + titleName + "?clientUsername=" + clientUsername;
@@ -147,15 +172,14 @@ export default {
       AXIOS.post(goodUrl, {}, {})
         .then(response => {
           console.log(response.data);
-          document.getElementById("msg-checkout").innerHTML =
-            "Title Checkout Successful!";
-          document.getElementById("msg-checkout").style.color = "green";
+          checkOutTitlemsg.innerHTML = "Title checkout Succesful"
+          checkOutTitlemsg.style.color ="green"
+      
         })
         .catch(e => {
           var errorMsg = e.response.data.message;
-          console.log(errorMsg);
-          this.errorTitle = errorMsg;
-          document.getElementById("msg-checkout").innerHTML = "hello";
+          checkOutTitlemsg.innerHTML = "Title checkout failed. Make sure the client and title are in the system and that the title is not already checked out."
+          checkOutTitlemsg.style.color ="red"
         });
     },
 
@@ -224,13 +248,13 @@ export default {
       console.log(goodUrl);
 
 
-      if (titleName === "") {
+      if (titleName.trim() === "") {
         updateTitleMessage.innerHTML = "Title cannot be empty!";
         updateTitleMessage.style.color = "red";
         return
       }
 
-      if (titleDescription === "") {
+      if (titleDescription.trim() === "") {
         updateTitleMessage.innerHTML = "Description cannot be empty!";
         updateTitleMessage.style.color = "red";
         return

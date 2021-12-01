@@ -136,6 +136,8 @@
         type="text"
         placeholder="Client Username"
       />
+      <span class="header2 success-msg" id="client-username-msg"></span>
+
       <br />
       <input
         class="title-info"
@@ -143,6 +145,8 @@
         type="text"
         placeholder="Title Name"
       />
+      <span class="header2 success-msg" id="title-name-msg"></span>
+
       <br />
       <input
         type="submit"
@@ -150,6 +154,8 @@
         class="create-title"
         value="Checkout"
       />
+      <span class="header2 success-msg" id="title-checkout-msg"></span>
+
       <div id="msg-checkout"></div>
     </div>
   </div>
