@@ -46,10 +46,17 @@ Ensure that all meetings, design decisions and other major events of the design 
 [Click this link to see our Project Report](https://github.com/McGill-ECSE321-Fall2021/project-group-03/wiki/Project-Report)
 
 ## Deploying the Front End
-In order to deploy the front-end, run npm run dev. This will deploy a session of the front end to the designated host configured in the config files of the project. By default it will be deployed on a local server with port 8087 (differs from port 8080 which is used for back-end calls)
+In order to deploy the front-end, run npm run dev. This will deploy a session of the front end to the designated host configured in the config files of the project. By default it will be deployed on a local server with port 8087 (differs from port 8080 which is used for back-end calls). Note that on occasion, when being redirected to a page it can show a blank screen. Refreshing the page fixes this issue.
 
 ## Deploying the Back End
 In order to run our application, follow these steps:
 
 run the libraryManagementApplication.java file as a spring boot application. This can be found in the ca.mcgill.ecse321.librarymanagement package.
 Once running, sign into postman. This application can be accessed using the server port 8080.
+
+## A Guideline to Using Our Website
+When the application is first launched, the website is created with only a head librarian account. The credentials for this account are username: "headLibrarian", password: "head". As specified by the client, the library has 3 rooms that can be booked for reservations. To sign in, navigate to the "Login" button on the top right of the window. From there, you can sign in as the head librarian or create a new account and log in from that accounts perspective. Note: librarians cannot create their own account, the head librarian must do so from the management  tab where they can hire a librarian.
+
+All librarians have an extra tab in the menu bar named "library tools" which is where they can access their special privileges such as creating titles, checking out titles for clients and viewing their staff schedules. As the head librarian you may also create a time slots for any librarian that was hired.
+
+As a client, you may browse available titles, press a title to view information about it or reserve it. You may also reserve a room by pressing on a room and then pressing on an available time slot. To view title and room reservations, press the reservations tab which is only available to clients.

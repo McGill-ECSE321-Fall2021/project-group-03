@@ -19,6 +19,12 @@ export default {
     MenuBar
     },
 
+    data(){
+        return {
+            title: []
+        }
+      },
+
     methods :{
         reserveTitle(){
 
@@ -47,18 +53,16 @@ export default {
         const titleName = location.href.split("/")[6]
         console.log(titleName)
         let titles = []
-        AXIOS.get('/titles/get/')
-        .then(response => {
+        AXIOS.get('/titles/get/').then(response => {
             titles = response.data
             titles.forEach(t => {
                 if (t.name == titleName){
-                    this.title = t
-                    
+                    this.title.push(t)
                 }
             });
-            document.getElementById("title-type").innerHTML = this.title.titleType
-            document.getElementById("title-description").innerHTML = this.title.description
-            document.getElementById("title-genre").innerHTML = this.title.genre
+            document.getElementById("title-type").innerHTML = this.title[0].titleType
+            document.getElementById("title-description").innerHTML = this.title[0].description
+            document.getElementById("title-genre").innerHTML = this.title[0].genre
 
         })
         .catch(e => {
