@@ -46,7 +46,7 @@ Ensure that all meetings, design decisions and other major events of the design 
 [Click this link to see our Project Report](https://github.com/McGill-ECSE321-Fall2021/project-group-03/wiki/Project-Report)
 
 ## Deploying the Front End
-In order to deploy the front-end, run npm run dev. This will deploy a session of the front end to the designated host configured in the config files of the project. By default it will be deployed on a local server with port 8087 (differs from port 8080 which is used for back-end calls)
+In order to deploy the front-end, run npm run dev. This will deploy a session of the front end to the designated host configured in the config files of the project. By default it will be deployed on a local server with port 8087 (differs from port 8080 which is used for back-end calls). Note that on occasion, when being redirected to a page it can show a blank screen. Refreshing the page fixes this issue.
 
 ## Deploying the Back End
 In order to run our application, follow these steps:
