@@ -59,6 +59,7 @@ export default{
                     let responseEmail = response.data.email;
                     let responsePassword = response.data.password;
                     let responseAddress = response.data.residentialAddress;
+                    let responseFullName = response.data.fullName;
 
                     window.location.href = "/#/"
 
@@ -67,6 +68,7 @@ export default{
                     localStorage.setItem("Password", responsePassword);
                     localStorage.setItem("Address", responseAddress);
                     localStorage.setItem("isLibrarian", true);
+                    localStorage.setItem("FullName", responseFullName);
 
                 })
                 .catch(e => {
