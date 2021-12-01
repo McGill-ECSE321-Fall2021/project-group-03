@@ -71,6 +71,7 @@
         <span hidden="true" class="header2 error-msgF">Error message</span>
       </div>
     </div>
+<<<<<<< Updated upstream
 
     <!-- ********** SET LIBRARY SCHEDULE SECTION **********-->
 
@@ -265,6 +266,72 @@
         >
         <span hidden="true" class="header2 error-msgSET">Error message</span>
       </div>
+=======
+    </div>
+
+    <!-- ********** fire librarian section **********-->
+
+    <div class="header">Fire Librarian</div>
+    <div>
+    <input
+      class="librarian-info"
+      type="text"
+      placeholder="Librarian Id"
+      id="librarian-fire-username"
+    />
+    <div>
+      <input
+        type="submit"
+        @click="fireLibrarian()"
+        class="delete-librarian"
+        value="Fire"
+      />
+      <span hidden="true" class="header2 success-msgF"
+        >Librarian Successfully Fired.</span
+      >
+      <span class="header2 success-msg" id="msg-fire-librarian"></span>
+      <span hidden="true" class="header2 error-msgF">Error message</span>
+    </div>
+    </div>
+  </div>
+
+  <!-- ********** LIBRARY SCHEDULE SECTION **********-->
+
+  <button @click="expandLibraryScheduling()" class="collapsible"><span id="arrow-library-scheduling">+</span> Library Scheduling</button>
+
+  <div class="content" id="library-schedule">
+    <div class="header">Set Library Schedule</div>
+    <div class="lib-sched-inputs">
+
+      <!-- ********** Date**********-->
+
+      <div class="header2">Date</div>
+
+      <input type="date" id="birthday" name="birthday" />
+
+    <!-- ********** Start Time **********-->
+
+      <div class="header2">Start Time</div>
+      <input id="ts" type="time" min="09:00" max="22:00" required />
+
+    <!-- ********** End Time **********-->
+      <div class="header2">End Time</div>
+      <input id="te" type="time" min="09:00" max="22:00" required />
+    </div>
+
+    <div>
+      <input
+        type="submit"
+        @click="displaySuccessSET()"
+        class="set-schedule"
+        value="Set"
+      />
+      <span hidden="true" class="header2 success-msgSET"
+        >Library Schedule Successfully Set.</span
+      >
+      <span hidden="true" class="header2 error-msgSET">Error message</span>
+    </div>
+>>>>>>> Stashed changes
     </div>
   </div>
 </template>
