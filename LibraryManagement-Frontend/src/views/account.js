@@ -123,28 +123,28 @@ export default{
                 editAddressMessage.innerHTML="";
                 
 
-                if (editPasswordContent.trim() === ""){
-                    console.log("les boys")
-                    editPasswordMessage.innerHTML = "Password cannot be empty"
-                    editPasswordMessage.style.color="red"
-                    return
-                }
+                // if (editPasswordContent.trim() === ""){
+                //     console.log("les boys")
+                //     editPasswordMessage.innerHTML = "Password cannot be empty"
+                //     editPasswordMessage.style.color="red"
+                //     return
+                // }
 
             
-                if (editEmailContent.trim() === ""){
-                    console.log("les boys")
-                    editEmailMessage.innerHTML = "Email cannot be empty"
-                    editEmailMessage.style.color="red"
-                    return
-                }
+                // if (editEmailContent.trim() === ""){
+                //     console.log("les boys")
+                //     editEmailMessage.innerHTML = "Email cannot be empty"
+                //     editEmailMessage.style.color="red"
+                //     return
+                // }
 
         
-                if (editAddressContent.trim() === ""){
-                    console.log("les boys")
-                    editAddressMessage.innerHTML = "Address cannot be empty"
-                    editAddressMessage.style.color="red"
-                    return
-                }
+                // if (editAddressContent.trim() === ""){
+                //     console.log("les boys")
+                //     editAddressMessage.innerHTML = "Address cannot be empty"
+                //     editAddressMessage.style.color="red"
+                //     return
+                // }
 
 
 
@@ -157,7 +157,7 @@ export default{
                 
                 this.updateInfo("Updating account information")
                 
-                setTimeout(() => {if (newPassword != "") {
+                setTimeout(() => {if (newPassword.trim() != "") {
                     let goodUrl = ""
                     console.log(localStorage.getItem("isLibrarian") )
                     if (localStorage.getItem("isLibrarian")  == "true") {
@@ -181,7 +181,7 @@ export default{
                     localStorage.setItem("Password", newPassword);
                 }}, 500);
 
-                setTimeout(() => {if (newEmail != "" && newEmail != null ) {
+                setTimeout(() => {if (newEmail.trim() != "") {
                     let goodUrl = "/clients/update/email/" + goodUsername + "?email=" + newEmail
 
                     AXIOS.post(goodUrl, {}, {}).then(response => {}).catch(e => {
@@ -192,7 +192,7 @@ export default{
                     localStorage.setItem("Email", newEmail);
                 }}, 1500);
 
-                setTimeout(() => {if (newAddress != "") {
+                setTimeout(() => {if (newAddress.trim() != "") {
                     let goodUrl = "/clients/update/address/" + goodUsername + "?residentialAddress=" + newAddress
                     console.log(goodUrl)
 
