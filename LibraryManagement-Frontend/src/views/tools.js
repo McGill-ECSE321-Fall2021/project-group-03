@@ -63,8 +63,7 @@ export default {
         "&isAvailable=true" +
         "&titleType=" +
         type;
-      console.log(goodUrl);
-      console.log("hello");
+
       
       if (titleName === "") {
         msg.innerHTML = "Title cannot be empty!";

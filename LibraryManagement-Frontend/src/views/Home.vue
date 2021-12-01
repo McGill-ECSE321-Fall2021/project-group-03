@@ -33,7 +33,7 @@
         </div>
       </div>
       <div class="library-hours">
-        <div class="header">Library Hours</div>
+        <div class="header" id="lib-hours">Library Hours</div>
         <div class="content" id="library-schedule">
           <table>
             <tr>
@@ -94,10 +94,9 @@
 
 table {
   border-collapse: collapse;
-  /* width: 40%; */
   margin-top: 0px;
   width: auto;
-  margin-right: 105px;
+  margin-right: auto;
   margin-left: auto;
 }
 

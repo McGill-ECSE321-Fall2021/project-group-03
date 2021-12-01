@@ -111,11 +111,13 @@ export default{
                 let newPassword = document.getElementById("update-password").value
                 let newEmail = document.getElementById("update-email").value
                 let newAddress = document.getElementById("update-address").value
+                let goodUsername = localStorage.getItem("Username")
                 
                 this.updateInfo("Updating account information")
                 
                 setTimeout(() => {if (newPassword != "") {
-                    let goodUrl = "/clients/update/password/" + username + "?password=" + newPassword
+                    
+                    let goodUrl = "/clients/update/password/" + goodUsername + "?password=" + newPassword
 
                     AXIOS.post(goodUrl, {}, {}).then(response => {
                         
@@ -129,7 +131,7 @@ export default{
                 }}, 500);
 
                 setTimeout(() => {if (newEmail != "" && newEmail != null ) {
-                    let goodUrl = "/clients/update/email/" + username + "?email=" + newEmail
+                    let goodUrl = "/clients/update/email/" + goodUsername + "?email=" + newEmail
 
                     AXIOS.post(goodUrl, {}, {}).then(response => {}).catch(e => {
                         var errorMsg = e.response.data.message
@@ -140,7 +142,7 @@ export default{
                 }}, 1500);
 
                 setTimeout(() => {if (newAddress != "") {
-                    let goodUrl = "/clients/update/address/" + username + "?residentialAddress=" + newAddress
+                    let goodUrl = "/clients/update/address/" + goodUsername + "?residentialAddress=" + newAddress
                     console.log(goodUrl)
 
                     AXIOS.post(goodUrl, {}, {}).then(response => {}).catch(e => {
