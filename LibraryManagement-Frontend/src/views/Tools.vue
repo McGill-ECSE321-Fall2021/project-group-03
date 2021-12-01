@@ -8,45 +8,45 @@
       <!-- ********** CREATE TITLE SECTION **********-->
       <div class="header">Create Title</div>
       <div>
-      <form action="">
-        <input
-          class="title-info"
-          id="title-name-create"
-          type="text"
-          placeholder="Name"
-        />
-        <input
-          class="title-info"
-          id="title-description-create"
-          type="text"
-          placeholder="Description"
-        />
-        <select class="title-info" id="title-genre-create" name="type">
-          <option value="Genre">Genre</option>
-          <option value="Adventure">Adventure</option>
-          <option value="Action">Action</option>
-          <option value="Comedy">Comedy</option>
-          <option value="Horror">Horror</option>
-        </select>
-        <select class="title-info" id="title-type-create" name="type">
-          <option value="TitleType">TitleType</option>
-          <option value="Book">Book</option>
-          <option value="Movie">Movie</option>
-          <option value="MusicAlbum">Music Album</option>
-          <option value="Newspaper">Newspaper</option>
-          <option value="Archive">Archive</option>
-        </select>
-      </form>
-      <div>
-        <input
-          type="submit"
-          @click="createTitle()"
-          class="create-title"
-          value="Create Title"
-        />
-        <span class="header2 success-msg" id="msg-create-title"></span>
-        <span hidden="true" class="header2 error-msg"></span>
-      </div>
+        <form action="">
+          <input
+            class="title-info"
+            id="title-name-create"
+            type="text"
+            placeholder="Name"
+          />
+          <input
+            class="title-info"
+            id="title-description-create"
+            type="text"
+            placeholder="Description"
+          />
+          <select class="title-info" id="title-genre-create" name="type">
+            <option value="Genre">Genre</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Action">Action</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Horror">Horror</option>
+          </select>
+          <select class="title-info" id="title-type-create" name="type">
+            <option value="TitleType">TitleType</option>
+            <option value="Book">Book</option>
+            <option value="Movie">Movie</option>
+            <option value="MusicAlbum">Music Album</option>
+            <option value="Newspaper">Newspaper</option>
+            <option value="Archive">Archive</option>
+          </select>
+        </form>
+        <div>
+          <input
+            type="submit"
+            @click="createTitle()"
+            class="create-title"
+            value="Create Title"
+          />
+          <span class="header2 success-msg" id="msg-create-title"></span>
+          <span hidden="true" class="header2 error-msg"></span>
+        </div>
       </div>
 
       <!-- ********** UPDATE TITLE SECTION **********-->
@@ -115,7 +115,7 @@
     </button>
     <div id="staff-schedule" class="content">
       <div class="header">Staff Schedule</div>
-        <table>
+      <table>
         <tr>
           <th>Time</th>
           <th>Date</th>
@@ -264,5 +264,13 @@ th {
 
 tr:nth-child(even) {
   background-color: aliceblue;
+}
+
+table {
+  margin-bottom: 20px;
+}
+
+table :first-child th {
+  background-color: lightblue;
 }
 </style>
