@@ -162,7 +162,7 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                
 
 
-                if (librarianUsername === ""){
+                if (librarianUsername.trim() === ""){
                     libUsernameMsg.innerHTML = "Librarian username cannot be empty"
                     libUsernameMsg.style.color = "red"
                     return
@@ -175,13 +175,13 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                 }
 
 
-                if (startHour === "Start Time" || startHourAMorPM === "AM or PM" ) {
+                if (startHour.trim() === "Start Time" || startHourAMorPM.trim() === "AM or PM" ) {
                     startTimeStaffScheduleMsg.innerHTML = "Error. Please fill in the Start Time and AM/PM fields";
                     startTimeStaffScheduleMsg.style.color = "red";
                       return
                 }
   
-                if (endHour === "End Time" | endHourAMorPM === "AM or PM" ) {
+                if (endHour.trim() === "End Time" | endHourAMorPM.trim() === "AM or PM" ) {
                         console.log("we are entered")
                         endTimeStaffScheduleMsg.innerHTML = "Error. Please fill in the End Time and AM/PM fields";
                         endTimeStaffScheduleMsg.style.color = "red";
@@ -293,19 +293,19 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
                 
                 const hireLibrarianMsg = document.getElementById("msg-create-librarian");
 
-                if (librarianUsername === "") {
+                if (librarianUsername.trim() === "") {
                     hireLibrarianMsg.innerHTML = "Librarian username cannot be empty!";
                     hireLibrarianMsg.style.color = "red";
                     return
                   }
             
-                  if (librarianPassword === "") {
+                  if (librarianPassword.trim() === "") {
                     hireLibrarianMsg.innerHTML = "Librarian password cannot be empty!";
                     hireLibrarianMsg.style.color = "red";
                     return
                   }
             
-                  if (librarianFullName === "") {
+                  if (librarianFullName.trim() === "") {
                     hireLibrarianMsg.innerHTML = "Librarian Full Name cannot be empty!";
                     hireLibrarianMsg.style.color = "red";
                     return
@@ -334,7 +334,7 @@ function LibrarianDto (username, password, fullName, isHeadLibrarian){
 
                 const fireLibrarianMsg = document.getElementById("msg-fire-librarian");
 
-                if (librarianId === "") {
+                if (librarianId.trim() === "") {
                     fireLibrarianMsg.innerHTML = "Librarian does not exist!";
                     fireLibrarianMsg.style.color = "red";
                     return

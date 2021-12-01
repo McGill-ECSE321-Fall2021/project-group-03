@@ -74,6 +74,8 @@ export default{
           
             editPassword() {
                 const save = document.querySelector(".save");
+
+               
           
                 if (save.hidden) {
                   document.querySelector(".save").hidden = false;
@@ -106,6 +108,45 @@ export default{
             },
           
             saveInfo() {
+                
+                const editPasswordMessage = document.getElementById("account-edit-password")
+                const editPasswordContent = document.getElementById("update-password").value
+
+                const editEmailMessage = document.getElementById("account-edit-email");
+                const editEmailContent = document.getElementById("update-email").value;
+
+                const editAddressMessage = document.getElementById("account-edit-address");
+                const editAddressContent = document.getElementById("update-address").value;
+
+                editPasswordMessage.innerHTML="";
+                editEmailMessage.innerHTML=""
+                editAddressMessage.innerHTML="";
+                
+
+                if (editPasswordContent.trim() === ""){
+                    console.log("les boys")
+                    editPasswordMessage.innerHTML = "Password cannot be empty"
+                    editPasswordMessage.style.color="red"
+                    return
+                }
+
+            
+                if (editEmailContent.trim() === ""){
+                    console.log("les boys")
+                    editEmailMessage.innerHTML = "Email cannot be empty"
+                    editEmailMessage.style.color="red"
+                    return
+                }
+
+        
+                if (editAddressContent.trim() === ""){
+                    console.log("les boys")
+                    editAddressMessage.innerHTML = "Address cannot be empty"
+                    editAddressMessage.style.color="red"
+                    return
+                }
+
+
 
                 document.getElementById("save-info").hidden = true
                 let newPassword = document.getElementById("update-password").value
@@ -127,7 +168,10 @@ export default{
                     
 
                     AXIOS.post(goodUrl, {}, {}).then(response => {
-                        
+                        const editSaveMessage = document.getElementById("account-edit-save");
+                        editSaveMessage.innerHTML = "Succesfully updated"
+                        editSaveMessage.style.color = "green"
+
                         })
                         .catch(e => {
                             var errorMsg = e.response.data.message

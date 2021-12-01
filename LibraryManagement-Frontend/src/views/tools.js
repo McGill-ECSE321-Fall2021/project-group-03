@@ -56,25 +56,25 @@ export default {
         "/titles/create/" + titleName + "?description=" + description + "&genre=" + genre + "&isAvailable=true" + "&titleType=" + type;
 
       
-      if (titleName === "") {
+      if (titleName.trim() === "") {
         msg.innerHTML = "Title cannot be empty!";
         msg.style.color = "red";
         return
       }
 
-      if (description === "") {
+      if (description.trim() === "") {
         msg.innerHTML = "Description cannot be empty!";
         msg.style.color = "red";
         return
       }
 
-      if (genre === "Genre") {
+      if (genre.trim() === "Genre") {
         msg.innerHTML = "Genre cannot be empty!";
         msg.style.color = "red";
         return
       }
 
-      if (type === "TitleType") {
+      if (type.trim() === "TitleType") {
         msg.innerHTML = "TitleType cannot be empty!";
         msg.style.color = "red";
         return

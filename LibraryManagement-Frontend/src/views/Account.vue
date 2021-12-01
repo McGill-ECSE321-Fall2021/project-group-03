@@ -3,10 +3,12 @@
     <MenuBar />
     <div class="header">Account Info</div>
     <div class="content">
+      <!-- ********** USERNAME **********  -->
       <div class="header2">
         Username:
         <span class="info username" id="user-username"> </span>
       </div>
+      <!-- ********** PASSWORD **********  -->
       <div class="header2">
         Password:
         <span class="info password-hidden">*******</span>
@@ -14,6 +16,7 @@
         <input @click="showPass()" type="checkbox" class="show-pass" />
         <input
           @click="editPassword()"
+          id="edit-password-value"
           class="edit-btn"
           type="submit"
           value="Edit"
@@ -25,7 +28,10 @@
           hidden="true"
           type="text"
         />
+        <span class="header2 success-msg" id="account-edit-password"></span>
       </div>
+      <!-- ********** EMAIL**********  -->
+
       <div class="header2" id="email-section">
         Email:
         <span class="info email" id="user-email"></span>
@@ -42,7 +48,10 @@
           hidden="true"
           type="text"
         />
+        <span class="header2 success-msg" id="account-edit-email"></span>
+
       </div>
+      <!-- ********** ADDRESS **********  -->
       <div class="header2" id="address-section">
         Address:
         <span class="info address" id="user-address"></span>
@@ -59,6 +68,8 @@
           hidden="true"
           type="text"
         />
+        <span class="header2 success-msg" id="account-edit-address"></span>
+
       </div>
     </div>
     <br />
@@ -70,6 +81,7 @@
         src="../images/loading-buffering.gif"
         alt=""
       />
+      <!-- ********** SAVE **********  -->
       <input
         @click="saveInfo()"
         hidden="true"
@@ -79,6 +91,8 @@
         value="Save"
       />
     </div>
+    <span class="header2 success-msg" id="account-edit-save"></span>
+
   </div>
 </template>
 
