@@ -189,17 +189,17 @@ public class LibraryManagementService {
 	}
 
 	public void removeLibrary(Library library) {
-		roomReservationRepository.deleteAll();
+		
 		titleReservationRepository.deleteAll();
-		libraryRepository.deleteAll();
 		roomReservationRepository.deleteAll();
+		libraryRepository.deleteAll();
+
 		clientRepository.deleteAll();
 		librarianRepository.deleteAll();
 		titleRepository.deleteAll();
-		scheduleRepository.deleteAll();
-		timeslotRepository.deleteAll();
+		scheduleRepository.deleteAll();		
 		roomRepository.deleteAll();
-		libraryRepository.deleteAll();
+		timeslotRepository.deleteAll();
 	}
 
 	@Transactional
