@@ -996,8 +996,9 @@ public class LibraryManagementService {
 
 			for (TitleReservation titleReservation : tempList) {
 				if (titleReservation.getTitle().getTitleId() == title.getTitleId()) {
-					library.removeTitleReservation(titleReservation);
 					titleReservationRepository.delete(titleReservation);
+					library.removeTitleReservation(titleReservation);
+					
 				}
 				
 			}
@@ -1224,6 +1225,32 @@ public class LibraryManagementService {
 
 		if (client == null) {
 			throw new IllegalArgumentException("Client does not exist!");
+		}
+		
+		if(library.getTitleReservations().size() > 0) {
+			List<TitleReservation> tempList = new ArrayList<>();
+			for(TitleReservation t : library.getTitleReservations()) {
+				tempList.add(t);
+			}
+			for(TitleReservation titleReservation : tempList) {
+				if(titleReservation.getClient().getUsername().equals(client.getUsername())){
+					library.removeTitleReservation(titleReservation);
+					titleReservationRepository.delete(titleReservation);
+
+				}
+			}
+		}
+		if (library.getRoomReservations().size() > 0) {
+			List<RoomReservation>roomTemp = new ArrayList<>();
+			for(RoomReservation r : library.getRoomReservations()) {
+				roomTemp.add(r);
+			}
+			for(RoomReservation rr : roomTemp) {
+				if(rr.getClient().getUsername().equals(client.getUsername())) {
+					library.removeRoomReservation(rr);
+					roomReservationRepository.delete(rr);
+				}
+			}
 		}
 
 		library.removeUser(client);
