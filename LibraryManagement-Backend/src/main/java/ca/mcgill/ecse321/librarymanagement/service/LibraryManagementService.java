@@ -969,6 +969,8 @@ public class LibraryManagementService {
 			}
 		}
 		library.removeTitleReservation(thisTitleReservation);
+		titleReservationRepository.delete(thisTitleReservation);
+		libraryRepository.save(library);
 
 	}
 
@@ -987,9 +989,14 @@ public class LibraryManagementService {
 		}
 		
 		if (library.getTitleReservations().size() > 0 ) {
-			for (TitleReservation titleReservation : library.getTitleReservations()) {
+			List<TitleReservation> tempList = new ArrayList<>();
+			for(TitleReservation t : library.getTitleReservations()) {
+				tempList.add(t);
+			}
+
+			for (TitleReservation titleReservation : tempList) {
 				if (titleReservation.getTitle().getTitleId() == title.getTitleId()) {
-					library.getTitleReservations().remove(titleReservation);
+					library.removeTitleReservation(titleReservation);
 					titleReservationRepository.delete(titleReservation);
 				}
 				
