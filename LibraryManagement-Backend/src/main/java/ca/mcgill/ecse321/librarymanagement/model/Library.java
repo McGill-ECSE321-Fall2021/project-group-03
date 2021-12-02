@@ -207,6 +207,15 @@ public class Library {
 			return false;
 		}
 	}
+	
+	public boolean removeRoomReservation(RoomReservation roomReservation) {
+		if (roomReservations.contains(roomReservation)) {
+			roomReservations.remove(roomReservation);
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	/* Code from template association_AddIndexControlFunctions */
 	public boolean addUserAt(User aUser, int index) {

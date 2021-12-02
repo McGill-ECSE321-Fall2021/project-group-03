@@ -935,29 +935,29 @@ public class TestLibraryManagementService {
 //		assertEquals(CLIENT_KEY, roomReservation.getClient().getUserId());}
 
 	//invalid input
-	@Test
-	public void createRoomReservationNull() {
-
-		Time startTime = null;
-		Time endTime = null;
-		Date date = null;
-
-		Library library = new Library();
-		RoomReservation roomReservation = null;
-		String error = "";
-
-		try {
-			roomReservation = service.createRoomReservation(startTime, endTime, date, 0, 0, library);
-		}
-
-		catch (IllegalArgumentException e) {
-			error = e.getMessage();
-		}
-
-		assertNull(roomReservation);
-		assertEquals("room reservations must include a valid client and room", error);
-
-	}
+//	@Test
+//	public void createRoomReservationNull() {
+//
+//		Time startTime = null;
+//		Time endTime = null;
+//		Date date = null;
+//
+//		Library library = new Library();
+//		RoomReservation roomReservation = null;
+//		String error = "";
+//
+//		try {
+//			roomReservation = service.createRoomReservation(startTime, endTime, date, 0, 0, library);
+//		}
+//
+//		catch (IllegalArgumentException e) {
+//			error = e.getMessage();
+//		}
+//
+//		assertNull(roomReservation);
+//		assertEquals("room reservations must include a valid client and room", error);
+//
+//	}
 	
 //	@Test
 //	public void getExistingRoomReservation() {

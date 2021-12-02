@@ -407,15 +407,15 @@ public class LibraryManagementRestController {
 		return convertToDto(room);
 	}
 	
-	@PostMapping(value = { "/rooms/update/{roomId}", "/rooms/update/{roomId}/" })
-	public RoomDto updateRoom(@PathVariable("roomId") String roomId, @RequestParam String isAvailable)
-			throws IllegalArgumentException {
-		Library library = getLibrary();
-
-		Room room = service.updateRoom(Integer.parseInt(roomId), Boolean.parseBoolean(isAvailable), library);
-
-		return convertToDto(room);
-	}
+//	@PostMapping(value = { "/rooms/update/{roomId}", "/rooms/update/{roomId}/" })
+//	public RoomDto updateRoom(@PathVariable("roomId") String roomId, @RequestParam String isAvailable)
+//			throws IllegalArgumentException {
+//		Library library = getLibrary();
+//
+//		Room room = service.updateRoom(Integer.parseInt(roomId), Boolean.parseBoolean(isAvailable), library);
+//
+//		return convertToDto(room);
+//	}
 
 	@PostMapping(value = { "/rooms/create/{capacity}", "/rooms/create/{capacity}/" })
 	public RoomDto createRoom(@PathVariable("capacity") int capacity, @RequestParam boolean isAvailable,

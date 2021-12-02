@@ -387,10 +387,21 @@ public class LibraryManagementService {
 		if (timeslot == null) {
 			throw new IllegalArgumentException("Timeslot does not exist");
 		}
+		
+		for (RoomReservation roomReservation: library.getRoomReservations()){
+			if (roomReservation.getTimeSlotId() == timeslotId) {
+				library.removeRoomReservation(roomReservation);
+				roomReservationRepository.delete(roomReservation);
+
+			}
+		}
+		
 
 		librarySchedule.removeTimeslot(timeslot);
 		timeslotRepository.delete(timeslot);
 		scheduleRepository.save(librarySchedule);
+		
+		
 	}
 
 	@Transactional
@@ -423,23 +434,23 @@ public class LibraryManagementService {
 		return room;
 	}
 	
-	@Transactional
-	public Room updateRoom(int roomId, Boolean isAvailable, Library library) {
-
-		Room room = null;
-		
-		room = roomRepository.findRoomByRoomId(roomId);
-		
-		if (room == null) {
-			throw new IllegalArgumentException("Room does not exist");
-		}
-		
-		room.setIsAvailable(isAvailable);
-
-		roomRepository.save(room);
-		libraryRepository.save(library);
-		return room;
-	}
+//	@Transactional
+//	public Room updateRoom(int roomId, Boolean isAvailable, Library library) {
+//
+//		Room room = null;
+//		
+//		room = roomRepository.findRoomByRoomId(roomId);
+//		
+//		if (room == null) {
+//			throw new IllegalArgumentException("Room does not exist");
+//		}
+//		
+//		room.setIsAvailable(isAvailable);
+//
+//		roomRepository.save(room);
+//		libraryRepository.save(library);
+//		return room;
+//	}
 
 	@Transactional
 	public List<RoomReservation> getAllRoomReservations(int roomId) {
@@ -504,34 +515,34 @@ public class LibraryManagementService {
 		}
 	}
 
-	@Transactional
-	public Room updateRoom(int capacity, boolean isAvailable, RoomType roomType, Library library) {
+//	@Transactional
+//	public Room updateRoom(int capacity, boolean isAvailable, RoomType roomType, Library library) {
+//
+//		if (capacity <= 0) {
+//			throw new IllegalArgumentException("capacity must be greater than 0");
+//		}
+//
+//		if (roomType == null) {
+//			throw new IllegalArgumentException("invalid room type");
+//		}
+//
+//		Room room = new Room(capacity, isAvailable, roomType);
+//		library.addRoom(room);
+//		roomRepository.save(room);
+//		libraryRepository.save(library);
+//		return room;
+//
+//	}
 
-		if (capacity <= 0) {
-			throw new IllegalArgumentException("capacity must be greater than 0");
-		}
-
-		if (roomType == null) {
-			throw new IllegalArgumentException("invalid room type");
-		}
-
-		Room room = new Room(capacity, isAvailable, roomType);
-		library.addRoom(room);
-		roomRepository.save(room);
-		libraryRepository.save(library);
-		return room;
-
-	}
-
-	@Transactional
-	public void removeRoom(int roomId, Library library) {
-		if (roomRepository.findRoomByRoomId(roomId) == null) {
-			throw new IllegalArgumentException("room does not exist.");
-		}
-		Room room = roomRepository.findRoomByRoomId(roomId);
-		library.removeRoom(room);
-		libraryRepository.save(library);
-	}
+//	@Transactional
+//	public void removeRoom(int roomId, Library library) {
+//		if (roomRepository.findRoomByRoomId(roomId) == null) {
+//			throw new IllegalArgumentException("room does not exist.");
+//		}
+//		Room room = roomRepository.findRoomByRoomId(roomId);
+//		library.removeRoom(room);
+//		libraryRepository.save(library);
+//	}
 
 	@Transactional
 	public RoomReservation createRoomReservation(Time startTime, Time endTime, Date date, int roomId, int clientId,
@@ -974,6 +985,17 @@ public class LibraryManagementService {
 		if (title == null) {
 			throw new IllegalArgumentException("Title does not exist! Please provide an existing title Id");
 		}
+		
+		if (library.getTitleReservations().size() > 0 ) {
+			for (TitleReservation titleReservation : library.getTitleReservations()) {
+				if (titleReservation.getTitle().getTitleId() == title.getTitleId()) {
+					library.getTitleReservations().remove(titleReservation);
+					titleReservationRepository.delete(titleReservation);
+				}
+				
+			}
+		}
+		
 		
 		titleRepository.delete(title);
 		library.removeTitle(title);
