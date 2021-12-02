@@ -33,6 +33,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:text="@string/newperson_button"
-            android:onClick="addPerson"/>
+            android:onClick="addTitle"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

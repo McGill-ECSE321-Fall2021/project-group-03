@@ -1,7 +1,11 @@
 package ca.mcgill.ecse321.librarymanagement;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
 public class HttpUtils {
-    public static final String DEFAULT_BASE_URL = "https://librarymanagement-backend-123.herokuapp.com/";
+    public static final String DEFAULT_BASE_URL = "https://librarymanagement-backend-3lms.herokuapp.com/";
 
     private static String baseUrl;
     private static AsyncHttpClient client = new AsyncHttpClient();
