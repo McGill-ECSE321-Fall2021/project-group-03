@@ -34,12 +34,17 @@ public class LibraryManagementApplication {
 		return "Hello world this is a test!";
 	}
 	
-	@PostMapping(value = { "/titles/create/{name}", "/titles/create/{name}/" })
-	public TitleDto createTitle(@PathVariable("name") String name, @RequestParam String description,
-			@RequestParam String genre, @RequestParam String isAvailable, @RequestParam String titleType)
+	@PostMapping(value = { "/titles/create/{titleInfo}", "/titles/create/{titleInfo}/" })
+	public TitleDto createTitle(@PathVariable("titleInfo") String titleInfo)
 			throws IllegalArgumentException {
+		
+		String[] titleInfoList = titleInfo.split("-");
+		String name = titleInfoList[0];
+		String description = titleInfoList[1];
+		String genre = titleInfoList[2];
+		String titleType = titleInfoList[3];
 
-		return controller.createTitle(name, description, genre, isAvailable, titleType);
+		return controller.createTitle(name, description, genre, "true", titleType);
 	}
 	
 	@RequestMapping("/titles/get")
