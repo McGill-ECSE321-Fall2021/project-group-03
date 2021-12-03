@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" tests="21" skipped="0" failures="0" errors="0" timestamp="2021-12-02T21:46:47" hostname="Avis-MacBook-Pro.local" time="0.154">
+  <properties/>
+  <testcase name="getNonExistingTitle()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.12"/>
+  <testcase name="createClientNull()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.002"/>
+  <testcase name="getNonExistingRoomReservation()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.003"/>
+  <testcase name="createLibrarianNull()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.001"/>
+  <testcase name="createStaffScheduleTimeslotOverlapping()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.004"/>
+  <testcase name="createLibrarian()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.001"/>
+  <testcase name="createTitle()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.002"/>
+  <testcase name="getNonExistingClient()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.001"/>
+  <testcase name="getNonExistingTimeSlot()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.002"/>
+  <testcase name="getNonExistingRoom()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.002"/>
+  <testcase name="createStaffScheduleTimeslotNull()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.001"/>
+  <testcase name="createRoomNoCapacity()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.002"/>
+  <testcase name="createTitleNull()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.001"/>
+  <testcase name="createRoomNull()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.001"/>
+  <testcase name="createTitleReservationNull()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.002"/>
+  <testcase name="createLibraryTimeslotOverlapping()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.002"/>
+  <testcase name="createTitleReservationTitleAndClientDoNotExist()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.001"/>
+  <testcase name="createRoom()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.001"/>
+  <testcase name="createRoomReservationTitleAndRoomDoNotExist()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.001"/>
+  <testcase name="getNonExistingTitleReservation()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.001"/>
+  <testcase name="getExistingTitle()" classname="ca.mcgill.ecse321.librarymanagement.service.TestLibraryManagementService" time="0.001"/>
+  <system-out><![CDATA[worked until here
+is it return issue
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

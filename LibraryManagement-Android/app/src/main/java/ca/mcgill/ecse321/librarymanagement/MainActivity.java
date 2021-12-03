@@ -20,17 +20,26 @@ import cz.msebera.android.httpclient.entity.mime.Header;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     private String error = null;
+    // APPEND NEW CONTENT STARTING FROM HERE
+    private List<String> personNames = new ArrayList<>();
+    private ArrayAdapter<String> personAdapter;
+    private List<String> eventNames = new ArrayList<>();
+    private ArrayAdapter<String> eventAdapter;
 
     private void refreshErrorMessage(){
         // set the error message

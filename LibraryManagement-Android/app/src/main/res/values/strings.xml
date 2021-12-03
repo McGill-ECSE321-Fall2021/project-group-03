@@ -13,4 +13,9 @@
     <string name="title_description_hint">Description</string>
     <string name="title_genre_hint">Genre</string>
     <string name="title_type_hint">Type</string>
+    <string name="hello_first_fragment">hi</string>
+    <string name="next">hi again</string>
+    <string name="previous">hi again</string>
+    <string name="first_fragment_label">hi</string>
+    <string name="second_fragment_label">hi2</string>
 </resources>
