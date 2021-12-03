@@ -32,7 +32,7 @@ public class LibraryManagementApplication {
 		return "Hello world this is a test!";
 	}
 	
-	@RequestMapping(value = { "/titles/create/{name}", "/titles/create/{name}/" })
+	@RequestMapping("/titles/create/{name}")
 	public TitleDto createTitle(@PathVariable("name") String name, @RequestParam String description,
 			@RequestParam String genre, @RequestParam String isAvailable, @RequestParam String titleType)
 			throws IllegalArgumentException {
