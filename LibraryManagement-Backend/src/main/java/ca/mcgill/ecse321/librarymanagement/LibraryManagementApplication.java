@@ -34,7 +34,7 @@ public class LibraryManagementApplication {
 		return "Hello world this is a test!";
 	}
 	
-	@RequestMapping(value = { "/titles/create/{titleInfo}", "/titles/create/{titleInfo}/" })
+	@RequestMapping(value = { "titles/create/{titleInfo}" })
 	public TitleDto createTitle(@PathVariable("titleInfo") String titleInfo)
 			throws IllegalArgumentException {
 		
