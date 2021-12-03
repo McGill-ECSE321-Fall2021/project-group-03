@@ -100,12 +100,26 @@ public class MainActivity extends AppCompatActivity {
 
     public void addTitle(View v){
         error = "";
-        final TextView tv = (EditText) findViewById(R.id.newtitle_name);
-        HttpUtils.post("titles/" + tv.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
+        final TextView titleName = (EditText) findViewById(R.id.createTitle_name);
+        final TextView titleDescription = (EditText) findViewById(R.id.createTitle_description);
+        final TextView titleGenre = (EditText) findViewById(R.id.createTitle_genre);
+        final boolean titleAvailability = true;
+        final TextView titleType = (EditText) findViewById(R.id.createTitle_type);
+
+        // url - titles/create/titleName?description=titleDescription&titleAvailability=true&titleType=titleType
+
+        HttpUtils.post("titles/create/" + titleName.getText().toString() +
+                        "?description=" + titleDescription.getText().toString() +
+                        "&genre=" + titleGenre.getText().toString() +
+                        "&isAvailable=" + titleAvailability +
+                        "&titleType=" + titleType, new RequestParams(), new JsonHttpResponseHandler() {
 
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
-                tv.setText("");
+                titleName.setText("");
+                titleDescription.setText("");
+                titleGenre.setText("");
+                titleType.setText("");
             }
 
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {

@@ -10,29 +10,58 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/error"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:visibility="gone"
-            android:text=""
-            android:textColor="#FF0000"/>
+        <!-- title name -->
 
         <EditText
-            android:id="@+id/newperson_name"
+            android:id="@+id/createTitle_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/newperson_hint" />
+            android:hint="@string/title_name_hint" />
+
+        <!-- title description -->
+
+        <EditText
+            android:id="@+id/createTitle_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title_description_hint" />
+
+        <!-- title genre -->
+
+        <EditText
+            android:id="@+id/createTitle_genre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title_genre_hint" />
+
+
+        <!-- title type -->
+
+        <EditText
+            android:id="@+id/createTitle_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title_type_hint" />
+
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#FF0000"
+            android:visibility="gone" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:text="@string/newperson_button"
-            android:onClick="addTitle"/>
+            android:onClick="addTitle"
+            android:text="@string/create_title_button" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
