@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.librarymanagement;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,7 +21,7 @@ import ca.mcgill.ecse321.librarymanagement.model.Title;
 public class LibraryManagementApplication {
 	
 	@Autowired
-	private static LibraryManagementRestController controller;
+	private static  LibraryManagementRestController controller;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(LibraryManagementApplication.class, args);
@@ -32,12 +34,17 @@ public class LibraryManagementApplication {
 		return "Hello world this is a test!";
 	}
 	
-	@RequestMapping("/titles/create/{name}")
+	@RequestMapping(value = { "/titles/create/{name}", "/titles/create/{name}/" })
 	public TitleDto createTitle(@PathVariable("name") String name, @RequestParam String description,
 			@RequestParam String genre, @RequestParam String isAvailable, @RequestParam String titleType)
 			throws IllegalArgumentException {
 
 		return controller.createTitle(name, description, genre, isAvailable, titleType);
+	}
+	
+	@RequestMapping("/titles/get")
+	public List<TitleDto> getTitles(){
+		return controller.getAllTitles();
 	}
 
 }
