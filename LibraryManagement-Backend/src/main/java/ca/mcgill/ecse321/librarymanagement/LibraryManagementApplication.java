@@ -18,7 +18,7 @@ public class LibraryManagementApplication {
 	// greeting
 	@RequestMapping("/")
 	public String greeting(){		
-		return "Hello world!";
+		return "Hello world this is a test!";
 	}
 
 }
