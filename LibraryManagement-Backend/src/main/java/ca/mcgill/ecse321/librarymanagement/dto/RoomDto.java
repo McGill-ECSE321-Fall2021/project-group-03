@@ -7,8 +7,6 @@ public class RoomDto {
 	private int capacity;
 	private boolean isAvailable;
 	private RoomType roomType;
-	
-	
 
 	public RoomDto(int roomId, int capacity, boolean isAvailable, RoomType roomType) {
 		this.roomId = roomId;
