@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.librarymanagement;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.librarymanagement.controller.LibraryManagementRestController;
 import ca.mcgill.ecse321.librarymanagement.dto.ClientDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TitleDto;
+import ca.mcgill.ecse321.librarymanagement.dto.TitleReservationDto;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
+import ca.mcgill.ecse321.librarymanagement.model.TitleReservation;
 
 @RestController
 @SpringBootApplication
@@ -57,6 +61,12 @@ public class LibraryManagementApplication {
 	@RequestMapping(value = { "/clients/login/{username}", "/clients/login/{username}/" })
 	public ClientDto loginClient(@PathVariable("username") String username, @RequestParam String password) {
 		return controller.loginClient(username, password); //
+	}
+	
+	@RequestMapping(value = { "/titles/reserve/{titleName}", "/titles/reserve/{titleName}/" })
+	public TitleReservationDto reserveTitle(@PathVariable("titleName") String titleName, @RequestParam String clientUsername)
+			throws IllegalArgumentException {
+		return controller.reserveTitle(titleName, clientUsername);
 	}
 
 }
