@@ -35,8 +35,10 @@ public class LibraryManagementApplication {
 	}
 	
 	@RequestMapping(value = { "titles/create/{titleInfo}" })
-	public String createTitle(@PathVariable("titleInfo") String titleInfo)
+	public String createTitle()
 			throws IllegalArgumentException {
+		
+		String titleInfo = "name-description-genre-Book";
 		
 		String[] titleInfoList = titleInfo.split("-");
 		String name = titleInfoList[0];
