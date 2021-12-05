@@ -32,7 +32,16 @@ public class LibraryManagementApplication {
 
 	// greeting
 	@RequestMapping("/")
-	public String greeting(){		
+	public String greeting(){	
+String titleInfo = "name-description-genre-Book";
+		
+		String[] titleInfoList = titleInfo.split("-");
+		String name = titleInfoList[0];
+		String description = titleInfoList[1];
+		String genre = titleInfoList[2];
+		String titleType = titleInfoList[3];
+		controller.createTitle(name, description, genre, "true", titleType);
+
 		return "Hello world this is a test!";
 	}
 	
