@@ -813,7 +813,5 @@ public class LibraryManagementRestController {
 	private Date sqlDatePlusDays(Date date) {
 		return Date.valueOf(date.toLocalDate().plusDays(14));
 	}
-	
-	// final commit
 
 }
