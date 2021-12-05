@@ -49,20 +49,30 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="377dp"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Browse Titles" />
+                        android:paddingLeft="40px"
+                        android:paddingTop="50px"
+                        android:paddingRight="80px"
+                        android:paddingBottom="50px"
+                        android:text="Browse Titles"
+                        android:textColor="#000000"
+                        android:textSize="22sp" />
 
                     <Spinner
                         android:id="@+id/titles_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end" />
+                        android:layout_gravity="end"
+                        android:paddingLeft="40px"
+                        android:paddingTop="50px"
+                        android:paddingRight="80px"
+                        android:paddingBottom="50px" />
 
                 </LinearLayout>
 
@@ -74,6 +84,11 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:paddingLeft="40px"
+                    android:paddingTop="50px"
+                    android:paddingRight="80px"
+                    android:paddingBottom="50px"
+                    android:backgroundTint="#3d665f"
                     android:id="@+id/reserve_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -90,7 +105,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Book a Room" />
+                    android:paddingLeft="40px"
+                    android:paddingTop="50px"
+                    android:paddingRight="80px"
+                    android:paddingBottom="50px"
+                    android:text="Book a Room"
+                    android:textColor="#000000"
+                    android:textSize="22sp" />
 
                 <Spinner
                     android:id="@+id/rooms_spinner"
@@ -111,6 +132,11 @@
                     android:layout_weight="1"
                     android:text="Book"
                     android:id="@+id/book_room_button"
+                    android:paddingLeft="40px"
+                    android:paddingTop="50px"
+                    android:paddingRight="80px"
+                    android:paddingBottom="50px"
+                    android:backgroundTint="#3d665f"
                     />
             </LinearLayout>
             <LinearLayout
@@ -119,6 +145,12 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:paddingLeft="40px"
+                    android:paddingTop="50px"
+                    android:paddingRight="80px"
+                    android:paddingBottom="50px"
+                    android:textSize="22sp"
+                    android:textColor="#000000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Library Opening Hours" />
