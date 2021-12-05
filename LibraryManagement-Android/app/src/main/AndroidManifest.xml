@@ -21,6 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Home"
+            android:exported="true"
+            android:label="HomePage"
+            android:theme="@style/Theme.LibraryManagementAndroid.NoActionBar"
+            >
+        </activity>
     </application>
 
 </manifest>

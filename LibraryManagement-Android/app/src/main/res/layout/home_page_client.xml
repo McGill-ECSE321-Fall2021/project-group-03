@@ -56,7 +56,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="" />
+                        android:text="Browse Titles" />
 
                     <Spinner
                         android:id="@+id/titles_spinner"
@@ -74,35 +74,45 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/reserve_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_weight="1"
                     android:text="Reserve" />
             </LinearLayout>
-        </LinearLayout>
 
-
-        <View
-            android:layout_height="2dp"
-            android:layout_width="fill_parent"
-            android:background="#16552e"/>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent">
-            <EditText
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/newperson_name"
-                android:hint=""/>
-            <Button
-                android:layout_width="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Book a Room" />
+
+                <Spinner
+                    android:id="@+id/rooms_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text=""
-                android:onClick="addPerson"/>
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_weight="1"
+                    android:text="Book"
+                    android:id="@+id/book_room_button"
+                    />
+            </LinearLayout>
         </LinearLayout>
 
         <View
@@ -110,74 +120,6 @@
             android:layout_width="fill_parent"
             android:background="#16552e"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <EditText android:id="@+id/newevent_name"
-                android:layout_height="wrap_content"
-                android:layout_width="fill_parent"
-                android:hint=""/>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent">
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text=""/>
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text=""
-                    android:layout_gravity="end"
-                    android:id="@+id/newevent_date"
-                    android:onClick="showDatePickerDialog"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent">
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text=""/>
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text=""
-                    android:layout_gravity="end"
-                    android:id="@+id/starttime"
-                    android:onClick="showTimePickerDialog"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent">
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text=""/>
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text=""
-                    android:layout_gravity="end"
-                    android:id="@+id/endtime"
-                    android:onClick="showTimePickerDialog"/>
-            </LinearLayout>
-            <Button
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text=""
-                android:layout_gravity="end"
-                android:onClick="addEvent"/>
-        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

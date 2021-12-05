@@ -21,6 +21,7 @@ import cz.msebera.android.httpclient.Header;
 public class Login extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private String error = null;
+    public static String USERNAME;
 
     private void refreshErrorMessage(){
         // set the error message
@@ -36,6 +37,7 @@ public class Login extends AppCompatActivity {
 
     /***
      *
+     * this method will create an on lick listener to sign in a user onto the mobile app
      * @param savedInstanceState
      */
     @Override
@@ -66,8 +68,12 @@ public class Login extends AppCompatActivity {
                         HttpUtils.post(url, params, new AsyncHttpResponseHandler(){
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                                // set username of the user logged in
+                                USERNAME = username.getText().toString();
                                 username.setText("");
                                 password.setText("");
+                                Intent i = new Intent(Login.this, Home.class);
+                                startActivity(i);
                                 setContentView(R.layout.home_page_client);
                             }
 

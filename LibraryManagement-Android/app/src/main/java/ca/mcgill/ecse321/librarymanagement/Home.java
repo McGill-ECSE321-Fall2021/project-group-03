@@ -1,9 +1,13 @@
 package ca.mcgill.ecse321.librarymanagement;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -41,6 +45,13 @@ public class Home extends AppCompatActivity {
         }
     }
 
+    /***
+     *
+     * this method will create the list of titles, rooms and library hours upon
+     * loading the home page for the client
+     * @param savedInstanceState
+     */
+    @Override
     protected void onCreate(Bundle savedInstanceState){
         Context context = getApplicationContext();
         super.onCreate(savedInstanceState);
@@ -51,6 +62,9 @@ public class Home extends AppCompatActivity {
         titleAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, titles);
         titlesSpinner.setAdapter(titleAdapter);
 
+        // reserve button
+        Button reserveBtn = (Button) findViewById(R.id.reserve_button);
+
         String url = "titles/get";
         RequestParams params = new RequestParams();
 
@@ -58,12 +72,11 @@ public class Home extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray responseBody) {
                 // load in the titles from the database into the spinner
-                titleAdapter.add("wooooo");
+                Log.d("length", String.valueOf(responseBody.length()));
                 for (int i = 0 ; i < responseBody.length() ; i++){
                     try {
                         String titleName = responseBody.getJSONObject(i).getString("name");
-                        System.out.println(titleName);
-                        titleAdapter.add("titleName");
+                        titleAdapter.add(titleName);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -75,6 +88,34 @@ public class Home extends AppCompatActivity {
                 super.onFailure(statusCode, headers, responseString, throwable);
             }
         });
+
+        // reservation functionality
+        reserveBtn.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+
+                        // get selected title name
+                        Spinner titlesSpinner = (Spinner) findViewById(R.id.titles_spinner);
+                        String titleName = titlesSpinner.getSelectedItem().toString();
+
+                        //get reservation url
+                        String urlReserve = "titles/reserve/" + titleName;
+                        RequestParams params2 = new RequestParams();
+                        params2.put("clientUsername", Login.USERNAME);
+                        HttpUtils.post(urlReserve, params2, new JsonHttpResponseHandler(){
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                                super.onSuccess(statusCode, headers, response);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                super.onFailure(statusCode, headers, responseString, throwable);
+                            }
+                        });
+                    }
+
+                });
     }
 
 }
