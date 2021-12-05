@@ -514,6 +514,7 @@ public class LibraryManagementService {
 
 	/***
 	 * Method to get all time slots in the library.
+	 * 
 	 * @return list of time slots
 	 */
 	@Transactional
@@ -526,7 +527,8 @@ public class LibraryManagementService {
 
 	/***
 	 * Method to get all time slots of a librarian.
-	 * @param librairan Username. 
+	 * 
+	 * @param librairan Username.
 	 * @return list of time slots of that librarian.
 	 */
 	@Transactional
@@ -538,7 +540,8 @@ public class LibraryManagementService {
 
 	/***
 	 * Method to get all rooms in the library.
-	 * @param librarian Username. 
+	 * 
+	 * @param librarian Username.
 	 * @return list of of rooms.
 	 */
 	@Transactional
@@ -548,7 +551,8 @@ public class LibraryManagementService {
 
 	/***
 	 * Method to get a room by room id.
-	 * @param room id  
+	 * 
+	 * @param room id
 	 * @return room
 	 */
 	@Transactional
@@ -562,7 +566,8 @@ public class LibraryManagementService {
 
 	/***
 	 * Method to get all room reservations of a specific room
-	 * @param room id 
+	 * 
+	 * @param room id
 	 * @return list of reservations.
 	 */
 	@Transactional
@@ -585,10 +590,11 @@ public class LibraryManagementService {
 
 	/***
 	 * Method to create a room.
+	 * 
 	 * @param capacity
 	 * @param isAvailable
 	 * @param roomType
-	 * @param library 
+	 * @param library
 	 * @return new room
 	 */
 	@Transactional
@@ -605,7 +611,7 @@ public class LibraryManagementService {
 		Room room = new Room(capacity, isAvailable, roomType);
 		library.addRoom(room);
 
-		// add all the room reservations of the time slots from the library's schedule. 
+		// add all the room reservations of the time slots from the library's schedule.
 		if (library.getLibrarySchedule().getTimeslots() != null) {
 
 			for (Timeslot timeslot : library.getLibrarySchedule().getTimeslots()) {
@@ -622,6 +628,7 @@ public class LibraryManagementService {
 
 	/***
 	 * Method to add a room reservation to a specific room
+	 * 
 	 * @param libraryTimeslot
 	 * @param room
 	 * @param library
@@ -643,7 +650,8 @@ public class LibraryManagementService {
 	}
 
 	/***
-	 * Method to create a room resevration for a specific client. 
+	 * Method to create a room resevration for a specific client.
+	 * 
 	 * @param startTime
 	 * @param endTime
 	 * @param date
@@ -694,7 +702,8 @@ public class LibraryManagementService {
 	}
 
 	/***
-	 * Method to update a room reservation. 
+	 * Method to update a room reservation.
+	 * 
 	 * @param roomReservationId
 	 * @param endTime
 	 * @param userId
@@ -717,9 +726,10 @@ public class LibraryManagementService {
 	}
 
 	/***
-	 * Method to remove a room reservation. 
-	 * @param room ID
-	 * @param User Id
+	 * Method to remove a room reservation.
+	 * 
+	 * @param room    ID
+	 * @param User    Id
 	 * @param library
 	 */
 	@Transactional
@@ -743,7 +753,8 @@ public class LibraryManagementService {
 	}
 
 	/***
-	 * Method to remove a room reservation. 
+	 * Method to remove a room reservation.
+	 * 
 	 * @param room ID
 	 * @return the reservations of that specific room
 	 */
@@ -763,6 +774,12 @@ public class LibraryManagementService {
 
 	}
 
+	/***
+	 * Method to get reservations made by a client.
+	 * 
+	 * @param client user name
+	 * @return list of reservations made by client
+	 */
 	@Transactional
 	public ArrayList<RoomReservation> getRoomReservationsByClient(String clientUsername) {
 		ArrayList<RoomReservation> roomReservations = new ArrayList<RoomReservation>();
@@ -778,6 +795,16 @@ public class LibraryManagementService {
 
 	}
 
+	/***
+	 * Method to create the schedule of an employee
+	 * 
+	 * @param start    time
+	 * @param end      time
+	 * @param date
+	 * @param library
+	 * @param username
+	 * @return the new time slot created
+	 */
 	@Transactional
 	public Timeslot createStaffScheduleTimeslot(Time startTime, Time endTime, Date date, Library library,
 			String username) {
@@ -824,6 +851,7 @@ public class LibraryManagementService {
 			}
 		}
 
+		// This is to account for java's built in date.
 		int year = date.getYear() - 1900;
 		int month = date.getMonth() - 1;
 		int day = date.getDate();
@@ -837,6 +865,12 @@ public class LibraryManagementService {
 		return timeslot;
 	}
 
+	/***
+	 * Method to remove a librarian from the system
+	 * 
+	 * @param library
+	 * @param librarian user name
+	 */
 	@Transactional
 	public void removeLibrarian(Library library, String username) {
 
@@ -859,6 +893,14 @@ public class LibraryManagementService {
 		libraryRepository.save(library);
 	}
 
+	/***
+	 * Method to remove a librarians hours
+	 * 
+	 * @param time    slot id
+	 * @param head    librarian id (Since they are they only one able to perform
+	 *                this)
+	 * @param library
+	 */
 	@Transactional
 	public void removeStaffScheduleTimeslot(int timeslotId, int headLibrarianId, Library library) {
 
@@ -883,6 +925,11 @@ public class LibraryManagementService {
 		librarianRepository.save(headLibrarian);
 	}
 
+	/***
+	 * Method to get a librarian by their Id
+	 * 
+	 * @param librarian id
+	 */
 	@Transactional
 	public Librarian getLibrarian(int librarianId) {
 		Librarian librarian = librarianRepository.findLibrarianByUserId(librarianId);
@@ -893,6 +940,16 @@ public class LibraryManagementService {
 		return librarian;
 	}
 
+	/***
+	 * Method to update a librarian.
+	 * 
+	 * @param aUsername
+	 * @param aPassword
+	 * @param aFullname
+	 * @param isHeadLibrarian
+	 * @param Library
+	 * @return librarian
+	 */
 	public Librarian updateLibrarian(String aUsername, String aPassword, String aFullname, String aResidentialAddress,
 			String aEmail, boolean isResident, boolean isOnline, Library library) {
 
@@ -925,6 +982,16 @@ public class LibraryManagementService {
 		return librarian;
 	}
 
+	/***
+	 * Method to create a title reservation
+	 * 
+	 * @param return  date
+	 * @param is      checked out
+	 * @param title   name
+	 * @param user    name
+	 * @param Library
+	 * @return the title reservation
+	 */
 	@Transactional
 	public TitleReservation createTitleReservation(Date returnDate, boolean isCheckedOut, String titleName,
 			String username, Library library) {
@@ -971,7 +1038,14 @@ public class LibraryManagementService {
 		return titleReservation;
 	}
 
-	// sets titleReservation IsCheckedOut=true
+	/***
+	 * Method to update a title reservation. If the the title is not yet checked
+	 * out, it sets it to true.
+	 * 
+	 * @param titleReservation
+	 * @param library
+	 * @return the title reservation
+	 */
 	@Transactional
 	public TitleReservation updateTitleReservation(TitleReservation titleReservation, Library library) {
 		if (titleReservation.getIsCheckedOut() == true) {
@@ -993,6 +1067,16 @@ public class LibraryManagementService {
 		return titleReservation;
 	}
 
+	/***
+	 * Method to update the fields of a title reservation
+	 * 
+	 * @param return  date
+	 * @param is      checked out
+	 * @param title   name
+	 * @param user    name
+	 * @param Library
+	 * @return the title reservation
+	 */
 	@Transactional
 	public TitleReservation updateTitleReservationParameters(Date returnDate, boolean isCheckedOut, String titleName,
 			String username, Library library) {
@@ -1040,6 +1124,12 @@ public class LibraryManagementService {
 
 	}
 
+	/***
+	 * Method to get a title reservation by title Id
+	 * 
+	 * @param title ID
+	 * @return the title reservation
+	 */
 	@Transactional
 	public TitleReservation getTitleReservationByTitleId(int titleId) {
 		List<TitleReservation> titleReservations = toList(titleReservationRepository.findAll());
@@ -1053,6 +1143,13 @@ public class LibraryManagementService {
 		return thisTitleReservation;
 	}
 
+	/***
+	 * Method to get title reservations by client and title name
+	 * 
+	 * @param title name
+	 * @param user  name
+	 * @return the list of title reservations
+	 */
 	@Transactional
 	public TitleReservation getTitleReservationByTitleNameAndClient(String titleName, String username) {
 		List<TitleReservation> titleReservations = toList(titleReservationRepository.findAll());
@@ -1065,6 +1162,12 @@ public class LibraryManagementService {
 		return thisTitleReservation;
 	}
 
+	/***
+	 * Method to get all reservations made by a user.
+	 * 
+	 * @param user name
+	 * @return the list of title reservations
+	 */
 	@Transactional
 	public List<TitleReservation> getAllTitleReservationsByUsername(String username) {
 		List<TitleReservation> allReservations = toList(titleReservationRepository.findAll());
@@ -1078,12 +1181,23 @@ public class LibraryManagementService {
 		return myReservations;
 	}
 
+	/***
+	 * Method to get all title reservations.
+	 * 
+	 * @return the list of title reservations.
+	 */
 	@Transactional
 	public List<TitleReservation> getAllTitleReservations() {
 		List<TitleReservation> titleReservations = toList(titleReservationRepository.findAll());
 		return titleReservations;
 	}
 
+	/***
+	 * Method to remove a specific title reservation
+	 * 
+	 * @param reservation Id
+	 * @param library
+	 */
 	@Transactional
 	public void removeTitleReservation(int titleReservationId, Library library) {
 
@@ -1100,6 +1214,12 @@ public class LibraryManagementService {
 
 	}
 
+	/***
+	 * Method to remove a title and all its copies from the system.
+	 * 
+	 * @param title   ID
+	 * @param Library
+	 */
 	@Transactional
 	public void removeTitle(Library library, int titleId) {
 		Title title = null;
@@ -1135,11 +1255,21 @@ public class LibraryManagementService {
 		libraryRepository.save(library);
 	}
 
+	/***
+	 * Method to check if time slots are overlapping
+	 * 
+	 * @param time  slot
+	 * @param date  of new time slot
+	 * @param start time of new time slot
+	 * @param end   time of new time slot
+	 * @return if it is overlapping or not
+	 */
 	@Transactional
 	public boolean isOverlapping(Timeslot existingTimeslot, Date newDate, Time newStart, Time newEnd) {
 		Date date = existingTimeslot.getDate();
 
-		// is it on the same day?
+		// Is it on the same day?
+		// We again do the same subtraction to be consistent throughout.
 		if (date.getYear() == newDate.getYear() - 1900 && date.getMonth() == newDate.getMonth() - 1
 				&& date.getDate() == newDate.getDate()) {
 			Time startTime = existingTimeslot.getStartTime();
@@ -1185,6 +1315,13 @@ public class LibraryManagementService {
 		return false;
 	}
 
+	/***
+	 * Method to log in a client
+	 * 
+	 * @param user     name
+	 * @param password
+	 * @return client
+	 */
 	@Transactional
 	public Client loginClient(String username, String password) {
 
@@ -1204,6 +1341,13 @@ public class LibraryManagementService {
 		return client;
 	}
 
+	/***
+	 * Method to log in a librarian
+	 * 
+	 * @param user     name
+	 * @param password
+	 * @return librarian
+	 */
 	@Transactional
 	public Librarian loginLibrarian(String username, String password) {
 
@@ -1223,6 +1367,12 @@ public class LibraryManagementService {
 		return librarian;
 	}
 
+	/***
+	 * Method to get a speicifc time slot by ID
+	 * 
+	 * @param timeslotId
+	 * @return timeslot
+	 */
 	@Transactional
 	public Timeslot getTimeslot(int timeslotId) {
 		Timeslot timeSlot = timeslotRepository.findTimeslotByTimeslotId(timeslotId);
@@ -1233,6 +1383,18 @@ public class LibraryManagementService {
 		return timeSlot;
 	}
 
+	/***
+	 * Method to update an existing client.
+	 * 
+	 * @param aUsername
+	 * @param aPassword
+	 * @param aFullname
+	 * @param aResidentialAddress
+	 * @param aEmail
+	 * @param aIsOnline
+	 * @param library
+	 * @return client
+	 */
 	@Transactional
 	public Client updateClient(String aUsername, String aPassword, String aFullname, String aResidentialAddress,
 			String aEmail, boolean isResident, boolean isOnline, Library library) {
@@ -1267,6 +1429,11 @@ public class LibraryManagementService {
 
 		return client;
 	}
+
+	/***
+	 * The following 3 methods are used to easily update a specific field that a
+	 * client would like to change. in their account.
+	 */
 
 	@Transactional
 	public Client updateClientPassword(String aUsername, String aPassword, Library library) {
@@ -1337,6 +1504,18 @@ public class LibraryManagementService {
 		return client;
 	}
 
+	/***
+	 * Method to remove a client from the library
+	 * 
+	 * @param aUsername
+	 * @param aPassword
+	 * @param aFullname
+	 * @param aResidentialAddress
+	 * @param aEmail
+	 * @param aIsOnline
+	 * @param library
+	 * @return client
+	 */
 	@Transactional
 	public void removeClient(String username, Library library) {
 
@@ -1384,6 +1563,12 @@ public class LibraryManagementService {
 
 	}
 
+	/***
+	 * Method to get a room reservation by timeslot Id
+	 * 
+	 * @param ID
+	 * @return that specific room reservation
+	 */
 	@Transactional
 	public RoomReservation getRoomReservation(int id) {
 		RoomReservation rr = roomReservationRepository.findRoomReservationByTimeslotId(id);
