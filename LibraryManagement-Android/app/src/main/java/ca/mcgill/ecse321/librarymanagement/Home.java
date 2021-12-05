@@ -21,6 +21,7 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -202,16 +203,20 @@ public class Home extends AppCompatActivity {
                     String roomId = infoParsed[2].split(":")[1].replaceAll(" ","");
 
                     // get room reservations for the specific room
-                    HttpUtils.get("roomReservations/get" + roomId, new RequestParams(), new JsonHttpResponseHandler(){
+                    HttpUtils.get("roomReservations/get/" + roomId, new RequestParams(), new JsonHttpResponseHandler(){
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                             super.onSuccess(statusCode, headers, response);
                             for (int i = 0 ; i < response.length() ; i++){
                                 try {
-                                    String username = response.getJSONObject(i).getString("username");
+                                    int j = 1;
+                                    JSONObject roomReservation = response.getJSONObject(i);
+                                    JSONObject client =roomReservation.getJSONObject("client");
+                                    String username = client.getString("username");
                                     if (username.equals("null")){
                                         // reserve that room for the given timeslot
-                                        roomresId = response.getJSONObject(i).getString("roomReservationId");
+                                        roomresId = response.getJSONObject(i).getString("roomReservationID");
+                                        System.out.println("************************" +roomresId);
                                         break;
                                     }
                                 } catch (JSONException e) {
@@ -219,39 +224,64 @@ public class Home extends AppCompatActivity {
                                 }
 
                             }
-                        }
-                    });
+                            // get userid
+                            HttpUtils.get("clients/get", new RequestParams(), new JsonHttpResponseHandler(){
+                                @Override
+                                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                                    super.onSuccess(statusCode, headers, response);
+                                    for (int i = 0 ; i < response.length() ; i++){
+                                        try {
+                                            String username = response.getJSONObject(i).getString("username");
+                                            String ID = response.getJSONObject(i).getString("userId");
 
-                    // get userid
-                    HttpUtils.get("clients/get", new RequestParams(), new JsonHttpResponseHandler(){
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                            super.onSuccess(statusCode, headers, response);
-                            for (int i = 0 ; i < response.length() ; i++){
-                                try {
-                                    String username = response.getJSONObject(i).getString("username");
-                                    String ID = response.getJSONObject(i).getString("userId");
+                                            if (username.equals(Login.USERNAME)){
+                                                userId = ID;
+                                                System.out.println("**************ihihih" + userId);
 
-                                    if (username.equals(Login.USERNAME)){
-                                        userId = ID;
-                                        break;
+                                                break;
+                                            }
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
+                                    String urlReserve = "roomReservations/update/" + roomresId;
+                                    RequestParams params3 = new RequestParams();
+                                    params3.put("userId", userId);
 
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            super.onFailure(statusCode, headers, responseString, throwable);
+                                    // get userid
+                                    HttpUtils.post(urlReserve, params3, new JsonHttpResponseHandler(){
+                                        @Override
+                                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                                            super.onSuccess(statusCode, headers, response);
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                            super.onFailure(statusCode, headers, responseString, throwable);
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                    super.onFailure(statusCode, headers, responseString, throwable);
+                                }
+                            });
+
+
                         }
                     });
 
-                    String urlBookRoom = "roomReservations/update/" + roomresId;
-                    RequestParams paramsBookRoom = new RequestParams();
-                    paramsBookRoom.put("userId", userId);
+                    System.out.println("hello");
+
+
+
+
+
+
 
                 }
             }
