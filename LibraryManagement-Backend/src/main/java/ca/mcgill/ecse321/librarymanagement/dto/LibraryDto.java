@@ -10,7 +10,7 @@ public class LibraryDto {
 	private ScheduleDto librarySchedule;
 	private List<UserDto> users;
 
-	public LibraryDto(List<RoomDto> rooms, List<TitleDto> titles, ScheduleDto librarySchedule, List<UserDto> users) {
+	public LibraryDto(List<RoomDto> rooms, List<TitleDto> titles,  ScheduleDto librarySchedule, List<UserDto> users) {
 		this.rooms = rooms;
 		this.titles = titles;
 		this.librarySchedule = librarySchedule;

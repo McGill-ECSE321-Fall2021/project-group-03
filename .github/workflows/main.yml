@@ -34,7 +34,6 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: akhileshns/heroku-deploy@v3.12.12
       with:
         heroku_api_key: 037112fa-edf1-4530-95ed-2e4f6f8ebba3
         heroku_app_name: "librarymanagement-backend-3lms"
