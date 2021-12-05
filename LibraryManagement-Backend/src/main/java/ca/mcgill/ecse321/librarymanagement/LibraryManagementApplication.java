@@ -21,7 +21,7 @@ import ca.mcgill.ecse321.librarymanagement.model.Title;
 public class LibraryManagementApplication {
 	
 	@Autowired
-	private static  LibraryManagementRestController controller;
+	private  LibraryManagementRestController controller;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(LibraryManagementApplication.class, args);
