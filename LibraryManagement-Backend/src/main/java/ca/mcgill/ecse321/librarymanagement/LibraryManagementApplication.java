@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +18,10 @@ import ca.mcgill.ecse321.librarymanagement.model.Title;
 
 @RestController
 @SpringBootApplication
-//@ComponentScan(basePackages= {"ca.mcgill.ecse321.librarymanagement.controller.LibraryManagementRestController"};
 public class LibraryManagementApplication {
 	
 	@Autowired
-	private static  LibraryManagementRestController controller;
+	private  LibraryManagementRestController controller;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(LibraryManagementApplication.class, args);
@@ -32,34 +30,21 @@ public class LibraryManagementApplication {
 
 	// greeting
 	@RequestMapping("/")
-	public String greeting(){	
-String titleInfo = "name-description-genre-Book";
-		
-		String[] titleInfoList = titleInfo.split("-");
-		String name = titleInfoList[0];
-		String description = titleInfoList[1];
-		String genre = titleInfoList[2];
-		String titleType = titleInfoList[3];
-		controller.createTitle(name, description, genre, "true", titleType);
-
+	public String greeting(){		
 		return "Hello world this is a test!";
 	}
 	
-	@RequestMapping(value = { "titles/create/" })
-	public String createTitle()
+	@RequestMapping(value = { "titles/create/{titleInfo}" })
+	public TitleDto createTitle(@PathVariable("titleInfo") String titleInfo)
 			throws IllegalArgumentException {
-		
-		String titleInfo = "name-description-genre-Book";
 		
 		String[] titleInfoList = titleInfo.split("-");
 		String name = titleInfoList[0];
 		String description = titleInfoList[1];
 		String genre = titleInfoList[2];
 		String titleType = titleInfoList[3];
-		//yoyodfrfrfgefrfr
-		//
-		//controller.createTitle(name, description, genre, "true", titleType);
-		return "success";
+
+		return controller.createTitle(name, description, genre, "true", titleType);
 	}
 	
 	@RequestMapping("/titles/get")
