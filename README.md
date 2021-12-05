@@ -16,13 +16,13 @@ management system will allow for users to create accounts, use the library syste
 and room schedules). Finally, the most important parts of the system should be accesible via a web frontend and a mobile android application. 
 
 
-| Team member (name)     | Role                  |  Effort for Deliverable 1 (hours) |  Effort for Deliverable 2 (hours) |  Effort for Deliverable 3 (hours) | 
-| ---------------------- | --------------------- | --------------------------------  | --------------------------------  | --------------------------------  |
-| Adam Geenen            | Communications Manager| 30                                | 55                                | 40                                |
-| Tara Ginsberg          | Project Manager       | 30                                | 55                                | 40                                |
-| Abraham Somech         | Testing Architect     | 30                                | 55                                | 40                                |
-| Liam Serour            | Project Designer      | 30                                | 55                                | 40                                |
-| Samuel-Ryan Vasserman  | Software Architect   | 30                                | 55                                | 40                                |
+| Team member (name)     | Role                  | Effort for Deliv 1 (hours) | Effort for Deliv 2 (hours) | Effort for Deliv 3 (hours) | Effort for Deliv 4 (hours)
+| ---------------------- | --------------------- | ---------------------------| -------------------------- | ---------------------------|---------------------------
+| Adam Geenen            | Communications Manager| 30                         | 55                         | 40                         | 35
+| Tara Ginsberg          | Project Manager       | 30                         | 55                         | 40                         | 35
+| Abraham Somech         | Testing Architect     | 30                         | 55                         | 40                         | 35
+| Liam Serour            | Project Designer      | 30                         | 55                         | 40                         | 35
+| Samuel-Ryan Vasserman  | Software Architect    | 30                         | 55                         | 40                         | 35
 
 
 # Roles and Responsibilities
