@@ -4,96 +4,127 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFF"
     tools:context=".Login">
 
     <LinearLayout
-        tools:ignore="MissingConstraints"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
 
-
-
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
-        android:text="Login"
-        android:textColorHighlight="#409eff"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="161dp" />
-
-    <TextView
-        android:id="@+id/welcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TASLA LMS"
-        android:textColor="#409eff"
-        android:textColorHighlight="#409eff"
-        android:textColorLink="#409eff"
-        android:textSize="36sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="110dp"
-        tools:layout_editor_absoluteY="20dp" />
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
-            android:text="username"
-            android:textSize="18sp"
+            android:paddingLeft="40px"
+            android:paddingTop="50px"
+            android:paddingRight="80px"
+            android:paddingBottom="50px"
+            android:text="User Name"
+            android:textColor="#000000"
+            android:textSize="24sp"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="30dp"
             tools:layout_editor_absoluteY="123dp" />
 
-        <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="password"
-        android:textSize="18sp"
-        tools:layout_editor_absoluteX="32dp"
-        tools:layout_editor_absoluteY="180dp" />
-
         <EditText
             android:id="@+id/username_login"
-            android:layout_width="wrap_content"
+            android:layout_width="282dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
+            android:paddingLeft="40px"
+            android:paddingTop="50px"
+            android:paddingRight="0px"
+            android:paddingBottom="50px"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textSize="18sp"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="158dp"
             tools:layout_editor_absoluteY="167dp" />
 
-        <EditText
-        android:id="@+id/password_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:textSize="18sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="161dp"
-        tools:layout_editor_absoluteY="114dp" />
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="293dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="40px"
+            android:paddingTop="50px"
+            android:paddingRight="80px"
+            android:paddingBottom="50px"
+            android:text="Password"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            tools:layout_editor_absoluteX="32dp"
+            tools:layout_editor_absoluteY="180dp" />
 
-    <TextView
-        android:id="@+id/error"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="100dp"
-        android:text=""
-        android:textColor="#FF0000"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <EditText
+            android:id="@+id/password_login"
+            android:layout_width="285dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:paddingLeft="40px"
+            android:paddingTop="50px"
+            android:paddingRight="80px"
+            android:paddingBottom="50px"
+            android:textSize="18sp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="161dp"
+            tools:layout_editor_absoluteY="114dp" />
+
+        <TextView
+            android:id="@+id/error"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="100dp"
+            android:text=""
+            android:textColor="#FF0000"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="158dp"
+            android:layout_height="82dp"
+            android:layout_marginTop="104dp"
+            android:backgroundTint="#3d665f"
+            android:paddingLeft="0px"
+            android:paddingTop="50px"
+            android:paddingRight="0px"
+            android:paddingBottom="50px"
+            android:text="Login"
+            android:textColorHighlight="#409eff"
+            android:textSize="24sp"
+            tools:ignore="MissingConstraints" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="40px"
+        android:paddingTop="50px"
+        android:paddingRight="0px"
+        android:paddingBottom="50px"
+        android:rotationX="-4"
+        android:text="TASLA LMS"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#3d665f"
+        android:textColorHighlight="#409eff"
+        android:textColorLink="#409eff"
+        android:textSize="48sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-6dp"
+        tools:layout_editor_absoluteY="9dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
