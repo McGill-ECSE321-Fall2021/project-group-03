@@ -32,9 +32,11 @@ public class Home extends AppCompatActivity {
     // APPEND NEW CONTENT STARTING FROM HERE
     private List<String> titles = new ArrayList<>();
     private List<String> rooms = new ArrayList<>();
+    private List<String> openingHours = new ArrayList<>();
 
     private ArrayAdapter<String> titleAdapter;
     private ArrayAdapter<String> roomAdapter;
+    private ArrayAdapter<String> libraryHoursAdapter;
 
     private String userId;
 
@@ -301,6 +303,39 @@ public class Home extends AppCompatActivity {
                 }
             }
         );
+
+        // load in library opening hours
+
+        // get opening hours spinner
+        Spinner openingHoursSpinner = (Spinner) findViewById(R.id.opening_hours_spinner);
+        libraryHoursAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, openingHours);
+        openingHoursSpinner.setAdapter(libraryHoursAdapter);
+        // get library hours
+        HttpUtils.get("libraryTimeslots/get", new RequestParams(), new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                super.onSuccess(statusCode, headers, response);
+                for (int i = 0 ; i < response.length() ; i++){
+                    try {
+                        String date = response.getJSONObject(i).getString("date");
+                        String startTime = response.getJSONObject(i).getString("startTime");
+                        String endTime = response.getJSONObject(i).getString("endTime");
+
+
+                        String openingHourFormat = date + " " + startTime + "-" + endTime;
+                        libraryHoursAdapter.add(openingHourFormat);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
     }
 
 }

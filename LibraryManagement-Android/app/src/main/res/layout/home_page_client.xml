@@ -121,7 +121,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Book a Room" />
+                    android:text="Library Opening Hours" />
 
                 <Spinner
                     android:id="@+id/opening_hours_spinner"
