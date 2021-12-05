@@ -7,17 +7,17 @@ public class LibrarianDto extends UserDto {
 	private String password;
 	private String fullName;
 	private boolean isHeadLibrarian;
-
+	
 	public LibrarianDto(int userId, String username, String password, String fullName, boolean isHeadLibrarian) {
-
+		
 		this.username = username;
 		this.password = password;
 		this.userId = userId;
 		this.fullName = fullName;
 		this.isHeadLibrarian = isHeadLibrarian;
-
+		
 	}
-
+	
 	public String getUsername() {
 		return username;
 	}
@@ -25,7 +25,6 @@ public class LibrarianDto extends UserDto {
 	public String getPassword() {
 		return password;
 	}
-
 	public String getFullName() {
 		return fullName;
 	}
@@ -34,8 +33,10 @@ public class LibrarianDto extends UserDto {
 		return isHeadLibrarian;
 	}
 
+
 	public int getUserId() {
 		return userId;
 	}
 
 }
+

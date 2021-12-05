@@ -10,9 +10,8 @@ public class ClientDto extends UserDto {
 	private String username;
 	private String password;
 	private String fullName;
-
-	public ClientDto(int aUserId, String username, String fullName, String password, String residentialAddress,
-			String email, boolean isResident, boolean isOnline) {
+	
+	public ClientDto(int aUserId, String username, String fullName, String password, String residentialAddress, String email, boolean isResident, boolean isOnline) {
 		this.username = username;
 		this.password = password;
 		this.fullName = fullName;
@@ -26,31 +25,31 @@ public class ClientDto extends UserDto {
 	public String getResidentialAddress() {
 		return residentialAddress;
 	}
-
+	  
 	public String getfullName() {
 		return fullName;
 	}
-
+	
 	public String getEmail() {
 		return email;
 	}
-
+	
 	public boolean isOnline() {
 		return isOnline;
 	}
-
+	
 	public boolean isResident() {
 		return isResident;
 	}
-
+	
 	public int getUserId() {
 		return userId;
 	}
-
+	
 	public String getUsername() {
 		return username;
 	}
-
+	
 	public String getPassword() {
 		return password;
 	}

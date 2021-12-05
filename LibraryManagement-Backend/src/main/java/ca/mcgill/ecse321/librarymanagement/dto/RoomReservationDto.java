@@ -10,25 +10,29 @@ public class RoomReservationDto {
 	private Time startTime;
 	private Time endTime;
 	private Date date;
+	
 
 	public int getRoomReservationID() {
 		return roomReservationID;
 	}
 
+
 	public Time getStartTime() {
 		return startTime;
 	}
+
 
 	public Time getEndTime() {
 		return endTime;
 	}
 
+
 	public Date getDate() {
 		return date;
 	}
+	
 
-	public RoomReservationDto(RoomDto room, ClientDto client, int roomReservationID, Time startTime, Time endTime,
-			Date date) {
+	public RoomReservationDto(RoomDto room, ClientDto client, int roomReservationID, Time startTime, Time endTime, Date date) {
 		this.room = room;
 		this.client = client;
 		this.roomReservationID = roomReservationID;
@@ -36,7 +40,7 @@ public class RoomReservationDto {
 		this.endTime = endTime;
 		this.date = date;
 	}
-
+	
 	public RoomDto getRoom() {
 		return room;
 	}
@@ -44,5 +48,6 @@ public class RoomReservationDto {
 	public ClientDto getClient() {
 		return client;
 	}
+
 
 }

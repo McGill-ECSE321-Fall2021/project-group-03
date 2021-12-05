@@ -159,37 +159,37 @@ public class LibraryManagementService {
 		}
 
 		catch (Exception e) {
-
-			// This case will only happen if database is deleted.
+			
+			// This case will only happen if database is deleted. 
 			return initializeLibrary();
 		}
 
 		return toList(libraryRepository.findAll()).get(0);
 	}
-
+	
 	public Library initializeLibrary() {
 		Library library = new Library();
 		Librarian head = new Librarian("headLibrarian", "head", "Head Librarian", true);
 		library.addUser(head);
 		librarianRepository.save(head);
-
-		// The client told us the library has 3 rooms
-
+		
+		//The client told us the library has 3 rooms 
+		
 		createRoom(10, true, Room.RoomType.Study, library);
 		createRoom(5, true, Room.RoomType.Study, library);
 		createRoom(50, true, Room.RoomType.Event, library);
-
+		
 		Schedule librarySchedule = new Schedule();
 		library.setLibrarySchedule(librarySchedule);
-
+		
 		scheduleRepository.save(librarySchedule);
 		libraryRepository.save(library);
-
+		
 		return library;
 	}
 
 	public void removeLibrary(Library library) {
-
+		
 		titleReservationRepository.deleteAll();
 		roomReservationRepository.deleteAll();
 		libraryRepository.deleteAll();
@@ -197,7 +197,7 @@ public class LibraryManagementService {
 		clientRepository.deleteAll();
 		librarianRepository.deleteAll();
 		titleRepository.deleteAll();
-		scheduleRepository.deleteAll();
+		scheduleRepository.deleteAll();		
 		roomRepository.deleteAll();
 		timeslotRepository.deleteAll();
 	}
@@ -258,7 +258,7 @@ public class LibraryManagementService {
 	@Transactional
 	public Librarian createLibrarian(String username, String password, String fullName, boolean isHeadLibrarian,
 			Library library) {
-
+		
 		if (username == null || username.trim().length() == 0) {
 			throw new IllegalArgumentException("Librarian username cannot be empty!");
 		}
@@ -311,7 +311,7 @@ public class LibraryManagementService {
 		libraryRepository.save(library);
 		return librarian;
 	}
-
+	
 	@Transactional
 	public List<Librarian> getAllLibrarians() {
 		return toList(librarianRepository.findAll());
@@ -320,10 +320,9 @@ public class LibraryManagementService {
 	@Transactional
 	public Timeslot createLibraryTimeslot(Time startTime, Time endTime, Date date, Schedule librarySchedule,
 			Library library) {
-
+		
 		if (startTime == null || endTime == null || date == null) {
-			throw new IllegalArgumentException(
-					"Library time slot cannot be empty. Please fill in the year, month and day");
+			throw new IllegalArgumentException("Library time slot cannot be empty. Please fill in the year, month and day");
 		}
 
 		for (Timeslot t : library.getLibrarySchedule().getTimeslots()) {
@@ -343,29 +342,31 @@ public class LibraryManagementService {
 		}
 
 		int year = date.getYear() - 1900;
-		int month = date.getMonth() - 1;
-		int day = date.getDate();
-		Date date1 = new Date(year, month, day);
+	    int month = date.getMonth() -1;
+	    int day = date.getDate();
+	    Date date1 = new Date(year,month,day);
 		Timeslot timeslot = new Timeslot(startTime, endTime, date1);
 
-		librarySchedule.addTimeslot(timeslot);
+		
+	    librarySchedule.addTimeslot(timeslot);
 		timeslotRepository.save(timeslot);
 		scheduleRepository.save(librarySchedule);
 		libraryRepository.save(library);
-
-		// now we need to add all of this to each room
+		
+		//now we need to add all of this to each room
 		System.out.println("worked until here");
 
-		if (library.getRooms().size() != 0) {
+		if (library.getRooms().size() != 0 ) {
 			System.out.println("there is a room");
-
-			for (int i = 0; i < library.getRooms().size(); i++) {
+			
+			for (int i = 0; i<library.getRooms().size(); i++) {
 				Room room = library.getRoom(i);
 				addRoomReservations(timeslot, room, library);
 
 			}
 		}
 		System.out.println("is it return issue");
+
 
 		return timeslot;
 	}
@@ -386,19 +387,21 @@ public class LibraryManagementService {
 		if (timeslot == null) {
 			throw new IllegalArgumentException("Timeslot does not exist");
 		}
-
-		for (RoomReservation roomReservation : library.getRoomReservations()) {
+		
+		for (RoomReservation roomReservation: library.getRoomReservations()){
 			if (roomReservation.getTimeSlotId() == timeslotId) {
 				library.removeRoomReservation(roomReservation);
 				roomReservationRepository.delete(roomReservation);
 
 			}
 		}
+		
 
 		librarySchedule.removeTimeslot(timeslot);
 		timeslotRepository.delete(timeslot);
 		scheduleRepository.save(librarySchedule);
-
+		
+		
 	}
 
 	@Transactional
@@ -415,6 +418,7 @@ public class LibraryManagementService {
 		Librarian librarian = librarianRepository.findLibrarianByUsername(librarianUsername);
 		return librarian.getStaffSchedule().getTimeslots();
 	}
+	
 
 	@Transactional
 	public List<Room> getAllRooms() {
@@ -429,18 +433,36 @@ public class LibraryManagementService {
 		}
 		return room;
 	}
+	
+//	@Transactional
+//	public Room updateRoom(int roomId, Boolean isAvailable, Library library) {
+//
+//		Room room = null;
+//		
+//		room = roomRepository.findRoomByRoomId(roomId);
+//		
+//		if (room == null) {
+//			throw new IllegalArgumentException("Room does not exist");
+//		}
+//		
+//		room.setIsAvailable(isAvailable);
+//
+//		roomRepository.save(room);
+//		libraryRepository.save(library);
+//		return room;
+//	}
 
 	@Transactional
 	public List<RoomReservation> getAllRoomReservations(int roomId) {
 		List<RoomReservation> roomReservations = toList(roomReservationRepository.findAll());
 		ArrayList<RoomReservation> curRoomReservations = new ArrayList<RoomReservation>();
-
+		
 		for (RoomReservation rr : roomReservations) {
 			if (rr.getRoom().getRoomId() == roomId) {
 				curRoomReservations.add(rr);
 			}
 		}
-
+		
 		if (curRoomReservations.size() == 0) {
 			throw new IllegalArgumentException("This Room Reservation does not exist");
 		}
@@ -461,18 +483,20 @@ public class LibraryManagementService {
 
 		Room room = new Room(capacity, isAvailable, roomType);
 		library.addRoom(room);
-
+		
+		
 		if (library.getLibrarySchedule().getTimeslots() != null) {
+			
 
 			for (Timeslot timeslot : library.getLibrarySchedule().getTimeslots()) {
 
 				addRoomReservations(timeslot, room, library);
 			}
 		}
-
+		
 		roomRepository.save(room);
 		libraryRepository.save(library);
-
+		
 		return room;
 	}
 
@@ -480,12 +504,11 @@ public class LibraryManagementService {
 		Date date = libraryTimeslot.getDate();
 		Time startHour = libraryTimeslot.getStartTime();
 		Time endHour = libraryTimeslot.getEndTime();
-
-		for (int i = startHour.getHours(); i < endHour.getHours(); i++) {
+		
+		for (int i = startHour.getHours(); i<endHour.getHours(); i++) { 
 			Client client = new Client("null", "pass", "lee", "shalom avenue", "hihi", true, true);
 			clientRepository.save(client);
-			RoomReservation roomReservation = new RoomReservation(new Time(i, 0, 0), new Time(i + 1, 0, 0), date, room,
-					client);
+			RoomReservation roomReservation = new RoomReservation(new Time(i, 0, 0), new Time(i+1, 0, 0), date, room, client);
 			library.addRoomReservation(roomReservation);
 			roomReservationRepository.save(roomReservation);
 			libraryRepository.save(library);
@@ -527,11 +550,10 @@ public class LibraryManagementService {
 
 		Room room = roomRepository.findRoomByRoomId(roomId);
 		Client client = clientRepository.findClientByUserId(clientId);
-
-		// for all library hours, we made new reservations that are available, indicated
-		// by client being null
-		// if the client is not null, that means its already booked so you cannot add a
-		// reservation
+		
+		//for all library hours, we made new reservations that are available, indicated by client being null
+		//if the client is not null, that means its already booked so you cannot add a reservation
+		
 
 		if (room == null && client == null) {
 			throw new IllegalArgumentException("room reservations must include a valid client and room");
@@ -562,13 +584,13 @@ public class LibraryManagementService {
 		roomReservationRepository.save(roomReservation);
 		return roomReservation;
 	}
-
+	
 	@Transactional
 	public RoomReservation updateRoomReservation(int roomReservationId, int userId, Library library) {
 		Client client = clientRepository.findClientByUserId(userId);
 		RoomReservation roomReservation = roomReservationRepository.findRoomReservationByTimeslotId(roomReservationId);
 
-		if (!roomReservation.getClient().getUsername().equals("null")) {
+		if ( !roomReservation.getClient().getUsername().equals("null")) {
 			throw new IllegalArgumentException("This room reservation is already booked");
 		} else {
 			roomReservation.setClient(client);
@@ -581,53 +603,51 @@ public class LibraryManagementService {
 	@Transactional
 	public void removeRoomReservation(int roomId, int userId, Library library) {
 		RoomReservation roomReservation = null;
-
+		
 		for (RoomReservation roomReservationA : library.getRoomReservations()) {
-			if (roomReservationA.getClient().getUserId() == userId
-					&& roomReservationA.getRoom().getRoomId() == roomId) {
+			if (roomReservationA.getClient().getUserId() == userId && roomReservationA.getRoom().getRoomId() == roomId) {
 				roomReservation = roomReservationA;
 			}
 		}
-
+		
 		if (roomReservation == null) {
 			throw new IllegalArgumentException("Cannot find Room Reservation");
 		}
-
+		
 		library.getRoomReservations().remove(roomReservation);
 		roomReservationRepository.delete(roomReservation);
 		libraryRepository.save(library);
 	}
-
+	
 	@Transactional
-	public ArrayList<RoomReservation> getRoomReservationsByRoom(int roomId) {
+	public ArrayList<RoomReservation> getRoomReservationsByRoom(int roomId){
 		ArrayList<RoomReservation> roomReservations = new ArrayList<RoomReservation>();
 		Library library = getLibrary();
 		for (RoomReservation roomReservation : library.getRoomReservations()) {
-			if (roomReservation.getRoom().getRoomId() == roomId
-					&& roomReservation.getClient().getUsername().equals("null")) {
-				// this will only get room reservations that are available (client username is
-				// "null"
+			if (roomReservation.getRoom().getRoomId() == roomId && roomReservation.getClient().getUsername().equals("null")) {
+				//this will only get room reservations that are available (client username is "null"
 				roomReservations.add(roomReservation);
 			}
 		}
 		return roomReservations;
-
+		
 	}
-
+	
+	
 	@Transactional
-	public ArrayList<RoomReservation> getRoomReservationsByClient(String clientUsername) {
+	public ArrayList<RoomReservation> 	getRoomReservationsByClient(String clientUsername){
 		ArrayList<RoomReservation> roomReservations = new ArrayList<RoomReservation>();
 		Library library = getLibrary();
 		for (RoomReservation roomReservation : library.getRoomReservations()) {
 			if (roomReservation.getClient().getUsername().equals(clientUsername)) {
-				// this will only get room reservations that are available (client username is
-				// "null"
+				//this will only get room reservations that are available (client username is "null"
 				roomReservations.add(roomReservation);
 			}
 		}
 		return roomReservations;
-
+		
 	}
+	
 
 	@Transactional
 	public Timeslot createStaffScheduleTimeslot(Time startTime, Time endTime, Date date, Library library,
@@ -674,11 +694,11 @@ public class LibraryManagementService {
 				throw new IllegalArgumentException("Librarian time slot must be within opening hours of the library");
 			}
 		}
-
+		
 		int year = date.getYear() - 1900;
-		int month = date.getMonth() - 1;
-		int day = date.getDate();
-		Date date1 = new Date(year, month, day);
+	    int month = date.getMonth()-1;
+	    int day = date.getDate();
+	    Date date1 = new Date(year,month,day);
 		Timeslot timeslot = new Timeslot(startTime, endTime, date1);
 		librarian.getStaffSchedule().addTimeslot(timeslot);
 		timeslotRepository.save(timeslot);
@@ -692,8 +712,8 @@ public class LibraryManagementService {
 	public void removeLibrarian(Library library, String username) {
 
 		Librarian librarian = null;
-
-		for (Librarian l : librarianRepository.findAll()) {
+		
+		for(Librarian l : librarianRepository.findAll()) {
 			if (l.getUsername().equals(username)) {
 				librarian = l;
 			}
@@ -701,7 +721,7 @@ public class LibraryManagementService {
 
 		if (librarian == null) {
 			throw new IllegalArgumentException("Librarian does not exist");
-		} else if (librarian.getIsHeadLibrarian()) {
+		}	else if (librarian.getIsHeadLibrarian()) {
 			throw new IllegalArgumentException("Cannot fire head librarian");
 		}
 
@@ -712,13 +732,13 @@ public class LibraryManagementService {
 
 	@Transactional
 	public void removeStaffScheduleTimeslot(int timeslotId, int headLibrarianId, Library library) {
-
+		
 		Timeslot timeslot = null;
-
+		
 		timeslot = timeslotRepository.findTimeslotByTimeslotId(timeslotId);
-
+		
 		Librarian headLibrarian = librarianRepository.findLibrarianByUserId(headLibrarianId);
-
+		
 		if (headLibrarian.getIsHeadLibrarian() == false) {
 			throw new IllegalArgumentException("Librarian that is not a Head Librarian cannot remove timeslot");
 		}
@@ -726,6 +746,7 @@ public class LibraryManagementService {
 		if (timeslot == null) {
 			throw new IllegalArgumentException("timeslot does not exist");
 		}
+
 
 		Schedule staffSchedule = headLibrarian.getStaffSchedule();
 		staffSchedule.removeTimeslot(timeslot);
@@ -743,7 +764,7 @@ public class LibraryManagementService {
 		}
 		return librarian;
 	}
-
+	
 	public Librarian updateLibrarian(String aUsername, String aPassword, String aFullname, String aResidentialAddress,
 			String aEmail, boolean isResident, boolean isOnline, Library library) {
 
@@ -760,7 +781,7 @@ public class LibraryManagementService {
 		if (aFullname == null || aFullname.trim().length() == 0) {
 			throw new IllegalArgumentException("Librarian information cannot be empty!");
 		}
-
+		
 		for (User u : library.getUsers()) {
 			if (u.getUsername().equals(aUsername)) {
 				librarian = (Librarian) u;
@@ -769,7 +790,7 @@ public class LibraryManagementService {
 
 		librarian.setFullname(aFullname);
 		librarian.setPassword(aPassword);
-
+		
 		librarianRepository.save(librarian);
 		libraryRepository.save(library);
 
@@ -795,10 +816,10 @@ public class LibraryManagementService {
 			}
 		}
 		for (Title t : library.getTitles()) {
-			if (t.getName().equals(titleName) && t.getTitleType() == TitleType.Newspaper) {
+			if(t.getName().equals(titleName) && t.getTitleType() == TitleType.Newspaper){
 				throw new IllegalArgumentException("Cannot reserve a newspaper!");
 			}
-			if (t.getName().equals(titleName) && t.getTitleType() == TitleType.Archives) {
+			if(t.getName().equals(titleName) && t.getTitleType() == TitleType.Archives){
 				throw new IllegalArgumentException("Cannot reserve an archive!");
 			}
 		}
@@ -825,18 +846,19 @@ public class LibraryManagementService {
 	// sets titleReservation IsCheckedOut=true
 	@Transactional
 	public TitleReservation updateTitleReservation(TitleReservation titleReservation, Library library) {
-		if (titleReservation.getIsCheckedOut() == true) {
+		if(titleReservation.getIsCheckedOut() == true) {
 			throw new IllegalArgumentException("Title is already checked out!");
 		}
-
-		if (titleReservation.getClient() == null) {
+		
+		if(titleReservation.getClient() == null) {
 			throw new IllegalArgumentException("Client is null!");
 		}
-		if (titleReservation.getTitle() == null) {
+		if(titleReservation.getTitle() == null) {
 			throw new IllegalArgumentException("Title is null!");
 		}
-
+		
 		titleReservation.setIsCheckedOut(true);
+		
 
 		titleReservationRepository.save(titleReservation);
 		libraryRepository.save(library);
@@ -861,12 +883,12 @@ public class LibraryManagementService {
 				title = t;
 			}
 		}
-
+		
 		for (Title t : library.getTitles()) {
-			if (t.getIsAvailable() && t.getName().equals(titleName) && t.getTitleType() == TitleType.Newspaper) {
+			if(t.getIsAvailable() && t.getName().equals(titleName) && t.getTitleType() == TitleType.Newspaper){
 				throw new IllegalArgumentException("Cannot reserve a newspaper!");
 			}
-			if (t.getIsAvailable() && t.getName().equals(titleName) && t.getTitleType() == TitleType.Archives) {
+			if(t.getIsAvailable() && t.getName().equals(titleName) && t.getTitleType() == TitleType.Archives){
 				throw new IllegalArgumentException("Cannot reserve an archive!");
 			}
 		}
@@ -903,19 +925,19 @@ public class LibraryManagementService {
 
 		return thisTitleReservation;
 	}
-
+	
 	@Transactional
 	public TitleReservation getTitleReservationByTitleNameAndClient(String titleName, String username) {
 		List<TitleReservation> titleReservations = toList(titleReservationRepository.findAll());
 		TitleReservation thisTitleReservation = null;
-		for (TitleReservation tr : titleReservations) {
-			if (tr.getTitle().getName().equals(titleName) && tr.getClient().getUsername().equals(username)) {
+		for(TitleReservation tr : titleReservations) {
+			if(tr.getTitle().getName().equals(titleName) && tr.getClient().getUsername().equals(username)) {
 				return tr;
 			}
 		}
 		return thisTitleReservation;
 	}
-
+	
 	@Transactional
 	public List<TitleReservation> getAllTitleReservationsByUsername(String username) {
 		List<TitleReservation> allReservations = toList(titleReservationRepository.findAll());
@@ -925,6 +947,7 @@ public class LibraryManagementService {
 				myReservations.add(tr);
 			}
 		}
+		
 
 		return myReservations;
 	}
@@ -954,20 +977,20 @@ public class LibraryManagementService {
 	@Transactional
 	public void removeTitle(Library library, int titleId) {
 		Title title = null;
-
+		
 		for (Title titleA : library.getTitles()) {
 			if (titleA.getTitleId() == titleId) {
 				title = titleA;
 			}
 		}
-
+		
 		if (title == null) {
 			throw new IllegalArgumentException("Title does not exist! Please provide an existing title Id");
 		}
-
-		if (library.getTitleReservations().size() > 0) {
+		
+		if (library.getTitleReservations().size() > 0 ) {
 			List<TitleReservation> tempList = new ArrayList<>();
-			for (TitleReservation t : library.getTitleReservations()) {
+			for(TitleReservation t : library.getTitleReservations()) {
 				tempList.add(t);
 			}
 
@@ -975,12 +998,13 @@ public class LibraryManagementService {
 				if (titleReservation.getTitle().getTitleId() == title.getTitleId()) {
 					titleReservationRepository.delete(titleReservation);
 					library.removeTitleReservation(titleReservation);
-
+					
 				}
-
+				
 			}
 		}
-
+		
+		
 		titleRepository.delete(title);
 		library.removeTitle(title);
 		libraryRepository.save(library);
@@ -991,7 +1015,7 @@ public class LibraryManagementService {
 		Date date = existingTimeslot.getDate();
 
 		// is it on the same day?
-		if (date.getYear() == newDate.getYear() - 1900 && date.getMonth() == newDate.getMonth() - 1
+		if (date.getYear() == newDate.getYear()-1900 && date.getMonth() == newDate.getMonth()-1
 				&& date.getDate() == newDate.getDate()) {
 			Time startTime = existingTimeslot.getStartTime();
 			Time endTime = existingTimeslot.getEndTime();
@@ -1118,7 +1142,7 @@ public class LibraryManagementService {
 
 		return client;
 	}
-
+	
 	@Transactional
 	public Client updateClientPassword(String aUsername, String aPassword, Library library) {
 
@@ -1141,7 +1165,7 @@ public class LibraryManagementService {
 
 		return client;
 	}
-
+	
 	@Transactional
 	public Client updateClientEmail(String aUsername, String aEmail, Library library) {
 
@@ -1164,7 +1188,7 @@ public class LibraryManagementService {
 
 		return client;
 	}
-
+	
 	@Transactional
 	public Client updateClientResAddress(String aUsername, String aResidentialAddress, Library library) {
 
@@ -1202,14 +1226,14 @@ public class LibraryManagementService {
 		if (client == null) {
 			throw new IllegalArgumentException("Client does not exist!");
 		}
-
-		if (library.getTitleReservations().size() > 0) {
+		
+		if(library.getTitleReservations().size() > 0) {
 			List<TitleReservation> tempList = new ArrayList<>();
-			for (TitleReservation t : library.getTitleReservations()) {
+			for(TitleReservation t : library.getTitleReservations()) {
 				tempList.add(t);
 			}
-			for (TitleReservation titleReservation : tempList) {
-				if (titleReservation.getClient().getUsername().equals(client.getUsername())) {
+			for(TitleReservation titleReservation : tempList) {
+				if(titleReservation.getClient().getUsername().equals(client.getUsername())){
 					library.removeTitleReservation(titleReservation);
 					titleReservationRepository.delete(titleReservation);
 
@@ -1217,12 +1241,12 @@ public class LibraryManagementService {
 			}
 		}
 		if (library.getRoomReservations().size() > 0) {
-			List<RoomReservation> roomTemp = new ArrayList<>();
-			for (RoomReservation r : library.getRoomReservations()) {
+			List<RoomReservation>roomTemp = new ArrayList<>();
+			for(RoomReservation r : library.getRoomReservations()) {
 				roomTemp.add(r);
 			}
-			for (RoomReservation rr : roomTemp) {
-				if (rr.getClient().getUsername().equals(client.getUsername())) {
+			for(RoomReservation rr : roomTemp) {
+				if(rr.getClient().getUsername().equals(client.getUsername())) {
 					library.removeRoomReservation(rr);
 					roomReservationRepository.delete(rr);
 				}
