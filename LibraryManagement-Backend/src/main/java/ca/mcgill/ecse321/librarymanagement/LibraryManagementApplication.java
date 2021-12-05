@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.librarymanagement.controller.LibraryManagementRestController;
+import ca.mcgill.ecse321.librarymanagement.dto.ClientDto;
 import ca.mcgill.ecse321.librarymanagement.dto.TitleDto;
 import ca.mcgill.ecse321.librarymanagement.model.Library;
 import ca.mcgill.ecse321.librarymanagement.model.Title;
@@ -50,6 +52,11 @@ public class LibraryManagementApplication {
 	@RequestMapping("/titles/get")
 	public List<TitleDto> getTitles(){
 		return controller.getAllTitles();
+	}
+	
+	@GetMapping(value = { "/clients/login/{username}", "/clients/login/{username}/" })
+	public ClientDto loginClient(@PathVariable("username") String username, @RequestParam String password) {
+		return controller.loginClient(username, password);
 	}
 
 }
