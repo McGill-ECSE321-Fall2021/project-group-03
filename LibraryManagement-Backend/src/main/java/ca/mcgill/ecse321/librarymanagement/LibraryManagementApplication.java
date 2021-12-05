@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import ca.mcgill.ecse321.librarymanagement.model.Title;
 
 @RestController
 @SpringBootApplication
+//@ComponentScan(basePackages= {"ca.mcgill.ecse321.librarymanagement.controller.LibraryManagementRestController"};
 public class LibraryManagementApplication {
 	
 	@Autowired
@@ -46,6 +48,7 @@ public class LibraryManagementApplication {
 		String genre = titleInfoList[2];
 		String titleType = titleInfoList[3];
 		//yoyodfrfrfgefrfr
+		//
 		//controller.createTitle(name, description, genre, "true", titleType);
 		return "success";
 	}
