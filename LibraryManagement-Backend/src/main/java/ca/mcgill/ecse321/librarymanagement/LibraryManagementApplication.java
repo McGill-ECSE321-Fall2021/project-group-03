@@ -35,7 +35,7 @@ public class LibraryManagementApplication {
 	}
 	
 	@RequestMapping(value = { "titles/create/{titleInfo}" })
-	public TitleDto createTitle(@PathVariable("titleInfo") String titleInfo)
+	public String createTitle(@PathVariable("titleInfo") String titleInfo)
 			throws IllegalArgumentException {
 		
 		String[] titleInfoList = titleInfo.split("-");
@@ -44,7 +44,8 @@ public class LibraryManagementApplication {
 		String genre = titleInfoList[2];
 		String titleType = titleInfoList[3];
 		//yoyodfrfrfgefrfr
-		return controller.createTitle(name, description, genre, "true", titleType);
+		controller.createTitle(name, description, genre, "true", titleType);
+		return "success";
 	}
 	
 	@RequestMapping("/titles/get")
