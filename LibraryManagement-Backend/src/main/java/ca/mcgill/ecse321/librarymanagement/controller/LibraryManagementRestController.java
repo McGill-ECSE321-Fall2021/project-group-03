@@ -56,7 +56,7 @@ public class LibraryManagementRestController {
 	}
 
 	/***
-	 * @param title Id of a specific title
+	 * @param Title Id of a specific title
 	 * @return A specific title by title Id
 	 */
 	@GetMapping(value = { "/titles/get/{titleId}", "/titles/get/{titleId}/" })
@@ -67,7 +67,7 @@ public class LibraryManagementRestController {
 
 	/***
 	 * @param All the required fields of a title
-	 * @return returns the created title as a dto
+	 * @return the created title as a DTO
 	 */
 	@PostMapping(value = { "/titles/create/{name}", "/titles/create/{name}/" })
 	public TitleDto createTitle(@PathVariable("name") String name, @RequestParam String description,
@@ -84,7 +84,7 @@ public class LibraryManagementRestController {
 
 	/***
 	 * @param All the required fields of a title
-	 * @return returns the updated title as a dto
+	 * @return returns the updated title as a DTO 
 	 */
 	@PostMapping(value = { "/titles/update/{name}", "/titles/update/{name}/" })
 	public TitleDto updateTitle(@PathVariable("name") String name, @RequestParam String description,
@@ -99,7 +99,7 @@ public class LibraryManagementRestController {
 
 	/***
 	 * @param Name of the title and client who wants to make reservation
-	 * @return returns the title reservation as a dto
+	 * @return returns the title reservation as a DTO 
 	 */
 	@PostMapping(value = { "/titles/reserve/{titleName}", "/titles/reserve/{titleName}/" })
 	public TitleReservationDto reserveTitle(@PathVariable("titleName") String titleName,
@@ -135,7 +135,7 @@ public class LibraryManagementRestController {
 
 	/***
 	 * @param title reservation
-	 * @return title reservation dto
+	 * @return title reservation DTO
 	 */
 	public TitleReservationDto convertToDto(TitleReservation tr) {
 		return new TitleReservationDto(tr.getReturnDate(), tr.getIsCheckedOut(), convertToDto(tr.getTitle()),
@@ -144,7 +144,7 @@ public class LibraryManagementRestController {
 
 	/***
 	 * @param Title name and the client who reserved it
-	 * @return title reservation's title dto
+	 * @return title reservation's title DTO
 	 */
 	@PostMapping(value = { "/titles/checkout/{name}", "/titles/checkout/{name}/" })
 	public TitleDto checkoutTitle(@PathVariable("name") String titleName, @RequestParam String clientUsername)
@@ -159,6 +159,7 @@ public class LibraryManagementRestController {
 	}
 
 	/***
+	 * this method will remove a title from the list of titles of the library using the title id
 	 * @param title Id
 	 */
 	@PostMapping(value = { "/titles/remove/{titleId}", "/titles/remove/{titleId}/" })
@@ -171,7 +172,7 @@ public class LibraryManagementRestController {
 
 	/***
 	 * @param title
-	 * @return title Dto
+	 * @return title DTO
 	 */
 	public TitleDto convertToDto(Title title) {
 		TitleDto titleDto = new TitleDto(title.getName(), title.getTitleId(), title.getDescription(), title.getGenre(),
@@ -193,7 +194,7 @@ public class LibraryManagementRestController {
 
 	/***
 	 * @param client Id
-	 * @return client Dto
+	 * @return client DTO 
 	 */
 	@GetMapping(value = { "/clients/get/{clientId}", "/clients/get/{clientId}/" })
 	public ClientDto getClient(@PathVariable("clientId") String clientId) {
@@ -203,7 +204,7 @@ public class LibraryManagementRestController {
 
 	/***
 	 * @param All fields required for a client
-	 * @return client Dto
+	 * @return client DTO 
 	 */
 	@PostMapping(value = { "/clients/create/{username}", "/clients/create/{username}/" })
 	public ClientDto createClient(@PathVariable("username") String username, @RequestParam String password,
@@ -220,7 +221,7 @@ public class LibraryManagementRestController {
 
 	/***
 	 * @param All fields required for a client
-	 * @return updated client Dto
+	 * @return updated client DTO 
 	 */
 	@PostMapping(value = { "/clients/update/{username}", "/clients/update/{username}/" })
 	public ClientDto updateClient(@PathVariable("username") String username, @RequestParam String password,
@@ -272,6 +273,8 @@ public class LibraryManagementRestController {
 	}
 
 	/***
+	 * this method will remove the user from the list of clients of the library which will no longer let the client login unless
+	 * they create a new account
 	 * @param Client's username
 	 */
 	@PostMapping(value = { "/clients/remove/{username}", "/clients/remove/{username}/" })
@@ -296,7 +299,7 @@ public class LibraryManagementRestController {
 
 	/***
 	 * @param client
-	 * @return client as a dto
+	 * @return client as a DTO
 	 */
 	public ClientDto convertToDto(Client client) {
 		ClientDto clientDto = new ClientDto(client.getUserId(), client.getUsername(), client.getFullname(),
@@ -310,7 +313,7 @@ public class LibraryManagementRestController {
 	 */
 
 	/***
-	 * @return a list of librarians
+	 * @return a list of librarians from the library
 	 */
 	@GetMapping(value = { "/librarians/get", "/librarians/get/" })
 	public List<LibrarianDto> getAllLibrarians() {
@@ -319,7 +322,7 @@ public class LibraryManagementRestController {
 
 	/***
 	 * @param librarian Id
-	 * @return librarian Dto
+	 * @return librarian DTO
 	 */
 	@GetMapping(value = { "/librarians/get/{librarianId}", "/librarians/get/{librarianId}/" })
 	public LibrarianDto getLibrarian(@PathVariable("librarianId") String librarianId) {
@@ -329,7 +332,7 @@ public class LibraryManagementRestController {
 
 	/***
 	 * @param All fields needed to create a librarian.
-	 * @return Librarian as a dto
+	 * @return Librarian as a DTO
 	 */
 	@PostMapping(value = { "/librarians/create/{username}", "/librarians/create/{username}/" })
 	public LibrarianDto createLibrarian(@PathVariable("username") String username, @RequestParam String password,
@@ -343,7 +346,7 @@ public class LibraryManagementRestController {
 
 	/***
 	 * @param All fields required for a librarian
-	 * @return updated librarian Dto
+	 * @return updated librarian DTO
 	 */
 	@PostMapping(value = { "/librarians/update/{username}", "/librarians/update/{username}/" })
 	public LibrarianDto updateLibrarian(@PathVariable("username") String username, @RequestParam String password,
@@ -403,11 +406,21 @@ public class LibraryManagementRestController {
 	 * Library Mappings
 	 */
 
+	
+	/***
+	 * 
+	 * This method is used to get the library itself which contains all of the elements of the system such as titles, rooms, etc.
+	 * 
+	 * @return the library class
+	 */
 	@GetMapping(value = { "/library/get", "/library/get/" })
 	public Library getLibrary() {
 		return service.getLibrary();
 	}
 
+	/***
+	 * deletes the instance of the library class, essentially reseting the database and removing all data inside of it
+	 */
 	@PostMapping(value = { "/library/remove", "/library/remove/" })
 	public void removeLibrary() {
 		Library library = getLibrary();
@@ -420,11 +433,27 @@ public class LibraryManagementRestController {
 	 * 
 	 */
 
+	/***
+	 * 
+	 * @return a list of TimeSlot DTOs
+	 */
 	@GetMapping(value = { "/libraryTimeslots/get", "/libraryTimeslots/get/" })
 	public List<TimeslotDto> getAllLibraryTimeslots() {
 		return service.getAllLibraryTimeslots().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
 	}
 
+	/***
+	 * 
+	 * @param startHour
+	 * @param startMin
+	 * @param endHour
+	 * @param endMin
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @return the created time slot with information passed through the parameters
+	 * @throws IllegalArgumentException when there is a violation found in the service class
+	 */
 	@PostMapping(value = { "/libraryTimeslots/create/{startHour}", "/libraryTimeslots/create/{startHour}/" })
 	public TimeslotDto createLibraryTimeslot(@PathVariable("startHour") String startHour, String startMin,
 			@RequestParam String endHour, @RequestParam String endMin, @RequestParam String year,
@@ -443,6 +472,13 @@ public class LibraryManagementRestController {
 		return convertToDto(timeslot);
 	}
 
+	/***
+	 * 
+	 * this method will remove a timeslot from the library opening hours
+	 * 
+	 * @param timeslotId - the auto generate id given to every timeslot in the database
+	 * @throws IllegalArgumentException when trying to remove a timeslot that does not exist
+	 */
 	@PostMapping(value = { "/librarySchedule/remove/{timeslotId}", "/librarySchedule/remove/{timeslotId}/" })
 	public void removeLibraryTimeslot(@PathVariable("timeslotId") String timeslotId) throws IllegalArgumentException {
 
@@ -462,11 +498,21 @@ public class LibraryManagementRestController {
 	 * 
 	 */
 
+	/***
+	 * 
+	 * @param Timeslot
+	 * @return Timeslot DTO
+	 */
 	public TimeslotDto convertToDto(Timeslot t) {
 		TimeslotDto timeslotDto = new TimeslotDto(t.getStartTime(), t.getEndTime(), t.getDate(), t.getTimeSlotId());
 		return timeslotDto;
 	}
 
+	/***
+	 * 
+	 * @param timeslotId - auto generate id given to every timeslot in the database
+	 * @return the timeslot DTO associated to the specific timeslot id
+	 */
 	@GetMapping(value = { "/timeslots/get/{timeslotId}", "/timeslots/get/{timeslotId}/" })
 	public TimeslotDto getTimeslot(@PathVariable("timeslotId") String timeslotId) {
 		Timeslot timeslot = service.getTimeslot(Integer.parseInt(timeslotId));
@@ -479,26 +525,38 @@ public class LibraryManagementRestController {
 	 * 
 	 */
 
+	/***
+	 * 
+	 * @return a list of all the rooms in the library
+ 	 */
 	@GetMapping(value = { "/rooms/get", "/rooms/get/" })
 	public List<RoomDto> getRooms() {
 		return service.getAllRooms().stream().map(b -> convertToDto(b)).collect(Collectors.toList());
 	}
 
+	/***
+	 * Given a roomId, which is auto-generated by the database, the method returns the respective 
+	 * Room DTO associated to the id passed in
+	 * @param roomId
+	 * @return room DTO
+	 */
 	@GetMapping(value = { "/rooms/get/{roomId}", "/rooms/get/{roomId}/" })
 	public RoomDto getRoom(@PathVariable("roomId") String roomId) {
 		Room room = service.getRoom(Integer.parseInt(roomId));
 		return convertToDto(room);
 	}
 
-//	@PostMapping(value = { "/rooms/update/{roomId}", "/rooms/update/{roomId}/" })
-//	public RoomDto updateRoom(@PathVariable("roomId") String roomId, @RequestParam String isAvailable)
-//			throws IllegalArgumentException {
-//		Library library = getLibrary();
-//
-//		Room room = service.updateRoom(Integer.parseInt(roomId), Boolean.parseBoolean(isAvailable), library);
-//
-//		return convertToDto(room);
-//	}
+	
+	/***
+	 * 
+	 * This method will create a new room with attributes associated to the parameters below
+	 * 
+	 * @param capacity
+	 * @param isAvailable
+	 * @param roomType
+	 * @return the created room using information passed in through the parameters
+	 * @throws IllegalArgumentException when a room with such information cannot be created in the service class
+	 */
 
 	@PostMapping(value = { "/rooms/create/{capacity}", "/rooms/create/{capacity}/" })
 	public RoomDto createRoom(@PathVariable("capacity") int capacity, @RequestParam boolean isAvailable,
@@ -511,17 +569,32 @@ public class LibraryManagementRestController {
 		return convertToDto(room);
 	}
 
+	/***
+	 * 
+	 * @param Room instance
+	 * @return Room DTO
+	 */
 	RoomDto convertToDto(Room r) {
 		RoomDto roomDto = new RoomDto(r.getRoomId(), r.getCapacity(), r.getIsAvailable(), r.getRoomType());
 		return roomDto;
 	}
 
+	/***
+	 * 
+	 * @param roomId
+	 * @return list of all the room reservations associated to the room with the passed in room id
+	 */
 	@GetMapping(value = { "/rooms/getRoomReservationByRoom/{roomId}", "/rooms/getRoomReservationByRoom/{roomId}/" })
 	public List<RoomReservationDto> getRoomReservationsByRoom(@PathVariable("roomId") String roomId) {
 		ArrayList<RoomReservation> roomReservations = service.getRoomReservationsByRoom(Integer.parseInt(roomId));
 		return convertToDto(roomReservations);
 	}
 
+	/***
+	 * 
+	 * @param clientUsername
+	 * @return list of all the current room reservations associated to the account with the given username
+	 */
 	@GetMapping(value = { "/rooms/getRoomReservationByClient/{clientUsername}",
 			"/rooms/getRoomReservationByRoom/{clientUsername}/" })
 	public List<RoomReservationDto> getRoomReservationsByClient(@PathVariable("clientUsername") String clientUsername) {
@@ -529,6 +602,11 @@ public class LibraryManagementRestController {
 		return convertToDto(roomReservations);
 	}
 
+	/***
+	 * 
+	 * @param list of RoomReservations instances
+	 * @return a list of RoomReservation DTOs
+	 */
 	ArrayList<RoomReservationDto> convertToDto(ArrayList<RoomReservation> roomReservations) {
 		ArrayList<RoomReservationDto> roomReservationDtos = new ArrayList<RoomReservationDto>();
 		for (RoomReservation roomReservation : roomReservations) {
@@ -542,13 +620,32 @@ public class LibraryManagementRestController {
 	 * Room Reservations
 	 * 
 	 */
-
+	
+	
+	/***
+	 * @param roomId
+	 * @return all room reservations in the form of DTO associated to the room with the given roomId
+	 */
 	@GetMapping(value = { "/roomReservations/get/{roomId}", "/roomReservations/get/{roomId}/" })
 	public List<RoomReservationDto> getRoomReservations(@PathVariable("roomId") String roomId) {
 		return service.getAllRoomReservations(Integer.parseInt(roomId)).stream().map(b -> convertToDto(b))
 				.collect(Collectors.toList());
 	}
 
+	/***
+	 * 
+	 * @param roomId
+	 * @param userId
+	 * @param startHour
+	 * @param startMin
+	 * @param endHour
+	 * @param endMin
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @return the created Room Reservation DTO using the information passed in
+	 * @throws IllegalArgumentException
+	 */
 	@PostMapping(value = { "/roomReservations/create/{roomId}" })
 	public RoomReservationDto createRoomReservation(@PathVariable("roomId") String roomId, @RequestParam String userId,
 			@RequestParam String startHour, String startMin, @RequestParam String endHour, @RequestParam String endMin,
@@ -561,14 +658,20 @@ public class LibraryManagementRestController {
 		Time endTime = new Time(Integer.parseInt(endHour), Integer.parseInt(endMin), 0);
 		Date date = new Date(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
 
-		System.out.println("hey there");
-
 		RoomReservation roomReservation = service.createRoomReservation(startTime, endTime, date,
 				Integer.parseInt(roomId), Integer.parseInt(userId), library);
 
 		return convertToDto(roomReservation);
 	}
 
+	/***
+	 * 
+	 * This method will set the client to a room reservation which essentially books the client to the room for the given time slot
+	 * @param roomReservationId associated to the id of the room reservation that was created
+	 * @param userId
+	 * @return updated Room Reservation DTO which will book the room for the given user
+	 * @throws IllegalArgumentException
+	 */
 	@PostMapping(value = { "/roomReservations/update/{roomReservationId}" })
 	public RoomReservationDto updateRoomReservation(@PathVariable("roomReservationId") int roomReservationId,
 			@RequestParam int userId) throws IllegalArgumentException {
@@ -580,6 +683,14 @@ public class LibraryManagementRestController {
 		return convertToDto(roomReservation);
 	}
 
+	/***
+	 * 
+	 * This method will remover the reservation which will generally be used in the front-end to delete reservations that have already 
+	 * passed so that a given client does not have to see previously booked rooms
+	 * @param roomId of the associated room you would like to remove
+	 * @param userId of the user associated to the reservation
+	 * @throws IllegalArgumentException
+	 */
 	@PostMapping(value = { "/roomReservations/remove/{roomId}", "/roomReservations/remove/{timeslotId}/" })
 	public void removeRoomReservation(@PathVariable("roomId") String roomId, @RequestParam String userId)
 			throws IllegalArgumentException {
@@ -589,6 +700,11 @@ public class LibraryManagementRestController {
 
 	}
 
+	/***
+	 * 
+	 * @param Room Reservation instance
+	 * @return Room Reservation DTO using the information from the Room Reservation instance
+	 */
 	public RoomReservationDto convertToDto(RoomReservation rr) {
 		RoomDto roomDto = convertToDto(rr.getRoom());
 		ClientDto clientDto = convertToDto(rr.getClient());
@@ -604,6 +720,11 @@ public class LibraryManagementRestController {
 	 * 
 	 */
 
+	/***
+	 * 
+	 * @param librarianUsername
+	 * @return list of time slot for a given librarian using their respective username
+	 */
 	@GetMapping(value = { "/staffSchedules/get/{librarianUsername}", "/staffSchedules/get/{librarianUsername}/" })
 	public List<TimeslotDto> getAllTimeSlotsInStaffSchedule(
 			@PathVariable("librarianUsername") String librarianUsername) {
@@ -611,6 +732,19 @@ public class LibraryManagementRestController {
 				.collect(Collectors.toList());
 	}
 
+	/***
+	 * 
+	 * @param librarianUsername
+	 * @param startHour
+	 * @param startMin
+	 * @param endHour
+	 * @param endMin
+	 * @param year
+	 * @param month
+	 * @param day
+	 * @return Timeslot DTO using the information passed through the params of the method
+	 * @throws IllegalArgumentException
+	 */
 	@PostMapping(value = { "/staffSchedules/create/{librarianUsername}",
 			"/staffSchedules/create/{librarianUsername}/" })
 	public TimeslotDto createStaffScheduleTimeslot(@PathVariable("librarianUsername") String librarianUsername,
@@ -630,6 +764,12 @@ public class LibraryManagementRestController {
 		return convertToDto(timeslot);
 	}
 
+	/***
+	 * This method removes the staff schedule time slot for a given librarian
+	 * @param timeslotId
+	 * @param headLibrarianId
+	 * @throws IllegalArgumentException
+	 */
 	@PostMapping(value = { "/staffSchedules/remove/{timeslotId}", "/staffSchedules/remove/{timeslotId}/" })
 	public void removeStaffScheduleTimeslot(@PathVariable("timeslotId") String timeslotId, String headLibrarianId)
 			throws IllegalArgumentException {
@@ -645,6 +785,12 @@ public class LibraryManagementRestController {
 	 * 
 	 */
 
+	/***
+	 * This method is used to parse requests from the front-end and translate a title type string to
+	 * a title type variable of type TitleType
+	 * @param titleType
+	 * @return
+	 */
 	public TitleType parseTitleType(String titleType) {
 		TitleType type = null;
 
@@ -662,6 +808,13 @@ public class LibraryManagementRestController {
 		return type;
 	}
 
+	/***
+	 * This method is used to parse requests from the front-end and translate a room type string to
+	 * a room type variable of type RoomType
+	 * 
+	 * @param roomType name as a string
+	 * @return the room type as a Type
+	 */
 	public RoomType parseRoomType(String roomType) {
 		if (roomType.equals("Study")) {
 			return RoomType.Study;
@@ -670,6 +823,11 @@ public class LibraryManagementRestController {
 		}
 	}
 
+	/***
+	 * This method is used to determine when a title is to be returned following a reservation of the title
+	 * @param Date
+	 * @return the date object in 2 weeks time
+	 */
 	private Date sqlDatePlusDays(Date date) {
 		return Date.valueOf(date.toLocalDate().plusDays(14));
 	}
