@@ -54,7 +54,7 @@ public class LibraryManagementApplication {
 		return controller.getAllTitles();
 	}
 	
-	@GetMapping(value = { "/clients/login/{username}", "/clients/login/{username}/" })
+	@RequestMapping(value = { "/clients/login/{username}", "/clients/login/{username}/" })
 	public ClientDto loginClient(@PathVariable("username") String username, @RequestParam String password) {
 		return controller.loginClient(username, password); //
 	}
