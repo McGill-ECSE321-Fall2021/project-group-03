@@ -1,11 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Room from '@/views/Room'
-import TitleInformation from '@/views/TitleInformation'
-import Management from '@/views/Management'
 import RoomInformation from '@/views/RoomInformation'
 import Tools from '@/views/Tools.vue'
-import Reservations from '@/views/Reservations'
 
 Vue.use(Router)
 
