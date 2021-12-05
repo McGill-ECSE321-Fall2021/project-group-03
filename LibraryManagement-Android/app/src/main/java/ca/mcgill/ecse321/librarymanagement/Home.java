@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.librarymanagement;
 
 import android.app.DownloadManager;
+import android.app.job.JobInfo;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,7 @@ public class Home extends AppCompatActivity {
     private ArrayAdapter<String> libraryHoursAdapter;
 
     private String userId;
+    private String roomresId;
 
 
     private void refreshErrorMessage(){
@@ -194,13 +196,31 @@ public class Home extends AppCompatActivity {
                     // get name of the room we want to book
                     String roomInfo = roomsSpinner.getSelectedItem().toString();
 
+
                     // parse room info
                     String[] infoParsed = roomInfo.split(",");
                     String roomId = infoParsed[2].split(":")[1].replaceAll(" ","");
 
+                    // get room reservations for the specific room
+                    HttpUtils.get("roomReservations/get" + roomId, new RequestParams(), new JsonHttpResponseHandler(){
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                            super.onSuccess(statusCode, headers, response);
+                            for (int i = 0 ; i < response.length() ; i++){
+                                try {
+                                    String username = response.getJSONObject(i).getString("username");
+                                    if (username.equals("null")){
+                                        // reserve that room for the given timeslot
+                                        roomresId = response.getJSONObject(i).getString("roomReservationId");
+                                        break;
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
 
-                    String urlBookRoom = "roomReservations/create/" + roomId;
-                    RequestParams paramsBookRoom = new RequestParams();
+                            }
+                        }
+                    });
 
                     // get userid
                     HttpUtils.get("clients/get", new RequestParams(), new JsonHttpResponseHandler(){
@@ -229,76 +249,9 @@ public class Home extends AppCompatActivity {
                         }
                     });
 
-                    final String[] day = new String[1];
-                    final String[] month = new String[1];
-                    final String[] year = new String[1];
-                    final String[] startMin = new String[1];
-                    final String[] startHour = new String[1];
-                    final String[] endHour = new String[1];
-                    final String[] endMin = new String[1];
-
-                    // get next available timeslot
-                    HttpUtils.get("roomReservations/get/" + roomId, new RequestParams(), new JsonHttpResponseHandler(){
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                            super.onSuccess(statusCode, headers, response);
-                            // retrieve next available timeslot information
-                            try {
-
-                                for (int i = 0 ; i < response.length() ; i++) {
-
-                                    String username = response.getJSONObject(0).getString("username");
-                                    if (username.equals("null")) {
-
-                                        // if the timeslot  is available
-                                        day[0] = response.getJSONObject(i).getString("day");
-                                        month[0] = response.getJSONObject(i).getString("month");
-                                        year[0] = response.getJSONObject(i).getString("year");
-                                        startMin[0] = response.getJSONObject(i).getString("startMin");
-                                        startHour[0] = response.getJSONObject(i).getString("startHour");
-                                        endHour[0] = response.getJSONObject(i).getString("endHour");
-                                        endMin[0] = response.getJSONObject(i).getString("endMin");
-
-                                        break;
-                                    }
-
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            super.onFailure(statusCode, headers, responseString, throwable);
-
-                        }
-                    });
-
-
-
+                    String urlBookRoom = "roomReservations/update/" + roomresId;
+                    RequestParams paramsBookRoom = new RequestParams();
                     paramsBookRoom.put("userId", userId);
-                    paramsBookRoom.put("startMin", startMin[0]);
-                    paramsBookRoom.put("startHour", startHour[0]);
-                    paramsBookRoom.put("endMin", endMin[0]);
-                    paramsBookRoom.put("endHour", endHour[0]);
-                    paramsBookRoom.put("year", year[0]);
-                    paramsBookRoom.put("month", month[0]);
-                    paramsBookRoom.put("day", day[0]);
-
-                    HttpUtils.post(urlBookRoom, paramsBookRoom, new JsonHttpResponseHandler(){
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                            super.onSuccess(statusCode, headers, response);
-
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            super.onFailure(statusCode, headers, responseString, throwable);
-                        }
-                    });
 
                 }
             }
@@ -322,7 +275,7 @@ public class Home extends AppCompatActivity {
                         String endTime = response.getJSONObject(i).getString("endTime");
 
 
-                        String openingHourFormat = date + " " + startTime + "-" + endTime;
+                        String openingHourFormat = startTime + "-" + endTime + " "  + date;
                         libraryHoursAdapter.add(openingHourFormat);
 
                     } catch (JSONException e) {
