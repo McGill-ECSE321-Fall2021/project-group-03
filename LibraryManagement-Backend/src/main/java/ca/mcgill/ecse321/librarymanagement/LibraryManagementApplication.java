@@ -46,7 +46,7 @@ public class LibraryManagementApplication {
 		String genre = titleInfoList[2];
 		String titleType = titleInfoList[3];
 		//yoyodfrfrfgefrfr
-		controller.createTitle(name, description, genre, "true", titleType);
+		//controller.createTitle(name, description, genre, "true", titleType);
 		return "success";
 	}
 	
