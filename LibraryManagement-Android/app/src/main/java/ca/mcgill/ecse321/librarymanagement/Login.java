@@ -65,6 +65,10 @@ public class Login extends AppCompatActivity {
                         params.put("password", password.getText().toString());
                         String url = "clients/login/" + username.getText().toString() ;
 
+                        // get error message element
+                        TextView errorMsg = (TextView) findViewById(R.id.errorMessage);
+                        errorMsg.setText("");
+
                         HttpUtils.post(url, params, new AsyncHttpResponseHandler(){
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -81,7 +85,7 @@ public class Login extends AppCompatActivity {
                             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                                 username.setText("");
                                 password.setText("");
-
+                                errorMsg.setText("Invalid Username and Password");
                             }
                         });
                     }
