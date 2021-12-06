@@ -35,7 +35,7 @@ public class Login extends AppCompatActivity {
 
     /***
      *
-     * this method will create an on click listener to sign in a user onto the mobile app
+     * this method will create an on click listener to sign in a user onto the mobile application
      * @param savedInstanceState
      */
     @Override
