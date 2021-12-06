@@ -4,6 +4,7 @@ import android.app.DownloadManager;
 import android.app.job.JobInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -72,13 +73,14 @@ public class Home extends AppCompatActivity {
 
         // get the reserveTitleErrorMsg element
         TextView errorMessageHome = (TextView) findViewById(R.id.errorMessageHome);
+        TextView successMessageHome = (TextView) findViewById(R.id.successMessageHome);
 
         // elements from UI
         Spinner titlesSpinner = (Spinner) findViewById(R.id.titles_spinner);
         titleAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, titles);
         titlesSpinner.setAdapter(titleAdapter);
 
-        // create library opening hours every single day
+//        // create library opening hours every single day
 //        for (int day = 7 ; day < 29 ; day++) {
 //            RequestParams paramsLibOpeningHour = new RequestParams();
 //            String startHour = "8";
@@ -109,15 +111,17 @@ public class Home extends AppCompatActivity {
         String url = "titles/get";
         RequestParams params = new RequestParams();
 
+        // make a request to get all titles from the library database
         HttpUtils.get(url, params, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray responseBody) {
                 // load in the titles from the database into the spinner
-                Log.d("length", String.valueOf(responseBody.length()));
+
+                // loop through all of the titles returned by the http request
                 for (int i = 0 ; i < responseBody.length() ; i++){
                     try {
                         String titleName = responseBody.getJSONObject(i).getString("name");
-                        titleAdapter.add(titleName);
+                        titleAdapter.add(titleName); //display the name of the title in the spinner
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -140,6 +144,7 @@ public class Home extends AppCompatActivity {
                         String titleName = titlesSpinner.getSelectedItem().toString();
 
                         errorMessageHome.setText("");
+                        successMessageHome.setText("");
 
                         //get reservation url
                         String urlReserve = "titles/reserve/" + titleName;
@@ -149,7 +154,7 @@ public class Home extends AppCompatActivity {
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                                 super.onSuccess(statusCode, headers, response);
-                                errorMessageHome.setText("Title reserved successfully!");
+                                successMessageHome.setText("Title reserved successfully!");
                             }
 
                             @Override
@@ -262,12 +267,13 @@ public class Home extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                                             super.onSuccess(statusCode, headers, response);
-
+                                            successMessageHome.setText("Room reservation successful!");
                                         }
 
                                         @Override
                                         public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                             super.onFailure(statusCode, headers, responseString, throwable);
+                                            errorMessageHome.setText("Cannot reserve the room");
                                         }
                                     });
                                 }
