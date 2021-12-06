@@ -1,30 +1,25 @@
 package ca.mcgill.ecse321.librarymanagement;
 
-import android.app.DownloadManager;
-import android.app.job.JobInfo;
+
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.ui.AppBarConfiguration;
 
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +27,6 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 public class Home extends AppCompatActivity {
-    private AppBarConfiguration appBarConfiguration;
     private String error = null;
     // APPEND NEW CONTENT STARTING FROM HERE
     private List<String> titles = new ArrayList<>();
@@ -142,24 +136,24 @@ public class Home extends AppCompatActivity {
                         // get selected title name
                         Spinner titlesSpinner = (Spinner) findViewById(R.id.titles_spinner);
                         String titleName = titlesSpinner.getSelectedItem().toString();
+                        String titleNameHttp = titleName.replaceAll(" ", "%20");
+                        System.out.println(titleNameHttp);
 
                         errorMessageHome.setText("");
                         successMessageHome.setText("");
 
                         //get reservation url
-                        String urlReserve = "titles/reserve/" + titleName;
+                        String urlReserve = "titles/reserve/" + titleNameHttp;
                         RequestParams params2 = new RequestParams();
                         params2.put("clientUsername", Login.USERNAME);
                         HttpUtils.post(urlReserve, params2, new JsonHttpResponseHandler(){
-                            @Override
-                            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                 super.onSuccess(statusCode, headers, response);
                                 successMessageHome.setText("Title reserved successfully!");
                             }
 
-                            @Override
-                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                super.onFailure(statusCode, headers, responseString, throwable);
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
                                 errorMessageHome.setText("Cannot reserve title");
                             }
                         });
@@ -262,17 +256,31 @@ public class Home extends AppCompatActivity {
                                     RequestParams params3 = new RequestParams();
                                     params3.put("userId", userId);
 
+                                    successMessageHome.setText("");
+                                    errorMessageHome.setText("");
+
                                     // get userid
                                     HttpUtils.post(urlReserve, params3, new JsonHttpResponseHandler(){
                                         @Override
-                                        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                             super.onSuccess(statusCode, headers, response);
-                                            successMessageHome.setText("Room reservation successful!");
+                                            String date = null;
+                                            String startTime = null;
+                                            String endTime = null;
+                                            try {
+                                                date = response.getString("date");
+                                                startTime = response.getString("startTime");
+                                                endTime = response.getString("endTime");
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+
+                                            String successMessage = "Room reservation successful for " + date + " at " + startTime + "-" + endTime;
+                                            successMessageHome.setText(successMessage);
                                         }
 
                                         @Override
-                                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                            super.onFailure(statusCode, headers, responseString, throwable);
+                                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject response) {
                                             errorMessageHome.setText("Cannot reserve the room");
                                         }
                                     });
