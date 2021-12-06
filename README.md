@@ -16,13 +16,13 @@ management system will allow for users to create accounts, use the library syste
 and room schedules). Finally, the most important parts of the system should be accesible via a web frontend and a mobile android application. 
 
 
-| Team member (name)     | Role                  |  Effort for Deliverable 1 (hours) |  Effort for Deliverable 2 (hours) |  Effort for Deliverable 3 (hours) | 
-| ---------------------- | --------------------- | --------------------------------  | --------------------------------  | --------------------------------  |
-| Adam Geenen            | Communications Manager| 30                                | 55                                | 40                                |
-| Tara Ginsberg          | Project Manager       | 30                                | 55                                | 40                                |
-| Abraham Somech         | Testing Architect     | 30                                | 55                                | 40                                |
-| Liam Serour            | Project Designer      | 30                                | 55                                | 40                                |
-| Samuel-Ryan Vasserman  | Software Architect   | 30                                 | 55                                | 40                                |
+| Team member (name)     | Role                  |  Effort for Deliv 1 (hours) |  Effort for Deliv 2 (hours) |  Effort for Deliv 3 (hours) | Effort for Deliv 4
+| ---------------------- | --------------------- | ----------------------------| ----------------------------| ----------------------------|----------------------
+| Adam Geenen            | Communications Manager| 30                          | 70                          | 60                          | 35
+| Tara Ginsberg          | Project Manager       | 30                          | 70                          | 60                          | 35
+| Abraham Somech         | Testing Architect     | 30                          | 70                          | 60                          | 35
+| Liam Serour            | Project Designer      | 30                          | 70                          | 60                          | 35
+| Samuel-Ryan Vasserman  | Software Architect    | 30                          | 70                          | 60                          | 35
  
 
 # Roles and Responsibilities
@@ -53,6 +53,10 @@ In order to run our application, follow these steps:
 
 run the libraryManagementApplication.java file as a spring boot application. This can be found in the ca.mcgill.ecse321.librarymanagement package.
 Once running, sign into postman. This application can be accessed using the server port 8080.
+
+## Deploying the Android Application
+In order to deploy the Android application, open the folder found in the Android branch in Android studio and run the AVD emulator. The Android emulator is connected to the Heroku url.
+
 
 ## A Guideline to Using Our Website
 When the application is first launched, the website is created with only a head librarian account. The credentials for this account are username: "headLibrarian", password: "head". As specified by the client, the library has 3 rooms that can be booked for reservations. To sign in, navigate to the "Login" button on the top right of the window. From there, you can sign in as the head librarian or create a new account and log in from that accounts perspective. Note: librarians cannot create their own account, the head librarian must do so from the management  tab where they can hire a librarian.
